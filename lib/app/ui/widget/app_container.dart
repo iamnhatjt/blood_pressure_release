@@ -40,7 +40,7 @@ class AppContainer extends GetView {
             },
             child: Scaffold(
               resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-              backgroundColor: backgroundColor ?? AppColor.background,
+              backgroundColor: backgroundColor ?? AppColor.white,
               appBar: appBar,
               body: SizedBox(
                 width: Get.width,

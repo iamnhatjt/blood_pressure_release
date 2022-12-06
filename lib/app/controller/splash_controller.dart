@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../route/app_route.dart';
 import '../util/app_constant.dart';
 import 'app_controller.dart';
 
@@ -30,5 +31,7 @@ class SplashController extends GetxController {
     await _toNextScreen();
   }
 
-  _toNextScreen() async {}
+  _toNextScreen() {
+    Get.offAndToNamed(AppRoute.mainScreen);
+  }
 }

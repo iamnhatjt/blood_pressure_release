@@ -33,6 +33,78 @@ class AppTouchable extends StatelessWidget {
     this.decoration,
   }) : super(key: key);
 
+  const AppTouchable.common({
+    super.key,
+    required this.onPressed,
+    this.onLongPressed,
+    required this.child,
+    this.width,
+    this.height,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.rippleColor,
+    this.padding,
+    this.margin,
+    this.outlinedBorder = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    ),
+    this.decoration = const BoxDecoration(
+      color: AppColor.white,
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      boxShadow: [
+        BoxShadow(color: Color(0x40000000), offset: Offset(0, 0), blurRadius: 10),
+      ],
+    ),
+  });
+
+  const AppTouchable.commonRadius87({
+    super.key,
+    required this.onPressed,
+    this.onLongPressed,
+    required this.child,
+    this.width,
+    this.height,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.rippleColor,
+    this.padding,
+    this.margin,
+    this.outlinedBorder = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(87)),
+    ),
+    this.decoration = const BoxDecoration(
+      color: AppColor.white,
+      borderRadius: BorderRadius.all(Radius.circular(87)),
+      boxShadow: [
+        BoxShadow(color: Color(0x40000000), offset: Offset(0, 0), blurRadius: 10),
+      ],
+    ),
+  });
+
+  const AppTouchable.commonRadius20({
+    super.key,
+    required this.onPressed,
+    this.onLongPressed,
+    required this.child,
+    this.width,
+    this.height,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.rippleColor,
+    this.padding,
+    this.margin,
+    this.outlinedBorder = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+    ),
+    this.decoration = const BoxDecoration(
+      color: AppColor.white,
+      borderRadius: BorderRadius.all(Radius.circular(20)),
+      boxShadow: [
+        BoxShadow(color: Color(0x40000000), offset: Offset(0, 0), blurRadius: 10),
+      ],
+    ),
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
