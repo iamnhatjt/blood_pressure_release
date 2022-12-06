@@ -53,4 +53,16 @@ class StringConstants {
   static String home = 'home';
   static String insights = 'insights';
   static String alarm = 'alarm';
+  static String export = 'export';
+  static String average = 'average';
+  static String min = 'min';
+  static String max = 'max';
+  static String measureNow = 'measureNow';
+  static String setAlarm = 'setAlarm';
+  static String addData = 'addData';
+  static String stop = 'stop';
+  static String add = 'add';
+  static String measuring = 'measuring';
+  static String placeYourFinger = 'placeYourFinger';
+  static String measureNowOrAdd = 'measureNowOrAdd';
 }

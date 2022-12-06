@@ -258,6 +258,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
+  flutter_datetime_picker:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: support_mm_dd_yyyy_date_format
+      resolved-ref: fd3b1af4bc28c93f42ab833ee6284353c7ead9af
+      url: "https://github.com/internal-corp/flutter_datetime_picker.git"
+    source: git
+    version: "1.5.1"
   flutter_lints:
     dependency: "direct dev"
     description:

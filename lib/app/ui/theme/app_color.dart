@@ -10,4 +10,6 @@ class AppColor {
   static const grayText = Color(0xFF6D6D6D);
   static const background = Color(0xFFF5F5F5);
   static const red = Color(0xFFFF6464);
+  static const green = Color(0xFF0B8C10);
+  static const gold = Color(0xFFFFC700);
 }

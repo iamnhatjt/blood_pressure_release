@@ -42,7 +42,7 @@ class HomeTab extends GetView<HomeController> {
                     ),
                   ),
                   AppTouchable.common(
-                    onPressed: () {},
+                    onPressed: controller.onPressHeartBeat,
                     height: 100.0.sp,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
