@@ -11,15 +11,6 @@ TextStyle textStyle24700() {
   );
 }
 
-TextStyle textStyle20500() {
-  return TextStyle(
-    fontSize: 20.0.sp,
-    fontWeight: FontWeight.w500,
-    color: AppColor.black,
-    height: 25 / 20,
-  );
-}
-
 TextStyle textStyle20700() {
   return TextStyle(
     fontSize: 20.0.sp,
@@ -29,12 +20,12 @@ TextStyle textStyle20700() {
   );
 }
 
-TextStyle textStyle18500() {
+TextStyle textStyle20500() {
   return TextStyle(
-    fontSize: 18.0.sp,
+    fontSize: 20.0.sp,
     fontWeight: FontWeight.w500,
     color: AppColor.black,
-    height: 22.5 / 18,
+    height: 25 / 20,
   );
 }
 
@@ -51,6 +42,15 @@ TextStyle textStyle18700() {
   return TextStyle(
     fontSize: 18.0.sp,
     fontWeight: FontWeight.w700,
+    color: AppColor.black,
+    height: 22.5 / 18,
+  );
+}
+
+TextStyle textStyle18500() {
+  return TextStyle(
+    fontSize: 18.0.sp,
+    fontWeight: FontWeight.w500,
     color: AppColor.black,
     height: 22.5 / 18,
   );

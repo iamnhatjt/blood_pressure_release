@@ -7,9 +7,12 @@ class AppColor {
   static const white = Color(0xFFFFFFFF);
   static const whiteBG = Color(0xFFF5F5F5);
   static const gray = Color(0xFFCECECE);
+  static const lightGray = Color(0xFFECECEC);
   static const grayText = Color(0xFF6D6D6D);
+  static const grayText2 = Color(0xFFA5A5A5);
   static const background = Color(0xFFF5F5F5);
   static const red = Color(0xFFFF6464);
   static const green = Color(0xFF0B8C10);
   static const gold = Color(0xFFFFC700);
+  static const violet = Color(0xFFCF71FB);
 }

@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:bloodpressure/app/ui/widget/heart_bpm.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../res/string/app_strings.dart';
 import '../util/app_permission.dart';
-import '../util/app_util.dart';
 
 enum MeasureScreenState { idle, measuring }
 
@@ -37,6 +37,12 @@ class MeasureController extends GetxController {
   }
 
   onPressStartMeasure() {
+    // showAppDialog(
+    //   context,
+    //   '',
+    //   '',
+    //   widgetBody: const AppDialogHeartRateWidget(),
+    // );
     AppPermission.checkPermission(
       context,
       Permission.camera,

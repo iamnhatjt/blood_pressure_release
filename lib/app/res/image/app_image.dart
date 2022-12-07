@@ -18,6 +18,7 @@ class AppImage {
   static const String ic_share_app = '${_internalImagePathSvg}ic_share_app.svg';
   static const String ic_term = '${_internalImagePathSvg}ic_term.svg';
   static const String ic_back = '${_internalImagePathSvg}ic_back.svg';
+  static const String ic_down = '${_internalImagePathSvg}ic_down.svg';
 
   ///png
   static const String ma_air_live = '${_internalImagePathPng}ma_air_live.png';
