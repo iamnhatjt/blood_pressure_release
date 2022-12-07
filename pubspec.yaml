@@ -66,6 +66,9 @@ dependencies:
   flutter_native_splash: ^2.2.15
   flutter_local_notifications: ^12.0.4
   timezone: ^0.9.0
+  qr_code_scanner: ^1.0.1
+  camera: ^0.10.0+4
+  percent_indicator: ^4.2.2
   flutter_datetime_picker:
     git:
       url: https://github.com/internal-corp/flutter_datetime_picker.git

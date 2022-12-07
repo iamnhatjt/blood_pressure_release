@@ -134,7 +134,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
           child: _buildBodyEmpty(),
         ),
         AppTouchable.common(
-          onPressed: () {},
+          onPressed: controller.onPressMeasureNow,
           height: 70.0.sp,
           backgroundColor: AppColor.green,
           margin: EdgeInsets.fromLTRB(17.0.sp, 0, 17.0.sp, 12.0.sp),

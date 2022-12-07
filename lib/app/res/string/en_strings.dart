@@ -41,4 +41,11 @@ const enStrings = {
   "measuring": "Measuring",
   "placeYourFinger": "Place your finger on camera",
   "measureNowOrAdd": "Measure now or add your record to see statistics",
+  "measure": "Measure",
+  "permissionCameraDenied01": "Please allow the app to access the device's camera to measure heart rate",
+  "permissionCameraSetting01":
+      "Please go to settings and allow the app to access your device's camera to measure heart rate",
+  "permissionCameraDenied02": "Please allow the app to access your device's camera to scan the code",
+  "permissionCameraSetting02":
+      "Please go to the settings and allow the app to access the device's camera to scan the code",
 };

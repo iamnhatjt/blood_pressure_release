@@ -54,6 +54,15 @@
         <string>https</string>
         <string>http</string>
     </array>
+    <key>NSCameraUsageDescription</key>
+    <string>The app needs to access your camera to measure your heart rate and scan the code</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>The app needs to access your microphone to measure your heart rate</string>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsLocalNetworking</key>
+        <true/>
+    </dict>
     <key>SKAdNetworkItems</key>
     <array>
         <dict>

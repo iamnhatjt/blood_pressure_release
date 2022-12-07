@@ -65,4 +65,9 @@ class StringConstants {
   static String measuring = 'measuring';
   static String placeYourFinger = 'placeYourFinger';
   static String measureNowOrAdd = 'measureNowOrAdd';
+  static String measure = 'measure';
+  static String permissionCameraDenied01 = 'permissionCameraDenied01';
+  static String permissionCameraSetting01 = 'permissionCameraSetting01';
+  static String permissionCameraDenied02 = 'permissionCameraDenied02';
+  static String permissionCameraSetting02 = 'permissionCameraSetting02';
 }

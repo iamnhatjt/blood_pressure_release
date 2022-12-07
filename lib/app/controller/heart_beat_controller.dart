@@ -1,3 +1,9 @@
 import 'package:get/get.dart';
 
-class HeartBeatController extends GetxController {}
+import '../route/app_route.dart';
+
+class HeartBeatController extends GetxController {
+  onPressMeasureNow() {
+    Get.toNamed(AppRoute.measureScreen);
+  }
+}

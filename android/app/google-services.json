@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "61754722408",
+    "project_id": "blood-android-bf5b6",
+    "storage_bucket": "blood-android-bf5b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61754722408:android:bb98435c352ad7eb30d3dd",
+        "android_client_info": {
+          "package_name": "com.vietapps.bloodpressure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61754722408-s97ho55o5pie3ebb0pi1enpcolu6se5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoRxf949lZNCO1eSIGQ6o4UpYbZCkDBBM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61754722408-s97ho55o5pie3ebb0pi1enpcolu6se5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

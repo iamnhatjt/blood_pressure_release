@@ -41,4 +41,11 @@ const viStrings = {
   "measuring": "Đang đo",
   "placeYourFinger": "Đặt ngón tay của bạn trên máy ảnh",
   "measureNowOrAdd": "Đo ngay bây giờ hoặc thêm hồ sơ của bạn để xem số liệu thống kê",
+  "measure": "Đo",
+  "permissionCameraDenied01": "Vui lòng cho phép ứng dụng truy cập camera của thiết bị để đo nhịp tim",
+  "permissionCameraSetting01":
+      "Vui lòng vào phần cài đặt và cho phép ứng dụng truy cập camera của thiết bị để đo nhịp tim",
+  "permissionCameraDenied02": "Vui lòng cho phép ứng dụng truy cập camera của thiết bị để tiến hành quét mã",
+  "permissionCameraSetting02":
+      "Vui lòng vào phần cài đặt và cho phép ứng dụng truy cập camera của thiết bị để tiến hành quét mã",
 };

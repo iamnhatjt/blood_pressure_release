@@ -21,7 +21,7 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 void mainDelegate() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
 
   // max ads start
   // await AppLovinMAX.initialize(BuildConstants.appLovinToken);
