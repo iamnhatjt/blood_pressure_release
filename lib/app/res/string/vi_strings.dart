@@ -59,4 +59,5 @@ const viStrings = {
   "rhSlowMessage": "Chú ý! Nhịp tim của bạn quá thấp",
   "rhNormalMessage": "Tuyệt! Nhịp tim của bạn vẫn ở mức bình thường",
   "rhFastMessage": "Chú ý! Nhịp tim của bạn cao hơn bình thường",
+  "addSuccess": "Thêm dữ liệu thành công",
 };

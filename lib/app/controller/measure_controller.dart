@@ -1,6 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
+import 'package:bloodpressure/app/controller/heart_beat_controller.dart';
+import 'package:bloodpressure/app/data/model/heart_rate_model.dart';
 import 'package:bloodpressure/app/ui/widget/heart_bpm.dart';
+import 'package:bloodpressure/app/util/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -30,32 +32,42 @@ class MeasureController extends GetxController {
   }
 
   _initTimer() {
-    _timer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
-      if (currentMiniSecond >= totalMiniSecondsToMeasure) {
+    _timer = Timer.periodic(const Duration(milliseconds: 200), (timer) async {
+      if (currentMiniSecond == totalMiniSecondsToMeasure) {
+        currentMiniSecond = 0;
+        timer.cancel();
         onPressStopMeasure();
+        showAppDialog(
+          context,
+          '',
+          '',
+          hideGroupButton: true,
+          widgetBody: AppDialogHeartRateWidget(
+            inputDateTime: DateTime.now(),
+            inputValue: _recentBPM,
+            onPressCancel: () {
+              Get.back();
+              _recentBPM = 0;
+            },
+            onPressAdd: (dateTime, value) {
+              if (Get.isRegistered<HeartBeatController>()) {
+                Get.find<HeartBeatController>()
+                    .updateHeartRateData(HeartRateModel(timeStamp: dateTime.millisecondsSinceEpoch, value: value));
+              }
+              Get.back();
+              showToast(StringConstants.addSuccess.tr);
+              _recentBPM = 0;
+            },
+          ),
+        );
       } else {
-        currentMiniSecond = currentMiniSecond + 300;
+        currentMiniSecond = currentMiniSecond + 200;
         progress.value = currentMiniSecond / totalMiniSecondsToMeasure;
       }
     });
   }
 
   onPressStartMeasure() {
-    // showAppDialog(
-    //   context,
-    //   '',
-    //   '',
-    //   hideGroupButton: true,
-    //   widgetBody: AppDialogHeartRateWidget(
-    //     inputDateTime: DateTime.now(),
-    //     inputValue: _recentBPM,
-    //     onPressCancel: Get.back,
-    //     onPressAdd: (dateTime, value) {
-    //       log('$value   $dateTime');
-    //       Get.back();
-    //     },
-    //   ),
-    // );
     AppPermission.checkPermission(
       context,
       Permission.camera,

@@ -1,6 +1,6 @@
 class HeartRateModel {
   int? timeStamp;
-  double? value;
+  int? value;
 
   HeartRateModel({
     this.timeStamp,
@@ -9,7 +9,7 @@ class HeartRateModel {
 
   HeartRateModel.fromJson(Map<String, dynamic> json) {
     timeStamp = json['timeStamp'] as int?;
-    value = json['value'] as double?;
+    value = json['value'] as int?;
   }
 
   Map<String, dynamic> toJson() {

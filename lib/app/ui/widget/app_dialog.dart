@@ -134,6 +134,7 @@ class AppDialog extends StatelessWidget {
     if ((secondButtonText ?? '').isEmpty) {
       return AppButton(
         height: 60.0.sp,
+        width: Get.width,
         onPressed: firstButtonCallback ?? Get.back,
         text: firstButtonText,
         color: AppColor.primaryColor,

@@ -59,4 +59,5 @@ const enStrings = {
   "rhSlowMessage": "Cautious! Your heart rate is too low",
   "rhNormalMessage": "Great! Your heart rate remains in the normal range",
   "rhFastMessage": "Cautious! Your heart rate is higher than normal",
+  "addSuccess": "Add data successfully",
 };

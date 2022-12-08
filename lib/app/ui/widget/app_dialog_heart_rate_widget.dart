@@ -127,6 +127,89 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
     );
   }
 
+  _onPressHint() {
+    showAppDialog(
+      context,
+      StringConstants.heartRate.tr,
+      '',
+      firstButtonText: 'Ok',
+      widgetBody: Column(
+        children: [
+          SizedBox(height: 8.0.sp),
+          Container(
+            height: 39.0.sp,
+            width: Get.width,
+            padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+            margin: EdgeInsets.all(12.0.sp),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0.sp),
+              color: AppColor.red,
+            ),
+            child: Row(
+              children: [
+                Text(
+                  StringConstants.fast.tr,
+                  style: textStyle20700(),
+                ),
+                const Spacer(),
+                Text(
+                  '${StringConstants.heartRate.tr} > 100',
+                  style: textStyle16400().merge(const TextStyle(color: AppColor.white)),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 39.0.sp,
+            width: Get.width,
+            padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+            margin: EdgeInsets.fromLTRB(12.0.sp, 0, 12.0.sp, 12.0.sp),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0.sp),
+              color: AppColor.green,
+            ),
+            child: Row(
+              children: [
+                Text(
+                  StringConstants.normal.tr,
+                  style: textStyle20700(),
+                ),
+                const Spacer(),
+                Text(
+                  '${StringConstants.heartRate.tr} 60 - 100',
+                  style: textStyle16400().merge(const TextStyle(color: AppColor.white)),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 39.0.sp,
+            width: Get.width,
+            padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+            margin: EdgeInsets.fromLTRB(12.0.sp, 0, 12.0.sp, 24.0.sp),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.0.sp),
+              color: AppColor.violet,
+            ),
+            child: Row(
+              children: [
+                Text(
+                  StringConstants.slow.tr,
+                  style: textStyle20700(),
+                ),
+                const Spacer(),
+                Text(
+                  '${StringConstants.heartRate.tr} < 60',
+                  style: textStyle16400().merge(const TextStyle(color: AppColor.white)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double widthBar = Get.width / 4.1 * 3;
@@ -177,7 +260,7 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
         ),
         SizedBox(height: 32.0.sp),
         AppTouchable(
-          onPressed: () {},
+          onPressed: _onPressHint,
           width: Get.width,
           padding: EdgeInsets.symmetric(vertical: 8.0.sp),
           margin: EdgeInsets.symmetric(horizontal: 12.0.sp),

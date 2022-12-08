@@ -27,7 +27,7 @@ class MeasureScreen extends GetView<MeasureController> {
             child: AppTouchable.common(
               width: 100,
               height: 100,
-              backgroundColor: AppColor.primaryColor,
+              backgroundColor: AppColor.secondaryColor,
               onPressed: () {},
               child: Text('Animation'),
             ),

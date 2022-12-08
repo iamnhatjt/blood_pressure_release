@@ -81,4 +81,5 @@ class StringConstants {
   static String rhSlowMessage = 'rhSlowMessage';
   static String rhNormalMessage = 'rhNormalMessage';
   static String rhFastMessage = 'rhFastMessage';
+  static String addSuccess = 'addSuccess';
 }
