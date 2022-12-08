@@ -70,4 +70,15 @@ class StringConstants {
   static String permissionCameraSetting01 = 'permissionCameraSetting01';
   static String permissionCameraDenied02 = 'permissionCameraDenied02';
   static String permissionCameraSetting02 = 'permissionCameraSetting02';
+  static String restingHeartRate = 'restingHeartRate';
+  static String slow = 'slow';
+  static String normal = 'normal';
+  static String fast = 'fast';
+  static String age = 'age';
+  static String choseYourAge = 'choseYourAge';
+  static String choseYourGender = 'choseYourGender';
+  static String save = 'save';
+  static String rhSlowMessage = 'rhSlowMessage';
+  static String rhNormalMessage = 'rhNormalMessage';
+  static String rhFastMessage = 'rhFastMessage';
 }

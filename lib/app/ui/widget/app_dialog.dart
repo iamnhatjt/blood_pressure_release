@@ -152,39 +152,29 @@ class AppDialog extends StatelessWidget {
             onPressed: secondButtonCallback,
             height: 60.0.sp,
             width: Get.width,
-            padding: EdgeInsets.symmetric(vertical: 8.0.sp, horizontal: 18.0.sp),
             text: secondButtonText,
-            color: AppColor.whiteBG,
+            color: AppColor.red,
             radius: 10.0.sp,
             child: Text(
               secondButtonText ?? '',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.0.sp,
-                color: AppColor.red,
-                fontWeight: FontWeight.w500,
-              ),
+              style: textStyle24700(),
             ),
           ),
         ),
-        SizedBox(width: 20.0.sp),
+        SizedBox(width: 8.0.sp),
         Expanded(
           child: AppButton(
             height: 60.0.sp,
             width: Get.width,
             onPressed: firstButtonCallback ?? Get.back,
-            padding: EdgeInsets.symmetric(vertical: 8.0.sp, horizontal: 18.0.sp),
             text: firstButtonText,
-            color: AppColor.whiteBG,
+            color: AppColor.primaryColor,
             radius: 10.0.sp,
             child: Text(
               firstButtonText,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16.0.sp,
-                color: AppColor.primaryColor,
-                fontWeight: FontWeight.w500,
-              ),
+              style: textStyle24700(),
             ),
           ),
         ),
@@ -223,11 +213,7 @@ class AppDialog extends StatelessWidget {
                           ? Text(
                               title!,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: AppColor.black,
-                                fontSize: 20.0.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: textStyle20700().merge(const TextStyle(color: AppColor.black)),
                             )
                           : const SizedBox.shrink(),
                       (message ?? '').isNotEmpty

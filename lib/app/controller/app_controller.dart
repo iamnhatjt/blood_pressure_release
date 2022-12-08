@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:bloodpressure/app/data/model/user_model.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../util/app_constant.dart';
 import '../util/app_util.dart';
 
@@ -12,6 +15,7 @@ onSelectNotification(s1) async {}
 
 class AppController extends SuperController {
   Locale currentLocale = AppConstant.availableLocales[1];
+  Rx<UserModel> currentUser = UserModel().obs;
 
   // late AppOpenAdManager _appOpenAdManager;
   bool avoidShowOpenApp = false;
@@ -57,6 +61,25 @@ class AppController extends SuperController {
   void onClose() {
     _subscriptionIAP?.cancel();
     super.onClose();
+  }
+
+  updateLocale(Locale locale) {
+    Get.updateLocale(locale);
+    currentLocale = locale;
+  }
+
+  updateUser(UserModel userModel) async {
+    currentUser.value = userModel;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('user', jsonEncode(userModel.toJson()));
+  }
+
+  getUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? stringUser = prefs.getString('user');
+    if ((stringUser ?? '').isNotEmpty) {
+      currentUser.value = UserModel.fromJson(jsonDecode(stringUser!));
+    }
   }
 
   onPressPremiumByProduct(String productId) async {
@@ -125,11 +148,6 @@ class AppController extends SuperController {
     if (Platform.isAndroid) {
       InAppPurchase.instance.restorePurchases();
     }
-  }
-
-  updateLocale(Locale locale) {
-    Get.updateLocale(locale);
-    currentLocale = locale;
   }
 
   _initNotificationSelectHandle() async {

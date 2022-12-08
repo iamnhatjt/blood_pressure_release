@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:bloodpressure/app/ui/widget/heart_bpm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../res/string/app_strings.dart';
+import '../ui/widget/app_dialog.dart';
+import '../ui/widget/app_dialog_heart_rate_widget.dart';
 import '../util/app_permission.dart';
 
 enum MeasureScreenState { idle, measuring }
@@ -18,6 +21,7 @@ class MeasureController extends GetxController {
   int currentMiniSecond = 0;
   RxInt bpmAverage = 0.obs;
   List<int> _listDataBPM = [];
+  int _recentBPM = 0;
 
   @override
   void onClose() {
@@ -41,7 +45,16 @@ class MeasureController extends GetxController {
     //   context,
     //   '',
     //   '',
-    //   widgetBody: const AppDialogHeartRateWidget(),
+    //   hideGroupButton: true,
+    //   widgetBody: AppDialogHeartRateWidget(
+    //     inputDateTime: DateTime.now(),
+    //     inputValue: _recentBPM,
+    //     onPressCancel: Get.back,
+    //     onPressAdd: (dateTime, value) {
+    //       log('$value   $dateTime');
+    //       Get.back();
+    //     },
+    //   ),
     // );
     AppPermission.checkPermission(
       context,
@@ -72,6 +85,7 @@ class MeasureController extends GetxController {
       t += item;
     }
     bpmAverage.value = t ~/ _listDataBPM.length;
+    _recentBPM = bpmAverage.value;
   }
 
   onRawData(SensorValue value) {

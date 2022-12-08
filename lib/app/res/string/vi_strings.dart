@@ -48,4 +48,15 @@ const viStrings = {
   "permissionCameraDenied02": "Vui lòng cho phép ứng dụng truy cập camera của thiết bị để tiến hành quét mã",
   "permissionCameraSetting02":
       "Vui lòng vào phần cài đặt và cho phép ứng dụng truy cập camera của thiết bị để tiến hành quét mã",
+  "restingHeartRate": "Nhịp tim nghỉ ngơi",
+  "slow": "Chậm",
+  "normal": "Bình thường",
+  "fast": "Nhanh",
+  "age": "Tuổi",
+  "choseYourAge": "Chọn tuổi của bạn",
+  "choseYourGender": "Chọn giới tính của bạn",
+  "save": "Lưu",
+  "rhSlowMessage": "Chú ý! Nhịp tim của bạn quá thấp",
+  "rhNormalMessage": "Tuyệt! Nhịp tim của bạn vẫn ở mức bình thường",
+  "rhFastMessage": "Chú ý! Nhịp tim của bạn cao hơn bình thường",
 };

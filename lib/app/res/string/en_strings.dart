@@ -48,4 +48,15 @@ const enStrings = {
   "permissionCameraDenied02": "Please allow the app to access your device's camera to scan the code",
   "permissionCameraSetting02":
       "Please go to the settings and allow the app to access the device's camera to scan the code",
+  "restingHeartRate": "Resting Heart Rate",
+  "slow": "Slow",
+  "normal": "Normal",
+  "fast": "Fast",
+  "age": "Age",
+  "choseYourAge": "Chose your age",
+  "choseYourGender": "Chose your gender",
+  "save": "Save",
+  "rhSlowMessage": "Cautious! Your heart rate is too low",
+  "rhNormalMessage": "Great! Your heart rate remains in the normal range",
+  "rhFastMessage": "Cautious! Your heart rate is higher than normal",
 };

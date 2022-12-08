@@ -45,7 +45,7 @@ class AppButton extends StatelessWidget {
       child: AppTouchable(
         width: width,
         height: height,
-        padding: padding ?? EdgeInsets.symmetric(vertical: 6.0.sp, horizontal: 36.0.sp),
+        padding: padding ?? EdgeInsets.symmetric(vertical: 6.0.sp, horizontal: 16.0.sp),
         onPressed: onPressed,
         outlinedBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radius ?? 17),

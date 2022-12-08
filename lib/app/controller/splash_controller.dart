@@ -11,6 +11,7 @@ import 'app_controller.dart';
 class SplashController extends GetxController {
   late BuildContext context;
   RxString version = ''.obs;
+  final AppController _appController = Get.find<AppController>();
 
   @override
   void onReady() async {
@@ -26,7 +27,8 @@ class SplashController extends GetxController {
     version.value = packageInfo.version;
     final prefs = await SharedPreferences.getInstance();
     String? language = prefs.getString('language');
-    Get.find<AppController>().updateLocale(AppConstant.availableLocales[int.tryParse(language ?? '') ?? 1]);
+    _appController.updateLocale(AppConstant.availableLocales[int.tryParse(language ?? '') ?? 1]);
+    await _appController.getUser();
     await Get.find<AppController>().getIAPProductDetails();
     await _toNextScreen();
   }
