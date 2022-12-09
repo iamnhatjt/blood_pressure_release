@@ -11,6 +11,15 @@ TextStyle textStyle24700() {
   );
 }
 
+TextStyle textStyle22700() {
+  return TextStyle(
+    fontSize: 22.0.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColor.black,
+    height: 27.5 / 22,
+  );
+}
+
 TextStyle textStyle20700() {
   return TextStyle(
     fontSize: 20.0.sp,
@@ -80,5 +89,28 @@ TextStyle textStyle14400() {
     fontWeight: FontWeight.w400,
     color: const Color(0xFF9F9F9F),
     height: 20 / 14,
+  );
+}
+
+TextStyle textStyle14500() {
+  return TextStyle(
+    fontSize: 14.0.sp,
+    fontWeight: FontWeight.w500,
+    color: AppColor.black,
+    height: 17.5 / 14,
+  );
+}
+
+BoxDecoration commonDecoration() {
+  return BoxDecoration(
+    color: AppColor.white,
+    borderRadius: BorderRadius.circular(10.0.sp),
+    boxShadow: [
+      BoxShadow(
+        color: const Color(0x40000000),
+        offset: const Offset(0, 0),
+        blurRadius: 10.0.sp,
+      ),
+    ],
   );
 }

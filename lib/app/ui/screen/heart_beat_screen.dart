@@ -2,13 +2,12 @@ import 'package:bloodpressure/app/controller/heart_beat_controller.dart';
 import 'package:bloodpressure/app/ui/theme/app_color.dart';
 import 'package:bloodpressure/app/ui/widget/app_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../res/image/app_image.dart';
 import '../../res/string/app_strings.dart';
-import '../../util/disable_ glow_behavior.dart';
 import '../widget/app_header.dart';
 import '../widget/app_image_widget.dart';
 import '../widget/app_style.dart';
@@ -38,19 +37,159 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
   }
 
   Widget _buildBodyData() {
-    return ScrollConfiguration(
-      behavior: DisableGlowBehavior(),
-      child: SingleChildScrollView(
-        padding: EdgeInsets.all(17.0.sp),
-        child: Column(
-          children: [],
+    return Column(
+      children: [
+        Container(
+          width: Get.width,
+          padding: EdgeInsets.symmetric(vertical: 8.0.sp),
+          margin: EdgeInsets.symmetric(horizontal: 17.0.sp, vertical: 16.0.sp),
+          decoration: commonDecoration(),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      StringConstants.average.tr,
+                      style: textStyle18400(),
+                    ),
+                    Obx(() => Text(
+                          '${controller.hrAvg.value}',
+                          style: textStyle22700(),
+                        )),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      StringConstants.min.tr,
+                      style: textStyle18400(),
+                    ),
+                    Obx(() => Text(
+                          '${controller.hrMin.value}',
+                          style: textStyle22700(),
+                        )),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    Text(
+                      StringConstants.max.tr,
+                      style: textStyle18400(),
+                    ),
+                    Obx(() => Text(
+                          '${controller.hrMax.value}',
+                          style: textStyle22700(),
+                        )),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        Expanded(
+          child: Container(
+            width: Get.width,
+            padding: EdgeInsets.symmetric(vertical: 8.0.sp),
+            margin: EdgeInsets.symmetric(horizontal: 17.0.sp),
+            decoration: commonDecoration(),
+          ),
+        ),
+        Container(
+          height: 79.0.sp,
+          width: Get.width,
+          padding: EdgeInsets.only(top: 7.0.sp, left: 14.0.sp, right: 4.0.sp),
+          margin: EdgeInsets.symmetric(horizontal: 16.0.sp, vertical: 8.0.sp),
+          decoration: const BoxDecoration(
+            image: DecorationImage(fit: BoxFit.fill, image: AssetImage(AppImage.ic_box)),
+          ),
+          child: Obx(() {
+            DateTime dateTime =
+                DateTime.fromMillisecondsSinceEpoch(controller.currentHeartRateModel.value.timeStamp ?? 0);
+            int value = controller.currentHeartRateModel.value.value ?? 40;
+            String status = '';
+            Color color = AppColor.primaryColor;
+            if (value < 60) {
+              status = StringConstants.slow.tr;
+              color = AppColor.violet;
+            } else if (value > 100) {
+              status = StringConstants.fast.tr;
+              color = AppColor.red;
+            } else {
+              status = StringConstants.normal.tr;
+              color = AppColor.green;
+            }
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      DateFormat('MMM dd, yyyy').format(dateTime),
+                      style: textStyle14500(),
+                    ),
+                    SizedBox(height: 2.0.sp),
+                    Text(
+                      DateFormat('h:mm a').format(dateTime),
+                      style: textStyle14500(),
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '$value',
+                      style: TextStyle(
+                        fontSize: 37.0.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.black,
+                      ),
+                    ),
+                    SizedBox(height: 2.0.sp),
+                    Text(
+                      'BPM',
+                      style: textStyle14500().merge(const TextStyle(height: 1)),
+                    ),
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0.sp, vertical: 7.0.sp),
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(8.0.sp),
+                  ),
+                  child: Text(
+                    status,
+                    style: textStyle20700(),
+                  ),
+                ),
+                AppTouchable(
+                  width: 40.0.sp,
+                  height: 40.0.sp,
+                  onPressed: () {},
+                  child: AppImageWidget.asset(
+                    path: AppImage.ic_del,
+                  ),
+                ),
+              ],
+            );
+          }),
+        ),
+        SizedBox(height: 4.0.sp),
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    controller.context = context;
     return AppContainer(
       child: Column(children: [
         AppHeader(
@@ -98,7 +237,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
             height: 40.0.sp,
             width: Get.width,
             margin: EdgeInsets.fromLTRB(27.0.sp, 14.0.sp, 27.0.sp, 0),
-            onPressed: () {},
+            onPressed: controller.onPressDateRange,
             outlinedBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(87.0.sp),
             ),
@@ -119,10 +258,10 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                 Expanded(
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
-                    child: Text(
-                      'Dec 20, 2022 - Dec 28, 2022',
-                      style: textStyle18400(),
-                    ),
+                    child: Obx(() => Text(
+                          '${DateFormat('MMM dd, yyyy').format(controller.startDate.value)} - ${DateFormat('MMM dd, yyyy').format(controller.endDate.value)}',
+                          style: textStyle18400(),
+                        )),
                   ),
                 ),
                 AppImageWidget.asset(path: AppImage.ic_filter, width: 40.0.sp),
@@ -140,7 +279,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                 )
               : controller.listHeartRateModel.value.isEmpty
                   ? _buildBodyEmpty()
-                  : const SizedBox.shrink()),
+                  : _buildBodyData()),
         ),
         AppTouchable.common(
           onPressed: controller.onPressMeasureNow,

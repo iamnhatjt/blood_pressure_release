@@ -42,6 +42,7 @@ class AppImage {
   static const String ic_wab = '${_internalImagePathPng}ic_wab.png';
   static const String ic_weight_and_bmi = '${_internalImagePathPng}ic_weight_and_bmi.png';
   static const String ic_heart_rate_2 = '${_internalImagePathPng}ic_heart_rate_2.png';
+  static const String ic_box = '${_internalImagePathPng}ic_box.png';
 
   ///lottie
 }
