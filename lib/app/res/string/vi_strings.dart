@@ -31,7 +31,7 @@ const viStrings = {
   "alarm": "Đặt giờ",
   "export": "Xuất",
   "average": "Trung bình",
-  "min": "Nhở nhất",
+  "min": "Nhỏ nhất",
   "max": "Lớn nhất",
   "measureNow": "Đo Ngay",
   "setAlarm": "Đặt Nhắc nhở",

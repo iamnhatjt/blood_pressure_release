@@ -16,6 +16,7 @@ class MainScreen extends GetView<MainController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.context = context;
     return AppContainer(
       child: Scaffold(
         body: Obx(() {

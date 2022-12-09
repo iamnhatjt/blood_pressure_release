@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import '../../build_constants.dart';
 import '../controller/app_controller.dart';
 import '../ui/theme/app_color.dart';
@@ -37,4 +38,10 @@ showToast(String text) {
 
 hideKeyboard() {
   FocusManager.instance.primaryFocus?.unfocus();
+}
+
+String formatWithLocale(String pattern, DateTime dateTime) {
+  return DateFormat(pattern,
+          '${Get.find<AppController>().currentLocale.languageCode}_${Get.find<AppController>().currentLocale.countryCode}')
+      .format(dateTime);
 }

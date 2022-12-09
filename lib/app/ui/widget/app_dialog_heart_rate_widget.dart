@@ -69,8 +69,8 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
   _updateDateTimeString(DateTime? dateTime) {
     if (dateTime != null) {
       setState(() {
-        _date = DateFormat('MMM dd, yyyy').format(dateTime);
-        _time = DateFormat('h:mm a').format(dateTime);
+        _date = formatWithLocale('MMM dd, yyyy', dateTime);
+        _time = formatWithLocale('h:mm a', dateTime);
       });
     }
   }
@@ -278,49 +278,64 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
         ),
         SizedBox(height: 18.0.sp),
         widget.allowChange == true
-            ? SizedBox(
-                width: 100.0.sp,
-                height: 140.0.sp,
-                child: ScrollConfiguration(
-                  behavior: DisableGlowBehavior(),
-                  child: CupertinoPicker.builder(
-                    scrollController: fixedExtentScrollController,
-                    childCount: 180,
-                    itemExtent: 60.0.sp,
-                    onSelectedItemChanged: (value) {
-                      setState(() {
-                        _value = value + 40;
-                      });
-                      _updateStatusByValue(value + 40);
-                     },
-                    selectionOverlay: Container(
-                      decoration: BoxDecoration(
-                          border:
-                              Border.symmetric(horizontal: BorderSide(color: const Color(0xFFCACACA), width: 2.0.sp))),
-                    ),
-                    itemBuilder: (context, value) {
-                      Color color = AppColor.primaryColor;
-                      if (value + 40 < 60) {
-                        color = AppColor.violet;
-                      } else if (value + 40 > 100) {
-                        color = AppColor.red;
-                      } else {
-                        color = AppColor.green;
-                      }
-                      return Center(
-                        child: Text(
-                          '${value + 40}',
-                          style: TextStyle(
-                            color: color,
-                            fontSize: 40.0.sp,
-                            fontWeight: FontWeight.w700,
-                            height: 5 / 4,
-                          ),
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(width: 66.0.sp),
+                  SizedBox(
+                    width: 80.0.sp,
+                    height: 140.0.sp,
+                    child: ScrollConfiguration(
+                      behavior: DisableGlowBehavior(),
+                      child: CupertinoPicker.builder(
+                        scrollController: fixedExtentScrollController,
+                        childCount: 180,
+                        itemExtent: 60.0.sp,
+                        onSelectedItemChanged: (value) {
+                          setState(() {
+                            _value = value + 40;
+                          });
+                          _updateStatusByValue(value + 40);
+                        },
+                        selectionOverlay: Container(
+                          decoration: BoxDecoration(
+                              border: Border.symmetric(
+                                  horizontal: BorderSide(color: const Color(0xFFCACACA), width: 2.0.sp))),
                         ),
-                      );
-                    },
+                        itemBuilder: (context, value) {
+                          Color color = AppColor.primaryColor;
+                          if (value + 40 < 60) {
+                            color = AppColor.violet;
+                          } else if (value + 40 > 100) {
+                            color = AppColor.red;
+                          } else {
+                            color = AppColor.green;
+                          }
+                          return Center(
+                            child: Text(
+                              '${value + 40}',
+                              style: TextStyle(
+                                color: color,
+                                fontSize: 40.0.sp,
+                                fontWeight: FontWeight.w700,
+                                height: 5 / 4,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                ),
+                  Text(
+                    'BPM',
+                    style: TextStyle(
+                      fontSize: 30.0.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColor.black,
+                      height: 37.5 / 30,
+                    ),
+                  )
+                ],
               )
             : Text(
                 '${_value ?? 0}',
@@ -331,16 +346,20 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
                   height: 5 / 4,
                 ),
               ),
-        SizedBox(height: 4.0.sp),
-        Text(
-          'BPM',
-          style: TextStyle(
-            fontSize: 30.0.sp,
-            fontWeight: FontWeight.w500,
-            color: AppColor.black,
-            height: 37.5 / 30,
-          ),
-        ),
+        widget.allowChange == true
+            ? const SizedBox.shrink()
+            : Padding(
+                padding: EdgeInsets.only(top: 4.0.sp),
+                child: Text(
+                  'BPM',
+                  style: TextStyle(
+                    fontSize: 30.0.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColor.black,
+                    height: 37.5 / 30,
+                  ),
+                ),
+              ),
         SizedBox(height: 20.0.sp),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12.0.sp, vertical: 8.0.sp),

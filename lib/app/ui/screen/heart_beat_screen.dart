@@ -1,4 +1,5 @@
 import 'package:bloodpressure/app/controller/heart_beat_controller.dart';
+import 'package:bloodpressure/app/controller/main_controller.dart';
 import 'package:bloodpressure/app/ui/theme/app_color.dart';
 import 'package:bloodpressure/app/ui/widget/app_container.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../../data/model/heart_rate_model.dart';
 import '../../res/image/app_image.dart';
 import '../../res/string/app_strings.dart';
+import '../../util/app_util.dart';
 import '../widget/app_header.dart';
 import '../widget/app_heart_rate_chart_widget.dart';
 import '../widget/app_image_widget.dart';
@@ -160,12 +162,12 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      DateFormat('MMM dd, yyyy').format(dateTime),
+                      formatWithLocale('MMM dd, yyyy', dateTime),
                       style: textStyle14500(),
                     ),
                     SizedBox(height: 2.0.sp),
                     Text(
-                      DateFormat('h:mm a').format(dateTime),
+                      formatWithLocale('h:mm a', dateTime),
                       style: textStyle14500(),
                     ),
                   ],
@@ -307,7 +309,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Obx(() => Text(
-                          '${DateFormat('MMM dd, yyyy').format(controller.startDate.value)} - ${DateFormat('MMM dd, yyyy').format(controller.endDate.value)}',
+                          '${formatWithLocale('MMM dd, yyyy', controller.startDate.value)} - ${formatWithLocale('MMM dd, yyyy', controller.endDate.value)}',
                           style: textStyle18400(),
                         )),
                   ),
@@ -356,7 +358,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               Expanded(
                 flex: 3,
                 child: AppTouchable.common(
-                  onPressed: () {},
+                  onPressed: () => Get.find<MainController>().onPressAddAlarm(),
                   height: 70.0.sp,
                   backgroundColor: AppColor.gold,
                   child: Column(

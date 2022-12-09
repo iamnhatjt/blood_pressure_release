@@ -188,8 +188,8 @@ class HeartBeatController extends GetxController {
     for (final item in listHeartRateModel) {
       DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(item.timeStamp ?? 0);
       listOfData.add([
-        DateFormat('MMM dd, yyyy').format(dateTime),
-        DateFormat('h:mm a').format(dateTime),
+        formatWithLocale('MMM dd, yyyy', dateTime),
+        formatWithLocale('h:mm a', dateTime),
         '${_appController.currentUser.value.age ?? 0}',
         chooseContentByLanguage(gender['nameEN'], gender['nameVN']),
         '${item.value}'

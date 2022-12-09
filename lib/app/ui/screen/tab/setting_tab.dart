@@ -79,12 +79,11 @@ class SettingTab extends GetView<SettingController> {
           ),
           isLanguage
               ? Obx(() {
-                  return Text(
-                    controller.currentLanguageCode.value,
-                    style: TextStyle(
-                      fontSize: 18.0.sp,
-                      color: AppColor.white,
-                      fontWeight: FontWeight.w500,
+                  return Padding(
+                    padding: EdgeInsets.only(right: 8.0.sp),
+                    child: Text(
+                      controller.currentLanguageCode.value,
+                      style: textStyle18400(),
                     ),
                   );
                 })

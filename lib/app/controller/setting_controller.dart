@@ -1,11 +1,17 @@
 import 'dart:io';
-
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../ads/add_native_ad_manager.dart';
+import '../res/string/app_strings.dart';
+import '../ui/theme/app_color.dart';
+import '../ui/widget/app_dialog.dart';
+import '../ui/widget/app_touchable.dart';
+import '../util/app_constant.dart';
 import 'app_controller.dart';
 
 class SettingController extends GetxController {
@@ -81,101 +87,101 @@ class SettingController extends GetxController {
   }
 
   onPressLanguage() {
-    // showAppDialog(
-    //   context,
-    //   StringConstants.language.tr,
-    //   '',
-    //   messageWidget: Column(
-    //     children: [
-    //       SizedBox(height: 32.0.sp),
-    //       AppTouchable(
-    //         onPressed: () async {
-    //           currentLanguageCode.value = 'EN';
-    //           final prefs = await SharedPreferences.getInstance();
-    //           prefs.setString('language', '1');
-    //           Get.find<AppController>().updateLocale(AppConstant.availableLocales[1]);
-    //           Get.back();
-    //         },
-    //         padding: EdgeInsets.symmetric(vertical: 12.0.sp, horizontal: 16.0.sp),
-    //         child: Row(
-    //           children: [
-    //             Expanded(
-    //               child: Text(
-    //                 'English',
-    //                 style: TextStyle(
-    //                   fontSize: 20.0.sp,
-    //                   color: AppColor.primaryColor,
-    //                   fontWeight: FontWeight.w400,
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               width: 20.0.sp,
-    //               height: 20.0.sp,
-    //               padding: EdgeInsets.all(2.0.sp),
-    //               decoration: BoxDecoration(
-    //                 color: Colors.transparent,
-    //                 borderRadius: BorderRadius.circular(12.0.sp),
-    //                 border: Border.all(color: AppColor.primaryColor, width: 1),
-    //               ),
-    //               child: Obx(() => currentLanguageCode.value == 'EN'
-    //                   ? Container(
-    //                       decoration: BoxDecoration(
-    //                         color: AppColor.primaryColor,
-    //                         borderRadius: BorderRadius.circular(12.0.sp),
-    //                       ),
-    //                     )
-    //                   : const SizedBox.shrink()),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       AppTouchable(
-    //         onPressed: () async {
-    //           currentLanguageCode.value = 'VI';
-    //           final prefs = await SharedPreferences.getInstance();
-    //           prefs.setString('language', '0');
-    //           Get.find<AppController>().updateLocale(AppConstant.availableLocales[0]);
-    //           Get.back();
-    //         },
-    //         padding: EdgeInsets.symmetric(vertical: 12.0.sp, horizontal: 16.0.sp),
-    //         child: Row(
-    //           children: [
-    //             Expanded(
-    //               child: Text(
-    //                 'Tiếng Việt',
-    //                 style: TextStyle(
-    //                   fontSize: 20.0.sp,
-    //                   color: AppColor.primaryColor,
-    //                   fontWeight: FontWeight.w400,
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               width: 20.0.sp,
-    //               height: 20.0.sp,
-    //               padding: EdgeInsets.all(2.0.sp),
-    //               decoration: BoxDecoration(
-    //                 color: Colors.transparent,
-    //                 borderRadius: BorderRadius.circular(12.0.sp),
-    //                 border: Border.all(color: AppColor.primaryColor, width: 1),
-    //               ),
-    //               child: Obx(() => currentLanguageCode.value == 'VI'
-    //                   ? Container(
-    //                       decoration: BoxDecoration(
-    //                         color: AppColor.primaryColor,
-    //                         borderRadius: BorderRadius.circular(12.0.sp),
-    //                       ),
-    //                     )
-    //                   : const SizedBox.shrink()),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       SizedBox(height: 32.0.sp),
-    //     ],
-    //   ),
-    // );
+    showAppDialog(
+      context,
+      StringConstants.language.tr,
+      '',
+      messageWidget: Column(
+        children: [
+          SizedBox(height: 32.0.sp),
+          AppTouchable(
+            onPressed: () async {
+              currentLanguageCode.value = 'EN';
+              final prefs = await SharedPreferences.getInstance();
+              prefs.setString('language', '1');
+              Get.find<AppController>().updateLocale(AppConstant.availableLocales[1]);
+              Get.back();
+            },
+            padding: EdgeInsets.symmetric(vertical: 12.0.sp, horizontal: 16.0.sp),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'English',
+                    style: TextStyle(
+                      fontSize: 20.0.sp,
+                      color: AppColor.primaryColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 20.0.sp,
+                  height: 20.0.sp,
+                  padding: EdgeInsets.all(2.0.sp),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(12.0.sp),
+                    border: Border.all(color: AppColor.primaryColor, width: 1),
+                  ),
+                  child: Obx(() => currentLanguageCode.value == 'EN'
+                      ? Container(
+                          decoration: BoxDecoration(
+                            color: AppColor.primaryColor,
+                            borderRadius: BorderRadius.circular(12.0.sp),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+                ),
+              ],
+            ),
+          ),
+          AppTouchable(
+            onPressed: () async {
+              currentLanguageCode.value = 'VI';
+              final prefs = await SharedPreferences.getInstance();
+              prefs.setString('language', '0');
+              Get.find<AppController>().updateLocale(AppConstant.availableLocales[0]);
+              Get.back();
+            },
+            padding: EdgeInsets.symmetric(vertical: 12.0.sp, horizontal: 16.0.sp),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Tiếng Việt',
+                    style: TextStyle(
+                      fontSize: 20.0.sp,
+                      color: AppColor.primaryColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 20.0.sp,
+                  height: 20.0.sp,
+                  padding: EdgeInsets.all(2.0.sp),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(12.0.sp),
+                    border: Border.all(color: AppColor.primaryColor, width: 1),
+                  ),
+                  child: Obx(() => currentLanguageCode.value == 'VI'
+                      ? Container(
+                          decoration: BoxDecoration(
+                            color: AppColor.primaryColor,
+                            borderRadius: BorderRadius.circular(12.0.sp),
+                          ),
+                        )
+                      : const SizedBox.shrink()),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 32.0.sp),
+        ],
+      ),
+    );
   }
 
   onPressRemoveAds() {
