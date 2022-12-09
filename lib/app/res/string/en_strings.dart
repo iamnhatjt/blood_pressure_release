@@ -63,4 +63,7 @@ const enStrings = {
   "date": "Date",
   "time": "Time",
   "gender": "Gender",
+  "delete": "Delete",
+  "deleteData": "Delete data",
+  "deleteDataConfirm": "Do you want to delete this data?",
 };

@@ -18,6 +18,7 @@ class AppHeader extends StatelessWidget {
   final Color? backgroundColor;
   final CrossAxisAlignment? crossAxisAlignmentMainRow;
   final BoxDecoration? decoration;
+  final double? additionSpaceButtonLeft;
 
   const AppHeader({
     Key? key,
@@ -32,6 +33,7 @@ class AppHeader extends StatelessWidget {
     this.backgroundColor,
     this.titleStyle,
     this.decoration,
+    this.additionSpaceButtonLeft,
   }) : super(key: key);
 
   @override
@@ -60,6 +62,7 @@ class AppHeader extends StatelessWidget {
                         path: AppImage.ic_back,
                       ),
                     ),
+                SizedBox(width: additionSpaceButtonLeft ?? 0),
                 Expanded(
                   child: middleWidget ??
                       Text(

@@ -11,8 +11,16 @@ class AppHeartRateChartWidget extends StatelessWidget {
   final List<Map>? listChartData;
   final DateTime? minDate;
   final DateTime? maxDate;
+  final double? selectedX;
+  final Function(double x, DateTime dateTime)? onPressDot;
 
-  const AppHeartRateChartWidget({Key? key, required this.listChartData, required this.minDate, required this.maxDate})
+  const AppHeartRateChartWidget(
+      {Key? key,
+      required this.listChartData,
+      required this.minDate,
+      required this.maxDate,
+      this.selectedX,
+      this.onPressDot})
       : super(key: key);
 
   LineChartBarData generateLineChartBarData() {
@@ -40,7 +48,11 @@ class AppHeartRateChartWidget extends StatelessWidget {
             }
             return FlDotCirclePainter(
               radius: 7.0.sp,
-              color: color,
+              color: (selectedX ?? 0) == 0 && spotValue.x == listFlSpot.last.x
+                  ? AppColor.gold
+                  : selectedX == spotValue.x
+                      ? AppColor.gold
+                      : color,
               strokeColor: Colors.transparent,
               strokeWidth: 1,
             );
@@ -123,15 +135,18 @@ class AppHeartRateChartWidget extends StatelessWidget {
       );
 
   LineTouchData get lineTouchData1 => LineTouchData(
-      enabled: true,
-      handleBuiltInTouches: true,
+      enabled: false,
+      handleBuiltInTouches: false,
       touchTooltipData: LineTouchTooltipData(
         tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
       ),
       touchCallback: (flTouchEvent, touchResponse) {
         if ((touchResponse?.lineBarSpots ?? []).isNotEmpty) {
           final value = touchResponse?.lineBarSpots![0].x;
-          print('/////////////// $value');
+          DateTime dateTime = minDate!.add(Duration(days: (value ?? 1).toInt() - 1));
+          if (onPressDot != null) {
+            onPressDot!(value!, dateTime);
+          }
         }
       },
       getTouchedSpotIndicator: (LineChartBarData barData, List<int> indicators) {

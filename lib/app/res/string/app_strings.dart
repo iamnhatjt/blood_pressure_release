@@ -85,4 +85,7 @@ class StringConstants {
   static String date = 'date';
   static String time = 'time';
   static String gender = 'gender';
+  static String delete = 'delete';
+  static String deleteData = 'deleteData';
+  static String deleteDataConfirm = 'deleteDataConfirm';
 }

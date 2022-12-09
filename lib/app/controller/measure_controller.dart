@@ -53,7 +53,7 @@ class MeasureController extends GetxController {
             },
             onPressAdd: (dateTime, value) {
               if (Get.isRegistered<HeartBeatController>()) {
-                Get.find<HeartBeatController>().updateHeartRateData(HeartRateModel(
+                Get.find<HeartBeatController>().addHeartRateData(HeartRateModel(
                   timeStamp: dateTime.millisecondsSinceEpoch,
                   value: value,
                   age: _appController.currentUser.value.age ?? 30,

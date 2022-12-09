@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../data/model/heart_rate_model.dart';
 import '../../res/image/app_image.dart';
 import '../../res/string/app_strings.dart';
 import '../widget/app_header.dart';
@@ -24,6 +25,21 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
             listChartData: controller.chartListData.value,
             minDate: controller.chartMinDate.value,
             maxDate: controller.chartMaxDate.value,
+            selectedX: controller.chartSelectedX.value,
+            onPressDot: (x, dateTime) {
+              controller.chartSelectedX.value = x;
+              HeartRateModel? checkedHeartRateModel;
+              for (final item in controller.chartListData.value) {
+                if (dateTime.isAtSameMomentAs(item['date'])) {
+                  checkedHeartRateModel =
+                      controller.listHeartRateModelAll.firstWhere((element) => item['timeStamp'] == element.timeStamp);
+                  break;
+                }
+              }
+              if (checkedHeartRateModel?.timeStamp != controller.currentHeartRateModel.value.timeStamp) {
+                controller.currentHeartRateModel.value = checkedHeartRateModel!;
+              }
+            },
           )),
     );
   }
@@ -186,7 +202,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                 AppTouchable(
                   width: 40.0.sp,
                   height: 40.0.sp,
-                  onPressed: () {},
+                  onPressed: controller.onPressDeleteData,
                   child: AppImageWidget.asset(
                     path: AppImage.ic_del,
                   ),
@@ -230,27 +246,35 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               color: AppColor.white,
             ),
           ),
+          additionSpaceButtonLeft: 40.0.sp,
           rightWidget: SizedBox(
             child: Obx(() => controller.listHeartRateModel.value.isNotEmpty
                 ? AppTouchable(
-                    width: 40.0.sp,
-                    height: 40.0.sp,
+                    width: 80.0.sp,
+                    height: 28.0.sp,
                     onPressed: controller.isExporting.value ? null : controller.onPressExport,
                     outlinedBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(22.0.sp),
+                      borderRadius: BorderRadius.circular(32.0.sp),
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColor.white,
+                      borderRadius: BorderRadius.circular(32.0.sp),
                     ),
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
                       child: controller.isExporting.value
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: AppColor.white,
-                                strokeWidth: 3.0.sp,
+                          ? Padding(
+                              padding: EdgeInsets.all(4.0.sp),
+                              child: Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColor.red,
+                                  strokeWidth: 3.0.sp,
+                                ),
                               ),
                             )
                           : Text(
                               StringConstants.export.tr,
-                              style: textStyle18400().merge(const TextStyle(color: AppColor.white)),
+                              style: textStyle18500().merge(const TextStyle(color: AppColor.red)),
                             ),
                     ),
                   )

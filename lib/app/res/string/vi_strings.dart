@@ -63,4 +63,7 @@ const viStrings = {
   "date": "Ngày",
   "time": "Giờ",
   "gender": "Giới tính",
+  "delete": "Xoá",
+  "deleteData": "Xoá dữ liệu",
+  "deleteDataConfirm": "Bạn muốn xoá dữ liệu này?",
 };

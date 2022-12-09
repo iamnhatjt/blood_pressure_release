@@ -37,6 +37,7 @@ class HeartBeatController extends GetxController {
   RxList<Map> chartListData = RxList();
   Rx<DateTime> chartMinDate = DateTime.now().obs;
   Rx<DateTime> chartMaxDate = DateTime.now().obs;
+  RxDouble chartSelectedX = 0.0.obs;
 
   @override
   void onInit() {
@@ -92,14 +93,25 @@ class HeartBeatController extends GetxController {
       hrMin.value = min;
       hrMax.value = max;
     }
+    chartSelectedX.value = 0.0;
   }
 
-  updateHeartRateData(HeartRateModel heartRateModel) async {
-    listHeartRateModel.add(heartRateModel);
-    listHeartRateModelAll = [...listHeartRateModel];
+  addHeartRateData(HeartRateModel heartRateModel) async {
+    listHeartRateModelAll.add(heartRateModel);
     _handleData();
     final prefs = await SharedPreferences.getInstance();
-    prefs.setStringList('heartRateData', listHeartRateModel.map((element) => jsonEncode(element.toJson())).toList());
+    prefs.setStringList('heartRateData', listHeartRateModelAll.map((element) => jsonEncode(element.toJson())).toList());
+  }
+
+  deleteHeartRateData(HeartRateModel heartRateModel) async {
+    HeartRateModel? heartRateModelTemp =
+        listHeartRateModelAll.firstWhereOrNull((element) => element.timeStamp == heartRateModel.timeStamp);
+    if (heartRateModelTemp != null) {
+      listHeartRateModelAll.remove(heartRateModelTemp);
+    }
+    _handleData();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('heartRateData', listHeartRateModelAll.map((element) => jsonEncode(element.toJson())).toList());
   }
 
   onPressMeasureNow() {
@@ -146,7 +158,7 @@ class HeartBeatController extends GetxController {
         },
         onPressAdd: (dateTime, value) {
           if (Get.isRegistered<HeartBeatController>()) {
-            Get.find<HeartBeatController>().updateHeartRateData(HeartRateModel(
+            Get.find<HeartBeatController>().addHeartRateData(HeartRateModel(
               timeStamp: dateTime.millisecondsSinceEpoch,
               value: value,
               age: _appController.currentUser.value.age ?? 30,
@@ -215,11 +227,31 @@ class HeartBeatController extends GetxController {
             heartRateModelData = item;
           }
         }
-        listDataChart.add({'date': handleDate, 'value': heartRateModelData.value});
+        listDataChart
+            .add({'date': handleDate, 'value': heartRateModelData.value, 'timeStamp': heartRateModelData.timeStamp});
       }
     });
     chartListData.value = listDataChart;
-    chartMinDate.value = minDate!;
-    chartMaxDate.value = maxDate!;
+    if (minDate != null) {
+      chartMinDate.value = minDate!;
+    }
+    if (maxDate != null) {
+      chartMaxDate.value = maxDate!;
+    }
+  }
+
+  onPressDeleteData() {
+    showAppDialog(
+      context,
+      StringConstants.deleteData.tr,
+      StringConstants.deleteDataConfirm.tr,
+      firstButtonText: StringConstants.delete.tr,
+      firstButtonCallback: () {
+        Get.back();
+        deleteHeartRateData(currentHeartRateModel.value);
+      },
+      secondButtonText: StringConstants.cancel.tr,
+      secondButtonCallback: Get.back,
+    );
   }
 }
