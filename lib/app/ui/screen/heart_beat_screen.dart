@@ -217,20 +217,31 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               color: AppColor.white,
             ),
           ),
-          rightWidget: AppTouchable(
-            width: 40.0.sp,
-            height: 40.0.sp,
-            onPressed: () {},
-            outlinedBorder: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(22.0.sp),
-            ),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                StringConstants.export.tr,
-                style: textStyle18400().merge(const TextStyle(color: AppColor.white)),
-              ),
-            ),
+          rightWidget: SizedBox(
+            child: Obx(() => controller.listHeartRateModel.value.isNotEmpty
+                ? AppTouchable(
+                    width: 40.0.sp,
+                    height: 40.0.sp,
+                    onPressed: controller.isExporting.value ? null : controller.onPressExport,
+                    outlinedBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(22.0.sp),
+                    ),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: controller.isExporting.value
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: AppColor.white,
+                                strokeWidth: 3.0.sp,
+                              ),
+                            )
+                          : Text(
+                              StringConstants.export.tr,
+                              style: textStyle18400().merge(const TextStyle(color: AppColor.white)),
+                            ),
+                    ),
+                  )
+                : const SizedBox.shrink()),
           ),
           titleStyle: const TextStyle(color: AppColor.white),
           extendWidget: AppTouchable(
@@ -331,7 +342,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               Expanded(
                 flex: 5,
                 child: AppTouchable.common(
-                  onPressed: () {},
+                  onPressed: controller.onPressAddData,
                   height: 70.0.sp,
                   backgroundColor: AppColor.primaryColor,
                   child: Text(

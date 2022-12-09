@@ -60,4 +60,7 @@ const enStrings = {
   "rhNormalMessage": "Great! Your heart rate remains in the normal range",
   "rhFastMessage": "Cautious! Your heart rate is higher than normal",
   "addSuccess": "Add data successfully",
+  "date": "Date",
+  "time": "Time",
+  "gender": "Gender",
 };

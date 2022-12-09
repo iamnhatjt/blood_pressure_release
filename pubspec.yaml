@@ -69,6 +69,8 @@ dependencies:
   qr_code_scanner: ^1.0.1
   camera: ^0.10.0+4
   percent_indicator: ^4.2.2
+  csv: ^5.0.1
+  path_provider: ^2.0.11
   flutter_datetime_picker:
     git:
       url: https://github.com/internal-corp/flutter_datetime_picker.git

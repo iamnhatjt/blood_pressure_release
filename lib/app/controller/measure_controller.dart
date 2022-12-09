@@ -11,6 +11,7 @@ import '../res/string/app_strings.dart';
 import '../ui/widget/app_dialog.dart';
 import '../ui/widget/app_dialog_heart_rate_widget.dart';
 import '../util/app_permission.dart';
+import 'app_controller.dart';
 
 enum MeasureScreenState { idle, measuring }
 
@@ -24,6 +25,7 @@ class MeasureController extends GetxController {
   RxInt bpmAverage = 0.obs;
   List<int> _listDataBPM = [];
   int _recentBPM = 0;
+  final AppController _appController = Get.find<AppController>();
 
   @override
   void onClose() {
@@ -51,8 +53,12 @@ class MeasureController extends GetxController {
             },
             onPressAdd: (dateTime, value) {
               if (Get.isRegistered<HeartBeatController>()) {
-                Get.find<HeartBeatController>()
-                    .updateHeartRateData(HeartRateModel(timeStamp: dateTime.millisecondsSinceEpoch, value: value));
+                Get.find<HeartBeatController>().updateHeartRateData(HeartRateModel(
+                  timeStamp: dateTime.millisecondsSinceEpoch,
+                  value: value,
+                  age: _appController.currentUser.value.age ?? 30,
+                  genderId: _appController.currentUser.value.genderId ?? '0',
+                ));
               }
               Get.back();
               showToast(StringConstants.addSuccess.tr);

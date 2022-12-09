@@ -1,13 +1,24 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:bloodpressure/app/controller/app_controller.dart';
 import 'package:bloodpressure/app/data/model/heart_rate_model.dart';
+import 'package:bloodpressure/app/util/app_constant.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../res/string/app_strings.dart';
 import '../route/app_route.dart';
 import '../ui/theme/app_color.dart';
+import '../ui/widget/app_dialog.dart';
+import '../ui/widget/app_dialog_heart_rate_widget.dart';
+import '../util/app_util.dart';
 
 class HeartBeatController extends GetxController {
   late BuildContext context;
@@ -20,6 +31,8 @@ class HeartBeatController extends GetxController {
   RxInt hrMax = 0.obs;
   Rx<DateTime> startDate = DateTime.now().obs;
   Rx<DateTime> endDate = DateTime.now().obs;
+  final AppController _appController = Get.find<AppController>();
+  RxBool isExporting = false.obs;
 
   @override
   void onInit() {
@@ -110,5 +123,69 @@ class HeartBeatController extends GetxController {
       endDate.value = DateTime(result.end.year, result.end.month, result.end.day, 23, 59, 59);
       _handleData();
     }
+  }
+
+  onPressAddData() {
+    showAppDialog(
+      context,
+      '',
+      '',
+      hideGroupButton: true,
+      widgetBody: AppDialogHeartRateWidget(
+        allowChange: true,
+        inputDateTime: DateTime.now(),
+        inputValue: 70,
+        onPressCancel: () {
+          Get.back();
+          // _recentBPM = 0;
+        },
+        onPressAdd: (dateTime, value) {
+          if (Get.isRegistered<HeartBeatController>()) {
+            Get.find<HeartBeatController>().updateHeartRateData(HeartRateModel(
+              timeStamp: dateTime.millisecondsSinceEpoch,
+              value: value,
+              age: _appController.currentUser.value.age ?? 30,
+              genderId: _appController.currentUser.value.genderId ?? '0',
+            ));
+          }
+          Get.back();
+          showToast(StringConstants.addSuccess.tr);
+          // _recentBPM = 0;
+        },
+      ),
+    );
+  }
+
+  onPressExport() async {
+    isExporting.value = true;
+    List<String> header = [];
+    List<List<String>> listOfData = [];
+    header.add(StringConstants.date.tr);
+    header.add(StringConstants.time.tr);
+    header.add(StringConstants.age.tr);
+    header.add(StringConstants.gender.tr);
+    header.add('BPM');
+    Map gender = AppConstant.listGender.firstWhere(
+        (element) => element['id'] == _appController.currentUser.value.genderId,
+        orElse: () => AppConstant.listGender[0]);
+    for (final item in listHeartRateModel) {
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(item.timeStamp ?? 0);
+      listOfData.add([
+        DateFormat('MMM dd, yyyy').format(dateTime),
+        DateFormat('h:mm a').format(dateTime),
+        '${_appController.currentUser.value.age ?? 0}',
+        chooseContentByLanguage(gender['nameEN'], gender['nameVN']),
+        '${item.value}'
+      ]);
+    }
+    String csvData = const ListToCsvConverter().convert([header, ...listOfData]);
+    Directory? directoryTemp = await getTemporaryDirectory();
+    String? path = '${directoryTemp.path}/${DateTime.now().millisecondsSinceEpoch}.csv';
+    final bytes = utf8.encode(csvData);
+    Uint8List bytes2 = Uint8List.fromList(bytes);
+    await File(path).writeAsBytes(bytes2);
+    Share.shareXFiles([XFile(path)]);
+    await Future.delayed(const Duration(seconds: 1));
+    isExporting.value = false;
   }
 }

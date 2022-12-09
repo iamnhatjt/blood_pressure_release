@@ -82,4 +82,7 @@ class StringConstants {
   static String rhNormalMessage = 'rhNormalMessage';
   static String rhFastMessage = 'rhFastMessage';
   static String addSuccess = 'addSuccess';
+  static String date = 'date';
+  static String time = 'time';
+  static String gender = 'gender';
 }
