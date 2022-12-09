@@ -9,12 +9,24 @@ import 'package:intl/intl.dart';
 import '../../res/image/app_image.dart';
 import '../../res/string/app_strings.dart';
 import '../widget/app_header.dart';
+import '../widget/app_heart_rate_chart_widget.dart';
 import '../widget/app_image_widget.dart';
 import '../widget/app_style.dart';
 import '../widget/app_touchable.dart';
 
 class HeartBeatScreen extends GetView<HeartBeatController> {
   const HeartBeatScreen({Key? key}) : super(key: key);
+
+  Widget _buildChart() {
+    return Padding(
+      padding: EdgeInsets.only(right: 12.0.sp, top: 12.0.sp),
+      child: Obx(() => AppHeartRateChartWidget(
+            listChartData: controller.chartListData.value,
+            minDate: controller.chartMinDate.value,
+            maxDate: controller.chartMaxDate.value,
+          )),
+    );
+  }
 
   Widget _buildBodyEmpty() {
     return Column(
@@ -97,6 +109,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
             padding: EdgeInsets.symmetric(vertical: 8.0.sp),
             margin: EdgeInsets.symmetric(horizontal: 17.0.sp),
             decoration: commonDecoration(),
+            child: _buildChart(),
           ),
         ),
         Container(

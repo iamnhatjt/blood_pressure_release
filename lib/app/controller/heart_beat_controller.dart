@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:bloodpressure/app/controller/app_controller.dart';
 import 'package:bloodpressure/app/data/model/heart_rate_model.dart';
 import 'package:bloodpressure/app/util/app_constant.dart';
+import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,6 +34,9 @@ class HeartBeatController extends GetxController {
   Rx<DateTime> endDate = DateTime.now().obs;
   final AppController _appController = Get.find<AppController>();
   RxBool isExporting = false.obs;
+  RxList<Map> chartListData = RxList();
+  Rx<DateTime> chartMinDate = DateTime.now().obs;
+  Rx<DateTime> chartMaxDate = DateTime.now().obs;
 
   @override
   void onInit() {
@@ -68,6 +72,7 @@ class HeartBeatController extends GetxController {
       }
     }
     listHeartRateModel.value = [...listHeartRateModelTemp];
+    _generateDataChart();
 
     if (listHeartRateModel.isNotEmpty) {
       currentHeartRateModel.value = listHeartRateModel.last;
@@ -187,5 +192,34 @@ class HeartBeatController extends GetxController {
     Share.shareXFiles([XFile(path)]);
     await Future.delayed(const Duration(seconds: 1));
     isExporting.value = false;
+  }
+
+  _generateDataChart() {
+    List<Map> listDataChart = [];
+    Map mapGroupData = groupBy(listHeartRateModel,
+        (p0) => DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(p0.timeStamp ?? 0)));
+    DateTime? minDate;
+    DateTime? maxDate;
+    mapGroupData.forEach((key, value) {
+      DateTime handleDate = DateFormat('dd/MM/yyyy').parse(key);
+      if (minDate == null || minDate!.isAfter(handleDate)) {
+        minDate = handleDate;
+      }
+      if (maxDate == null || maxDate!.isBefore(handleDate)) {
+        maxDate = handleDate;
+      }
+      if (((value ?? []) as List).isNotEmpty) {
+        HeartRateModel heartRateModelData = value[0];
+        for (HeartRateModel item in value) {
+          if ((item.timeStamp ?? 0) > (heartRateModelData.timeStamp ?? 0)) {
+            heartRateModelData = item;
+          }
+        }
+        listDataChart.add({'date': handleDate, 'value': heartRateModelData.value});
+      }
+    });
+    chartListData.value = listDataChart;
+    chartMinDate.value = minDate!;
+    chartMaxDate.value = maxDate!;
   }
 }
