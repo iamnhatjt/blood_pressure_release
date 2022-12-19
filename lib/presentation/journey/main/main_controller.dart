@@ -1,8 +1,7 @@
-import 'package:bloodpressure/app/ui/widget/app_dialog.dart';
+import 'package:bloodpressure/common/util/translation/app_translation.dart';
+import 'package:bloodpressure/presentation/widget/app_dialog.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
-import '../res/string/app_strings.dart';
 
 class MainController extends GetxController {
   late BuildContext context;
@@ -17,11 +16,11 @@ class MainController extends GetxController {
       context,
       'Alarm for Heart Rate',
       '',
-      firstButtonText: StringConstants.save.tr,
+      firstButtonText: TranslationConstants.save.tr,
       firstButtonCallback: () {
         Get.back();
       },
-      secondButtonText: StringConstants.cancel.tr,
+      secondButtonText: TranslationConstants.cancel.tr,
       secondButtonCallback: Get.back,
       widgetBody: Column(
         children: [

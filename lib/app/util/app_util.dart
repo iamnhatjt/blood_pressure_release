@@ -1,11 +1,11 @@
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
+import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../build_constants.dart';
-import '../controller/app_controller.dart';
-import '../ui/theme/app_color.dart';
 
 log(String text) {
   if (BuildConstants.currentEnvironment != Environment.prod) {

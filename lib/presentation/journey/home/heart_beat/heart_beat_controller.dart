@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bloodpressure/app/util/app_util.dart';
 import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/domain/model/heart_rate_model.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
@@ -15,7 +16,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/constants/app_route.dart';
-import '../../../../common/util/app_util.dart';
 import '../../../../common/util/translation/app_translation.dart';
 import '../../../theme/app_color.dart';
 import '../../../widget/app_dialog.dart';
