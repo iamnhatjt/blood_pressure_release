@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:bloodpressure/app/util/app_util.dart';
 import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/domain/model/heart_rate_model.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
@@ -16,6 +15,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/constants/app_route.dart';
+import '../../../../common/util/app_util.dart';
 import '../../../../common/util/translation/app_translation.dart';
 import '../../../theme/app_color.dart';
 import '../../../widget/app_dialog.dart';
@@ -206,8 +206,8 @@ class HeartBeatController extends GetxController {
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(item.timeStamp ?? 0);
       listOfData.add([
-        formatWithLocale('MMM dd, yyyy', dateTime),
-        formatWithLocale('h:mm a', dateTime),
+        DateFormat('MMM dd, yyyy').format(dateTime),
+        DateFormat('h:mm a').format(dateTime),
         '${_appController.currentUser.value.age ?? 0}',
         chooseContentByLanguage(gender['nameEN'], gender['nameVN']),
         '${item.value}'

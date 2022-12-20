@@ -2,7 +2,6 @@ import 'package:bloodpressure/common/injector/app_di.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/domain/enum/alarm_type.dart';
 import 'package:bloodpressure/domain/model/alarm_model.dart';
-import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/widgets/alarm_dialog.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,7 +9,7 @@ import 'package:get/get.dart';
 
 mixin AlarmDialogMixin {
   RxList<bool> selectedWeekDays = List<bool>.generate(7, (_) => false).obs;
-  Rx<DateTime> seletectTime = DateTime.now().obs;
+  Rx<DateTime> selectedTime = DateTime.now().obs;
 
   Future<void> showEditAlarm({
     required BuildContext context,

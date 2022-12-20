@@ -4,7 +4,7 @@ import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AlarmAddButtonController extends GetxController with GetTickerProviderStateMixin {
+class AlarmAddButtonController extends GetxController with GetTickerProviderStateMixin, AlarmDialogMixin {
   late final AnimationController animationController;
   late final Animation<double> animation;
 
@@ -16,7 +16,10 @@ class AlarmAddButtonController extends GetxController with GetTickerProviderStat
     if (animationController.isCompleted) {
       animationController.reverse();
     }
-    alarmController.onPressAddAlarm(context: context, alarmType: e);
+    showAddAlarm(context: context, alarmType: e, onPressSave: (alarmModel) {
+      alarmController.addAlarm(alarmModel);
+      Get.back();
+    });
   }
 
   @override

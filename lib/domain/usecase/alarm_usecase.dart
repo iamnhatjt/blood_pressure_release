@@ -71,7 +71,6 @@ class AlarmUseCase {
           scheduleDateTime: scheduledDate,
           notiId: alarmModel.id.hashCode + index + 1,
           matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
-          androidIconPath: alarmModel.type!.androidIcon,
           largeIcon: androidBitMap,
         );
       }

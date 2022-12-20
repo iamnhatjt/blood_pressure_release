@@ -11,7 +11,8 @@ import '../../../../controller/app_base_controller.dart';
 class AddBloodSugarController extends AppBaseController
     with DateTimeMixin, AddDateTimeMixin, SelectStateMixin {
   RxString rxUnit = 'mg/dL'.obs;
-  RxString rxInformation = 'Normal'.obs;
+  RxString rxInformation = TranslationConstants.bloodSugarInforNormal.tr.obs;
+  Rx<String?> rxInfoContent = bloodSugarInformationMgMap[BloodSugarInformationCode.lowCode].obs;
   Rx<TextEditingController> textEditController =
       TextEditingController(text: '80.0').obs;
 
@@ -55,12 +56,16 @@ class AddBloodSugarController extends AppBaseController
     }
     if (value < 4.0) {
       rxInformation.value = TranslationConstants.bloodSugarInforLow.tr;
+      rxInfoContent.value = bloodSugarInformationMgMap[BloodSugarInformationCode.lowCode];
     } else if (value >= 4.0 && value < 5.5) {
       rxInformation.value = TranslationConstants.bloodSugarInforNormal.tr;
+      rxInfoContent.value = bloodSugarInformationMgMap[BloodSugarInformationCode.normalCode];
     } else if (value >= 5.5 && value < 7.0) {
       rxInformation.value = TranslationConstants.bloodSugarInforPreDiabetes.tr;
+      rxInfoContent.value = bloodSugarInformationMgMap[BloodSugarInformationCode.preDiabetesCode];
     } else {
       rxInformation.value = TranslationConstants.bloodSugarInforDiabetes.tr;
+      rxInfoContent.value = bloodSugarInformationMgMap[BloodSugarInformationCode.diabetesCode];
     }
   }
 

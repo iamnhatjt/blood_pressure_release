@@ -50,16 +50,16 @@ final List<String> bloodSugarInformationCodeList = [
   BloodSugarInformationCode.diabetesCode,
 ];
 
-final Map<String, List<double>> bloodSugarInformationMmolMap = {
-  BloodSugarInformationCode.lowCode: [0, 4.0],
-  BloodSugarInformationCode.normalCode: [4.0, 5.5],
-  BloodSugarInformationCode.preDiabetesCode: [5.5, 7.0],
-  BloodSugarInformationCode.diabetesCode: [7.0, 0],
+final Map<String, String> bloodSugarInformationMmolMap = {
+  BloodSugarInformationCode.lowCode: "<4.0",
+  BloodSugarInformationCode.normalCode: "4.0 - 5.5",
+  BloodSugarInformationCode.preDiabetesCode: "5.5 - 7.0",
+  BloodSugarInformationCode.diabetesCode: ">7.0",
 };
 
-final Map<String, List<double>> bloodSugarInformationMgMap = {
-  BloodSugarInformationCode.lowCode: [0, 72.0],
-  BloodSugarInformationCode.normalCode: [72.0, 99.0],
-  BloodSugarInformationCode.preDiabetesCode: [99.0, 126.0],
-  BloodSugarInformationCode.diabetesCode: [126.0, 0],
+final Map<String, String> bloodSugarInformationMgMap = {
+  BloodSugarInformationCode.lowCode: "<72",
+  BloodSugarInformationCode.normalCode: "72 - 99",
+  BloodSugarInformationCode.preDiabetesCode: "99 - 126",
+  BloodSugarInformationCode.diabetesCode: ">126",
 };

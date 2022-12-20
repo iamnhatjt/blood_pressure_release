@@ -14,32 +14,35 @@ class AlarmDialogController extends GetxController {
       .copyWith(id: Uuid().v4())
       .obs;
   RxBool isValid = false.obs;
-  RxBool isLoading = true.obs;
 
   @override
   void onInit() {
-    _validate();
+    validate();
     super.onInit();
   }
 
   void onSelectedWeekDaysChanged(List<bool> days) {
     alarmModel.value = alarmModel.value.copyWith(alarmDays: days);
-    _validate();
+    validate();
   }
 
   void onTimeChange(DateTime value) {
     alarmModel.value = alarmModel.value.copyWith(time: value);
-    _validate();
+    validate();
   }
 
-  void _validate() {
+  void validate() {
     final days = alarmModel.value.alarmDays!;
-    if (days
-        .where((element) => !element)
-        .isEmpty) {
+    final length = days.where((element) => element).length;
+    if (length == 0) {
       isValid.value = false;
     } else {
       isValid.value = true;
     }
+  }
+
+  void reset() {
+    alarmModel.value = defaultModel.copyWith(time: DateTime.now());
+    validate();
   }
 }

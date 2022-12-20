@@ -24,30 +24,33 @@ class AddDataDialog extends StatelessWidget {
       required this.child});
 
   Widget _buildDateTimeWidget() {
-    return Row(
-      children: [
-        AppTouchable(
-            onPressed: onSelectDate,
-            backgroundColor: AppColor.lightGray,
-            padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 28.sp),
-            child: Obx(
-              () => Text(
-                rxStrDate.value,
-                style: textStyle18500(),
-              ),
-            )),
-        const Spacer(),
-        AppTouchable(
-            onPressed: onSelectTime,
-            backgroundColor: AppColor.lightGray,
-            padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 20.sp),
-            child: Obx(
-              () => Text(
-                rxStrTime.value,
-                style: textStyle18500(),
-              ),
-            )),
-      ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 6.sp),
+      child: Row(
+        children: [
+          AppTouchable(
+              onPressed: onSelectDate,
+              backgroundColor: AppColor.lightGray,
+              padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 28.sp),
+              child: Obx(
+                () => Text(
+                  rxStrDate.value,
+                  style: textStyle18500(),
+                ),
+              )),
+          const Spacer(),
+          AppTouchable(
+              onPressed: onSelectTime,
+              backgroundColor: AppColor.lightGray,
+              padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 20.sp),
+              child: Obx(
+                () => Text(
+                  rxStrTime.value,
+                  style: textStyle18500(),
+                ),
+              )),
+        ],
+      ),
     );
   }
 

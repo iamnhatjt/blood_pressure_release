@@ -85,18 +85,6 @@ extension AlarmTypeExtension on AlarmType {
     }
   }
 
-  String get androidIcon {
-    switch (this) {
-      case AlarmType.heartRate:
-        return "@mipmap/ic_heart_rate";
-      case AlarmType.bloodPressure:
-        return "@mipmap/ic_blood_pressure";
-      case AlarmType.bloodSugar:
-        return "@mipmap/ic_blood_sugar";
-      case AlarmType.weightAndBMI:
-        return "@mipmap/ic_weight_and_bmi";
-    }
-  }
 
   String get icon {
     switch(this) {

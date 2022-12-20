@@ -7,7 +7,6 @@ import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/app_button.dart';
 import 'package:bloodpressure/presentation/widget/app_week_days_picker.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
@@ -23,7 +22,8 @@ class AlarmDialog extends GetView<AlarmDialogController> {
     if (alarmModel != null) {
       controller.alarmModel.value = alarmModel!;
     } else {
-      controller.alarmModel.value = controller.alarmModel.value.copyWith(type: alarmType);
+      controller.alarmModel.value =
+          controller.alarmModel.value.copyWith(type: alarmType, time: DateTime.now());
     }
   }
 
@@ -34,7 +34,8 @@ class AlarmDialog extends GetView<AlarmDialogController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Column(
+    return Obx(() {
+      return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
@@ -88,9 +89,11 @@ class AlarmDialog extends GetView<AlarmDialogController> {
                     width: Get.width,
                     onPressed: controller.isValid.value
                         ? () {
-                            if (onPressSave != null)
-                              onPressSave!(controller.alarmModel.value);
-                              controller.alarmModel.value = AlarmModel(id: const Uuid().v4(), type: AlarmType.heartRate, time: DateTime.now(), alarmDays: List.generate(7, (index) => false,),);
+                            final alarmModel = controller.alarmModel.value;
+                            controller.reset();
+                            if (onPressSave != null) {
+                              onPressSave!(alarmModel);
+                            }
                           }
                         : null,
                     color: controller.isValid.value
@@ -107,6 +110,7 @@ class AlarmDialog extends GetView<AlarmDialogController> {
               ],
             )
           ],
-        ));
+        );
+    });
   }
 }

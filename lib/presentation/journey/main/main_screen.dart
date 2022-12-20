@@ -1,5 +1,6 @@
 import 'package:bloodpressure/presentation/journey/alarm/alarm_screen.dart';
 import 'package:bloodpressure/presentation/journey/alarm/widgets/alarm_add_button.dart';
+import 'package:bloodpressure/presentation/journey/insight/insight_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,7 @@ class MainScreen extends GetView<MainController> {
             index: controller.currentTab.value,
             children: [
               const HomeScreen(),
-              Container(),
+              const InsightScreen(),
               const AlarmScreen(),
               const SettingScreen(),
             ],

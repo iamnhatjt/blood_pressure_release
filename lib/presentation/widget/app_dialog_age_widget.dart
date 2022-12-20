@@ -38,7 +38,7 @@ class _AppDialogAgeWidgetState extends State<AppDialogAgeWidget> {
     return Column(
       children: [
         Container(
-          width: 80.0.sp,
+          width: 100.0.sp,
           height: 180.0.sp,
           margin: EdgeInsets.symmetric(vertical: 24.0.sp),
           child: ScrollConfiguration(
