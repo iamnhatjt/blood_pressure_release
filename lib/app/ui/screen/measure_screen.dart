@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloodpressure/app/controller/measure_controller.dart';
 import 'package:bloodpressure/app/ui/widget/app_touchable.dart';
 import 'package:flutter/material.dart';
@@ -122,6 +120,7 @@ class MeasureScreen extends GetView<MeasureController> {
                 context: context,
                 onBPM: controller.onBPM,
                 onRawData: controller.onRawData,
+                alpha: 0.5,
               )
             ],
           ),
