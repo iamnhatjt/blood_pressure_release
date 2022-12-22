@@ -109,6 +109,7 @@ flutter:
   assets:
     - assets/image/svg/
     - assets/image/png/
+    - assets/image/lottie/
   fonts:
     - family: Roboto
       fonts:

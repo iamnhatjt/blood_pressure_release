@@ -19,8 +19,7 @@ enum MeasureScreenState { idle, measuring }
 
 class MeasureController extends GetxController {
   late BuildContext context;
-  Rx<MeasureScreenState> currentMeasureScreenState =
-      MeasureScreenState.idle.obs;
+  Rx<MeasureScreenState> currentMeasureScreenState = MeasureScreenState.idle.obs;
   Timer? _timer;
   RxDouble progress = 0.0.obs;
   final int totalMiniSecondsToMeasure = 20000;
@@ -125,6 +124,7 @@ class MeasureController extends GetxController {
       _timer = null;
       _listDataBPM = [];
       bpmAverage.value = 0;
+      _recentBPM = 0;
       progress.value = 0.0;
       currentMiniSecond = 0;
     } else {
