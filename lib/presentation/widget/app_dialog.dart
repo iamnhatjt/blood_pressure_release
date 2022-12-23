@@ -84,8 +84,8 @@ Future showAppDialog(
               widthDialog: widthDialog,
               hideGroupButton: hideGroupButton,
               fullContentWidget: fullContentWidget,
-              firstButtonText:
-                  firstButtonText ?? TranslationConstants.cancel.tr,
+              firstButtonText: firstButtonText ??
+                  TranslationConstants.cancel.tr,
               padding: padding,
             ),
   );
@@ -196,18 +196,22 @@ class AppDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0.sp),
         ),
         elevation: 0.0,
-        backgroundColor: backgroundColor ?? Colors.transparent,
+        backgroundColor:
+            backgroundColor ?? Colors.transparent,
         child: Stack(
           children: [
             fullContentWidget ??
                 Container(
                   decoration: BoxDecoration(
-                    color: backgroundColor ?? AppColor.white,
-                    borderRadius: BorderRadius.circular(20.0.sp),
+                    color:
+                        backgroundColor ?? AppColor.white,
+                    borderRadius:
+                        BorderRadius.circular(20.0.sp),
                   ),
                   width: widthDialog ?? dialogWidth,
                   height: heightDialog,
-                  padding: padding ?? EdgeInsets.all(10.0.sp),
+                  padding:
+                      padding ?? EdgeInsets.all(10.0.sp),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -216,19 +220,23 @@ class AppDialog extends StatelessWidget {
                               title!,
                               textAlign: TextAlign.center,
                               style: textStyle20700().merge(
-                                  const TextStyle(color: AppColor.black)),
+                                  const TextStyle(
+                                      color:
+                                          AppColor.black)),
                             )
                           : const SizedBox.shrink(),
                       (message ?? '').isNotEmpty
                           ? Padding(
-                              padding: EdgeInsets.only(top: 8.0.sp),
+                              padding: EdgeInsets.only(
+                                  top: 8.0.sp),
                               child: Text(
                                 message!,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: AppColor.grayText,
                                   fontSize: 16.0.sp,
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight:
+                                      FontWeight.w400,
                                   fontFamily: 'Roboto',
                                 ),
                               ),
@@ -241,14 +249,20 @@ class AppDialog extends StatelessWidget {
                                   ? const SizedBox.shrink()
                                   : Text(
                                       message!,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow
+                                          .ellipsis,
+                                      textAlign:
+                                          TextAlign.center,
                                       style: TextStyle(
-                                          color: AppColor.white,
+                                          color: AppColor
+                                              .white,
                                           fontSize: 16.0.sp,
-                                          fontWeight: FontWeight.w300),
+                                          fontWeight:
+                                              FontWeight
+                                                  .w300),
                                     ),
-                              messageWidget ?? const SizedBox.shrink(),
+                              messageWidget ??
+                                  const SizedBox.shrink(),
                             ],
                           ),
                       hideGroupButton == true
@@ -258,7 +272,8 @@ class AppDialog extends StatelessWidget {
                   ),
                 ),
             Positioned.fill(
-                child: coverScreenWidget ?? const SizedBox.shrink()),
+                child: coverScreenWidget ??
+                    const SizedBox.shrink()),
           ],
         ),
       ),

@@ -76,33 +76,28 @@ class BloodSugarInformationDialog extends StatelessWidget {
           SizedBox(height: 32.sp,),
           Column(
             children: bloodSugarInformationCodeList.map((info) {
-              Color color = AppColor.blue98EB;
               String title = '';
               String content = '';
               switch (info) {
                 case BloodSugarInformationCode.lowCode:
-                  color = AppColor.blue98EB;
                   title = TranslationConstants.bloodSugarInforLow.tr;
                   content = informationMap[info] ?? '';
                   break;
                 case BloodSugarInformationCode.normalCode:
-                  color = AppColor.green;
                   title = TranslationConstants.bloodSugarInforNormal.tr;
                   content = informationMap[info] ?? '';
                   break;
                 case BloodSugarInformationCode.preDiabetesCode:
-                  color = AppColor.gold;
                   title = TranslationConstants.bloodSugarInforPreDiabetes.tr;
                   content = informationMap[info] ?? '';
                   break;
                 case BloodSugarInformationCode.diabetesCode:
-                  color = AppColor.lightRed;
                   title = TranslationConstants.bloodSugarInforDiabetes.tr;
                   content = informationMap[info] ?? '';
                   break;
               }
               return _buildItemWidget(
-                  color: color, title: title, content: content);
+                  color: bloodSugarInfoColorMap[info] ?? AppColor.blue98EB, title: title, content: content);
             }).toList(),
           ),
           SizedBox(

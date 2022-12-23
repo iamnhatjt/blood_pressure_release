@@ -1,6 +1,7 @@
 import 'package:bloodpressure/common/config/hive_config/hive_config.dart';
 import 'package:bloodpressure/common/injector/app_di.dart';
 import 'package:bloodpressure/common/util/app_notification_local.dart';
+import 'package:bloodpressure/common/util/share_preference_utils.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 
-
 import 'common/constants/app_constant.dart';
 import 'common/constants/app_route.dart';
 import 'common/injector/binding/app_binding.dart';
@@ -19,7 +19,8 @@ import 'presentation/app_page.dart';
 
 late AndroidNotificationChannel channel;
 
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+late FlutterLocalNotificationsPlugin
+    flutterLocalNotificationsPlugin;
 
 void mainDelegate() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ void mainDelegate() async {
   configDI();
   final hiveConfig = getIt<HiveConfig>();
   await hiveConfig.init();
+  await getIt<SharePreferenceUtils>().init();
   AppNotificationLocal.initNotificationLocal();
   tz.initializeTimeZones();
   // max ads start

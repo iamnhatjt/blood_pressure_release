@@ -1,7 +1,12 @@
+import 'package:bloodpressure/common/constants/app_image.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import 'app_image_widget.dart';
+import 'app_touchable.dart';
 
 class BloodHeaderWidget extends StatelessWidget {
   final String title;
@@ -24,8 +29,26 @@ class BloodHeaderWidget extends StatelessWidget {
         ],
       ),
       titleStyle: const TextStyle(color: AppColor.white),
-      leftWidget: const BackButton(
-        color: AppColor.white,
+      leftWidget: SizedBox(
+        width: 80.0.sp,
+        child: Row(
+          children: [
+            AppTouchable(
+              width: 40.0.sp,
+              height: 40.0.sp,
+              padding: EdgeInsets.all(2.0.sp),
+              onPressed: Get.back,
+              outlinedBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(22.0.sp),
+              ),
+              child: AppImageWidget.asset(
+                path: AppImage.ic_back,
+                color: AppColor.white,
+              ),
+            ),
+            const Spacer()
+          ],
+        ),
       ),
       rightWidget: ExportButton(
         titleColor: background,

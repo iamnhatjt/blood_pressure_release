@@ -11,8 +11,10 @@ mixin AddDateTimeMixin {
 
   Future onSelectAddDate(DateTime? value) async {
     if (value != null) {
-      bloodPressureDate.update(
-          year: value.year, month: value.month, day: value.day);
+      bloodPressureDate = bloodPressureDate.update(
+          year: value.year,
+          month: value.month,
+          day: value.day);
       updateDateTimeString(bloodPressureDate);
     }
   }
@@ -21,19 +23,22 @@ mixin AddDateTimeMixin {
     if (dateTime != null) {
       stringBloodPrTime.value = DateFormat(
         'h:mm a',
-        Get.find<AppController>().currentLocale.languageCode,
+        Get.find<AppController>()
+            .currentLocale
+            .languageCode,
       ).format(dateTime);
       stringBloodPrDate.value = DateFormat(
         'MMM dd, yyyy',
-        Get.find<AppController>().currentLocale.languageCode,
+        Get.find<AppController>()
+            .currentLocale
+            .languageCode,
       ).format(dateTime);
     }
   }
 
   Future onSelectAddTime(TimeOfDay? value) async {
-    final dateTime = bloodPressureDate;
     if (value != null) {
-      bloodPressureDate.update(
+      bloodPressureDate = bloodPressureDate.update(
         hour: value.hour,
         minute: value.minute,
       );

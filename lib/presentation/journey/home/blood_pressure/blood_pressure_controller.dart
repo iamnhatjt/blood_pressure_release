@@ -84,10 +84,10 @@ class BloodPressureController extends GetxController
     result
         .sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
     bloodPressures.value = result;
-    bloodPressSelected.value = bloodPressures.last;
     DateTime? minDate;
     DateTime? maxDate;
     if (bloodPressures.isNotEmpty) {
+      bloodPressSelected.value = bloodPressures.last;
       final bloodPresFirst = bloodPressures.first;
       sysMin.value = bloodPresFirst.systolic ?? 0;
       sysMax.value = bloodPresFirst.systolic ?? 0;

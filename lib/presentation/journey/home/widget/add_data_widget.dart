@@ -14,14 +14,21 @@ class AddDataDialog extends StatelessWidget {
   final Widget child;
   final Function() onSelectDate;
   final Function() onSelectTime;
+  final Function()? firstButtonOnPressed;
+  final Function()? secondButtonOnPressed;
+  final Widget? coverScreenWidget;
 
-  const AddDataDialog(
-      {super.key,
-      required this.rxStrDate,
-      required this.rxStrTime,
-      required this.onSelectDate,
-      required this.onSelectTime,
-      required this.child});
+  const AddDataDialog({
+    super.key,
+    required this.rxStrDate,
+    required this.rxStrTime,
+    required this.onSelectDate,
+    required this.onSelectTime,
+    required this.child,
+    this.coverScreenWidget,
+    this.firstButtonOnPressed,
+    this.secondButtonOnPressed,
+  });
 
   Widget _buildDateTimeWidget() {
     return Padding(
@@ -31,7 +38,8 @@ class AddDataDialog extends StatelessWidget {
           AppTouchable(
               onPressed: onSelectDate,
               backgroundColor: AppColor.lightGray,
-              padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 28.sp),
+              padding: EdgeInsets.symmetric(
+                  vertical: 8.sp, horizontal: 28.sp),
               child: Obx(
                 () => Text(
                   rxStrDate.value,
@@ -42,7 +50,8 @@ class AddDataDialog extends StatelessWidget {
           AppTouchable(
               onPressed: onSelectTime,
               backgroundColor: AppColor.lightGray,
-              padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 20.sp),
+              padding: EdgeInsets.symmetric(
+                  vertical: 8.sp, horizontal: 20.sp),
               child: Obx(
                 () => Text(
                   rxStrTime.value,
@@ -58,9 +67,11 @@ class AddDataDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppDialog(
       firstButtonText: TranslationConstants.add.tr,
-      firstButtonCallback: Get.back,
+      firstButtonCallback: firstButtonOnPressed ?? Get.back,
       secondButtonText: TranslationConstants.cancel.tr,
-      secondButtonCallback: Get.back,
+      secondButtonCallback:
+          secondButtonOnPressed ?? Get.back,
+      coverScreenWidget: coverScreenWidget,
       widgetBody: InkWell(
         onTap: hideKeyboard,
         child: Column(

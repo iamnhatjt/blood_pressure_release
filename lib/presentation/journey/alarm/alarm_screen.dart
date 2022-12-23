@@ -58,6 +58,7 @@ class AlarmScreen extends GetView<AlarmController> {
             child: Obx(
               () {
                 return ListView.builder(
+                  padding: EdgeInsets.zero.copyWith(top: 12.0.sp),
                   itemBuilder: (context, index) {
                     if (index == controller.alarmList.length) {
                       return SizedBox(height: 102.0.sp,);

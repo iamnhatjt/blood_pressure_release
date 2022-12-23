@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import 'blood_sugar_controller.dart';
+import 'widgets/blood_sugar_data_widget.dart';
 import 'widgets/filter_state_widget.dart';
 import 'widgets/select_state_dialog.dart';
 
@@ -36,7 +37,7 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
                 Obx(() => FilterDateWidget(
                       startDate: controller.filterStartDate.value,
                       endDate: controller.filterEndDate.value,
-                      onPressed: () => controller.onPressDateRange(context),
+                      onPressed: controller.onSelectedDateTime,
                     )),
                 FilterStateWidget(),
               ],
@@ -45,10 +46,18 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.sp),
-              child: EmptyWidget(
-                imagePath: AppImage.ic_blood_sugar_empty_data,
-                imageWidth: 120.sp,
-                message: TranslationConstants.addYourRecordToSeeStatistics.tr,
+              child: Obx(
+                () {
+                  if (controller.rxIsEmptyList.value == false) {
+                    return BloodSugarDataWidget();
+                  }
+                  return EmptyWidget(
+                    imagePath: AppImage.ic_blood_sugar_empty_data,
+                    imageWidth: 120.sp,
+                    message: TranslationConstants.addYourRecordToSeeStatistics
+                        .tr,
+                  );
+                },
               ),
             ),
           ),

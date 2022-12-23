@@ -1,20 +1,26 @@
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class BloodTextFieldWidget extends StatefulWidget {
   final TextEditingController? controller;
   final Function()? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
 
-  const BloodTextFieldWidget({super.key, this.controller, this.onChanged});
+  const BloodTextFieldWidget(
+      {super.key,
+      this.controller,
+      this.onChanged,
+      this.inputFormatters});
   @override
-  State<StatefulWidget> createState() => _BloodTextFieldWidgetState();
-
+  State<StatefulWidget> createState() =>
+      _BloodTextFieldWidgetState();
 }
 
-class _BloodTextFieldWidgetState extends State<BloodTextFieldWidget> {
+class _BloodTextFieldWidgetState
+    extends State<BloodTextFieldWidget> {
   final FocusNode focus = FocusNode();
 
   @override
@@ -44,15 +50,20 @@ class _BloodTextFieldWidgetState extends State<BloodTextFieldWidget> {
             textAlign: TextAlign.center,
             maxLines: null,
             expands: true,
-            style: ThemeText.headline4
-                .copyWith(fontSize: 30.sp, fontWeight: FontWeight.w600),
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            onChanged: (value) {},
+            inputFormatters: widget.inputFormatters,
+            style: ThemeText.headline4.copyWith(
+                fontSize: 30.sp,
+                fontWeight: FontWeight.w600),
+            keyboardType:
+                const TextInputType.numberWithOptions(
+                    decimal: true),
+            onChanged: (value) => widget.onChanged,
             decoration: InputDecoration(
                 filled: true,
                 fillColor: AppColor.lightGray,
                 isDense: true,
-                contentPadding: EdgeInsets.symmetric(vertical: 16.sp),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 16.sp),
                 border: InputBorder.none),
           ),
         ),

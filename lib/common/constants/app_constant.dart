@@ -1,9 +1,15 @@
 import 'dart:ui';
 
+import 'package:bloodpressure/common/util/translation/app_translation.dart';
+import 'package:bloodpressure/presentation/theme/app_color.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class AppConstant {
-  static final availableLocales = [const Locale('vi', 'VN'), const Locale('en', 'US')];
+  static final availableLocales = [
+    const Locale('vi', 'VN'),
+    const Locale('en', 'US')
+  ];
   static final dateTimeFormatCommon = DateFormat('HH:mm dd/MM/yyyy');
   static const int minHeartRate = 40;
   static const int maxHeartRate = 220;
@@ -12,8 +18,13 @@ class AppConstant {
     {'id': '1', 'nameEN': 'Female', 'nameVN': 'Nữ'},
     {'id': '2', 'nameEN': 'Other', 'nameVN': 'Khác'},
   ];
+
+  static String insightAsset = "assets/json/insight.json";
 }
 
+/**
+ * Blood Sugar
+ */
 class BloodSugarStateCode {
   static const String defaultCode = "DEFAULT";
   static const String duringFastingCode = "DURING_FASTING";
@@ -24,6 +35,17 @@ class BloodSugarStateCode {
   static const String beforeWorkoutCode = "BEFORE_WORKOUT";
   static const String afterWorkoutCode = "AFTER_WORKOUT";
 }
+
+final Map<String, String> bloodSugarStateDisplayMap = {
+  BloodSugarStateCode.defaultCode: TranslationConstants.bloodSugarDefaultState.tr,
+  BloodSugarStateCode.duringFastingCode: TranslationConstants.duringFastingCode.tr,
+  BloodSugarStateCode.beforeEatingCode: TranslationConstants.beforeEatingCode.tr,
+  BloodSugarStateCode.afterEating1hCode: TranslationConstants.afterEating1hCode.tr,
+  BloodSugarStateCode.afterEating2hCode: TranslationConstants.afterEating2hCode.tr,
+  BloodSugarStateCode.beforeBedtimeCode: TranslationConstants.beforeBedtimeCode.tr,
+  BloodSugarStateCode.beforeWorkoutCode: TranslationConstants.beforeWorkoutCode.tr,
+  BloodSugarStateCode.afterWorkoutCode: TranslationConstants.afterWorkoutCode.tr,
+};
 
 final List<String> bloodSugarStateCodeList = [
   BloodSugarStateCode.defaultCode,
@@ -62,4 +84,21 @@ final Map<String, String> bloodSugarInformationMgMap = {
   BloodSugarInformationCode.normalCode: "72 - 99",
   BloodSugarInformationCode.preDiabetesCode: "99 - 126",
   BloodSugarInformationCode.diabetesCode: ">126",
+};
+
+final Map<String, Color> bloodSugarInfoColorMap = {
+  BloodSugarInformationCode.lowCode: AppColor.blue98EB,
+  BloodSugarInformationCode.normalCode: AppColor.green,
+  BloodSugarInformationCode.preDiabetesCode: AppColor.gold,
+  BloodSugarInformationCode.diabetesCode: AppColor.lightRed,
+};
+
+final Map<String, String> bloodSugarInfoDisplayMap = {
+  BloodSugarInformationCode.lowCode: TranslationConstants.bloodSugarInforLow.tr,
+  BloodSugarInformationCode.normalCode:
+      TranslationConstants.bloodSugarInforNormal.tr,
+  BloodSugarInformationCode.preDiabetesCode:
+      TranslationConstants.bloodSugarInforPreDiabetes.tr,
+  BloodSugarInformationCode.diabetesCode:
+      TranslationConstants.bloodSugarInforDiabetes.tr,
 };

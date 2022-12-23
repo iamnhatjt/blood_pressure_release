@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloodpressure/common/util/translation/vi_strings.dart';
 import 'package:get/get.dart';
 
@@ -55,6 +57,7 @@ class TranslationConstants {
   static String bloodSugar = 'bloodSugar';
   static String weightAndBMI = 'weightAndBMI';
   static String foodScanner = 'foodScanner';
+  static String scanFood = "scanFood";
   static String home = 'home';
   static String insights = 'insights';
   static String alarm = 'alarm';
@@ -132,7 +135,8 @@ class TranslationConstants {
   // Blood Sugar
   static String bloodSugarState = "bloodSugarState";
   static String bloodSugarAllState = "bloodSugarAllState";
-  static String bloodSugarDefaultState = "bloodSugarDefaultState";
+  static String bloodSugarDefaultState =
+      "bloodSugarDefaultState";
   static String duringFastingCode = "duringFastingCode";
   static String beforeEatingCode = "beforeEatingCode";
   static String afterEating1hCode = "afterEating1hCode";
@@ -141,13 +145,85 @@ class TranslationConstants {
   static String beforeWorkoutCode = "beforeWorkoutCode";
   static String afterWorkoutCode = "afterWorkoutCode";
   static String bloodSugarInforLow = "bloodSugarInforLow";
-  static String bloodSugarInforNormal = "bloodSugarInforNormal";
-  static String bloodSugarInforPreDiabetes = "bloodSugarInforPreDiabetes";
-  static String bloodSugarInforDiabetes = "bloodSugarInforDiabetes";
+  static String bloodSugarInforNormal =
+      "bloodSugarInforNormal";
+  static String bloodSugarInforPreDiabetes =
+      "bloodSugarInforPreDiabetes";
+  static String bloodSugarInforDiabetes =
+      "bloodSugarInforDiabetes";
 
   static String trackYourHealth = "trackYourHealth";
   static String checkYourHeartRate = "checkYourHeartRate";
-  static String checkYourWeightAndBMI = "checkYourWeightAndBMI";
+  static String checkYourWeightAndBMI =
+      "checkYourWeightAndBMI";
   static String checkYourBloodSugar = "checkYourBloodSugar";
-  static String checkYourBloodPressure = "checkYourBloodPressure";
+  static String checkYourBloodPressure =
+      "checkYourBloodPressure";
+  static String requestPermission = "requestPermission";
+  static String noInformation = "noInformation";
+  static String scanResult = "scanResult";
+  static String qrCode = "qrCode";
+  static String barcode = "barcode";
+
+
+  static final List<String> _bloodPressureNotiMsgs =
+      List<String>.generate(
+          10, (index) => "bloodPressureNoti$index",
+          growable: false);
+  static final List<String> _heartRateNotiMsgs =
+      List<String>.generate(
+          10, (index) => "heartRateNoti$index",
+          growable: false);
+  static final List<String> _bloodSugarNotiMsgs =
+      List<String>.generate(
+          10, (index) => "bloodSugarNoti$index",
+          growable: false);
+  static final List<String> _weightAndBMINotiMsgs =
+      List<String>.generate(
+          10, (index) => "bloodSugarNoti$index",
+          growable: false);
+
+
+
+
+  static String get bloodPressureNotiMsg {
+    final int randIndex =
+        Random(DateTime.now().microsecondsSinceEpoch)
+            .nextInt(_bloodPressureNotiMsgs.length - 1);
+    return _bloodPressureNotiMsgs[randIndex];
+  }
+
+  static String get heartRateNotiMsg {
+    final int randIndex =
+        Random(DateTime.now().microsecondsSinceEpoch)
+            .nextInt(_bloodPressureNotiMsgs.length - 1);
+    return _heartRateNotiMsgs[randIndex];
+  }
+
+  static String get bloodSugarNotiMsg {
+    final int randIndex =
+        Random(DateTime.now().microsecondsSinceEpoch)
+            .nextInt(_bloodPressureNotiMsgs.length - 1);
+    return _bloodSugarNotiMsgs[randIndex];
+  }
+
+  static String get weightAndBMINotiMsg {
+    final int randIndex =
+        Random(DateTime.now().microsecondsSinceEpoch)
+            .nextInt(_bloodPressureNotiMsgs.length - 1);
+    return _weightAndBMINotiMsgs[randIndex];
+  }
+
+  static String weight = "weight";
+  static String height = "height";
+  static String verySeverelyUnderweight =
+      "verySeverelyUnderweight";
+  static String severelyUnderweight = "severelyUnderweight";
+  static String underweight = "underweight";
+  static String overweight = "overweight";
+  static String obeseClassI = "obeseClassI";
+  static String obeseClassII = "obeseClassII";
+  static String obeseClassIII = "obeseClassIII";
+  static String bmiMessage = "bmiMessage";
+  static String bmi = "bmi";
 }

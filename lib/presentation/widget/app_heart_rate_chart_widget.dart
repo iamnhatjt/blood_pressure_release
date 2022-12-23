@@ -27,7 +27,12 @@ class AppHeartRateChartWidget extends StatelessWidget {
     List<FlSpot> listFlSpot = [];
     for (final item in listChartData!) {
       listFlSpot.add(FlSpot(
-          (minDate!.difference(item['date']!).inDays.toDouble()).abs() + 1,
+          (minDate!
+                      .difference(item['date']!)
+                      .inDays
+                      .toDouble())
+                  .abs() +
+              1,
           item['value'].toDouble()));
     }
     listFlSpot.sort((a, b) => a.x.compareTo(b.x));
@@ -38,8 +43,8 @@ class AppHeartRateChartWidget extends StatelessWidget {
       isStrokeCapRound: true,
       dotData: FlDotData(
           show: true,
-          getDotPainter:
-              (spotValue, doubleValue, lineChartBarDataValue, intValue) {
+          getDotPainter: (spotValue, doubleValue,
+              lineChartBarDataValue, intValue) {
             Color color = AppColor.primaryColor;
             if (spotValue.y < 60) {
               color = AppColor.violet;
@@ -50,7 +55,8 @@ class AppHeartRateChartWidget extends StatelessWidget {
             }
             return FlDotCirclePainter(
               radius: 7.0.sp,
-              color: (selectedX ?? 0) == 0 && spotValue.x == listFlSpot.last.x
+              color: (selectedX ?? 0) == 0 &&
+                      spotValue.x == listFlSpot.last.x
                   ? AppColor.gold
                   : selectedX == spotValue.x
                       ? AppColor.gold
@@ -71,12 +77,16 @@ class AppHeartRateChartWidget extends StatelessWidget {
       fontSize: 12.0.sp,
     );
     Widget text = const SizedBox.shrink();
-    DateTime dateTime = DateTime(minDate!.year, minDate!.month, minDate!.day);
+    DateTime dateTime = DateTime(
+        minDate!.year, minDate!.month, minDate!.day);
     while (!dateTime.isAfter(maxDate!)) {
-      if (dateTime.difference(minDate!).inDays + 1 == value.toInt()) {
+      if (dateTime.difference(minDate!).inDays + 1 ==
+          value.toInt()) {
         for (final item in listChartData!) {
           if (dateTime.isAtSameMomentAs(item['date'])) {
-            text = Text(DateFormat('dd/MM').format(dateTime), style: style);
+            text = Text(
+                DateFormat('dd/MM').format(dateTime),
+                style: style);
             break;
           }
         }
@@ -119,7 +129,8 @@ class AppHeartRateChartWidget extends StatelessWidget {
         return const SizedBox.shrink();
     }
 
-    return Text(text, style: style, textAlign: TextAlign.center);
+    return Text(text,
+        style: style, textAlign: TextAlign.center);
   }
 
   SideTitles leftTitles() => SideTitles(
@@ -143,10 +154,11 @@ class AppHeartRateChartWidget extends StatelessWidget {
         tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
       ),
       touchCallback: (flTouchEvent, touchResponse) {
-        if ((touchResponse?.lineBarSpots ?? []).isNotEmpty) {
+        if ((touchResponse?.lineBarSpots ?? [])
+            .isNotEmpty) {
           final value = touchResponse?.lineBarSpots![0].x;
-          DateTime dateTime =
-              minDate!.add(Duration(days: (value ?? 1).toInt() - 1));
+          DateTime dateTime = minDate!.add(
+              Duration(days: (value ?? 1).toInt() - 1));
           if (onPressDot != null) {
             onPressDot!(value!, dateTime);
           }
@@ -155,14 +167,18 @@ class AppHeartRateChartWidget extends StatelessWidget {
       getTouchedSpotIndicator:
           (LineChartBarData barData, List<int> indicators) {
         return indicators.map((int index) {
-          var lineColor = barData.gradient?.colors.first ?? barData.color;
+          var lineColor = barData.gradient?.colors.first ??
+              barData.color;
           if (barData.dotData.show) {
             lineColor = Colors.transparent;
           }
           const lineStrokeWidth = 4.0;
-          final flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
+          final flLine = FlLine(
+              color: lineColor,
+              strokeWidth: lineStrokeWidth);
           final dotData = FlDotData(
-              getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+              getDotPainter: (spot, percent, bar, index) =>
+                  FlDotCirclePainter(
                     radius: 7.0.sp,
                     color: Colors.transparent,
                     strokeColor: Colors.transparent,
@@ -214,8 +230,11 @@ class AppHeartRateChartWidget extends StatelessWidget {
         padding: EdgeInsets.only(top: 12.0.sp),
         scrollDirection: Axis.horizontal,
         child: Container(
-          width: (maxDate!.difference(minDate!).inDays + 2) * 40.0.sp,
-          constraints: BoxConstraints(minWidth: Get.width / 7 * 6),
+          width:
+              (maxDate!.difference(minDate!).inDays + 2) *
+                  40.0.sp,
+          constraints:
+              BoxConstraints(minWidth: Get.width / 7 * 6),
           child: LineChart(
             LineChartData(
               lineTouchData: lineTouchData1,
@@ -224,11 +243,13 @@ class AppHeartRateChartWidget extends StatelessWidget {
               borderData: borderData,
               lineBarsData: lineBarsData1,
               minX: 0,
-              maxX: maxDate!.difference(minDate!).inDays + 2,
+              maxX:
+                  maxDate!.difference(minDate!).inDays + 2,
               maxY: 251,
               minY: 40,
             ),
-            swapAnimationDuration: const Duration(milliseconds: 200),
+            swapAnimationDuration:
+                const Duration(milliseconds: 200),
           ),
         ),
       ),

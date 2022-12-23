@@ -1,5 +1,6 @@
 import 'package:bloodpressure/common/config/hive_config/hive_constants.dart';
 import 'package:bloodpressure/common/constants/app_image.dart';
+import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:flutter/material.dart';
@@ -62,13 +63,34 @@ extension AlarmTypeExtension on AlarmType {
   String get trNotiDes {
     switch (this) {
       case AlarmType.heartRate:
-        return TranslationConstants.checkYourHeartRate.tr;
+        return TranslationConstants.heartRateNotiMsg.tr;
       case AlarmType.bloodPressure:
-        return TranslationConstants.checkYourBloodPressure.tr;
+        return TranslationConstants.bloodPressureNotiMsg.tr;
       case AlarmType.bloodSugar:
-        return TranslationConstants.checkYourBloodSugar.tr;
+        return TranslationConstants.bloodSugarNotiMsg.tr;
       case AlarmType.weightAndBMI:
-        return TranslationConstants.checkYourWeightAndBMI.tr;
+        return TranslationConstants.weightAndBMINotiMsg.tr;
+    }
+  }
+
+  String get notificationRoute {
+    switch (this) {
+      case AlarmType.heartRate:
+        return AppRoute.heartBeatScreen;
+      case AlarmType.bloodPressure:
+        return AppRoute.bloodPressureScreen;
+      case AlarmType.bloodSugar:
+        return AppRoute.bloodSugar;
+      case AlarmType.weightAndBMI:
+        return AppRoute.weightBMI;
+    }
+  }
+
+  static AlarmType fromString(String str) {
+    try {
+      return AlarmType.values.where((element) => element.toString() == "AlarmType.$str").first;
+    } on StateError catch (_) {
+      return AlarmType.heartRate;
     }
   }
 

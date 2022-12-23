@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloodpressure/common/util/app_notification_local.dart';
 import 'package:bloodpressure/common/util/extensions/datetime_extension.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
@@ -8,7 +10,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest_all.dart' as tz;
 
 class AlarmUseCase {
   final LocalRepository localRepository;
@@ -65,6 +66,10 @@ class AlarmUseCase {
             alarmModel.time!.minute);
         final androidBitMap =
             await AppNotificationLocal.getImageBytes(alarmModel.type!.icon);
+        final payload = {
+          "type": "alarm",
+          "route" : alarmModel.type!.notificationRoute,
+        };
         AppNotificationLocal.setupNotification(
           title: TranslationConstants.trackYourHealth.tr,
           content: alarmModel.type!.trNotiDes,
@@ -72,6 +77,7 @@ class AlarmUseCase {
           notiId: alarmModel.id.hashCode + index + 1,
           matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
           largeIcon: androidBitMap,
+          payload: jsonEncode(payload),
         );
       }
     }

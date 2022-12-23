@@ -1,3 +1,4 @@
+import 'package:bloodpressure/common/extensions/date_time_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,7 +6,8 @@ import '../../presentation/controller/app_controller.dart';
 import '../../presentation/theme/app_color.dart';
 
 mixin DateTimeMixin {
-  Rx<DateTime> filterStartDate = DateTime.now().obs;
+  Rx<DateTime> filterStartDate =
+      DateTime.now().update(day: 1).obs;
   Rx<DateTime> filterEndDate = DateTime.now().obs;
 
   Future<TimeOfDay?> onSelectTime(
@@ -84,7 +86,7 @@ mixin DateTimeMixin {
     );
   }
 
-  onPressDateRange(BuildContext context,
+  Future onPressDateRange(BuildContext context,
       {Function()? callback}) async {
     DateTimeRange? result = await onSelectDateRange(
         context: context,
