@@ -95,4 +95,6 @@ class AppImage {
       '${_internalImagePathPng}ic_weight_bmi.png';
 
   ///lottie
+  static const String heart_rate_lottie =
+      '${_internalImagePathLottie}heart-rate.json';
 }

@@ -80,26 +80,31 @@ class MeasureScreen extends GetView<MeasureController> {
                     center: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Obx(
-                          () => Text(
-                            '${controller.bpmAverage.value}',
-                            style: TextStyle(
-                              color: AppColor.red,
-                              fontSize: sizeCircle / 3,
-                              fontWeight: FontWeight.w700,
-                              height: 5 / 4,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 7.0.sp),
-                        Text(
-                          'BPM',
-                          style: TextStyle(
-                            color: AppColor.red,
-                            fontSize: 30.0.sp,
-                            fontWeight: FontWeight.w500,
-                            height: 37.5 / 30,
-                          ),
+                        // Obx(
+                        //   () => Text(
+                        //     '${controller.bpmAverage.value}',
+                        //     style: TextStyle(
+                        //       color: AppColor.red,
+                        //       fontSize: sizeCircle / 3,
+                        //       fontWeight: FontWeight.w700,
+                        //       height: 5 / 4,
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 7.0.sp),
+                        // Text(
+                        //   'BPM',
+                        //   style: TextStyle(
+                        //     color: AppColor.red,
+                        //     fontSize: 30.0.sp,
+                        //     fontWeight: FontWeight.w500,
+                        //     height: 37.5 / 30,
+                        //   ),
+                        // ),
+                        AppImageWidget.asset(
+                          path: AppImage.heart_rate_lottie,
+                          width: sizeCircle / 3 * 2,
+                          height: sizeCircle / 3 * 2,
                         ),
                       ],
                     ),
@@ -121,6 +126,7 @@ class MeasureScreen extends GetView<MeasureController> {
                 context: context,
                 onBPM: controller.onBPM,
                 onRawData: controller.onRawData,
+                alpha: 0.5,
               )
             ],
           ),
@@ -150,8 +156,7 @@ class MeasureScreen extends GetView<MeasureController> {
           child: Obx(() {
             return AnimatedSwitcher(
               duration: const Duration(milliseconds: 400),
-              child: controller.currentMeasureScreenState.value ==
-                      MeasureScreenState.measuring
+              child: controller.currentMeasureScreenState.value == MeasureScreenState.measuring
                   ? _buildStateMeasure(context)
                   : _buildStateIdle(),
             );

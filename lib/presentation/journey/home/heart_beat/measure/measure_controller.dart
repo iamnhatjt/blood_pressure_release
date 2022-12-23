@@ -19,8 +19,7 @@ enum MeasureScreenState { idle, measuring }
 
 class MeasureController extends GetxController {
   late BuildContext context;
-  Rx<MeasureScreenState> currentMeasureScreenState =
-      MeasureScreenState.idle.obs;
+  Rx<MeasureScreenState> currentMeasureScreenState = MeasureScreenState.idle.obs;
   Timer? _timer;
   RxDouble progress = 0.0.obs;
   final int totalMiniSecondsToMeasure = 20000;
@@ -29,6 +28,7 @@ class MeasureController extends GetxController {
   List<int> _listDataBPM = [];
   int _recentBPM = 0;
   final AppController _appController = Get.find<AppController>();
+  bool isShowingDialog = false;
 
   @override
   void onClose() {
@@ -37,12 +37,14 @@ class MeasureController extends GetxController {
   }
 
   _initTimer() {
+    if (isShowingDialog) return;
     _timer = Timer.periodic(const Duration(milliseconds: 200), (timer) async {
-      if (currentMiniSecond == totalMiniSecondsToMeasure) {
+      if (currentMiniSecond >= totalMiniSecondsToMeasure) {
+        currentMeasureScreenState.value = MeasureScreenState.idle;
         currentMiniSecond = 0;
         timer.cancel();
-        onPressStopMeasure();
-        showAppDialog(
+        isShowingDialog = true;
+        await showAppDialog(
           context,
           '',
           '',
@@ -69,7 +71,9 @@ class MeasureController extends GetxController {
             },
           ),
         );
+        isShowingDialog = false;
       } else {
+        isShowingDialog = false;
         currentMiniSecond = currentMiniSecond + 200;
         progress.value = currentMiniSecond / totalMiniSecondsToMeasure;
       }
@@ -102,10 +106,14 @@ class MeasureController extends GetxController {
   onBPM(int value) {
     _listDataBPM.add(value);
     int t = 0;
+    int c = 0;
     for (int item in _listDataBPM) {
-      t += item;
+      if (item >= 40 && item <= 220) {
+        t += item;
+        c++;
+      }
     }
-    bpmAverage.value = t ~/ _listDataBPM.length;
+    bpmAverage.value = ((t ~/ (c == 0 ? 1 : c)) + value) ~/ 2;
     _recentBPM = bpmAverage.value;
   }
 
@@ -116,6 +124,7 @@ class MeasureController extends GetxController {
       _timer = null;
       _listDataBPM = [];
       bpmAverage.value = 0;
+      _recentBPM = 0;
       progress.value = 0.0;
       currentMiniSecond = 0;
     } else {
