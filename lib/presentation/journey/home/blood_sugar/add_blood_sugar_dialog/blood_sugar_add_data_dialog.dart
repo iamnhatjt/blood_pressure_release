@@ -1,7 +1,9 @@
 import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/common/constants/app_image.dart';
 import 'package:bloodpressure/common/constants/enums.dart';
+import 'package:bloodpressure/common/util/app_util.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
+import 'package:bloodpressure/domain/model/blood_sugar_model.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_sugar/add_blood_sugar_dialog/add_blood_sugar_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_sugar/blood_sugar_screen.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_sugar/widgets/blood_sugar_info_color_listview.dart';
@@ -20,7 +22,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class BloodSugarAddDataDialog extends GetView<AddBloodSugarController> {
-  const BloodSugarAddDataDialog({super.key});
+  final BloodSugarModel? currentBloodSugar;
+
+  const BloodSugarAddDataDialog({super.key, this.currentBloodSugar});
 
   Widget _buildStateButtonWidget(BuildContext context) {
     return AppTouchable(
@@ -112,7 +116,8 @@ class BloodSugarAddDataDialog extends GetView<AddBloodSugarController> {
                   "${TranslationConstants.bloodSugar.tr} ${controller.rxUnit.value}",
                   "",
                   builder: (ctx) => BloodSugarInformationDialog(
-                      state: bloodSugarStateDisplayMap[controller.rxSelectedState.value]!,
+                      state: bloodSugarStateDisplayMap[
+                          controller.rxSelectedState.value]!,
                       unit: controller.rxUnit.value));
             }),
             width: 32.sp,
@@ -131,6 +136,9 @@ class BloodSugarAddDataDialog extends GetView<AddBloodSugarController> {
   @override
   Widget build(BuildContext context) {
     controller.context = context;
+    if (!isNullEmpty(currentBloodSugar)) {
+      controller.onInitialData(currentBloodSugar!);
+    }
     return Stack(
       children: [
         AddDataDialog(
@@ -140,6 +148,12 @@ class BloodSugarAddDataDialog extends GetView<AddBloodSugarController> {
               controller.onPressed(controller.onSelectBloodSugarDate),
           onSelectTime: () =>
               controller.onPressed(controller.onSelectBloodSugarTime),
+          isEdit: !isNullEmpty(currentBloodSugar),
+          firstButtonOnPressed: () => controller.onPressed(() async {
+            await controller.onSaved(model: currentBloodSugar);
+            Get.back();
+          }),
+          secondButtonOnPressed: () => controller.onPressed(Get.back),
           child: Column(
             children: [
               SizedBox(height: 12.sp),
@@ -167,11 +181,6 @@ class BloodSugarAddDataDialog extends GetView<AddBloodSugarController> {
               SizedBox(height: 16.sp),
             ],
           ),
-          firstButtonOnPressed: () => controller.onPressed(() async {
-            await controller.onSaved();
-            Get.back();
-          }),
-          secondButtonOnPressed: () => controller.onPressed(Get.back),
         ),
         Obx(() {
           if (controller.rxLoadedType.value == LoadedType.start) {

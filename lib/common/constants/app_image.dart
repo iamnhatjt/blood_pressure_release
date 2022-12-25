@@ -93,6 +93,8 @@ class AppImage {
       '${_internalImagePathPng}ic_blood_pressure2.png';
   static const String ic_weight_bmi =
       '${_internalImagePathPng}ic_weight_bmi.png';
+  static const String ic_box_2 =
+      '${_internalImagePathPng}ic_box_2.png';
 
   ///lottie
   static const String heart_rate_lottie =

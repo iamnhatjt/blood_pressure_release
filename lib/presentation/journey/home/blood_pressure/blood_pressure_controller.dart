@@ -1,12 +1,15 @@
+import 'package:bloodpressure/common/extensions/int_extension.dart';
 import 'package:bloodpressure/common/mixin/alarm_dialog_mixin.dart';
 import 'package:bloodpressure/common/mixin/date_time_mixin.dart';
 import 'package:bloodpressure/common/util/app_util.dart';
 import 'package:bloodpressure/domain/enum/alarm_type.dart';
 import 'package:bloodpressure/domain/model/alarm_model.dart';
+import 'package:bloodpressure/domain/model/bar_chart_data_model.dart';
 import 'package:bloodpressure/domain/usecase/alarm_usecase.dart';
 import 'package:bloodpressure/domain/usecase/blood_pressure_usecase.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_pressure/add_blood_pressure/add_blood_pressure_dialog.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +30,8 @@ class BloodPressureController extends GetxController
   final RxInt sysMax = 0.obs;
   final RxInt diaMin = 0.obs;
   final RxInt diaMax = 0.obs;
+  final RxInt chartGroupIndexSelected = 0.obs;
+  final RxInt chartXValueSelected = 0.obs;
   final Rx<DateTime> chartMinDate = DateTime.now().obs;
   final Rx<DateTime> chartMaxDate = DateTime.now().obs;
   final Rx<BloodPressureModel> bloodPressSelected =
@@ -84,78 +89,68 @@ class BloodPressureController extends GetxController
     result
         .sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
     bloodPressures.value = result;
-    DateTime? minDate;
-    DateTime? maxDate;
+    chartMinDate.value =
+        DateTime.fromMillisecondsSinceEpoch(
+            result.first.dateTime!);
+    chartMaxDate.value =
+        DateTime.fromMillisecondsSinceEpoch(
+            result.last.dateTime!);
+
     if (bloodPressures.isNotEmpty) {
       bloodPressSelected.value = bloodPressures.last;
-      final bloodPresFirst = bloodPressures.first;
-      sysMin.value = bloodPresFirst.systolic ?? 0;
-      sysMax.value = bloodPresFirst.systolic ?? 0;
-      diaMin.value = bloodPresFirst.diastolic ?? 0;
-      diaMax.value = bloodPresFirst.diastolic ?? 0;
-      bloodPressureChartData.add({
-        "fromY": bloodPresFirst.diastolic,
-        "toY": bloodPresFirst.systolic,
-        "dateTime": bloodPresFirst.dateTime
-      });
-      final date = DateTime.fromMillisecondsSinceEpoch(
-          bloodPresFirst.dateTime!);
-      DateTime handleDate =
-          DateTime(date.year, date.month, date.day);
-      if (minDate == null || minDate.isAfter(handleDate)) {
-        minDate = handleDate;
-      }
-      if (maxDate == null || maxDate.isBefore(handleDate)) {
-        maxDate = handleDate;
-      }
-      final length = bloodPressures.length;
-      if (length > 1) {
-        for (int index = 1; index < length; index++) {
-          final bloodPress = bloodPressures[index];
-          if (sysMin.value > (bloodPress.systolic ?? 0)) {
-            sysMin.value = bloodPress.systolic ?? 0;
-          }
-          if (sysMax.value < (bloodPress.systolic ?? 0)) {
-            sysMax.value = bloodPress.systolic ?? 0;
-          }
-          if (diaMin.value > (bloodPress.diastolic ?? 0)) {
-            diaMin.value = bloodPress.diastolic ?? 0;
-          }
-          if (diaMax.value < (bloodPress.diastolic ?? 0)) {
-            diaMax.value = bloodPress.diastolic ?? 0;
-          }
-          bloodPressureChartData.add({
-            "fromY": bloodPress.diastolic,
-            "toY": bloodPress.systolic,
-            "dateTime": bloodPress.dateTime
-          });
-          final date = DateTime.fromMillisecondsSinceEpoch(
-              bloodPresFirst.dateTime!);
-          DateTime handleDate =
-              DateTime(date.year, date.month, date.day);
-          if (minDate == null ||
-              minDate.isAfter(handleDate)) {
-            minDate = handleDate;
-          }
-          if (maxDate == null ||
-              maxDate.isBefore(handleDate)) {
-            maxDate = handleDate;
-          }
+      chartXValueSelected.value = bloodPressSelected
+          .value.dateTime!
+          .getMillisecondDateFormat('dd/MM/yyyy');
+      final mapGroupData = groupBy(
+          bloodPressures,
+          (p0) => DateFormat('dd/MM/yyyy').format(
+              DateTime.fromMillisecondsSinceEpoch(
+                  p0.dateTime ?? 0)));
+      if (mapGroupData.isNotEmpty) {
+        final lastKey = mapGroupData.keys.last;
+        final lastValue = mapGroupData[lastKey];
+        if (lastValue != null && lastValue.isNotEmpty) {
+          chartGroupIndexSelected.value =
+              (lastValue.length) - 1;
         }
       }
-    }
-    if (minDate != null) {
-      chartMinDate.value = minDate;
-    }
-    if (maxDate != null) {
-      chartMaxDate.value = maxDate;
+      mapGroupData.forEach((key, value) {
+        final handleDate =
+            DateFormat('dd/MM/yyyy').parse(key);
+        final dataList = <BarChartDataModel>[];
+        if (value.isNotEmpty) {
+          for (final item in value) {
+            sysMin.value = item.systolic ?? 0;
+            sysMax.value = item.systolic ?? 0;
+            diaMax.value = item.diastolic ?? 0;
+            diaMin.value = item.diastolic ?? 0;
+            dataList.add(BarChartDataModel(
+              fromY: item.diastolic?.toDouble() ?? 0.0,
+              toY: item.systolic?.toDouble() ?? 0.0,
+            ));
+          }
+          bloodPressureChartData.add({
+            "dateTime": handleDate.millisecondsSinceEpoch,
+            "values": dataList
+          });
+        }
+      });
     }
   }
 
-  void onSelectedBloodPress(int dateTime) {
-    bloodPressSelected.value = bloodPressures.firstWhere(
-        (element) => element.dateTime == dateTime,
-        orElse: () => bloodPressures.last);
+  void onSelectedBloodPress(int dateTime, int groupIndex) {
+    chartGroupIndexSelected.value = groupIndex;
+    chartXValueSelected.value = dateTime;
+    final tempData = bloodPressures
+        .where((element) =>
+            element.dateTime!
+                .getMillisecondDateFormat('dd/MM/yyyy') ==
+            dateTime)
+        .toList();
+    if (tempData.isNotEmpty &&
+        tempData.length > groupIndex) {
+      bloodPressSelected.value = tempData[groupIndex];
+    }
   }
 
   void onPressDeleteData() {

@@ -15,8 +15,10 @@ class AddDataDialog extends StatelessWidget {
   final Function() onSelectDate;
   final Function() onSelectTime;
   final Function()? firstButtonOnPressed;
+  final bool isEdit;
   final Function()? secondButtonOnPressed;
   final Widget? coverScreenWidget;
+  final String? firstButtonText;
 
   const AddDataDialog({
     super.key,
@@ -25,8 +27,10 @@ class AddDataDialog extends StatelessWidget {
     required this.onSelectDate,
     required this.onSelectTime,
     required this.child,
+    this.isEdit = false,
     this.coverScreenWidget,
     this.firstButtonOnPressed,
+    this.firstButtonText,
     this.secondButtonOnPressed,
   });
 
@@ -66,7 +70,9 @@ class AddDataDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppDialog(
-      firstButtonText: TranslationConstants.add.tr,
+      firstButtonText: isEdit
+          ? TranslationConstants.save.tr
+          : TranslationConstants.add.tr,
       firstButtonCallback: firstButtonOnPressed ?? Get.back,
       secondButtonText: TranslationConstants.cancel.tr,
       secondButtonCallback:

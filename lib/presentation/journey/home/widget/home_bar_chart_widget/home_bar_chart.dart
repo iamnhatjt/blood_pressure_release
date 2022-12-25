@@ -1,3 +1,4 @@
+import 'package:bloodpressure/domain/model/bar_chart_data_model.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/home_bar_chart_widget/chart_title_widget/chart_left_title_widget.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -20,8 +21,14 @@ class HomeBarChart extends StatelessWidget {
   /// }
   ///
   final List<Map> listChartData;
-  final Function(int) onSelectChartItem;
+  final Function(int x, int groupIndex) onSelectChartItem;
   final int currentSelected;
+  final double? minY;
+  final double? maxY;
+  final double? horizontalInterval;
+  final int groupIndexSelected;
+  final Widget Function(double value, TitleMeta meta)?
+      buildLeftTitle;
   const HomeBarChart({
     Key? key,
     required this.maxDate,
@@ -29,6 +36,11 @@ class HomeBarChart extends StatelessWidget {
     required this.listChartData,
     required this.onSelectChartItem,
     required this.currentSelected,
+    required this.groupIndexSelected,
+    this.minY,
+    this.maxY,
+    this.horizontalInterval,
+    this.buildLeftTitle,
   }) : super(key: key);
 
   @override
@@ -52,7 +64,10 @@ class HomeBarChart extends StatelessWidget {
                   color: AppColor.gray2,
                   strokeWidth: 1.sp,
                 ),
+                horizontalInterval: horizontalInterval,
               ),
+              minY: minY,
+              maxY: maxY,
               alignment: BarChartAlignment.spaceAround,
               borderData: FlBorderData(
                 show: false,
@@ -87,8 +102,8 @@ class HomeBarChart extends StatelessWidget {
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
-            getTitlesWidget: (value, meta) =>
-                ChartLeftTitleWidget(value: value),
+            getTitlesWidget:
+                buildLeftTitle ?? _buildLeftTitle,
             showTitles: true,
             interval: 1,
             reservedSize: 16.0.sp,
@@ -106,7 +121,8 @@ class HomeBarChart extends StatelessWidget {
         enabled: false,
         touchCallback: (event, response) =>
             onSelectChartItem(
-                response?.spot?.spot.x.toInt() ?? 0),
+                response?.spot?.spot.x.toInt() ?? 0,
+                response?.spot?.touchedRodDataIndex ?? 0),
         touchTooltipData: BarTouchTooltipData(
           tooltipBgColor: Colors.transparent,
           tooltipPadding: EdgeInsets.zero,
@@ -128,18 +144,36 @@ class HomeBarChart extends StatelessWidget {
         ),
       );
 
-  List<BarChartGroupData> get barGroups => listChartData
-      .map(
-        (e) =>
-            BarChartGroupData(x: e['dateTime'], barRods: [
-          BarChartRodData(
-            toY: (e['toY'] as int).toDouble(),
-            fromY: (e['fromY'] as int).toDouble(),
-            color: currentSelected == e['dateTime']
-                ? AppColor.yellow
-                : AppColor.green,
-          )
-        ]),
-      )
-      .toList();
+  List<BarChartGroupData> get barGroups =>
+      listChartData.map((e) {
+        final values =
+            e['values'] as List<BarChartDataModel>;
+
+        return BarChartGroupData(
+          x: e['dateTime'],
+          barRods:
+              _getBarChartRodData(values, e['dateTime']),
+        );
+      }).toList();
+
+  Widget _buildLeftTitle(double value, TitleMeta meta) {
+    return ChartLeftTitleWidget(value: value);
+  }
+
+  List<BarChartRodData> _getBarChartRodData(
+      List<BarChartDataModel> charData, int key) {
+    final chartRodDataList = <BarChartRodData>[];
+    for (int i = 0; i < charData.length; i++) {
+      final data = charData[i];
+      chartRodDataList.add(BarChartRodData(
+        toY: data.toY,
+        fromY: data.fromY,
+        color: currentSelected == key &&
+                groupIndexSelected == i
+            ? AppColor.yellow
+            : AppColor.green,
+      ));
+    }
+    return chartRodDataList;
+  }
 }

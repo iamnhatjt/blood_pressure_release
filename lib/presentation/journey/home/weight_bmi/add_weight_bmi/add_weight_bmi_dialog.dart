@@ -2,6 +2,7 @@ import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/domain/enum/bmi_type.dart';
 import 'package:bloodpressure/domain/enum/height_unit.dart';
 import 'package:bloodpressure/domain/enum/weight_unit.dart';
+import 'package:bloodpressure/domain/model/bmi_model.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/add_weight_bmi/add_weight_bmi_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/add_weight_bmi/widget/unit_button.dart';
@@ -16,7 +17,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../../common/constants/app_constant.dart';
 import '../../../../../common/constants/app_image.dart';
 import '../../../../../common/util/app_util.dart';
 import '../../../../../common/util/format_utils.dart';
@@ -24,19 +24,29 @@ import '../../../../widget/app_image_widget.dart';
 
 class AddWeightBMIDialog
     extends GetView<AddWeightBMIController> {
-  const AddWeightBMIDialog({super.key});
+  final BMIModel? bmiModel;
+  const AddWeightBMIDialog({
+    super.key,
+    this.bmiModel,
+  });
 
   @override
   Widget build(BuildContext context) {
     controller.context = context;
+    if (bmiModel != null) {
+      controller.onEdit(bmiModel!);
+    }
     final appController = Get.find<AppController>();
     return SingleChildScrollView(
       child: AddDataDialog(
         rxStrDate: controller.stringBloodPrDate,
         rxStrTime: controller.stringBloodPrTime,
         onSelectDate: controller.onSelectBMIDate,
+        isEdit: bmiModel != null,
         onSelectTime: controller.onSelectBMITime,
-        firstButtonOnPressed: controller.saveBMI,
+        firstButtonOnPressed: bmiModel != null
+            ? controller.onSave
+            : controller.addBMI,
         coverScreenWidget: Obx(() =>
             controller.isLoading.value
                 ? const AppLoading()
@@ -249,7 +259,7 @@ class AddWeightBMIDialog
                       vertical: 8.0.sp,
                       horizontal: 12.0.sp),
                   child: Obx(() => Text(
-                        '${TranslationConstants.age.tr}: ${appController.currentUser.value.age ?? 30}',
+                        '${TranslationConstants.age.tr}: ${controller.age.value}',
                         style: textStyle18400()
                             .merge(const TextStyle(
                           shadows: [
@@ -272,18 +282,10 @@ class AddWeightBMIDialog
                       vertical: 8.0.sp,
                       horizontal: 12.0.sp),
                   child: Obx(() {
-                    Map gender = AppConstant.listGender
-                        .firstWhere(
-                            (element) =>
-                                element['id'] ==
-                                appController.currentUser
-                                    .value.genderId,
-                            orElse: () =>
-                                AppConstant.listGender[0]);
                     return Text(
                       chooseContentByLanguage(
-                          gender['nameEN'],
-                          gender['nameVN']),
+                          controller.gender['nameEN'],
+                          controller.gender['nameVN']),
                       style: textStyle18400()
                           .merge(const TextStyle(
                         shadows: [

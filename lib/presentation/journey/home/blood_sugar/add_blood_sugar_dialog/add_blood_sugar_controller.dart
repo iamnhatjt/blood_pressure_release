@@ -1,7 +1,10 @@
 import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/common/constants/enums.dart';
+import 'package:bloodpressure/common/extensions/date_time_extensions.dart';
 import 'package:bloodpressure/common/mixin/add_date_time_mixin.dart';
 import 'package:bloodpressure/common/mixin/date_time_mixin.dart';
+import 'package:bloodpressure/common/util/app_util.dart';
+import 'package:bloodpressure/common/util/convert_utils.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/domain/model/blood_sugar_model.dart';
 import 'package:bloodpressure/domain/usecase/blood_sugar_usecase.dart';
@@ -16,7 +19,7 @@ class AddBloodSugarController extends AppBaseController
     with DateTimeMixin, AddDateTimeMixin, SelectStateMixin {
   final BloodSugarUseCase useCase;
 
-  RxString rxUnit = 'mg/dL'.obs;
+  RxString rxUnit = BloodSugarUnit.mgdLUnit.obs;
   RxString rxInformation = TranslationConstants.bloodSugarInforNormal.tr.obs;
   RxString rxInfoCode = BloodSugarInformationCode.normalCode.obs;
   Rx<String?> rxInfoContent =
@@ -25,6 +28,18 @@ class AddBloodSugarController extends AppBaseController
       TextEditingController(text: '80.0').obs;
 
   AddBloodSugarController(this.useCase);
+
+  void onInitialData(BloodSugarModel model) {
+    rxUnit.value = model.unit ?? BloodSugarUnit.mgdLUnit;
+    rxInfoCode.value = model.infoCode ?? BloodSugarInformationCode.normalCode;
+    rxInformation.value = bloodSugarInfoDisplayMap[rxInfoCode.value]!;
+    rxInfoContent.value = bloodSugarInformationMgMap[rxInfoCode.value];
+    textEditController.value.text = isNullEmptyFalseOrZero(model.measure)
+        ? model.measure.toString()
+        : '80.0';
+    bloodPressureDate = DateTime.fromMillisecondsSinceEpoch(model.dateTime!);
+    updateDateTimeString(bloodPressureDate);
+  }
 
   @override
   void onInit() {
@@ -38,24 +53,16 @@ class AddBloodSugarController extends AppBaseController
     onChangedInformation();
   }
 
-  String _convertMmolLtoMgDl(String value) {
-    double mmollValue = double.parse(value);
-    return (mmollValue * 18).ceilToDouble().toString();
-  }
-
-  String _convertMgToMmolL(String value) {
-    double mgValue = double.parse(value);
-    return (((mgValue / 18) * 10).ceil() / 10).toString();
-  }
-
   void onChangedUnit() {
     String value = textEditController.value.text;
-    if (rxUnit.value == 'mg/dL') {
-      rxUnit.value = 'mmol/l';
-      textEditController.value.text = _convertMgToMmolL(value);
+    if (rxUnit.value == BloodSugarUnit.mgdLUnit) {
+      rxUnit.value = BloodSugarUnit.mmollUnit;
+      textEditController.value.text =
+          ConvertUtils.convertMg2MmolL(value).toString();
     } else {
-      rxUnit.value = 'mg/dL';
-      textEditController.value.text = _convertMmolLtoMgDl(value);
+      rxUnit.value = BloodSugarUnit.mgdLUnit;
+      textEditController.value.text =
+          ConvertUtils.convertMmolL2MgDl(value).toString();
     }
     onChangedInformation();
   }
@@ -63,8 +70,8 @@ class AddBloodSugarController extends AppBaseController
   void onChangedInformation() {
     double value = 0;
     Map<String, String> bloodSugarInfoMap = bloodSugarInformationMgMap;
-    if (rxUnit.value == 'mg/dL') {
-      value = double.parse(_convertMgToMmolL(textEditController.value.text));
+    if (rxUnit.value == BloodSugarUnit.mgdLUnit) {
+      value = ConvertUtils.convertMg2MmolL(textEditController.value.text);
     } else {
       value = double.parse(textEditController.value.text);
       bloodSugarInfoMap = bloodSugarInformationMmolMap;
@@ -102,17 +109,28 @@ class AddBloodSugarController extends AppBaseController
     onSelectAddTime(result);
   }
 
-  Future<void> onSaved() async {
+  Future<void> onSaved({BloodSugarModel? model}) async {
     rxLoadedType.value = LoadedType.start;
-    BloodSugarModel model = BloodSugarModel(
-      key: Uuid().v4(),
-      stateCode: rxSelectedState.value,
-      measure: double.parse(textEditController.value.text),
-      unit: rxUnit.value,
-      infoCode: rxInfoCode.value,
-      dateTime: bloodPressureDate.millisecondsSinceEpoch,
-    );
-    await useCase.addBloodSugarData(model);
+    DateTime now = DateTime.now();
+    DateTime dateTime = bloodPressureDate;
+    dateTime.update(second: now.second, millisecond: now.millisecond);
+    if (!isNullEmpty(model)) {
+      model!.stateCode = rxSelectedState.value;
+      model.measure = double.parse(textEditController.value.text);
+      model.unit = rxUnit.value;
+      model.infoCode = rxInfoCode.value;
+      model.dateTime = dateTime.millisecondsSinceEpoch;
+    } else {
+      model = BloodSugarModel(
+        key: Uuid().v4(),
+        stateCode: rxSelectedState.value,
+        measure: double.parse(textEditController.value.text),
+        unit: rxUnit.value,
+        infoCode: rxInfoCode.value,
+        dateTime: dateTime.millisecondsSinceEpoch,
+      );
+    }
+    await useCase.saveBloodSugarData(model);
     rxLoadedType.value = LoadedType.finish;
   }
 

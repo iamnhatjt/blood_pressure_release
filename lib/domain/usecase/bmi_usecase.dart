@@ -25,4 +25,10 @@ class BMIUsecase {
 
   int? getHeightUnitId() =>
       _localRepository.getHeightUnitId();
+
+  Future updateBMI(BMIModel bmi) =>
+      _localRepository.updateBMI(bmi);
+
+  Future deleteBMI(String key) =>
+      _localRepository.deleteBMI(key);
 }

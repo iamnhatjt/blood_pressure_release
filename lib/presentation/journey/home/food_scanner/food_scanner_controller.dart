@@ -19,8 +19,28 @@ class FoodScannerController extends GetxController {
   final RxBool isFlashOn = false.obs;
   QRViewController? qrViewController;
   List<Map> listDataMapTypeTab = [
-    {'id': 0, 'name': 'QR code'},
-    {'id': 1, 'name': 'Barcode'},
+    {'id': 0, 'name': 'QR code', "types": {
+      BarcodeFormat.qrcode,
+      BarcodeFormat.dataMatrix,
+      BarcodeFormat.aztec,
+      BarcodeFormat.maxicode,
+    }},
+    {'id': 1, 'name': 'Barcode', "types": {
+      BarcodeFormat.code39,
+      BarcodeFormat.code93,
+      BarcodeFormat.upcA,
+      BarcodeFormat.upcE,
+      BarcodeFormat.ean8,
+      BarcodeFormat.ean13,
+      BarcodeFormat.codabar,
+      BarcodeFormat.rss14,
+      BarcodeFormat.rssExpanded,
+      BarcodeFormat.code128,
+      BarcodeFormat.itf,
+      BarcodeFormat.pdf417,
+      BarcodeFormat.upcEanExtension,
+      BarcodeFormat.unknown,
+    }},
   ];
 
   Rx<PermissionStatus> permissionStatusCamera = PermissionStatus.denied.obs;
@@ -46,10 +66,8 @@ class FoodScannerController extends GetxController {
     controller.resumeCamera();
     controller.scannedDataStream.listen(
       (Barcode scanData) async {
-        if ((scanData.format == BarcodeFormat.qrcode &&
-                selectedDataMapTypeTab["id"] == 0) ||
-            ((scanData.format == BarcodeFormat.code128 || scanData.format == BarcodeFormat.code39 || scanData.format == BarcodeFormat.code93 ) &&
-                selectedDataMapTypeTab["id"] == 1)) {
+        if ((selectedDataMapTypeTab["types"] as Set<BarcodeFormat>).contains(scanData.format)
+       ) {
           final canOpenUrl = await canLaunchUrlString(scanData.code ?? "");
           controller.pauseCamera();
           // ignore: use_build_context_synchronously

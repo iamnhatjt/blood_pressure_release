@@ -33,7 +33,7 @@ class ChartBottomTitleWidget extends StatelessWidget {
         .format(dateTime);
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 10.0.sp,
+      space: 6.0.sp,
       child: Text(
         title,
         style: textStyle12500()

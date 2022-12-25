@@ -30,12 +30,9 @@ class WeightBMIController extends GetxController
   RxList<Map> weightChartListData = RxList();
   Rx<DateTime> chartMinDate = DateTime.now().obs;
   Rx<DateTime> chartMaxDate = DateTime.now().obs;
-  RxInt weightChartSelectX = 0.obs;
-  RxInt weightSpotIndex = 0.obs;
-  RxInt bmiChartSelectX = 0.obs;
-  RxInt bmiSpotIndex = 0.obs;
+  RxInt spotIndex = 0.obs;
 
-  RxDouble chartSelectedX = 0.0.obs;
+  RxInt chartSelectedX = 0.obs;
 
   final Rx<WeightUnit> weightUnit = WeightUnit.kg.obs;
   final Rx<HeightUnit> heightUnit = HeightUnit.cm.obs;
@@ -74,7 +71,8 @@ class WeightBMIController extends GetxController
       DateTime dateTime =
           DateTime.fromMillisecondsSinceEpoch(
               item.dateTime ?? 0);
-      final bmiType = BMITypeEnum.getBMITypeById(item.type);
+      final bmiType =
+          BMITypeEnum.getBMITypeById(item.typeId);
       Map initialGender = AppConstant.listGender.firstWhere(
           (element) =>
               element['id'] == (item.gender ?? '0'),
@@ -101,6 +99,9 @@ class WeightBMIController extends GetxController
       filterStartDate.value.millisecondsSinceEpoch,
       filterEndDate.value.millisecondsSinceEpoch,
     );
+    if (bmiList.isNotEmpty) {
+      currentBMI.value = bmiList.last;
+    }
     _generateDataChart();
   }
 
@@ -168,14 +169,28 @@ class WeightBMIController extends GetxController
     });
 
     bmiChartListData.value = listDataChart;
-    bmiSpotIndex.value = bmiChartListData.length - 1;
+    spotIndex.value = bmiChartListData.length - 1;
     weightChartListData.value = weightDataChart;
-    weightSpotIndex.value = weightChartListData.length - 1;
     if (minDate != null) {
       chartMinDate.value = minDate!;
     }
     if (maxDate != null) {
       chartMaxDate.value = maxDate!;
     }
+  }
+
+  void onEditBMI() async {
+    final result = await showAppDialog(context, "", "",
+        builder: (ctx) => AddWeightBMIDialog(
+              bmiModel: currentBMI.value,
+            ));
+    if (result ?? false) {
+      filterWeightBMI();
+    }
+  }
+
+  void onDeleteBMI() async {
+    await _bmiUsecase.deleteBMI(currentBMI.value.key ?? '');
+    filterWeightBMI();
   }
 }

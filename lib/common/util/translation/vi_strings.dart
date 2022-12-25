@@ -36,10 +36,10 @@ const viStrings = {
   "alarm": "Đặt giờ",
   "export": "Xuất",
   "average": "Trung bình",
-  "min": "Nhở nhất",
+  "min": "Nhỏ nhất",
   "max": "Lớn nhất",
   "measureNow": "Đo Ngay",
-  "setAlarm": "Đặt Nhắc nhở",
+  "setAlarm": "Đặt nhắc nhở",
   "addData": "Thêm Dữ Liệu",
   "stop": "Dùng",
   "add": "Thêm",
@@ -127,7 +127,6 @@ const viStrings = {
   "bloodSugarInforNormal": "Bình thường",
   "bloodSugarInforPreDiabetes": "Tiền tiểu đường",
   "bloodSugarInforDiabetes": "Bệnh tiểu đường",
-
   "trackYourHealth": "Theo dõi sức khoẻ của bạn",
   "checkYourHeartRate":
       "Kiểm tra nhịp tim của bạn để theo dõi sức khoẻ tim mạch",
@@ -137,6 +136,7 @@ const viStrings = {
       "Kiểm tra cân nặng và BMI của bạn để theo dõi sức khoẻ tim mạch",
   "checkYourBloodSugar":
       "Kiểm tra lượng đường trong máu của bạn để theo dõi sức khoẻ tim mạch",
+  "bloodSugarInfo": "Thông tin",
 
   // Notification messages
   "bloodPressureNoti0": "Đã tới giờ đo huyết áp!",

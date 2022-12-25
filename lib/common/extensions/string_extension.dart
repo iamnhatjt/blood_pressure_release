@@ -6,4 +6,12 @@ extension StringExtension on String {
     }
     return 0;
   }
+
+  double get toDouble {
+    try {
+      return double.parse(this);
+    } catch (e) {
+      return 0.0;
+    }
+  }
 }

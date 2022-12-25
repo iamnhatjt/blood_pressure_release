@@ -19,7 +19,7 @@ class BloodSugarDetailWidget extends GetWidget<BloodSugarController> {
   Widget build(BuildContext context) {
     var appController = Get.find<AppController>();
     return AppTouchable(
-      onPressed: controller.onEdited,
+      onPressed: () => controller.onEdited(controller.selectedBloodSugar.value),
       child: Container(
         width: Get.width,
         padding: EdgeInsets.all(14.sp).copyWith(top: 24.sp),
@@ -81,12 +81,15 @@ class BloodSugarDetailWidget extends GetWidget<BloodSugarController> {
                         color: AppColor.black,
                       ),
                     ),
-                    SizedBox(height: 2.sp,),
+                    SizedBox(
+                      height: 2.sp,
+                    ),
                     Text(
-                      "${TranslationConstants.bloodSugarState.tr}: ${bloodSugarStateDisplayMap[controller.rxSelectedState.value]!}",
+                      "${TranslationConstants.bloodSugarState.tr}: ${bloodSugarStateDisplayMap[controller.selectedBloodSugar.value.stateCode]!}",
                       style: ThemeText.subtitle2.copyWith(
                         color: AppColor.black,
                       ),
+                      textAlign: TextAlign.center,
                     )
                   ],
                 ),
@@ -110,6 +113,7 @@ class BloodSugarDetailWidget extends GetWidget<BloodSugarController> {
                         style: textStyle20600().copyWith(
                           color: AppColor.white,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     SizedBox(

@@ -14,17 +14,18 @@ class BMIModelAdapter extends TypeAdapter<BMIModel> {
   BMIModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+      for (int i = 0; i < numOfFields; i++)
+        reader.readByte(): reader.read(),
     };
     return BMIModel(
       key: fields[0] as String?,
       weight: fields[1] as double?,
-      weightUnit: fields[2] as int?,
-      type: fields[3] as int?,
+      weightUnitId: fields[2] as int?,
+      typeId: fields[3] as int?,
       dateTime: fields[4] as int?,
       age: fields[5] as int?,
       height: fields[6] as double?,
-      heightUnit: fields[7] as int?,
+      heightUnitId: fields[7] as int?,
       gender: fields[8] as String?,
       bmi: fields[9] as int?,
     );
@@ -39,9 +40,9 @@ class BMIModelAdapter extends TypeAdapter<BMIModel> {
       ..writeByte(1)
       ..write(obj.weight)
       ..writeByte(2)
-      ..write(obj.weightUnit)
+      ..write(obj.weightUnitId)
       ..writeByte(3)
-      ..write(obj.type)
+      ..write(obj.typeId)
       ..writeByte(4)
       ..write(obj.dateTime)
       ..writeByte(5)
@@ -49,7 +50,7 @@ class BMIModelAdapter extends TypeAdapter<BMIModel> {
       ..writeByte(6)
       ..write(obj.height)
       ..writeByte(7)
-      ..write(obj.heightUnit)
+      ..write(obj.heightUnitId)
       ..writeByte(8)
       ..write(obj.gender)
       ..writeByte(9)

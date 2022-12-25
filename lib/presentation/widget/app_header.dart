@@ -95,6 +95,7 @@ class AppHeader extends StatelessWidget {
 class AppBackButton extends StatelessWidget {
   final Color? buttonColor;
   final Function()? onBack;
+
   const AppBackButton({super.key, this.buttonColor, this.onBack});
 
   @override
@@ -119,6 +120,7 @@ class ExportButton extends StatelessWidget {
   final Function()? onPressed;
   final bool isLoading;
   final Color? titleColor;
+
   const ExportButton(
       {Key? key, this.onPressed, this.isLoading = false, this.titleColor})
       : super(key: key);
@@ -140,10 +142,10 @@ class ExportButton extends StatelessWidget {
         fit: BoxFit.scaleDown,
         child: isLoading
             ? Padding(
-                padding: EdgeInsets.all(4.0.sp),
+                padding: EdgeInsets.all(8.0.sp),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: AppColor.red,
+                    color: titleColor,
                     strokeWidth: 3.0.sp,
                   ),
                 ),

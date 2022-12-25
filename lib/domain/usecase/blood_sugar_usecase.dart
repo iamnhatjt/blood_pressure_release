@@ -6,8 +6,8 @@ class BloodSugarUseCase {
 
   BloodSugarUseCase(this.repository);
 
-  Future<void> addBloodSugarData(BloodSugarModel model) =>
-      repository.addBloodSugar(model);
+  Future<void> saveBloodSugarData(BloodSugarModel model) =>
+      repository.saveBloodSugar(model);
 
   List<BloodSugarModel> getAllBloodSugar() => repository.getAllBloodSugar();
 
@@ -17,6 +17,15 @@ class BloodSugarUseCase {
         startDate: startDate.millisecondsSinceEpoch,
         endDate: endDate.millisecondsSinceEpoch);
   }
+
+  List<BloodSugarModel> getBloodSugarListByFilter(
+          {required DateTime startDate,
+          required DateTime endDate,
+          String? stateCode}) =>
+      repository.getBloodSugarListByFilter(
+          startDate: startDate.millisecondsSinceEpoch,
+          endDate: endDate.millisecondsSinceEpoch,
+          stateCode: stateCode);
 
   Future deleteBloodSugar(String key) => repository.deleteBloodSugar(key);
 }

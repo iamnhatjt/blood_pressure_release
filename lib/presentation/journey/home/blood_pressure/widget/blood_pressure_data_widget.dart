@@ -51,10 +51,15 @@ class BloodPressureDataWidget
               maxDate: controller.chartMaxDate.value,
               listChartData:
                   controller.bloodPressureChartData,
-              currentSelected: controller
-                  .bloodPressSelected.value.dateTime!,
+              currentSelected:
+                  controller.chartXValueSelected.value,
               onSelectChartItem:
                   controller.onSelectedBloodPress,
+              groupIndexSelected:
+                  controller.chartGroupIndexSelected.value,
+              minY: 10,
+              maxY: 350,
+              horizontalInterval: 50,
             ),
           ),
         ),

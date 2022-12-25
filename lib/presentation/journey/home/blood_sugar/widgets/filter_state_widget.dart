@@ -9,12 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class FilterStateWidget extends GetWidget<BloodSugarController> {
+  const FilterStateWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => FilterWidget(
         onPressed: () => showStateDialog(
             context,
-            (stateCode) => controller.onSelectState(stateCode),
+            (stateCode) => controller.onSelectedState(stateCode),
             controller.rxSelectedState),
         title:
             "${TranslationConstants.bloodSugarState.tr}: ${getState(controller.rxSelectedState.value)}"));

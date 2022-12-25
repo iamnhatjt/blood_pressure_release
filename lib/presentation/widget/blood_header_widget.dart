@@ -1,4 +1,5 @@
 import 'package:bloodpressure/common/constants/app_image.dart';
+import 'package:bloodpressure/common/constants/enums.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,20 @@ class BloodHeaderWidget extends StatelessWidget {
   final String title;
   final Color background;
   final Widget extendWidget;
+  final Function() onExported;
+  final LoadedType? exportLoaded;
+  final bool isLoading;
 
-  const BloodHeaderWidget({super.key, required this.title, required this.background, required this.extendWidget});
+  const BloodHeaderWidget({
+    super.key,
+    required this.title,
+    required this.background,
+    required this.extendWidget,
+    required this.onExported,
+    required this.isLoading,
+    this.exportLoaded,
+  });
+
   @override
   Widget build(BuildContext context) {
     return AppHeader(
@@ -52,9 +65,10 @@ class BloodHeaderWidget extends StatelessWidget {
       ),
       rightWidget: ExportButton(
         titleColor: background,
+        onPressed: onExported,
+        isLoading: isLoading,
       ),
       extendWidget: extendWidget,
     );
   }
-
 }

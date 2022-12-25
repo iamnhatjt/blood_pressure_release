@@ -107,6 +107,7 @@ const enStrings = {
   "edit": "Edit",
   "forSomething": "for",
   "type": "Type",
+
   // Blood Sugar
   "bloodSugarState": "State",
   "bloodSugarAllState": "All types",
@@ -126,7 +127,6 @@ const enStrings = {
   "scanResult" : "Scan result",
   "qrCode" : "QR code",
   "barcode": "Barcode",
-
   "trackYourHealth": "Track your health",
   "checkYourHeartRate":
       "Check your heart rate to track your heart",
@@ -136,6 +136,7 @@ const enStrings = {
       "Check your weight and BMI to track your heart",
   "checkYourBloodSugar":
       "Check your blood sugar to track your heart",
+  "bloodSugarInfo": "Information",
 
   // Notification messages
   "bloodPressureNoti0":

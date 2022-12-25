@@ -1,6 +1,8 @@
 import 'package:bloodpressure/common/constants/app_image.dart';
 import 'package:bloodpressure/domain/enum/bmi_type.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/weight_bmi_controller.dart';
+import 'package:bloodpressure/presentation/journey/home/weight_bmi/widget/bmi_detail_widget.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/widget/line_chart_title_widget.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/alarm_add_data_button.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/empty_widget.dart';
@@ -10,6 +12,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../common/util/translation/app_translation.dart';
 import '../../../theme/app_color.dart';
@@ -22,6 +25,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
   @override
   Widget build(BuildContext context) {
     controller.context = context;
+    final appController = Get.find<AppController>();
     return AppContainer(
       child: Column(
         children: [
@@ -54,7 +58,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                       ),
                     )
                   : ExportButton(
-                      titleColor: AppColor.primaryColor,
+                      titleColor: AppColor.green,
                       onPressed: controller.exportData,
                     ),
             ),
@@ -95,24 +99,56 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                                     _buildLeftTitleWeightChart,
                                 horizontalInterval: 50,
                                 selectedX: controller
-                                    .weightChartSelectX
-                                    .value,
+                                    .chartSelectedX.value,
                                 spotIndex: controller
-                                    .weightSpotIndex.value,
+                                    .spotIndex.value,
                                 getTooltipItems:
                                     _getToolTipItems,
                                 onPressDot: (value,
                                     spotIndex, dateTime) {
-                                  controller
-                                      .weightChartSelectX
+                                  controller.chartSelectedX
                                       .value = value;
-                                  controller.weightSpotIndex
+                                  controller.spotIndex
                                       .value = spotIndex;
+                                  controller.currentBMI
+                                          .value =
+                                      controller.bmiList[
+                                          spotIndex];
                                 },
                                 maxY: 300,
                                 minY: 10),
-                            SizedBox(
-                              height: 16.sp,
+                            Obx(
+                              () => BMIDetailWidget(
+                                  date: DateFormat(
+                                    'MMM dd, yyyy',
+                                    appController
+                                        .currentLocale
+                                        .languageCode,
+                                  ).format(DateTime.now()),
+                                  time: DateFormat('hh:mm a', appController.currentLocale.languageCode)
+                                      .format(
+                                          DateTime.now()),
+                                  bmi: controller.currentBMI
+                                          .value.bmi ??
+                                      0,
+                                  weight: controller
+                                      .currentBMI
+                                      .value
+                                      .weightKg
+                                      .toInt(),
+                                  height: controller
+                                      .currentBMI
+                                      .value
+                                      .heightCm
+                                      .toInt(),
+                                  bmiType: controller
+                                      .currentBMI
+                                      .value
+                                      .type,
+                                  onEdit:
+                                      controller.onEditBMI,
+                                  onDelete: controller
+                                      .onDeleteBMI),
                             ),
                             LineChartTitleWidget(
                               title: TranslationConstants
@@ -131,15 +167,19 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                                   _getToolTipItems,
                               onPressDot:
                                   (value, spotIndex, date) {
-                                controller.bmiChartSelectX
+                                controller.chartSelectedX
                                     .value = value;
-                                controller.bmiSpotIndex
-                                    .value = spotIndex;
+                                controller.spotIndex.value =
+                                    spotIndex;
+                                controller
+                                        .currentBMI.value =
+                                    controller
+                                        .bmiList[spotIndex];
                               },
                               selectedX: controller
-                                  .bmiChartSelectX.value,
+                                  .chartSelectedX.value,
                               spotIndex: controller
-                                  .bmiSpotIndex.value,
+                                  .spotIndex.value,
                             ),
                             SizedBox(
                               height: 16.sp,

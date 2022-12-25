@@ -1,6 +1,7 @@
 import 'package:bloodpressure/common/config/app_config.dart';
 import 'package:bloodpressure/common/config/hive_config/hive_config.dart';
 import 'package:bloodpressure/common/config/hive_config/hive_constants.dart';
+import 'package:bloodpressure/common/util/app_util.dart';
 import 'package:bloodpressure/domain/model/alarm_model.dart';
 import 'package:bloodpressure/domain/model/blood_pressure_model.dart';
 import 'package:bloodpressure/domain/model/blood_sugar_model.dart';
@@ -13,8 +14,7 @@ class LocalRepository {
   final HiveConfig _hiveConfig;
   final SharePreferenceUtils _sharePreferenceUtils;
 
-  LocalRepository(
-      this._hiveConfig, this._sharePreferenceUtils);
+  LocalRepository(this._hiveConfig, this._sharePreferenceUtils);
 
   Future saveUser(UserModel user) async {
     _hiveConfig.userBox.put(HiveKey.userModel, user);
@@ -37,13 +37,11 @@ class LocalRepository {
     return _hiveConfig.alarmBox.add(alarmModel);
   }
 
-  Future<void> updateAlarm(
-      int index, AlarmModel alarmModel) {
+  Future<void> updateAlarm(int index, AlarmModel alarmModel) {
     return _hiveConfig.alarmBox.putAt(index, alarmModel);
   }
 
-  Future saveBloodPressure(
-      BloodPressureModel bloodPressureModel) async {
+  Future saveBloodPressure(BloodPressureModel bloodPressureModel) async {
     return await _hiveConfig.bloodPressureBox
         .put(bloodPressureModel.key, bloodPressureModel);
   }
@@ -56,12 +54,10 @@ class LocalRepository {
     return _hiveConfig.bloodPressureBox.values.toList();
   }
 
-  List<BloodPressureModel> filterBloodPressureDate(
-      int start, int end) {
+  List<BloodPressureModel> filterBloodPressureDate(int start, int end) {
     return _hiveConfig.bloodPressureBox.values
         .where((bloodPress) =>
-            bloodPress.dateTime! >= start &&
-            bloodPress.dateTime! <= end)
+            bloodPress.dateTime! >= start && bloodPress.dateTime! <= end)
         .toList();
   }
 
@@ -71,32 +67,36 @@ class LocalRepository {
 
   List<BMIModel> filterBMI(int start, int end) {
     return _hiveConfig.bmiBox.values
-        .where((bmi) =>
-            bmi.dateTime! >= start && bmi.dateTime! <= end)
+        .where((bmi) => bmi.dateTime! >= start && bmi.dateTime! <= end)
         .toList();
   }
 
-  List<BMIModel> getAllBMI() =>
-      _hiveConfig.bmiBox.values.toList();
+  List<BMIModel> getAllBMI() => _hiveConfig.bmiBox.values.toList();
 
   Future<bool> setWeightUnitId(int id) =>
-      _sharePreferenceUtils.setInt(
-          AppConfig.weightUnitIdKey, id);
+      _sharePreferenceUtils.setInt(AppConfig.weightUnitIdKey, id);
 
-  int? getWeightUnitId() => _sharePreferenceUtils
-      .getInt(AppConfig.weightUnitIdKey);
+  int? getWeightUnitId() =>
+      _sharePreferenceUtils.getInt(AppConfig.weightUnitIdKey);
 
   Future<bool> setHeightUnitId(int id) =>
-      _sharePreferenceUtils.setInt(
-          AppConfig.heightUnitIdKey, id);
+      _sharePreferenceUtils.setInt(AppConfig.heightUnitIdKey, id);
 
-  int? getHeightUnitId() => _sharePreferenceUtils
-      .getInt(AppConfig.heightUnitIdKey);
+  int? getHeightUnitId() =>
+      _sharePreferenceUtils.getInt(AppConfig.heightUnitIdKey);
+
+  Future updateBMI(BMIModel bmi) async {
+    await _hiveConfig.bmiBox.put(bmi.key, bmi);
+  }
+
+  Future deleteBMI(String key) async {
+    await _hiveConfig.bmiBox.delete(key);
+  }
 
   /**
    * Blood Sugar
    */
-  Future<void> addBloodSugar(BloodSugarModel model) async {
+  Future<void> saveBloodSugar(BloodSugarModel model) async {
     await _hiveConfig.bloodSugarBox.put(model.key, model);
   }
 
@@ -104,12 +104,23 @@ class LocalRepository {
     return _hiveConfig.bloodSugarBox.values.toList();
   }
 
+  List<BloodSugarModel> getBloodSugarListByFilter(
+      {required int startDate, required int endDate, String? stateCode}) {
+    return _hiveConfig.bloodSugarBox.values.where((value) {
+      if (!isNullEmpty(stateCode)) {
+        return value.dateTime! >= startDate &&
+            value.dateTime! <= endDate &&
+            value.stateCode == stateCode;
+      }
+      return value.dateTime! >= startDate && value.dateTime! <= endDate;
+    }).toList();
+  }
+
   List<BloodSugarModel> getAllBloodSugarByDate(
       {required int startDate, required int endDate}) {
     return _hiveConfig.bloodSugarBox.values
         .where((value) =>
-            value.dateTime! >= startDate &&
-            value.dateTime! <= endDate)
+            value.dateTime! >= startDate && value.dateTime! <= endDate)
         .toList();
   }
 

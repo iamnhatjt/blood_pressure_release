@@ -45,6 +45,21 @@ class AddWeightBMIController extends GetxController
   RxInt bmi = 0.obs;
   final _weightBMIController =
       Get.find<WeightBMIController>();
+  BMIModel currentBMI = BMIModel();
+  RxInt age =
+      (Get.find<AppController>().currentUser.value.age ??
+              30)
+          .obs;
+  RxMap gender = AppConstant.listGender
+      .firstWhere(
+          (element) =>
+              element['id'] ==
+              Get.find<AppController>()
+                  .currentUser
+                  .value
+                  .genderId,
+          orElse: () => AppConstant.listGender[0])
+      .obs;
 
   AddWeightBMIController(this._bmiUsecase);
 
@@ -82,18 +97,35 @@ class AddWeightBMIController extends GetxController
   }
 
   void onSelectWeightUnit() {
+    final double weight = weightController.text.toDouble;
     if (weightUnit.value == WeightUnit.kg) {
       weightUnit.value = WeightUnit.lb;
+      weightController.text =
+          ConvertUtils.convertKgToLb(weight)
+              .toStringAsFixed(2);
     } else {
       weightUnit.value = WeightUnit.kg;
+      weightController.text =
+          ConvertUtils.convertLbToKg(weight)
+              .toStringAsFixed(2);
     }
   }
 
   void onSelectHeightUnit() {
     if (heightUnit.value == HeightUnit.cm) {
       heightUnit.value = HeightUnit.ftIn;
+      final heightCm = cmController.text.toDouble;
+      ftController.text =
+          '${ConvertUtils.convertCmToFeet(heightCm)}\'';
+      inchController.text =
+          '${ConvertUtils.convertCmToInches(heightCm)}\"';
     } else {
       heightUnit.value = HeightUnit.cm;
+      final feet = ftController.text.toInt;
+      final inches = inchController.text.toInt;
+      cmController.text =
+          ConvertUtils.convertFtAndInToCm(feet, inches)
+              .toStringAsFixed(2);
     }
   }
 
@@ -107,20 +139,18 @@ class AddWeightBMIController extends GetxController
   }
 
   void onPressedAge() {
-    int initialAge =
-        _appController.currentUser.value.age ?? 30;
-    initialAge = initialAge < 2
+    age.value = age.value < 2
         ? 2
-        : initialAge > 110
+        : age.value > 110
             ? 110
-            : initialAge;
+            : age.value;
     showAppDialog(
       context,
       TranslationConstants.choseYourAge.tr,
       '',
       hideGroupButton: true,
       widgetBody: AppDialogAgeWidget(
-        initialAge: initialAge,
+        initialAge: age.value,
         onPressCancel: Get.back,
         onPressSave: (value) {
           Get.back();
@@ -129,24 +159,20 @@ class AddWeightBMIController extends GetxController
               genderId: _appController
                       .currentUser.value.genderId ??
                   '0'));
+          age.value = value;
         },
       ),
     );
   }
 
   void onPressGender() {
-    Map? initialGender = AppConstant.listGender
-        .firstWhereOrNull((element) =>
-            element['id'] ==
-            (_appController.currentUser.value.genderId ??
-                '0'));
     showAppDialog(
       context,
       TranslationConstants.choseYourAge.tr,
       '',
       hideGroupButton: true,
       widgetBody: AppDialogGenderWidget(
-        initialGender: initialGender,
+        initialGender: gender,
         onPressCancel: Get.back,
         onPressSave: (value) {
           Get.back();
@@ -154,6 +180,7 @@ class AddWeightBMIController extends GetxController
               age: _appController.currentUser.value.age ??
                   30,
               genderId: value['id'] ?? '0'));
+          gender.value = value;
         },
       ),
     );
@@ -215,7 +242,7 @@ class AddWeightBMIController extends GetxController
         BMITypeEnum.getBMITypeByValue(bmi.value);
   }
 
-  Future<void> saveBMI() async {
+  Future<void> addBMI() async {
     isLoading.value = true;
     _weightBMIController.weightUnit.value =
         weightUnit.value;
@@ -237,12 +264,12 @@ class AddWeightBMIController extends GetxController
     final bmiModel = BMIModel(
       key: bmiDateTime.toIso8601String(),
       weight: _getWeight(),
-      weightUnit: weightUnit.value.id,
-      type: bmiType.value.id,
+      weightUnitId: weightUnit.value.id,
+      typeId: bmiType.value.id,
       dateTime: bmiDateTime.millisecondsSinceEpoch,
-      age: _appController.currentUser.value.age,
+      age: age.value,
       height: _getHeight(),
-      heightUnit: heightUnit.value.id,
+      heightUnitId: heightUnit.value.id,
       gender: initialGender!['id'] ?? '0',
       bmi: bmi.value,
     );
@@ -257,5 +284,51 @@ class AddWeightBMIController extends GetxController
 
   Future<void> _setHeightUnit() async {
     await _bmiUsecase.setHeightUnitId(heightUnit.value.id);
+  }
+
+  void onEdit(BMIModel bmiModel) {
+    currentBMI = bmiModel;
+    bloodPressureDate = DateTime.fromMillisecondsSinceEpoch(
+        bmiModel.dateTime!);
+    updateDateTimeString(bloodPressureDate);
+    weightUnit.value = bmiModel.weightUnit;
+    heightUnit.value = bmiModel.heightUnit;
+    if (bmiModel.heightUnit == HeightUnit.cm) {
+      final height = bmiModel.heightCm;
+      cmController.text = '$height';
+    } else {
+      ftController.text = '${bmiModel.heightFT} \'';
+      inchController.text = '${bmiModel.heightInches} \"';
+    }
+    bmiType.value = bmiModel.type;
+    age.value = bmiModel.age ?? 30;
+    gender.value = AppConstant.listGender.firstWhere(
+        (element) => element['id'] == bmiModel.gender,
+        orElse: () => AppConstant.listGender[0]);
+    bmi.value = bmiModel.bmi ?? 0;
+  }
+
+  void onSave() async {
+    isLoading.value = true;
+
+    currentBMI.weight = _getWeight();
+    currentBMI.weightUnitId = weightUnit.value.id;
+    currentBMI.typeId = bmiType.value.id;
+    final bmiDateTime = DateTime(
+        bloodPressureDate.year,
+        bloodPressureDate.month,
+        bloodPressureDate.day,
+        bloodPressureDate.hour,
+        bloodPressureDate.minute);
+    currentBMI.dateTime =
+        bmiDateTime.millisecondsSinceEpoch;
+    currentBMI.age = age.value;
+    currentBMI.height = _getHeight();
+    currentBMI.heightUnitId = heightUnit.value.id;
+    currentBMI.gender = gender['id'];
+    currentBMI.bmi = bmi.value;
+    await _bmiUsecase.updateBMI(currentBMI);
+    isLoading.value = false;
+    Get.back();
   }
 }

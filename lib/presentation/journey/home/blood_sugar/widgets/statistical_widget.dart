@@ -6,26 +6,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class BloodSugarStatisticalWidget extends StatelessWidget {
-  final RxDouble rxAverage;
-  final RxDouble rxMin;
-  final RxDouble rxMax;
+  final double average;
+  final double min;
+  final double max;
 
   const BloodSugarStatisticalWidget(
       {super.key,
-      required this.rxAverage,
-      required this.rxMin,
-      required this.rxMax});
+      required this.average,
+      required this.min,
+      required this.max});
 
-  Widget _buildItemWidget({required String title, required RxDouble value}) {
+  Widget _buildItemWidget({required String title, required double value}) {
     return Expanded(
       child: Column(
         children: [
           Text(title, style: textStyle18400()),
-          Obx(
-            () => Text(
-              '${value.value}',
-              style: textStyle22700(),
-            ),
+          Text(
+            '$value',
+            style: textStyle22700(),
           ),
         ],
       ),
@@ -39,9 +37,9 @@ class BloodSugarStatisticalWidget extends StatelessWidget {
       child: Row(
         children: [
           _buildItemWidget(
-              title: TranslationConstants.average.tr, value: rxAverage),
-          _buildItemWidget(title: TranslationConstants.min.tr, value: rxMin),
-          _buildItemWidget(title: TranslationConstants.max.tr, value: rxMax),
+              title: TranslationConstants.average.tr, value: average),
+          _buildItemWidget(title: TranslationConstants.min.tr, value: min),
+          _buildItemWidget(title: TranslationConstants.max.tr, value: max),
         ],
       ),
     );

@@ -151,6 +151,7 @@ class TranslationConstants {
       "bloodSugarInforPreDiabetes";
   static String bloodSugarInforDiabetes =
       "bloodSugarInforDiabetes";
+  static String bloodSugarInfo = "bloodSugarInfo";
 
   static String trackYourHealth = "trackYourHealth";
   static String checkYourHeartRate = "checkYourHeartRate";

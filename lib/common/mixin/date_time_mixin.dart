@@ -6,9 +6,9 @@ import '../../presentation/controller/app_controller.dart';
 import '../../presentation/theme/app_color.dart';
 
 mixin DateTimeMixin {
-  Rx<DateTime> filterStartDate =
-      DateTime.now().update(day: 1).obs;
-  Rx<DateTime> filterEndDate = DateTime.now().obs;
+  Rx<DateTime> filterStartDate = DateTime.now().update(day: 1).obs;
+  Rx<DateTime> filterEndDate =
+      DateTime.now().update(hour: 23, minute: 59, second: 59).obs;
 
   Future<TimeOfDay?> onSelectTime(
       {required BuildContext context,
@@ -18,14 +18,12 @@ mixin DateTimeMixin {
     return showTimePicker(
       context: context,
       initialTime: initialTime,
-      initialEntryMode:
-          mode ?? TimePickerEntryMode.dialOnly,
+      initialEntryMode: mode ?? TimePickerEntryMode.dialOnly,
       builder: (context, child) => Theme(
         data: ThemeData(
           colorScheme: ColorScheme.light(
               onPrimary: AppColor.white,
-              primary:
-                  primaryColor ?? AppColor.primaryColor),
+              primary: primaryColor ?? AppColor.primaryColor),
         ),
         child: child!,
       ),
@@ -46,14 +44,12 @@ mixin DateTimeMixin {
       firstDate: firstDate ?? DateTime(2000),
       lastDate: lastDate ?? DateTime.now(),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
-      locale:
-          locale ?? Get.find<AppController>().currentLocale,
+      locale: locale ?? Get.find<AppController>().currentLocale,
       builder: (context, Widget? child) => Theme(
         data: ThemeData(
             colorScheme: ColorScheme.light(
                 onPrimary: AppColor.white,
-                primary:
-                    primaryColor ?? AppColor.primaryColor)),
+                primary: primaryColor ?? AppColor.primaryColor)),
         child: child!,
       ),
     );
@@ -73,21 +69,18 @@ mixin DateTimeMixin {
       lastDate: lastDate ?? DateTime.now(),
       initialDateRange: initialDateRange,
       initialEntryMode: DatePickerEntryMode.calendarOnly,
-      locale:
-          locale ?? Get.find<AppController>().currentLocale,
+      locale: locale ?? Get.find<AppController>().currentLocale,
       builder: (context, Widget? child) => Theme(
         data: ThemeData(
             colorScheme: ColorScheme.light(
                 onPrimary: AppColor.white,
-                primary:
-                    primaryColor ?? AppColor.primaryColor)),
+                primary: primaryColor ?? AppColor.primaryColor)),
         child: child!,
       ),
     );
   }
 
-  Future onPressDateRange(BuildContext context,
-      {Function()? callback}) async {
+  Future onPressDateRange(BuildContext context, {Function()? callback}) async {
     DateTimeRange? result = await onSelectDateRange(
         context: context,
         initialDateRange: DateTimeRange(
@@ -95,10 +88,10 @@ mixin DateTimeMixin {
           end: filterEndDate.value,
         ));
     if (result != null) {
-      filterStartDate.value = DateTime(result.start.year,
-          result.start.month, result.start.day);
-      filterEndDate.value = DateTime(result.end.year,
-          result.end.month, result.end.day, 23, 59, 59);
+      filterStartDate.value =
+          DateTime(result.start.year, result.start.month, result.start.day);
+      filterEndDate.value = DateTime(
+          result.end.year, result.end.month, result.end.day, 23, 59, 59);
       callback?.call();
     }
   }

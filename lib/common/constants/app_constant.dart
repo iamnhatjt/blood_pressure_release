@@ -102,3 +102,8 @@ final Map<String, String> bloodSugarInfoDisplayMap = {
   BloodSugarInformationCode.diabetesCode:
       TranslationConstants.bloodSugarInforDiabetes.tr,
 };
+
+class BloodSugarUnit {
+  static String mgdLUnit = "mg/dL";
+  static String mmollUnit = "mmol/l";
+}

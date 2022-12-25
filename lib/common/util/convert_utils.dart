@@ -30,4 +30,17 @@ class ConvertUtils {
   static double convertFtAndInchToM(int ft, int inch) =>
       (ft * _ftInM) + (inch * _inchInM);
   static double convertMToCM(double m) => m * _mInCM;
+
+/**
+ * Blood Sugar
+ */
+  static double convertMmolL2MgDl(String value) {
+    double mmollValue = double.parse(value);
+    return (mmollValue * 18).ceilToDouble();
+  }
+
+  static double convertMg2MmolL(String value) {
+    double mgValue = double.parse(value);
+    return (((mgValue / 18) * 10).ceil() / 10);
+  }
 }

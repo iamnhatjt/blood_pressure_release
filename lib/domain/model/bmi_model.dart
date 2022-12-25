@@ -7,6 +7,7 @@ import 'package:bloodpressure/domain/enum/weight_unit.dart';
 import 'package:hive/hive.dart';
 
 import '../../common/injector/app_di.dart';
+import '../enum/bmi_type.dart';
 
 part 'bmi_model.g.dart';
 
@@ -17,9 +18,9 @@ class BMIModel extends HiveObject {
   @HiveField(1)
   double? weight; //unit is kg
   @HiveField(2)
-  int? weightUnit;
+  int? weightUnitId;
   @HiveField(3)
-  int? type;
+  int? typeId;
   @HiveField(4)
   int? dateTime;
   @HiveField(5)
@@ -27,7 +28,7 @@ class BMIModel extends HiveObject {
   @HiveField(6)
   double? height; //unit is m
   @HiveField(7)
-  int? heightUnit;
+  int? heightUnitId;
   @HiveField(8)
   String? gender;
   @HiveField(9)
@@ -35,15 +36,25 @@ class BMIModel extends HiveObject {
   BMIModel({
     this.key,
     this.weight,
-    this.weightUnit,
-    this.type,
+    this.weightUnitId,
+    this.typeId,
     this.dateTime,
     this.age,
     this.height,
-    this.heightUnit,
+    this.heightUnitId,
     this.gender,
     this.bmi,
   });
+
+  WeightUnit get weightUnit {
+    return WeightUnitEnum.getWeightUnitById(weightUnitId);
+  }
+
+  HeightUnit get heightUnit {
+    return HeightUnitEnum.getHeigtUnitById(heightUnitId);
+  }
+
+  BMIType get type => BMITypeEnum.getBMITypeById(typeId);
 
   ///Use only Weight and BMI screen
   double get weightByCurrentUnit {
@@ -51,7 +62,7 @@ class BMIModel extends HiveObject {
     final currentWeightUnit =
         WeightUnitEnum.getWeightUnitById(id);
     final unit =
-        WeightUnitEnum.getWeightUnitById(weightUnit);
+        WeightUnitEnum.getWeightUnitById(weightUnitId);
     if (currentWeightUnit == unit) {
       return weight ?? 0.0;
     } else {
@@ -62,19 +73,21 @@ class BMIModel extends HiveObject {
   }
 
   double get heightCm {
-    final unit =
-        HeightUnitEnum.getHeigtUnitById(heightUnit);
-    if (unit == HeightUnit.cm) {
-      return height ?? 0.0;
-    } else {
-      return ConvertUtils.convertMToCM(height ?? 0.0)
-          .roundDouble(1);
-    }
+    return ConvertUtils.convertMToCM(height ?? 0.0)
+        .roundDouble(1);
+  }
+
+  int get heightFT {
+    return ConvertUtils.convertCmToFeet(heightCm);
+  }
+
+  int get heightInches {
+    return ConvertUtils.convertCmToInches(heightCm);
   }
 
   double get weightKg {
     final unit =
-        WeightUnitEnum.getWeightUnitById(weightUnit);
+        WeightUnitEnum.getWeightUnitById(weightUnitId);
     if (unit == WeightUnit.kg) {
       return weight ?? 0.0;
     } else {
