@@ -7,6 +7,7 @@ import 'package:bloodpressure/domain/model/alarm_model.dart';
 import 'package:bloodpressure/domain/model/bar_chart_data_model.dart';
 import 'package:bloodpressure/domain/usecase/alarm_usecase.dart';
 import 'package:bloodpressure/domain/usecase/blood_pressure_usecase.dart';
+import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_pressure/add_blood_pressure/add_blood_pressure_dialog.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog.dart';
 import 'package:collection/collection.dart';
@@ -68,6 +69,7 @@ class BloodPressureController extends GetxController
 
   Future<void> _onSaveAlarm(AlarmModel alarm) async {
     _alarmUseCase.addAlarm(alarm);
+    Get.find<AlarmController>().refresh();
     Get.back();
   }
 
