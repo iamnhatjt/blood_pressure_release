@@ -7,6 +7,7 @@ import 'package:bloodpressure/domain/model/heart_rate_model.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -38,6 +39,8 @@ class HeartBeatController extends GetxController {
   Rx<DateTime> chartMinDate = DateTime.now().obs;
   Rx<DateTime> chartMaxDate = DateTime.now().obs;
   RxDouble chartSelectedX = 0.0.obs;
+
+  final analytics = FirebaseAnalytics.instance;
 
   @override
   void onInit() {
@@ -160,6 +163,8 @@ class HeartBeatController extends GetxController {
   }
 
   onPressAddData() {
+    analytics.logEvent(name: AppLogEvent.addDataButtonHeartRate);
+    debugPrint("Logged event '${AppLogEvent.addDataButtonHeartRate}");
     showAppDialog(
       context,
       '',
@@ -174,6 +179,8 @@ class HeartBeatController extends GetxController {
           // _recentBPM = 0;
         },
         onPressAdd: (dateTime, value) {
+          analytics.logEvent(name: AppLogEvent.addDataHeartRate);
+          debugPrint("Logged ${AppLogEvent.addDataHeartRate} at ${DateTime.now()}");
           if (Get.isRegistered<HeartBeatController>()) {
             Get.find<HeartBeatController>().addHeartRateData(HeartRateModel(
               timeStamp: dateTime.millisecondsSinceEpoch,
@@ -191,6 +198,8 @@ class HeartBeatController extends GetxController {
   }
 
   onPressExport() async {
+    analytics.logEvent(name: AppLogEvent.exportHeartRate);
+    debugPrint("Logged ${AppLogEvent.exportHeartRate} at ${DateTime.now()}");
     isExporting.value = true;
     List<String> header = [];
     List<List<String>> listOfData = [];

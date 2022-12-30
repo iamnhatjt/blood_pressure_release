@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloodpressure/common/constants/app_constant.dart';
+import 'package:bloodpressure/common/util/app_util.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,10 +18,13 @@ import '../../widget/app_dialog_language_widget.dart';
 
 class SettingController extends GetxController {
   late BuildContext context;
-  RxString currentLanguageCode =
-      Get.find<AppController>().currentLocale.languageCode.obs;
+  RxString currentLanguageCode = Get.find<AppController>()
+      .currentLocale
+      .languageCode
+      .obs;
   RxBool isLoading = false.obs;
-  final AppController _appController = Get.find<AppController>();
+  final AppController _appController =
+      Get.find<AppController>();
   RxList<Map> listAds = RxList();
 
   @override
@@ -46,7 +50,8 @@ class SettingController extends GetxController {
     if (_appController.isPremiumFull.value) return;
     for (int i = 0; i < 2; i++) {
       NativeAd? nativeAd;
-      nativeAd = createNativeAd(() {
+      nativeAd = createNativeAd(
+          NativeFactoryId.appNativeAdFactorySmall, () {
         listTemp.add({
           'ad': nativeAd,
           'widget': SizedBox(
@@ -69,24 +74,24 @@ class SettingController extends GetxController {
   }
 
   onPressPrivacy() {
-    _openLink('https://sites.google.com/view/nfcmanagertool/policy-privacy');
+    _openLink(AppExternalUrl.privacy);
   }
 
   onPressTerm() {
-    _openLink('https://sites.google.com/view/nfcmanagertool/terms-condition');
+    _openLink(AppExternalUrl.termsAndConditions);
   }
 
   onPressContact() {
-    _openLink('https://sites.google.com/view/nfcmanagertool/contact');
+    _openLink(AppExternalUrl.contactUs);
   }
 
   onPressShare() {
     if (Platform.isIOS) {
       Share.share(
-          'Install this app and manage your NFC tags: itms-apps://apple.com/app/id1620921159');
+          'Install this app and track your health: itms-apps://apple.com/app/id1620921159');
     } else {
       Share.share(
-          'Install this app and manage your NFC tags: https://play.google.com/store/apps/details?id=com.infinity.nfctools');
+          'Install this app and track your health: https://play.google.com/store/apps/details?id=com.infinity.nfctools');
     }
   }
 
@@ -98,12 +103,16 @@ class SettingController extends GetxController {
       hideGroupButton: true,
       messageWidget: AppDialogLanguageWidget(
         availableLocales: AppConstant.availableLocales,
-        initialLocale: Get.find<AppController>().currentLocale,
+        initialLocale:
+            Get.find<AppController>().currentLocale,
         onLocaleSelected: (locale) async {
-          final int index = AppConstant.availableLocales.indexWhere(
-              (element) => element.languageCode == locale.languageCode);
+          final int index = AppConstant.availableLocales
+              .indexWhere((element) =>
+                  element.languageCode ==
+                  locale.languageCode);
           currentLanguageCode.value = locale.languageCode;
-          final prefs = await SharedPreferences.getInstance();
+          final prefs =
+              await SharedPreferences.getInstance();
           prefs.setString('language', index.toString());
           Get.find<AppController>().updateLocale(locale);
           Get.back();
@@ -113,102 +122,6 @@ class SettingController extends GetxController {
         },
       ),
     );
-
-    // showAppDialog(
-    //   context,
-    //   StringConstants.chooseLanguage.tr,
-    //   '',
-    //   messageWidget: Column(
-    //     children: [
-    //       SizedBox(height: 32.0.sp),
-    //       AppTouchable(
-    //         onPressed: () async {
-    //           currentLanguageCode.value = 'EN';
-    //           final prefs = await SharedPreferences.getInstance();
-    //           prefs.setString('language', '1');
-    //           Get.find<AppController>().updateLocale(AppConstant.availableLocales[1]);
-    //           Get.back();
-    //         },
-    //         padding: EdgeInsets.symmetric(vertical: 12.0.sp, horizontal: 16.0.sp),
-    //         child: Row(
-    //           children: [
-    //             Expanded(
-    //               child: Text(
-    //                 'English',
-    //                 style: TextStyle(
-    //                   fontSize: 20.0.sp,
-    //                   color: AppColor.primaryColor,
-    //                   fontWeight: FontWeight.w400,
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               width: 20.0.sp,
-    //               height: 20.0.sp,
-    //               padding: EdgeInsets.all(2.0.sp),
-    //               decoration: BoxDecoration(
-    //                 color: Colors.transparent,
-    //                 borderRadius: BorderRadius.circular(12.0.sp),
-    //                 border: Border.all(color: AppColor.primaryColor, width: 1),
-    //               ),
-    //               child: Obx(() => currentLanguageCode.value == 'EN'
-    //                   ? Container(
-    //                       decoration: BoxDecoration(
-    //                         color: AppColor.primaryColor,
-    //                         borderRadius: BorderRadius.circular(12.0.sp),
-    //                       ),
-    //                     )
-    //                   : const SizedBox.shrink()),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       AppTouchable(
-    //         onPressed: () async {
-    //           currentLanguageCode.value = 'VI';
-    //           final prefs = await SharedPreferences.getInstance();
-    //           prefs.setString('language', '0');
-    //           Get.find<AppController>().updateLocale(AppConstant.availableLocales[0]);
-    //           Get.back();
-    //         },
-    //         padding: EdgeInsets.symmetric(vertical: 12.0.sp, horizontal: 16.0.sp),
-    //         child: Row(
-    //           children: [
-    //             Expanded(
-    //               child: Text(
-    //                 'Tiếng Việt',
-    //                 style: TextStyle(
-    //                   fontSize: 20.0.sp,
-    //                   color: AppColor.primaryColor,
-    //                   fontWeight: FontWeight.w400,
-    //                 ),
-    //               ),
-    //             ),
-    //             Container(
-    //               width: 20.0.sp,
-    //               height: 20.0.sp,
-    //               padding: EdgeInsets.all(2.0.sp),
-    //               decoration: BoxDecoration(
-    //                 color: Colors.transparent,
-    //                 borderRadius: BorderRadius.circular(12.0.sp),
-    //                 border: Border.all(color: AppColor.primaryColor, width: 1),
-    //               ),
-    //               child: Obx(() => currentLanguageCode.value == 'VI'
-    //                   ? Container(
-    //                       decoration: BoxDecoration(
-    //                         color: AppColor.primaryColor,
-    //                         borderRadius: BorderRadius.circular(12.0.sp),
-    //                       ),
-    //                     )
-    //                   : const SizedBox.shrink()),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       SizedBox(height: 32.0.sp),
-    //     ],
-    //   ),
-    // );
   }
 
   onPressRemoveAds() {
@@ -216,10 +129,9 @@ class SettingController extends GetxController {
   }
 
   onPressRestore() async {
-    // isLoading.value = true;
-    // await InAppPurchase.instance.restorePurchases();
-    // isLoading.value = false;
-    // showToast(StringConstants.restoreSuccessful.tr);
+    isLoading.value = true;
+    await Get.find<AppController>().restorePurchases();
+    isLoading.value = false;
   }
 
   _openLink(String url) async {

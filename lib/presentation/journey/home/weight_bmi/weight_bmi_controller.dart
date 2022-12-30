@@ -8,17 +8,20 @@ import 'package:bloodpressure/domain/usecase/bmi_usecase.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/add_weight_bmi/add_weight_bmi_dialog.dart';
 import 'package:collection/collection.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../common/constants/app_constant.dart';
+import '../../../../common/constants/enums.dart';
 import '../../../../common/mixin/date_time_mixin.dart';
 import '../../../../common/util/app_util.dart';
 import '../../../../common/util/translation/app_translation.dart';
 import '../../../../domain/enum/alarm_type.dart';
 import '../../../../domain/usecase/alarm_usecase.dart';
 import '../../../widget/app_dialog.dart';
+import '../../../widget/snack_bar/app_snack_bar.dart';
 
 class WeightBMIController extends GetxController
     with DateTimeMixin, AlarmDialogMixin {
@@ -40,6 +43,8 @@ class WeightBMIController extends GetxController
   final BMIUsecase _bmiUsecase;
   final AlarmUseCase _alarmUseCase;
 
+  final analytics = FirebaseAnalytics.instance;
+
   WeightBMIController(this._bmiUsecase, this._alarmUseCase);
 
   @override
@@ -56,6 +61,8 @@ class WeightBMIController extends GetxController
   }
 
   void exportData() async {
+    analytics.logEvent(name: AppLogEvent.exportWeightBMI);
+    debugPrint("Logged ${AppLogEvent.exportWeightBMI} at ${DateTime.now()}");
     isExporting.value = true;
     List<String> header = [];
     List<List<String>> listOfData = [];
@@ -120,6 +127,8 @@ class WeightBMIController extends GetxController
   }
 
   void onAddData() async {
+    analytics.logEvent(name: AppLogEvent.addDataButtonWeightBMI);
+    debugPrint("Logged ${AppLogEvent.addDataButtonWeightBMI} at ${DateTime.now()}");
     final result = await showAppDialog(context, "", "",
         builder: (ctx) => const AddWeightBMIDialog());
     if (result ?? false) {
@@ -192,5 +201,8 @@ class WeightBMIController extends GetxController
   void onDeleteBMI() async {
     await _bmiUsecase.deleteBMI(currentBMI.value.key ?? '');
     filterWeightBMI();
+    showTopSnackBar(context,
+        message: TranslationConstants.deleteDataSuccess.tr,
+        type: SnackBarType.done);
   }
 }

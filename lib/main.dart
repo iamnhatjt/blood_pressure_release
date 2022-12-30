@@ -1,3 +1,4 @@
+import 'package:applovin_max/applovin_max.dart';
 import 'package:bloodpressure/common/config/hive_config/hive_config.dart';
 import 'package:bloodpressure/common/injector/app_di.dart';
 import 'package:bloodpressure/common/util/app_notification_local.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 
+import 'build_constants.dart';
 import 'common/constants/app_constant.dart';
 import 'common/constants/app_route.dart';
 import 'common/injector/binding/app_binding.dart';
@@ -32,8 +34,9 @@ void mainDelegate() async {
   AppNotificationLocal.initNotificationLocal();
   tz.initializeTimeZones();
   // max ads start
-  // await AppLovinMAX.initialize(BuildConstants.appLovinToken);
-  // AppLovinMAX.setVerboseLogging(true);
+  await AppLovinMAX.initialize(
+      BuildConstants.appLovinToken);
+  AppLovinMAX.setVerboseLogging(false);
   // AppLovinMAX.showMediationDebugger();
   // max ads end
 

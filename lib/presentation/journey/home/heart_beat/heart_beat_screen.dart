@@ -51,8 +51,9 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         AppImageWidget.asset(
-          path: AppImage.ic_heart_rate_2,
+          path: AppImage.heart_rate_lottie,
           width: Get.width / 3,
+          height: Get.width / 3,
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(67.0.sp, 40.0.sp, 67.0.sp, 0),

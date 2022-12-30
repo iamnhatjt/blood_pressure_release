@@ -1,10 +1,13 @@
+import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
 import 'package:bloodpressure/common/util/disable_%20glow_behavior.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/app_container.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
 import 'package:bloodpressure/presentation/widget/app_image_widget.dart';
 import 'package:bloodpressure/presentation/widget/app_touchable.dart';
+import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,10 +33,10 @@ class InsightDetails extends StatelessWidget {
           leftWidget: AppTouchable.common(
             onPressed: () => Get.back(),
             decoration: const BoxDecoration(boxShadow: null),
-            child: Icon(
+            child: const Icon(
               Icons.arrow_back_ios_rounded,
               color: AppColor.black,
-              size: 40.0.sp,
+              // size: 40.0.sp,
             ),
           ),
           title: title,
@@ -51,14 +54,27 @@ class InsightDetails extends StatelessWidget {
                       path: iconPath,
                       height: 100.0.sp,
                     ),
-                    SizedBox(height: 30.0.sp,),
-                    ...contents.map(
-                      (e) => Text(
-                        "   $e\n",
-                        style: textStyle16400(),
-                        textAlign: TextAlign.justify,
-                      ),
-                    )
+                    SizedBox(
+                      height: 30.0.sp,
+                    ), 
+                    Text("${contents[0]}\n",
+                      style: textStyle16400(),
+                      textAlign: TextAlign.justify,
+                    ),
+                    Obx(
+                      () => NativeAdsWidget(
+                        height: 240.sp,
+                          factoryId: NativeFactoryId.appNativeAdFactoryMedium,
+                          isPremium:
+                              Get.find<AppController>().isPremiumFull.value),
+                    ),
+                    ...contents.sublist(1).map(
+                          (e) => Text(
+                            "   $e\n",
+                            style: textStyle16400(),
+                            textAlign: TextAlign.justify,
+                          ),
+                        )
                   ],
                 ),
               ),

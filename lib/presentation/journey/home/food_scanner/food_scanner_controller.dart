@@ -19,28 +19,36 @@ class FoodScannerController extends GetxController {
   final RxBool isFlashOn = false.obs;
   QRViewController? qrViewController;
   List<Map> listDataMapTypeTab = [
-    {'id': 0, 'name': 'QR code', "types": {
-      BarcodeFormat.qrcode,
-      BarcodeFormat.dataMatrix,
-      BarcodeFormat.aztec,
-      BarcodeFormat.maxicode,
-    }},
-    {'id': 1, 'name': 'Barcode', "types": {
-      BarcodeFormat.code39,
-      BarcodeFormat.code93,
-      BarcodeFormat.upcA,
-      BarcodeFormat.upcE,
-      BarcodeFormat.ean8,
-      BarcodeFormat.ean13,
-      BarcodeFormat.codabar,
-      BarcodeFormat.rss14,
-      BarcodeFormat.rssExpanded,
-      BarcodeFormat.code128,
-      BarcodeFormat.itf,
-      BarcodeFormat.pdf417,
-      BarcodeFormat.upcEanExtension,
-      BarcodeFormat.unknown,
-    }},
+    {
+      'id': 0,
+      'name': 'QR code',
+      "types": {
+        BarcodeFormat.qrcode,
+        BarcodeFormat.dataMatrix,
+        BarcodeFormat.aztec,
+        BarcodeFormat.maxicode,
+      }
+    },
+    {
+      'id': 1,
+      'name': 'Barcode',
+      "types": {
+        BarcodeFormat.code39,
+        BarcodeFormat.code93,
+        BarcodeFormat.upcA,
+        BarcodeFormat.upcE,
+        BarcodeFormat.ean8,
+        BarcodeFormat.ean13,
+        BarcodeFormat.codabar,
+        BarcodeFormat.rss14,
+        BarcodeFormat.rssExpanded,
+        BarcodeFormat.code128,
+        BarcodeFormat.itf,
+        BarcodeFormat.pdf417,
+        BarcodeFormat.upcEanExtension,
+        BarcodeFormat.unknown,
+      }
+    },
   ];
 
   Rx<PermissionStatus> permissionStatusCamera = PermissionStatus.denied.obs;
@@ -66,8 +74,8 @@ class FoodScannerController extends GetxController {
     controller.resumeCamera();
     controller.scannedDataStream.listen(
       (Barcode scanData) async {
-        if ((selectedDataMapTypeTab["types"] as Set<BarcodeFormat>).contains(scanData.format)
-       ) {
+        if ((selectedDataMapTypeTab["types"] as Set<BarcodeFormat>)
+            .contains(scanData.format)) {
           final canOpenUrl = await canLaunchUrlString(scanData.code ?? "");
           controller.pauseCamera();
           // ignore: use_build_context_synchronously
@@ -80,28 +88,27 @@ class FoodScannerController extends GetxController {
               child: Column(
                 children: [
                   ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: 280.sp
-                    ),
+                    constraints: BoxConstraints(maxHeight: 280.sp),
                     child: ScrollConfiguration(
                       behavior: DisableGlowBehavior(),
                       child: SingleChildScrollView(
                         child: canOpenUrl
                             ? AppTouchable(
-                          onPressed: () {
-                            launchUrlString(scanData.code!);
-                          },
-                          child: Text(
-                            scanData.code!,
-                            style: textStyle18500().copyWith(
-                              color: AppColor.blue98EB,
-                            ),
-                          ),
-                        )
+                                onPressed: () {
+                                  launchUrlString(scanData.code!);
+                                },
+                                child: Text(
+                                  scanData.code!,
+                                  style: textStyle18500().copyWith(
+                                    color: AppColor.blue98EB,
+                                  ),
+                                ),
+                              )
                             : Text(
-                          scanData.code ?? TranslationConstants.noInformation.tr,
-                          style: textStyle18500().copyWith(height: 1.5),
-                        ),
+                                scanData.code ??
+                                    TranslationConstants.noInformation.tr,
+                                style: textStyle18500().copyWith(height: 1.5),
+                              ),
                       ),
                     ),
                   ),
@@ -140,6 +147,10 @@ class FoodScannerController extends GetxController {
   }
 
   void toggleFlash() {
+    if (permissionStatusCamera.value == PermissionStatus.denied ||
+        permissionStatusCamera.value == PermissionStatus.permanentlyDenied) {
+      return;
+    }
     qrViewController?.toggleFlash();
     isFlashOn.value = !isFlashOn.value;
   }

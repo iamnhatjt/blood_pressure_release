@@ -1,13 +1,12 @@
-import 'package:bloodpressure/common/constants/app_image.dart';
-import 'package:bloodpressure/common/injector/app_di.dart';
+import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/widgets/alarm_tile.dart';
-import 'package:bloodpressure/presentation/theme/theme_text.dart';
+import 'package:bloodpressure/presentation/journey/main/widgets/subscribe_button.dart';
 import 'package:bloodpressure/presentation/widget/app_container.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
-import 'package:bloodpressure/presentation/widget/app_touchable.dart';
+import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -21,54 +20,50 @@ class AlarmScreen extends GetView<AlarmController> {
       child: Column(
         children: [
           Obx(
-          () => AppHeader(
+            () => AppHeader(
               title: TranslationConstants.alarm.tr,
               leftWidget: SizedBox(width: 40.0.sp),
-              rightWidget: Get.find<AppController>().isPremiumFull.value
-                  ? null
-                  : AppTouchable(
-                      onPressed: () {
-                        // TODO : Handle subscribe
-                      },
-                      child: Image.asset(
-                        AppImage.ic_premium,
-                        height: 36.0.sp,
-                      )),
+              rightWidget: SubscribeButton(
+                  isPremiumFull: Get.find<AppController>().isPremiumFull.value),
               titleStyle: const TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
-          Obx(() {
-            if (Get.find<AppController>().isPremiumFull.value) {
-              return SizedBox.shrink();
-            } else {
-              return AppTouchable.common(
-                onPressed: null,
-                margin: EdgeInsets.symmetric(
-                    horizontal: 17.0.sp, vertical: 12.0.sp).copyWith(bottom: 0),
-                height: 200.0.sp,
-                width: Get.width,
-                child: Text(
-                  'ads',
-                  style: textStyle20500(),
-                ),
-              );
-            }
-          }),
+          Obx(
+            () => NativeAdsWidget(
+              factoryId: NativeFactoryId.appNativeAdFactorySmall,
+              isPremium: Get.find<AppController>().isPremiumFull.value,
+              height: 120.0.sp,
+            ),
+          ),
           Expanded(
             child: Obx(
               () {
+                if (controller.alarmList.isEmpty) {
+                  return Padding(
+                    padding: EdgeInsets.all(48.0.sp),
+                    child: Center(
+                      child: Text(
+                        TranslationConstants.noAlarm.tr,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }
                 return ListView.builder(
                   padding: EdgeInsets.zero.copyWith(top: 12.0.sp),
                   itemBuilder: (context, index) {
                     if (index == controller.alarmList.length) {
-                      return SizedBox(height: 102.0.sp,);
+                      return SizedBox(
+                        height: 102.0.sp,
+                      );
                     }
 
                     final alarmModel = controller.alarmList[index];
                     return AlarmTile(
                       alarmModel: alarmModel,
                       onDeleteTap: controller.onPressDeleteAlarm,
-                      onTap:  (alarmModel )=> controller.onPressEditAlarm (context, alarmModel),
+                      onTap: (alarmModel) =>
+                          controller.onPressEditAlarm(context, alarmModel),
                     );
                   },
                   itemCount: controller.alarmList.length + 1,

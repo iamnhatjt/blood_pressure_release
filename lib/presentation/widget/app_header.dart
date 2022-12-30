@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -22,6 +25,7 @@ class AppHeader extends StatelessWidget {
   final CrossAxisAlignment? crossAxisAlignmentMainRow;
   final BoxDecoration? decoration;
   final double? additionSpaceButtonLeft;
+  final EdgeInsets? padding;
 
   const AppHeader({
     Key? key,
@@ -37,22 +41,30 @@ class AppHeader extends StatelessWidget {
     this.titleStyle,
     this.decoration,
     this.additionSpaceButtonLeft,
+    this.padding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(
-          0.0, MediaQuery.of(context).padding.top + 16.0.sp, 0.0, 16.0.sp),
-      color: decoration == null ? backgroundColor ?? Colors.transparent : null,
+      padding: padding ?? EdgeInsets.fromLTRB(
+          0.0,
+          MediaQuery.of(context).padding.top + 16.0.sp,
+          0.0,
+          16.0.sp),
+      color: decoration == null
+          ? backgroundColor ?? Colors.transparent
+          : null,
       decoration: decoration,
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
+            padding:
+                EdgeInsets.symmetric(horizontal: 16.0.sp),
             child: Row(
               crossAxisAlignment:
-                  crossAxisAlignmentMainRow ?? CrossAxisAlignment.center,
+                  crossAxisAlignmentMainRow ??
+                      CrossAxisAlignment.center,
               children: [
                 leftWidget ??
                     AppTouchable(
@@ -60,14 +72,17 @@ class AppHeader extends StatelessWidget {
                       height: 40.0.sp,
                       padding: EdgeInsets.all(2.0.sp),
                       onPressed: Get.back,
-                      outlinedBorder: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22.0.sp),
+                      outlinedBorder:
+                          RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(22.0.sp),
                       ),
                       child: AppImageWidget.asset(
                         path: AppImage.ic_back,
                       ),
                     ),
-                SizedBox(width: additionSpaceButtonLeft ?? 0),
+                SizedBox(
+                    width: additionSpaceButtonLeft ?? 0),
                 Expanded(
                   child: middleWidget ??
                       Text(
@@ -96,7 +111,8 @@ class AppBackButton extends StatelessWidget {
   final Color? buttonColor;
   final Function()? onBack;
 
-  const AppBackButton({super.key, this.buttonColor, this.onBack});
+  const AppBackButton(
+      {super.key, this.buttonColor, this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +138,10 @@ class ExportButton extends StatelessWidget {
   final Color? titleColor;
 
   const ExportButton(
-      {Key? key, this.onPressed, this.isLoading = false, this.titleColor})
+      {Key? key,
+      this.onPressed,
+      this.isLoading = false,
+      this.titleColor})
       : super(key: key);
 
   @override
@@ -130,7 +149,13 @@ class ExportButton extends StatelessWidget {
     return AppTouchable(
       width: 80.0.sp,
       height: 28.0.sp,
-      onPressed: onPressed,
+      onPressed: () {
+        if (Platform.isAndroid) {
+          showInterstitialAds(() => onPressed?.call());
+        } else {
+          onPressed?.call();
+        }
+      },
       outlinedBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(32.0.sp),
       ),
@@ -152,8 +177,8 @@ class ExportButton extends StatelessWidget {
               )
             : Text(
                 TranslationConstants.export.tr,
-                style: textStyle18500()
-                    .merge(TextStyle(color: titleColor ?? AppColor.white)),
+                style: textStyle18500().merge(TextStyle(
+                    color: titleColor ?? AppColor.white)),
               ),
       ),
     );

@@ -23,12 +23,10 @@ class MeasureScreen extends GetView<MeasureController> {
       children: [
         Expanded(
           child: Center(
-            child: AppTouchable.common(
-              width: 100,
-              height: 100,
-              backgroundColor: AppColor.secondaryColor,
-              onPressed: () {},
-              child: const Text('Animation'),
+            child: AppImageWidget.asset(
+              path: AppImage.heart_rate_lottie,
+              width: Get.width / 3,
+              height: Get.width / 3,
             ),
           ),
         ),

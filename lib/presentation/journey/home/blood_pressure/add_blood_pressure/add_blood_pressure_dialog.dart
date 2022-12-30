@@ -84,7 +84,7 @@ class AddBloodPressureDialog
               ScrollBloodPressureValueWidget(
                   title: TranslationConstants.systolic.tr,
                   childCount: 281,
-                  initItem: 80,
+                  initItem: controller.systolic.value - 20,
                   onSelectedItemChanged:
                       controller.onSelectSys,
                   itemBuilder: (ctx, value) {
@@ -108,7 +108,7 @@ class AddBloodPressureDialog
               ScrollBloodPressureValueWidget(
                   title: TranslationConstants.diastolic.tr,
                   childCount: 281,
-                  initItem: 50,
+                  initItem: controller.diastolic.value - 20,
                   onSelectedItemChanged:
                       controller.onSelectDia,
                   itemBuilder: (ctx, value) {
@@ -131,6 +131,7 @@ class AddBloodPressureDialog
                   }),
               ScrollBloodPressureValueWidget(
                   title: TranslationConstants.pulse.tr,
+                  initItem: controller.pulse.value - 20,
                   childCount: 181,
                   onSelectedItemChanged:
                       controller.onSelectPules,

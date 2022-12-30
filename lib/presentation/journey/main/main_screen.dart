@@ -21,20 +21,26 @@ class MainScreen extends GetView<MainController> {
   Widget build(BuildContext context) {
     return AppContainer(
       alignLayer: AlignmentDirectional.bottomEnd,
-      coverScreenWidget: Obx(() {
-        return AnimatedSwitcher(duration: const Duration(milliseconds: 260), child:
-             controller.currentTab.value != 2 ? const SizedBox.shrink() : const AddAlarmButton(),
-        );
-      },),
+      isShowBanner: false,
+      coverScreenWidget: Obx(
+        () {
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 260),
+            child: controller.currentTab.value != 2
+                ? const SizedBox.shrink()
+                : const AddAlarmButton(),
+          );
+        },
+      ),
       child: Scaffold(
         body: Obx(() {
           return IndexedStack(
             index: controller.currentTab.value,
-            children: [
-              const HomeScreen(),
-              const InsightScreen(),
-              const AlarmScreen(),
-              const SettingScreen(),
+            children: const [
+              HomeScreen(),
+              InsightScreen(),
+              AlarmScreen(),
+              SettingScreen(),
             ],
           );
         }),
@@ -44,12 +50,15 @@ class MainScreen extends GetView<MainController> {
             backgroundColor: AppColor.red,
             onTap: controller.onPressTab,
             currentIndex: controller.currentTab.value,
-            unselectedItemColor: AppColor.white.withOpacity(0.5),
+            unselectedItemColor:
+                AppColor.white.withOpacity(0.5),
             unselectedFontSize: 16.0.sp,
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+            unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.w700),
             selectedItemColor: AppColor.white,
             selectedFontSize: 16.0.sp,
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+            selectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.w700),
             items: [
               BottomNavigationBarItem(
                 icon: AppImageWidget.asset(
@@ -57,7 +66,8 @@ class MainScreen extends GetView<MainController> {
                     color: controller.currentTab.value == 0
                         ? AppColor.white
                         : AppColor.white.withOpacity(0.5)),
-                label: TranslationConstants.home.tr.toUpperCase(),
+                label: TranslationConstants.home.tr
+                    .toUpperCase(),
               ),
               BottomNavigationBarItem(
                 icon: AppImageWidget.asset(
@@ -65,7 +75,8 @@ class MainScreen extends GetView<MainController> {
                     color: controller.currentTab.value == 1
                         ? AppColor.white
                         : AppColor.white.withOpacity(0.5)),
-                label: TranslationConstants.insights.tr.toUpperCase(),
+                label: TranslationConstants.insights.tr
+                    .toUpperCase(),
               ),
               BottomNavigationBarItem(
                 icon: AppImageWidget.asset(
@@ -73,7 +84,8 @@ class MainScreen extends GetView<MainController> {
                     color: controller.currentTab.value == 2
                         ? AppColor.white
                         : AppColor.white.withOpacity(0.5)),
-                label: TranslationConstants.alarm.tr.toUpperCase(),
+                label: TranslationConstants.alarm.tr
+                    .toUpperCase(),
               ),
               BottomNavigationBarItem(
                 icon: AppImageWidget.asset(
@@ -81,7 +93,8 @@ class MainScreen extends GetView<MainController> {
                     color: controller.currentTab.value == 3
                         ? AppColor.white
                         : AppColor.white.withOpacity(0.5)),
-                label: TranslationConstants.setting.tr.toUpperCase(),
+                label: TranslationConstants.setting.tr
+                    .toUpperCase(),
               ),
             ],
           );

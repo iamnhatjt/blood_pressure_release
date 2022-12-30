@@ -217,7 +217,7 @@ class ThemeText {
   );
 
   static TextStyle bodyText2 = TextStyle(
-    fontSize: 13.sp,
+    fontSize: 14.sp,
     color: AppColor.text,
     fontWeight: FontWeight.normal,
   );

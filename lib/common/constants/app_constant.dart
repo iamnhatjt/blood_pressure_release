@@ -107,3 +107,38 @@ class BloodSugarUnit {
   static String mgdLUnit = "mg/dL";
   static String mmollUnit = "mmol/l";
 }
+
+class AppExternalUrl {
+  static const String privacy = "https://sites.google.com/view/instant-blood-pressure-tracker/privacy-policy";
+  static const String termsAndConditions = "https://sites.google.com/view/instant-blood-pressure-tracker/terms-conditions";
+  static const String contactUs = "https://sites.google.com/view/instant-blood-pressure-tracker/contact-us?authuser=0";
+}
+
+class AppLogEvent {
+  static const homeHeartRate = "home_heart_rate";
+  static const homeBloodPressure = "home_blood_pressure";
+  static const homeBloodSugar = "home_blood_sugar";
+  static const homeWeightBMI ="home_weight_bmi";
+  static const homeFoodScanner ="home_food_scanner";
+  static const alarmHeartRateSet ="alarm_heart_rate_set";
+  static const alarmBloodPressure ="alarm_blood_pressure";
+  static const alarmBloodSugar ="alarm_blood_sugar";
+  static const alarmWeightBMI ="alarm_weight_BMI";
+  static const measureNow ="measure_now";
+  static const addDataHeartRate ="add_data_heart_rate";
+  static const addDataBloodPressure ="add_data_blood_pressure";
+  static const addDataBloodSugar ="add_data_blood_sugar";
+  static const addDataWeightBMI ="add_data_weight_bmi";
+  static const setAlarmHeartRateSet ="set_alarm_heart_rate_set";
+  static const setAlarmBloodPressure ="set_alarm_blood_pressure";
+  static const setAlarmBloodSugar ="set_alarm_blood_sugar";
+  static const setAlarmWeightBMI ="set_alarm_weight_BMI";
+  static const exportHeartRate ="export_heart_rate";
+  static const exportBloodPressure ="export_blood_pressure";
+  static const exportBloodSugar ="export_blood_sugar";
+  static const exportWeightBMI ="export_weight_bmi";
+  static const addDataButtonBloodPressure ="add_data_button_blood_pressure";
+  static const addDataButtonHeartRate ="add_data_button_heart_rate";
+  static const addDataButtonBloodSugar ="add_data_button_blood_sugar";
+  static const addDataButtonWeightBMI ="add_data_button_weight_bmi";
+}

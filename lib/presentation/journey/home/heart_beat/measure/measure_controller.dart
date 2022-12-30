@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/domain/model/heart_rate_model.dart';
 import 'package:bloodpressure/presentation/journey/home/heart_beat/heart_beat_controller.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -29,6 +31,8 @@ class MeasureController extends GetxController {
   int _recentBPM = 0;
   final AppController _appController = Get.find<AppController>();
   bool isShowingDialog = false;
+
+  final analytics = FirebaseAnalytics.instance;
 
   @override
   void onClose() {
@@ -81,6 +85,10 @@ class MeasureController extends GetxController {
   }
 
   onPressStartMeasure() {
+
+    analytics.logEvent(name: AppLogEvent.measureNow);
+    debugPrint("Logged ${AppLogEvent.measureNow} at ${DateTime.now()}");
+
     AppPermission.checkPermission(
       context,
       Permission.camera,

@@ -70,7 +70,14 @@ class AlarmDialog extends GetView<AlarmDialogController> {
               children: [
                 Expanded(
                   child: AppButton(
-                    onPressed: onPressCancel ?? () => Get.back(),
+                    onPressed: () {
+                      controller.reset();
+                      if (onPressCancel != null) {
+                        onPressCancel!();
+                      } else {
+                        Get.back();
+                      }
+                    },
                     height: 60.0.sp,
                     width: Get.width,
                     color: AppColor.red,
@@ -91,6 +98,7 @@ class AlarmDialog extends GetView<AlarmDialogController> {
                         ? () {
                             final alarmModel = controller.alarmModel.value;
                             controller.reset();
+                            controller.sendAnalyticsEvent(alarmModel.type!.getAnalyticsEventName(Get.currentRoute));
                             if (onPressSave != null) {
                               onPressSave!(alarmModel);
                             }

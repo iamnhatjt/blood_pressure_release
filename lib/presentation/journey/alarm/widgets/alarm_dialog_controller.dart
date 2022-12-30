@@ -1,9 +1,12 @@
 import 'package:bloodpressure/domain/enum/alarm_type.dart';
 import 'package:bloodpressure/domain/model/alarm_model.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
 class AlarmDialogController extends GetxController {
+  static final analytics = FirebaseAnalytics.instance;
   static final AlarmModel defaultModel = AlarmModel(
       id: const Uuid().v4(),
       type: AlarmType.heartRate,
@@ -44,5 +47,10 @@ class AlarmDialogController extends GetxController {
   void reset() {
     alarmModel.value = defaultModel.copyWith(time: DateTime.now());
     validate();
+  }
+
+  void sendAnalyticsEvent(String analyticsEvent) {
+    analytics.logEvent(name: analyticsEvent);
+    debugPrint("Logged '$analyticsEvent' at ${DateTime.now()}");
   }
 }

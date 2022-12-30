@@ -14,10 +14,13 @@ import 'package:bloodpressure/presentation/journey/home/weight_bmi/weight_bmi_co
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog_age_widget.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog_gender_widget.dart';
+import 'package:bloodpressure/presentation/widget/snack_bar/app_snack_bar.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../common/constants/app_constant.dart';
+import '../../../../../common/constants/enums.dart';
 import '../../../../../common/mixin/date_time_mixin.dart';
 import '../../../../../common/util/translation/app_translation.dart';
 import '../../../../../domain/model/user_model.dart';
@@ -27,6 +30,7 @@ class AddWeightBMIController extends GetxController
     with AddDateTimeMixin, DateTimeMixin {
   late BuildContext context;
   final BMIUsecase _bmiUsecase;
+  final analytics = FirebaseAnalytics.instance;
 
   Rx<WeightUnit> weightUnit = WeightUnit.kg.obs;
   Rx<HeightUnit> heightUnit = HeightUnit.cm.obs;
@@ -243,6 +247,8 @@ class AddWeightBMIController extends GetxController
   }
 
   Future<void> addBMI() async {
+    analytics.logEvent(name: AppLogEvent.addDataWeightBMI);
+    debugPrint("Logged ${AppLogEvent.addDataWeightBMI} at ${DateTime.now()}");
     isLoading.value = true;
     _weightBMIController.weightUnit.value =
         weightUnit.value;
@@ -275,6 +281,9 @@ class AddWeightBMIController extends GetxController
     );
     await _bmiUsecase.saveBMI(bmiModel);
     isLoading.value = false;
+    showTopSnackBar(context,
+        message: TranslationConstants.addDataSuccess.tr,
+        type: SnackBarType.done);
     Get.back(result: true);
   }
 
@@ -292,7 +301,11 @@ class AddWeightBMIController extends GetxController
         bmiModel.dateTime!);
     updateDateTimeString(bloodPressureDate);
     weightUnit.value = bmiModel.weightUnit;
-    heightUnit.value = bmiModel.heightUnit;
+    if (bmiModel.weightUnit == WeightUnit.kg) {
+      weightController.text = '${bmiModel.weightKg}';
+    } else {
+      weightController.text = '${bmiModel.weightLb}';
+    }
     if (bmiModel.heightUnit == HeightUnit.cm) {
       final height = bmiModel.heightCm;
       cmController.text = '$height';
@@ -329,6 +342,9 @@ class AddWeightBMIController extends GetxController
     currentBMI.bmi = bmi.value;
     await _bmiUsecase.updateBMI(currentBMI);
     isLoading.value = false;
-    Get.back();
+    showTopSnackBar(context,
+        message: TranslationConstants.editDataSuccess.tr,
+        type: SnackBarType.done);
+    Get.back(result: true);
   }
 }

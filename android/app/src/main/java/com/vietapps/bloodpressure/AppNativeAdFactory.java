@@ -15,7 +15,10 @@ import io.flutter.plugins.googlemobileads.GoogleMobileAdsPlugin.NativeAdFactory;
 public class AppNativeAdFactory implements NativeAdFactory {
     private final LayoutInflater layoutInflater;
 
-    AppNativeAdFactory(LayoutInflater layoutInflater) {
+    private final int resource;
+
+    AppNativeAdFactory(int resource, LayoutInflater layoutInflater) {
+        this.resource = resource;
         this.layoutInflater = layoutInflater;
     }
 
@@ -23,7 +26,7 @@ public class AppNativeAdFactory implements NativeAdFactory {
     public NativeAdView createNativeAd(
             NativeAd nativeAd, Map<String, Object> customOptions) {
         final NativeAdView adView =
-                (NativeAdView) layoutInflater.inflate(R.layout.app_native_ads_temp_small, null);
+                (NativeAdView) layoutInflater.inflate(resource, null);
 //        final TextView headlineView = adView.findViewById(R.id.ad_headline);
 //        final TextView bodyView = adView.findViewById(R.id.ad_body);
 //

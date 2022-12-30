@@ -1,3 +1,6 @@
+import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
+import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -120,22 +123,17 @@ class SettingScreen extends GetView<SettingController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppTouchable.common(
-                      onPressed: null,
-                      margin: EdgeInsets.only(bottom: 25.0.sp),
-                      height: 200.0.sp,
-                      width: Get.width,
-                      child: Text(
-                        'ads',
-                        style: textStyle20500(),
-                      ),
-                    ),
+
                     _buildItemSetting(
                         controller.onPressShare,
                         AppImage.ic_share_app,
                         TranslationConstants.shareApp.tr),
                     _buildItemSetting(controller.onPressPrivacy,
                         AppImage.ic_pivacy, TranslationConstants.privacy.tr),
+                    NativeAdsWidget(
+                      factoryId: NativeFactoryId.appNativeAdFactoryMedium,
+                      isPremium: Get.find<AppController>().isPremiumFull.value,
+                    ),
                     _buildItemSetting(controller.onPressTerm, AppImage.ic_term,
                         TranslationConstants.termOfCondition.tr),
                     _buildItemSetting(controller.onPressLanguage,

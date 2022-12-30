@@ -132,6 +132,13 @@ class TranslationConstants {
   static String edit = "edit";
   static String forSomething = "for";
   static String type = 'type';
+  static String addDataSuccess = 'addDataSuccess';
+  static String addDataFailed = 'addDataFailed';
+  static String editDataSuccess = 'editDataSuccess';
+  static String editDataFailed = 'editDataFailed';
+  static String deleteDataSuccess = 'deleteDataSuccess';
+  static String deleteDataFailed = 'deleteDataFailed';
+
   // Blood Sugar
   static String bloodSugarState = "bloodSugarState";
   static String bloodSugarAllState = "bloodSugarAllState";
@@ -165,55 +172,38 @@ class TranslationConstants {
   static String scanResult = "scanResult";
   static String qrCode = "qrCode";
   static String barcode = "barcode";
+  static const String addAlarmSuccess = "addAlarmSuccessful";
+  static const String updateAlarmSuccess = "updateAlarmSuccess";
+  static const String deleteAlarmSuccess = "deleteAlarmSuccess";
+  static const String deleteAlarmConfirmMsg = "deleteAlarmConfirmMsg";
+  static const String noAlarm = "noAlarm";
 
 
-  static final List<String> _bloodPressureNotiMsgs =
+  static final List<String> bloodPressureNotiMsgs =
       List<String>.generate(
           10, (index) => "bloodPressureNoti$index",
           growable: false);
-  static final List<String> _heartRateNotiMsgs =
+  static final List<String> heartRateNotiMsgs =
       List<String>.generate(
           10, (index) => "heartRateNoti$index",
           growable: false);
-  static final List<String> _bloodSugarNotiMsgs =
+  static final List<String> bloodSugarNotiMsgs =
       List<String>.generate(
           10, (index) => "bloodSugarNoti$index",
           growable: false);
-  static final List<String> _weightAndBMINotiMsgs =
+  static final List<String> weightAndBMINotiMsgs =
       List<String>.generate(
           10, (index) => "bloodSugarNoti$index",
           growable: false);
 
+  static const String deleteAlarmFailed = "deleteAlarmFailed";
+  static const String updateAlarmFailed = "updateAlarmFailed";
+  static const String addAlarmFailed = "addAlarmFailed";
 
+  static const String confirm = "confirm";
 
+  static const String remindToRecord = "remindToRecord";
 
-  static String get bloodPressureNotiMsg {
-    final int randIndex =
-        Random(DateTime.now().microsecondsSinceEpoch)
-            .nextInt(_bloodPressureNotiMsgs.length - 1);
-    return _bloodPressureNotiMsgs[randIndex];
-  }
-
-  static String get heartRateNotiMsg {
-    final int randIndex =
-        Random(DateTime.now().microsecondsSinceEpoch)
-            .nextInt(_bloodPressureNotiMsgs.length - 1);
-    return _heartRateNotiMsgs[randIndex];
-  }
-
-  static String get bloodSugarNotiMsg {
-    final int randIndex =
-        Random(DateTime.now().microsecondsSinceEpoch)
-            .nextInt(_bloodPressureNotiMsgs.length - 1);
-    return _bloodSugarNotiMsgs[randIndex];
-  }
-
-  static String get weightAndBMINotiMsg {
-    final int randIndex =
-        Random(DateTime.now().microsecondsSinceEpoch)
-            .nextInt(_bloodPressureNotiMsgs.length - 1);
-    return _weightAndBMINotiMsgs[randIndex];
-  }
 
   static String weight = "weight";
   static String height = "height";
@@ -227,4 +217,30 @@ class TranslationConstants {
   static String obeseClassIII = "obeseClassIII";
   static String bmiMessage = "bmiMessage";
   static String bmi = "bmi";
+
+  /**
+   * Subscribe
+   */
+  static String subscribeTitle = "subscribeTitle";
+  static String subscribeContentIos1 = "subscribeContentIos1";
+  static String subscribeContentIos2 = "subscribeContentIos2";
+  static String subscribeContentIos3 = "subscribeContentIos3";
+  static String subscribeContentIos4 = "subscribeContentIos4";
+  static String subscribeContentIos5 = "subscribeContentIos5";
+  static String subscribeContentIos6 = "subscribeContentIos6";
+  static String subscribeContentAndroid1 = "subscribeContentAndroid1";
+  static String subscribeContentAndroid2 = "subscribeContentAndroid2";
+  static String subscribeContentAndroid3 = "subscribeContentAndroid3";
+  static String subscribeContentAndroid4 = "subscribeContentAndroid4";
+  static String subscribeContentAndroid5 = "subscribeContentAndroid5";
+  static String subscribeContentAndroid6 = "subscribeContentAndroid6";
+  static String privacyPolicy = "privacyPolicy";
+  static String termService = "termService";
+  static String subscribeAutoRenewable = "subscribeAutoRenewable";
+  static String perYear = "perYear";
+  static String perWeek = "perWeek";
+  static String only = "only";
+  static String freeTrial = "3freeTrial";
+  static String bestOffer = "bestOffer";
+
 }

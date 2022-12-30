@@ -24,10 +24,9 @@ class FoodScannerScreen extends GetView<FoodScannerController> {
             leftWidget: AppTouchable.common(
               onPressed: () => Get.back(),
               decoration: const BoxDecoration(boxShadow: null),
-              child: Icon(
-                Icons.arrow_back_ios_rounded,
+              child: const Icon(
+                Icons.arrow_back_rounded,
                 color: AppColor.black,
-                size: 40.0.sp,
               ),
             ),
             rightWidget: Obx(
@@ -41,7 +40,6 @@ class FoodScannerScreen extends GetView<FoodScannerController> {
                   color: controller.isFlashOn.value
                       ? AppColor.gold
                       : AppColor.black,
-                  size: 40.0.sp,
                 ),
               ),
             ),

@@ -1,5 +1,8 @@
+import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
 import 'package:bloodpressure/common/constants/app_route.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/home_controller.dart';
+import 'package:bloodpressure/presentation/journey/main/widgets/subscribe_button.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,11 +10,13 @@ import 'package:get/get.dart';
 import '../../../common/constants/app_image.dart';
 import '../../../common/util/disable_ glow_behavior.dart';
 import '../../../common/util/translation/app_translation.dart';
+import '../../controller/app_controller.dart';
 import '../../theme/theme_text.dart';
 import '../../widget/app_container.dart';
 import '../../widget/app_header.dart';
 import '../../widget/app_image_widget.dart';
 import '../../widget/app_touchable.dart';
+import '../../widget/native_ads_widget.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,8 +28,12 @@ class HomeScreen extends GetView<HomeController> {
         AppHeader(
           title: TranslationConstants.bloodHealth.tr,
           leftWidget: SizedBox(width: 40.0.sp),
-          titleStyle:
-              const TextStyle(fontWeight: FontWeight.w500),
+          titleStyle: const TextStyle(fontWeight: FontWeight.w500),
+          rightWidget: Obx(
+            () => SubscribeButton(
+                isPremiumFull: Get.find<AppController>().isPremiumFull.value),
+          ),
+          padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         ),
         Expanded(
           child: ScrollConfiguration(
@@ -33,23 +42,15 @@ class HomeScreen extends GetView<HomeController> {
               padding: EdgeInsets.all(17.0.sp),
               child: Column(
                 children: [
-                  AppTouchable.common(
-                    onPressed: null,
-                    margin:
-                        EdgeInsets.only(bottom: 25.0.sp),
-                    height: 200.0.sp,
-                    width: Get.width,
-                    child: Text(
-                      'ads',
-                      style: textStyle20500(),
-                    ),
-                  ),
+                  NativeAdsWidget(
+                    height: 240,
+                      factoryId: NativeFactoryId.appNativeAdFactoryMedium,
+                      isPremium: Get.find<AppController>().isPremiumFull.value),
                   AppTouchable.common(
                     onPressed: controller.onPressHeartBeat,
-                    height: 100.0.sp,
+                    height: 128.0.sp,
                     child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         AppImageWidget.asset(
                           path: AppImage.ic_heart_rate,
@@ -68,24 +69,18 @@ class HomeScreen extends GetView<HomeController> {
                     children: [
                       Expanded(
                         child: AppTouchable.common(
-                          onPressed: () {
-                            Get.toNamed(AppRoute
-                                .bloodPressureScreen);
-                          },
-                          height: 100.0.sp,
+                          onPressed: controller.onPressBloodPressure,
+                          height: 128.0.sp,
                           child: Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               AppImageWidget.asset(
-                                path: AppImage
-                                    .ic_blood_pressure,
+                                path: AppImage.ic_blood_pressure,
                                 width: 60.0.sp,
                               ),
                               SizedBox(height: 4.0.sp),
                               Text(
-                                TranslationConstants
-                                    .bloodPressure.tr,
+                                TranslationConstants.bloodPressure.tr,
                                 style: textStyle18500(),
                               ),
                             ],
@@ -95,24 +90,18 @@ class HomeScreen extends GetView<HomeController> {
                       SizedBox(width: 16.0.sp),
                       Expanded(
                         child: AppTouchable.common(
-                          onPressed: () {
-                            Get.toNamed(
-                                AppRoute.bloodSugar);
-                          },
-                          height: 100.0.sp,
+                          onPressed: controller.onPressBloodSugar,
+                          height: 128.0.sp,
                           child: Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               AppImageWidget.asset(
-                                path:
-                                    AppImage.ic_blood_sugar,
+                                path: AppImage.ic_blood_sugar,
                                 width: 60.0.sp,
                               ),
                               SizedBox(height: 4.0.sp),
                               Text(
-                                TranslationConstants
-                                    .bloodSugar.tr,
+                                TranslationConstants.bloodSugar.tr,
                                 style: textStyle18500(),
                               ),
                             ],
@@ -126,22 +115,18 @@ class HomeScreen extends GetView<HomeController> {
                     children: [
                       Expanded(
                         child: AppTouchable.common(
-                          onPressed: () => Get.toNamed(
-                              AppRoute.weightBMI),
-                          height: 100.0.sp,
+                          onPressed: controller.onPressWeightAndBMI,
+                          height: 128.0.sp,
                           child: Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               AppImageWidget.asset(
-                                path: AppImage
-                                    .ic_weight_and_bmi,
+                                path: AppImage.ic_weight_and_bmi,
                                 width: 60.0.sp,
                               ),
                               SizedBox(height: 4.0.sp),
                               Text(
-                                TranslationConstants
-                                    .weightAndBMI.tr,
+                                TranslationConstants.weightAndBMI.tr,
                                 style: textStyle18500(),
                               ),
                             ],
@@ -151,13 +136,10 @@ class HomeScreen extends GetView<HomeController> {
                       SizedBox(width: 16.0.sp),
                       Expanded(
                         child: AppTouchable.common(
-                          onPressed: () {
-                            Get.toNamed(AppRoute.foodScanner);
-                          },
-                          height: 100.0.sp,
+                          onPressed: controller.onPressFoodScanner,
+                          height: 128.0.sp,
                           child: Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               AppImageWidget.asset(
                                 path: AppImage.ic_qr_code,
@@ -165,9 +147,9 @@ class HomeScreen extends GetView<HomeController> {
                               ),
                               SizedBox(height: 4.0.sp),
                               Text(
-                                TranslationConstants
-                                    .foodScanner.tr,
+                                TranslationConstants.foodScanner.tr,
                                 style: textStyle18500(),
+                                textAlign: TextAlign.center,
                               ),
                             ],
                           ),
@@ -175,6 +157,7 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ],
                   ),
+                 
                 ],
               ),
             ),

@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -13,7 +16,9 @@ class AlarmAddDataButton extends StatelessWidget {
   final Function() onSetAlarm;
   final Function() onAddData;
   const AlarmAddDataButton(
-      {Key? key, required this.onSetAlarm, required this.onAddData})
+      {Key? key,
+      required this.onSetAlarm,
+      required this.onAddData})
       : super(key: key);
 
   @override
@@ -46,7 +51,13 @@ class AlarmAddDataButton extends StatelessWidget {
         Expanded(
           flex: 5,
           child: AppTouchable.common(
-            onPressed: onAddData,
+            onPressed: () {
+              if (Platform.isAndroid) {
+                showInterstitialAds(() => onAddData.call());
+              } else {
+                onAddData.call();
+              }
+            },
             height: 70.0.sp,
             backgroundColor: AppColor.primaryColor,
             child: Text(

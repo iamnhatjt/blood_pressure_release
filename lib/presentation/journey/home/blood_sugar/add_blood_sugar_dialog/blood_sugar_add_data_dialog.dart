@@ -137,7 +137,7 @@ class BloodSugarAddDataDialog extends GetView<AddBloodSugarController> {
   Widget build(BuildContext context) {
     controller.context = context;
     if (!isNullEmpty(currentBloodSugar)) {
-      controller.onInitialData(currentBloodSugar!);
+      controller.onInitialData(model: currentBloodSugar);
     }
     return Stack(
       children: [

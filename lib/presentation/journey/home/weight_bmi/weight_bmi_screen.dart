@@ -193,7 +193,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                       padding: EdgeInsets.symmetric(
                           horizontal: 16.sp),
                       child: EmptyWidget(
-                          imagePath: AppImage.ic_weight_bmi,
+                          imagePath: AppImage.weight_scale_lottie,
                           message: TranslationConstants
                               .addYourRecordToSeeStatistics
                               .tr,

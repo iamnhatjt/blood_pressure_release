@@ -95,4 +95,15 @@ class BMIModel extends HiveObject {
           .roundDouble(1);
     }
   }
+
+  double get weightLb {
+    final unit =
+        WeightUnitEnum.getWeightUnitById(weightUnitId);
+    if (unit == WeightUnit.lb) {
+      return weight ?? 0.0;
+    } else {
+      return ConvertUtils.convertKgToLb(weight ?? 0.0)
+          .roundDouble(1);
+    }
+  }
 }

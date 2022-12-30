@@ -6,8 +6,7 @@ const viStrings = {
   "setting": "Cài đặt",
   "cancel": "Huỷ",
   "noNetTitle": "Không có kết nối mạng",
-  "noNetContent":
-      "Không có kết nối mạng, vui lòng thử lại sau",
+  "noNetContent": "Không có kết nối mạng, vui lòng thử lại sau",
   "retry": "Thử lại",
   "allow": "Cho phép",
   "removeAds": "Loại bỏ quảng cáo",
@@ -19,8 +18,7 @@ const viStrings = {
   "chooseLanguage": "Chọn ngôn ngữ",
   "restore": "Khôi phục",
   "moreApp": "Các ứng dụng khác",
-  "errorLoadAds":
-      "Chức năng chưa sẵn sàng, vui lòng thử lại sau giây lát",
+  "errorLoadAds": "Chức năng chưa sẵn sàng, vui lòng thử lại sau giây lát",
   "shareMessage":
       "Tải app để theo dõi nhiệt độ ngoài trời, độ ẩm, cập nhật tình hình thời tiết và chỉ số ô nhiễm không khí để bảo vệ bản thân và gia đình bạn",
   "bloodHealth": "Blood Health",
@@ -28,9 +26,9 @@ const viStrings = {
   "bloodPressure": "Huyết áp",
   "bloodSugar": "Đường huyết",
   "weightAndBMI": "Cân nặng & BMI",
-  "foodScanner": "Quét thực phẩm",
-  "scanFood" : "Quét thực phẩm",
-  "requestPermission" : "Yêu cầu quyền truy cập",
+  "foodScanner": "Quét thực phẩm/thuốc",
+  "scanFood": "Quét thực phẩm/thuốc",
+  "requestPermission": "Yêu cầu quyền truy cập",
   "home": "Trang chủ",
   "insights": "Chi tiết",
   "alarm": "Đặt giờ",
@@ -65,11 +63,17 @@ const viStrings = {
   "choseYourGender": "Chọn giới tính của bạn",
   "save": "Lưu",
   "rhSlowMessage": "Chú ý! Nhịp tim của bạn quá thấp",
-  "rhNormalMessage":
-      "Tuyệt! Nhịp tim của bạn vẫn ở mức bình thường",
-  "rhFastMessage":
-      "Chú ý! Nhịp tim của bạn cao hơn bình thường",
+  "rhNormalMessage": "Tuyệt! Nhịp tim của bạn vẫn ở mức bình thường",
+  "rhFastMessage": "Chú ý! Nhịp tim của bạn cao hơn bình thường",
   "addSuccess": "Thêm dữ liệu thành công",
+  "addAlarmSuccessful": "Thêm hẹn giờ thành công",
+  "updateAlarmSuccess": "Cập nhật hẹn giờ thành công",
+  "deleteAlarmSuccess": "Xoá hẹn giờ thành công",
+  "deleteAlarmFailed": "Không thể xoá hẹn giờ",
+  "updateAlarmFailed": "Không thể xoá hẹn giờ",
+  "addAlarmFailed": "Không thể thêm hẹn giờ",
+"noAlarm" : "Có vẻ bạn chưa thêm hẹn giờ nào. Nhấn + để thêm",
+"pleaseTryAgain": "Vui lòng thử lại",
   "date": "Ngày",
   "time": "Giờ",
   "gender": "Giới tính",
@@ -78,8 +82,7 @@ const viStrings = {
   "deleteDataConfirm": "Bạn muốn xoá dữ liệu này?",
   "en": "Tiếng Anh",
   "vi": "Tiếng Việt",
-  "addYourRecordToSeeStatisitcs":
-      "Thêm hồ sơ của bạn để xem số liệu thống kê",
+  "addYourRecordToSeeStatisitcs": "Thêm hồ sơ của bạn để xem số liệu thống kê",
   "systolic": "Tâm thu",
   "diastolic": "Tâm trương",
   "hypotension": "Huyết áp thấp",
@@ -87,8 +90,7 @@ const viStrings = {
   "hypertensionStage1": "Tăng huyết áp giai đoạn 1",
   "hypertensionStage2": "Tăng huyết áp giai đoạn 2",
   "hypertensionCrisis": "Khủng hoảng tăng huyết áp",
-  "systolicRangeOrDiastolicRange":
-      "Tâm thu @sys or Tâm trương @dia",
+  "systolicRangeOrDiastolicRange": "Tâm thu @sys or Tâm trương @dia",
   "ok": "Đồng ý",
   "pulse": "Nhịp tim",
   "sysAndDIA": "Sys @sys and DIA @dia",
@@ -107,10 +109,18 @@ const viStrings = {
   "edit": "Chỉnh sửa",
   "forSomething": "cho",
   "type": "Loại",
-  "noInformation" : "KHông có thông tin",
+  "noInformation": "KHông có thông tin",
   "scanResult": "Kết quả quét",
-  "qrCode" : "Mã QR",
+  "qrCode": "Mã QR",
   "barcode": "Mã vạch",
+  "addDataSuccess": "Thêm dữ liệu thành công",
+  "addDataFailed": "Thêm dữ liệu thất bại",
+  "editDataSuccess": "Sửa dữ liệu thành công",
+  "editDataFailed": "Sửa dữ liệu thất bại",
+  "deleteDataSuccess": "Xóa dữ liệu thành công",
+  "deleteDataFailed": "Xóa dữ liệu thất bại",
+  "deleteAlarmConfirmMsg": "Bạn có chắc muốn xoá hẹn giờ này?",
+  "remindToRecord": "Nhắc nhở theo dõi",
 
   // Blood Sugar
   "bloodSugarAllState": "Tất cả",
@@ -146,50 +156,40 @@ const viStrings = {
       "Bạn đã kiểm tra huyết áp ngày hôm nay chưa? Chạm để đo ngay!",
   "bloodPressureNoti3":
       "Huyết áp cao có thể gây ra đột quỵ. Hãy kiểm tra huyết áp ngay!",
-  "bloodPressureNoti4":
-      "Sống khoẻ bằng việc đo huyết áp hàng ngày!",
+  "bloodPressureNoti4": "Sống khoẻ bằng việc đo huyết áp hàng ngày!",
   "bloodPressureNoti5":
       "Bạn đã đo huyết áp hôm nay chưa? Hãy tiếp tục đo huyết áp để theo dõi sức khoẻ",
   "bloodPressureNoti6":
       "Phát hiện huyết áp cao với ứng dụng của chúng tôi. Chạm để sử dụng",
-  "bloodPressureNoti7":
-      "Kiểm tra huyết áp và chạm vào đây để theo dõi chúng",
-  "bloodPressureNoti8":
-      "Đã tới giờ đo huyết áp và ghi lại!",
+  "bloodPressureNoti7": "Kiểm tra huyết áp và chạm vào đây để theo dõi chúng",
+  "bloodPressureNoti8": "Đã tới giờ đo huyết áp và ghi lại!",
   "bloodPressureNoti9":
       "Sống khoẻ bằng cách đo huyết áp để phát hiện các triệu chứng huyết áp cao, huyết áp thấp với công cụ của chúng tôi",
 
-  "heartRateNoti0":
-      "Hãy theo dõi sức khoẻ bằng cách kiểm tra nhịp tim",
+  "heartRateNoti0": "Hãy theo dõi sức khoẻ bằng cách kiểm tra nhịp tim",
   "heartRateNoti1": "Đo vào theo dõi nhịp tim ngay bây giờ",
   "heartRateNoti2": "Đã tới giờ đo nhịp tim rồi!",
-  "heartRateNoti3":
-      "BPM có thể cho thấy tình trạng sức khoẻ của bạn",
+  "heartRateNoti3": "BPM có thể cho thấy tình trạng sức khoẻ của bạn",
   "heartRateNoti4":
       "Đã tới giờ đo nhịp tim, chạm vào đây để tiến hành đo và theo dõi",
-  "heartRateNoti5":
-      "Đo nhịp tim của bạn để kiểm tra sức khoẻ",
+  "heartRateNoti5": "Đo nhịp tim của bạn để kiểm tra sức khoẻ",
   "heartRateNoti6":
       "Các hoạt động thể chất và trạng thái tinh thần có thể ảnh hưởng tới nhịp tim của bạn. Chạm để kiểm tra và ghi lại",
-  "heartRateNoti7":
-      "Bạn rảnh chứ? Hãy đo và theo dõi nhịp tim của mình",
+  "heartRateNoti7": "Bạn rảnh chứ? Hãy đo và theo dõi nhịp tim của mình",
   "heartRateNoti8":
       "Này! Đã tới giờ đo và theo dõi nhịp tim bằng công cụ của chúng tôi!",
   "heartRateNoti9":
       "Sống khoẻ bằng cách cùng chúng tôi theo dõi nhịp tim hàng ngày",
 
-  "bloodSugarNoti0":
-      "Ghi lại lượng đường trong máu để sống khoẻ hơn!",
-  "bloodSugarNoti1":
-      "Đã tới giờ ghi lại lượng đường trong máu!",
+  "bloodSugarNoti0": "Ghi lại lượng đường trong máu để sống khoẻ hơn!",
+  "bloodSugarNoti1": "Đã tới giờ ghi lại lượng đường trong máu!",
   "bloodSugarNoti2":
       "Lượng đường trong máu có thể phản ánh tình trạng sức khoẻ của bạn. Hãy kiểm tra ngay!",
   "bloodSugarNoti3":
       "Lượng đường trong máu có thể dùng để kiểm tra bệnh tiểu đường. Hãy kiểm tra ngay!",
   "bloodSugarNoti4":
       "Bệnh tiểu đường và các bệnh lí khác có thể được phát hiện thông qua lượng đường trong máu. Chạm để kiểm tra",
-  "bloodSugarNoti5":
-      "Nắm được lượng đường trong máu và theo dõi hàng ngày",
+  "bloodSugarNoti5": "Nắm được lượng đường trong máu và theo dõi hàng ngày",
   "bloodSugarNoti6":
       "Lượng đường trong máu cao có thể gây nguy hiểm. Chạm để kiểm tra ngay",
   "bloodSugarNoti7":
@@ -200,18 +200,13 @@ const viStrings = {
       "Xem biểu đồ theo dõi lượng đường trong máu và tiến hành đo.",
 
   "weightAndBMINoti0": "Ghi lại cân nặng và theo dõi BMI",
-  "weightAndBMINoti1":
-      "Theo dõi chế độ ăn uống và kiểm tra BMI",
-  "weightAndBMINoti2":
-      "Đã tới giờ đo cân nặng và kiểm tra BMI",
+  "weightAndBMINoti1": "Theo dõi chế độ ăn uống và kiểm tra BMI",
+  "weightAndBMINoti2": "Đã tới giờ đo cân nặng và kiểm tra BMI",
   "weightAndBMINoti3":
       "Xem lại thành quả tập luyện của mình với chứng năng BMI",
-  "weightAndBMINoti4":
-      "Tính BMI tự động bằng cách ghi lại cân nặng của mình",
-  "weightAndBMINoti5":
-      "Xem chỉ cố cân nặng cơ thể với ứng dụng của chúng tôi",
-  "weightAndBMINoti6":
-      "Sống khoẻ bằng cách theo dõi chỉ số cân nặng của mình!",
+  "weightAndBMINoti4": "Tính BMI tự động bằng cách ghi lại cân nặng của mình",
+  "weightAndBMINoti5": "Xem chỉ cố cân nặng cơ thể với ứng dụng của chúng tôi",
+  "weightAndBMINoti6": "Sống khoẻ bằng cách theo dõi chỉ số cân nặng của mình!",
   "weightAndBMINoti7":
       "Kiểm tra chỉ số cân nặng cơ thể để thay đổi chế độ ăn uống và cân nặng!",
   "weightAndBMINoti8": "Xem thông số BMI ngay!",
@@ -230,4 +225,30 @@ const viStrings = {
   "obeseClassIII": "Béo phì loại III",
   "bmiMessage": "BMI @value",
   "bmi": "BMI",
+
+  /**
+   * Subscribe
+   */
+  "subscribeTitle": "Mở khóa máy đo nhịp tim cao cấp của bạn",
+  "subscribeContentIos1": "Start your 3 Days Free trial",
+  "subscribeContentIos2": "Bắt đầu 3 ngày dùng thử miễn phí của bạn",
+  "subscribeContentIos3":
+      "Truy cập Tạp chí đường huyết; Theo dõi cân nặng & BMI và hơn thế nữa,...",
+  "subscribeContentIos4": "Xuất dữ liệu sức khỏe của bạn bất cứ lúc nào",
+  "subscribeContentIos5": "Đặt báo thức để đo các dấu hiệu quan trọng của bạn",
+  "subscribeContentIos6": "Loại bỏ các quảng cáo",
+  "subscribeContentAndroid1": "Bắt đầu 3 ngày dùng thử miễn phí của bạn",
+  "subscribeContentAndroid2": "Không giới hạn số lần đo",
+  "subscribeContentAndroid3": "Xuất dữ liệu sức khỏe của bạn bất cứ lúc nào",
+  "subscribeContentAndroid4": "Đo liên tục",
+  "subscribeContentAndroid5": "Loại bỏ các quảng cáo",
+  "subscribeContentAndroid6": "Đo nhịp tim và theo dõi dữ liệu sức khỏe của bạn",
+  "privacyPolicy": "Quyền riêng tư",
+  "termService": "Điều khoản sử dụng",
+  "subscribeAutoRenewable": "Tự động gia hạn. Hủy bỏ bất cứ lúc nào",
+  "perYear": "mỗi năm",
+  "perWeek": "mỗi tuần",
+  "only": "Chỉ",
+  "3freeTrial": "Dùng thử miễn phí 3 ngày",
+  "bestOffer": "Lựa chọn tốt nhất",
 };

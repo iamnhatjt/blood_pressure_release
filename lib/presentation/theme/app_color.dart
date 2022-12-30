@@ -14,13 +14,16 @@ class AppColor {
   static const grayText2 = Color(0xFFA5A5A5);
   static const background = Color(0xFFF5F5F5);
   static const red = Color(0xFFFF6464);
+  static Color? red50 = Colors.red[50];
   static const lightRed = Color(0xFFFF0000);
   static const green = Color(0xFF0B8C10);
+  static Color? green50 = Colors.green[50];
   static const gold = Color(0xFFFFC700);
   static const violet = Color(0xFFCF71FB);
   static const deepViolet = Color(0xFF8C52EB);
   static const lightOrange = Color(0xffFF9900);
   static const orange = Color(0xffFF7033);
+  static Color? orange50 = Colors.orange[50];
   static const blue98EB = Color(0xff5298EB);
   static const transparent = Colors.transparent;
   static const yellow = Color(0xffF8C646);

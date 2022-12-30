@@ -19,6 +19,10 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		A020DBB8295DEFA400732FAB /* SmallNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A020DBB7295DEFA400732FAB /* SmallNativeAdView.xib */; };
+		A020DBBA295DEFBF00732FAB /* SmallNativeAdFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A020DBB9295DEFBF00732FAB /* SmallNativeAdFactory.swift */; };
+		A0E353DE295D61FA0007A5F7 /* MediumNativeAdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0E353DD295D61FA0007A5F7 /* MediumNativeAdView.xib */; };
+		A0E353E0295D62180007A5F7 /* MediumNativeAdFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E353DF295D62180007A5F7 /* MediumNativeAdFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -54,6 +58,10 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97CF140645CB401D016E461B /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A020DBB7295DEFA400732FAB /* SmallNativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SmallNativeAdView.xib; sourceTree = "<group>"; };
+		A020DBB9295DEFBF00732FAB /* SmallNativeAdFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallNativeAdFactory.swift; sourceTree = "<group>"; };
+		A0E353DD295D61FA0007A5F7 /* MediumNativeAdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MediumNativeAdView.xib; sourceTree = "<group>"; };
+		A0E353DF295D62180007A5F7 /* MediumNativeAdFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumNativeAdFactory.swift; sourceTree = "<group>"; };
 		C97925002030C01782A88CF8 /* Pods-Runner.debugdev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debugdev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debugdev.xcconfig"; sourceTree = "<group>"; };
 		E38108D3CB9D2DC960C2DFC2 /* Pods-Runner.debugprod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debugprod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debugprod.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,6 +114,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				A0E353DC295D61D20007A5F7 /* NativeAds */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -116,6 +125,33 @@
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
 			path = Runner;
+			sourceTree = "<group>";
+		};
+		A020DBB5295DEEA800732FAB /* MediumNativeAd */ = {
+			isa = PBXGroup;
+			children = (
+				A0E353DD295D61FA0007A5F7 /* MediumNativeAdView.xib */,
+				A0E353DF295D62180007A5F7 /* MediumNativeAdFactory.swift */,
+			);
+			path = MediumNativeAd;
+			sourceTree = "<group>";
+		};
+		A020DBB6295DEEB200732FAB /* SmallNativeAdView */ = {
+			isa = PBXGroup;
+			children = (
+				A020DBB7295DEFA400732FAB /* SmallNativeAdView.xib */,
+				A020DBB9295DEFBF00732FAB /* SmallNativeAdFactory.swift */,
+			);
+			path = SmallNativeAdView;
+			sourceTree = "<group>";
+		};
+		A0E353DC295D61D20007A5F7 /* NativeAds */ = {
+			isa = PBXGroup;
+			children = (
+				A020DBB6295DEEB200732FAB /* SmallNativeAdView */,
+				A020DBB5295DEEA800732FAB /* MediumNativeAd */,
+			);
+			path = NativeAds;
 			sourceTree = "<group>";
 		};
 		D978EAF859027A91FC9748CD /* Frameworks */ = {
@@ -205,11 +241,13 @@
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				6A4664312940499B007BFFE6 /* GoogleService-Info.plist in Resources */,
 				6ACD8FC7293EF3AC00422B62 /* ReleaseDev.xcconfig in Resources */,
+				A020DBB8295DEFA400732FAB /* SmallNativeAdView.xib in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				6ACD8FCA293EF3AC00422B62 /* DebugProd.xcconfig in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				6ACD8FC8293EF3AC00422B62 /* ReleaseProd.xcconfig in Resources */,
+				A0E353DE295D61FA0007A5F7 /* MediumNativeAdView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,7 +283,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin\n";
 		};
 		44C85D879B086BD820797692 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -307,7 +345,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0E353E0295D62180007A5F7 /* MediumNativeAdFactory.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				A020DBBA295DEFBF00732FAB /* SmallNativeAdFactory.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,9 +433,10 @@
 				ADS_ID = "ca-app-pub-3940256099942544~3347511713";
 				APP_DISPLAY_NAME = "Blood Pressure-Dev";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 5223L7MF3L;
+				DEVELOPMENT_TEAM = 43AY2N45RD;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -469,9 +510,10 @@
 				ADS_ID = "ca-app-pub-5294836995166944~3895914418";
 				APP_DISPLAY_NAME = "Blood Pressure";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 5223L7MF3L;
+				DEVELOPMENT_TEAM = 43AY2N45RD;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -548,9 +590,10 @@
 				ADS_ID = "ca-app-pub-3940256099942544~3347511713";
 				APP_DISPLAY_NAME = "Blood Pressure-Dev";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 5223L7MF3L;
+				DEVELOPMENT_TEAM = 43AY2N45RD;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -628,9 +671,10 @@
 				ADS_ID = "ca-app-pub-5294836995166944~3895914418";
 				APP_DISPLAY_NAME = "Blood Pressure";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 5223L7MF3L;
+				DEVELOPMENT_TEAM = 43AY2N45RD;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

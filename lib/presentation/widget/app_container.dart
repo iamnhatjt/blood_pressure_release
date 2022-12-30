@@ -1,6 +1,12 @@
+import 'dart:developer';
+
+import 'package:applovin_max/applovin_max.dart';
+import 'package:bloodpressure/build_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../controller/app_controller.dart';
 import '../theme/app_color.dart';
 
 class AppContainer extends GetView {
@@ -15,6 +21,7 @@ class AppContainer extends GetView {
     this.resizeToAvoidBottomInset = false,
     this.floatingActionButton,
     this.alignLayer,
+    this.isShowBanner = true,
   }) : super(key: key);
 
   final AlignmentDirectional? alignLayer;
@@ -26,28 +33,80 @@ class AppContainer extends GetView {
   final Widget? coverScreenWidget;
   final bool? resizeToAvoidBottomInset;
   final Widget? floatingActionButton;
+  final bool isShowBanner;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: onWillPop,
       child: Stack(
+        alignment:
+            alignLayer ?? AlignmentDirectional.topStart,
         children: [
           GestureDetector(
             onTap: () {
-              FocusScopeNode currentFocus = FocusScope.of(context);
+              FocusScopeNode currentFocus =
+                  FocusScope.of(context);
               if (!currentFocus.hasPrimaryFocus) {
                 currentFocus.unfocus();
               }
             },
             child: Scaffold(
-              resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-              backgroundColor: backgroundColor ?? AppColor.white,
+              resizeToAvoidBottomInset:
+                  resizeToAvoidBottomInset,
+              backgroundColor:
+                  backgroundColor ?? AppColor.white,
               appBar: appBar,
               body: SizedBox(
                 width: Get.width,
                 height: Get.height,
-                child: child ?? const SizedBox.shrink(),
+                child: Column(
+                  children: [
+                    Expanded(
+                        child: child ??
+                            const SizedBox.shrink()),
+                    isShowBanner
+                        ? Obx(() => Get.find<
+                                    AppController>()
+                                .isPremiumFull
+                                .value
+                            ? const SizedBox.shrink()
+                            : Padding(
+                                padding:
+                                    EdgeInsets.symmetric(
+                                        vertical: 4.sp),
+                                child: MaxAdView(
+                                  adUnitId: BuildConstants
+                                      .idBannerAd,
+                                  adFormat: AdFormat.banner,
+                                  listener:
+                                      AdViewAdListener(
+                                    onAdLoadedCallback:
+                                        (ad) {
+                                      log('---ADS BANNER---onAdLoadedCallback');
+                                    },
+                                    onAdLoadFailedCallback:
+                                        (adUnitId, error) {
+                                      log('---ADS BANNER---onAdLoadFailedCallback: $error');
+                                    },
+                                    onAdClickedCallback:
+                                        (ad) {
+                                      log('---ADS BANNER---onAdClickedCallback');
+                                    },
+                                    onAdExpandedCallback:
+                                        (ad) {
+                                      log('---ADS BANNER---onAdExpandedCallback');
+                                    },
+                                    onAdCollapsedCallback:
+                                        (ad) {
+                                      log('---ADS BANNER---onAdCollapsedCallback');
+                                    },
+                                  ),
+                                ),
+                              ))
+                        : const SizedBox(),
+                  ],
+                ),
               ),
               floatingActionButton: floatingActionButton,
               bottomNavigationBar: bottomNavigationBar,
@@ -55,7 +114,6 @@ class AppContainer extends GetView {
           ),
           coverScreenWidget ?? const SizedBox.shrink(),
         ],
-        alignment: alignLayer ?? AlignmentDirectional.topStart,
       ),
     );
   }

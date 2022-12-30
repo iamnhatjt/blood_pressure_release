@@ -1,15 +1,19 @@
+import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/common/extensions/date_time_extensions.dart';
 import 'package:bloodpressure/common/mixin/date_time_mixin.dart';
 import 'package:bloodpressure/domain/enum/blood_pressure_type.dart';
 import 'package:bloodpressure/domain/model/blood_pressure_model.dart';
 import 'package:bloodpressure/domain/usecase/blood_pressure_usecase.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../common/constants/enums.dart';
 import '../../../../../common/util/translation/app_translation.dart';
 import '../../../../widget/app_dialog.dart';
+import '../../../../widget/snack_bar/app_snack_bar.dart';
 import 'widget/blood_pressure_info_widget.dart';
 
 class AddBloodPressureController extends GetxController
@@ -30,6 +34,8 @@ class AddBloodPressureController extends GetxController
 
   BloodPressureModel? _bloodPressure;
   AddBloodPressureController(this._bloodPressureUseCase);
+
+  final analytics = FirebaseAnalytics.instance;
   @override
   void onInit() {
     _updateDateTimeString(bloodPressureDate.value);
@@ -156,6 +162,8 @@ class AddBloodPressureController extends GetxController
   }
 
   Future addBloodPressure() async {
+    analytics.logEvent(name: AppLogEvent.addDataBloodPressure);
+    debugPrint("Logged ${AppLogEvent.addDataBloodPressure} at ${DateTime.now()}");
     isLoading.value = true;
     final bloodPres = BloodPressureModel(
         key: bloodPressureDate.value.toIso8601String(),
@@ -168,6 +176,9 @@ class AddBloodPressureController extends GetxController
     await _bloodPressureUseCase
         .saveBloodPressure(bloodPres);
     isLoading.value = false;
+    showTopSnackBar(context,
+        message: TranslationConstants.addDataSuccess.tr,
+        type: SnackBarType.done);
     Get.back(result: true);
   }
 
@@ -182,6 +193,9 @@ class AddBloodPressureController extends GetxController
     await _bloodPressureUseCase
         .saveBloodPressure(_bloodPressure!);
     isLoading.value = false;
+    showTopSnackBar(context,
+        message: TranslationConstants.editDataSuccess.tr,
+        type: SnackBarType.done);
     Get.back(result: true);
   }
 }

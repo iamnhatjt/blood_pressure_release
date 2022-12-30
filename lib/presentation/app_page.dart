@@ -1,8 +1,11 @@
 import 'package:bloodpressure/common/injector/binding/blood_suagr_binding.dart';
 import 'package:bloodpressure/common/injector/binding/food_scanner_binding.dart';
+import 'package:bloodpressure/common/injector/binding/subscribe_bindings.dart';
 import 'package:bloodpressure/common/injector/binding/weight_bmi_binding.dart';
 import 'package:bloodpressure/presentation/journey/home/food_scanner/food_scanner_screen.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/weight_bmi_screen.dart';
+import 'package:bloodpressure/presentation/journey/subscribe/android/android_subscribe_screen.dart';
+import 'package:bloodpressure/presentation/journey/subscribe/ios/ios_subscribe_screen.dart';
 import 'package:get/get.dart';
 
 import '../common/constants/app_route.dart';
@@ -48,9 +51,19 @@ class AppPage {
         page: () => const WeightBMIScreen(),
         binding: WeightBMIBinding()),
     GetPage(
-       name: AppRoute.foodScanner,
+      name: AppRoute.foodScanner,
       page: () => const FoodScannerScreen(),
       binding: FoodScannerBinding(),
+    ),
+    GetPage(
+      name: AppRoute.iosSub,
+      page: () => const IosSubscribeScreen(),
+      binding: IosSubscribeBinding(),
+    ),
+    GetPage(
+      name: AppRoute.androidSub,
+      page: () => const AndroidSubscribeScreen(),
+      binding: AndroidSubscribeBinding(),
     ),
   ];
 }

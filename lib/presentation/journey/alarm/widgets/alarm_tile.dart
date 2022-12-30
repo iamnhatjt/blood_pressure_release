@@ -1,3 +1,4 @@
+import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import "package:bloodpressure/presentation/theme/theme_text.dart";
 import 'package:bloodpressure/presentation/widget/app_touchable.dart';
 import 'package:bloodpressure/presentation/widget/app_week_days_picker.dart';
@@ -40,7 +41,7 @@ class AlarmTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Remind to record",
+                    TranslationConstants.remindToRecord.tr,
                     style: textStyle12400(),
                   ),
                   SizedBox(

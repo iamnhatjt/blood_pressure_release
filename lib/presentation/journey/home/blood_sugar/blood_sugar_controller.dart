@@ -13,9 +13,13 @@ import 'package:bloodpressure/domain/usecase/alarm_usecase.dart';
 import 'package:bloodpressure/domain/usecase/blood_sugar_usecase.dart';
 import 'package:bloodpressure/presentation/controller/app_base_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
+import 'package:bloodpressure/presentation/journey/home/blood_sugar/add_blood_sugar_dialog/add_blood_sugar_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_sugar/select_state_mixin.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog.dart';
+import 'package:bloodpressure/presentation/widget/snack_bar/app_snack_bar.dart';
 import 'package:collection/collection.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -45,7 +49,12 @@ class BloodSugarController extends AppBaseController
 
   Rx<LoadedType> exportLoaded = LoadedType.finish.obs;
 
-  BloodSugarController(this.useCase, this.alarmUseCase,);
+  final analytics = FirebaseAnalytics.instance;
+
+  BloodSugarController(
+    this.useCase,
+    this.alarmUseCase,
+  );
 
   Future<void> onSelectedDateTime() async {
     await onPressDateRange(context);
@@ -54,6 +63,9 @@ class BloodSugarController extends AppBaseController
 
   void onDeleted(String key) async {
     await useCase.deleteBloodSugar(key);
+    showTopSnackBar(context,
+        message: TranslationConstants.deleteDataSuccess.tr,
+        type: SnackBarType.done);
     _onRefreshData();
   }
 
@@ -78,6 +90,9 @@ class BloodSugarController extends AppBaseController
   }
 
   Future onAddData() async {
+    analytics.logEvent(name: AppLogEvent.addDataButtonBloodPressure);
+    debugPrint("Logged ${AppLogEvent.addDataButtonBloodPressure} at ${DateTime.now()}");
+    Get.find<AddBloodSugarController>().onInitialData();
     final result = await showAppDialog(context, "", "",
         builder: (ctx) => const BloodSugarAddDataDialog());
     await _onRefreshData();
@@ -112,20 +127,17 @@ class BloodSugarController extends AppBaseController
     chartListData.clear();
     final mapGroupData = groupBy(
         bloodSugarList,
-        (p0) => DateFormat('dd/MM/yyyy').format(
-            DateTime.fromMillisecondsSinceEpoch(
-                p0.dateTime ?? 0)));
+        (p0) => DateFormat('dd/MM/yyyy')
+            .format(DateTime.fromMillisecondsSinceEpoch(p0.dateTime ?? 0)));
     if (mapGroupData.isNotEmpty) {
       final lastKey = mapGroupData.keys.last;
       final lastValue = mapGroupData[lastKey];
       if (lastValue != null && lastValue.isNotEmpty) {
-        chartGroupIndexSelected.value =
-            (lastValue.length) - 1;
+        chartGroupIndexSelected.value = (lastValue.length) - 1;
       }
     }
     mapGroupData.forEach((key, value) {
-      final handleDate =
-          DateFormat('dd/MM/yyyy').parse(key);
+      final handleDate = DateFormat('dd/MM/yyyy').parse(key);
       final dataList = <BarChartDataModel>[];
       if (value.isNotEmpty) {
         for (final item in value) {
@@ -141,11 +153,9 @@ class BloodSugarController extends AppBaseController
       }
     });
     chartMinDate.value =
-        DateTime.fromMillisecondsSinceEpoch(
-            bloodSugarDataList.first.dateTime!);
+        DateTime.fromMillisecondsSinceEpoch(bloodSugarDataList.first.dateTime!);
     chartMaxDate.value =
-        DateTime.fromMillisecondsSinceEpoch(
-            bloodSugarDataList.last.dateTime!);
+        DateTime.fromMillisecondsSinceEpoch(bloodSugarDataList.last.dateTime!);
   }
 
   double _getBloodSugarMeasureDisplay(BloodSugarModel value) {
@@ -165,20 +175,17 @@ class BloodSugarController extends AppBaseController
       // Lay max
       rxMax.value = _getBloodSugarMeasureDisplay(bloodSugarDataList.last);
       // Lay min
-      rxMin.value = _getBloodSugarMeasureDisplay(
-          bloodSugarDataList.first);
+      rxMin.value = _getBloodSugarMeasureDisplay(bloodSugarDataList.first);
       _getCharMaxMin();
       // Lay trung binh
       _setAverage();
       // Lay detail moi nhat
-      bloodSugarList.sort(
-          (a, b) => a.dateTime!.compareTo(b.dateTime!));
+      bloodSugarList.sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
       _getLeftTitleListValue();
       _setChartData(bloodSugarList);
 
       selectedBloodSugar.value = bloodSugarList.last;
-      chartXSelected.value = selectedBloodSugar
-          .value.dateTime!
+      chartXSelected.value = selectedBloodSugar.value.dateTime!
           .getMillisecondDateFormat('dd/MM/yyyy');
     }
   }
@@ -188,12 +195,10 @@ class BloodSugarController extends AppBaseController
     chartXSelected.value = dateTime;
     final tempData = bloodSugarDataList
         .where((element) =>
-            element.dateTime!
-                .getMillisecondDateFormat('dd/MM/yyyy') ==
+            element.dateTime!.getMillisecondDateFormat('dd/MM/yyyy') ==
             dateTime)
         .toList();
-    if (tempData.isNotEmpty &&
-        tempData.length > groupIndex) {
+    if (tempData.isNotEmpty && tempData.length > groupIndex) {
       selectedBloodSugar.value = tempData[groupIndex];
     }
   }
@@ -209,14 +214,16 @@ class BloodSugarController extends AppBaseController
   }
 
   Future<void> onExportData() async {
+    analytics.logEvent(name: AppLogEvent.exportBloodSugar);
+    debugPrint("Logged ${AppLogEvent.exportBloodSugar} at ${DateTime.now()}");
     exportLoaded.value = LoadedType.start;
     List<String> header = [];
     List<List<String>> listOfData = [];
     header.add(TranslationConstants.date.tr);
     header.add(TranslationConstants.time.tr);
     header.add(TranslationConstants.bloodSugar.tr);
-    header.add(
-        '${TranslationConstants.measure.tr} (${BloodSugarUnit.mgdLUnit})');
+    header
+        .add('${TranslationConstants.measure.tr} (${BloodSugarUnit.mgdLUnit})');
     header.add(
         '${TranslationConstants.bloodSugar.tr} (${BloodSugarUnit.mgdLUnit})');
     header.add(TranslationConstants.bloodSugarState.tr);

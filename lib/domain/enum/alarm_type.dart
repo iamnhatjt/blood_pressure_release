@@ -1,4 +1,10 @@
+import 'dart:math';
+
 import 'package:bloodpressure/common/config/hive_config/hive_constants.dart';
+import 'package:bloodpressure/common/constants/app_constant.dart';
+import 'package:bloodpressure/common/constants/app_constant.dart';
+import 'package:bloodpressure/common/constants/app_constant.dart';
+import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/common/constants/app_image.dart';
 import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
@@ -60,16 +66,42 @@ extension AlarmTypeExtension on AlarmType {
     }
   }
 
-  String get trNotiDes {
+  String getAnalyticsEventName(String route) {
     switch (this) {
       case AlarmType.heartRate:
-        return TranslationConstants.heartRateNotiMsg.tr;
+        if (route.contains(AppRoute.heartBeatScreen)) {
+          return AppLogEvent.setAlarmHeartRateSet;
+        }
+        return AppLogEvent.alarmHeartRateSet;
       case AlarmType.bloodPressure:
-        return TranslationConstants.bloodPressureNotiMsg.tr;
+        if (route.contains(AppRoute.bloodPressureScreen)) {
+          return AppLogEvent.setAlarmBloodPressure;
+        }
+        return AppLogEvent.alarmBloodPressure;
       case AlarmType.bloodSugar:
-        return TranslationConstants.bloodSugarNotiMsg.tr;
+        if (route.contains(AppRoute.bloodSugar)) {
+          return AppLogEvent.setAlarmBloodSugar;
+        }
+        return AppLogEvent.alarmBloodSugar;
       case AlarmType.weightAndBMI:
-        return TranslationConstants.weightAndBMINotiMsg.tr;
+        if (route.contains(AppRoute.weightBMI)) {
+          return AppLogEvent.setAlarmWeightBMI;
+        }
+        return AppLogEvent.alarmWeightBMI;
+    }
+  }
+
+  String get trNotiDes {
+    final int randomIndex = Random(DateTime.now().microsecondsSinceEpoch).nextInt(9);
+    switch (this) {
+      case AlarmType.heartRate:
+        return TranslationConstants.heartRateNotiMsgs[randomIndex].tr;
+      case AlarmType.bloodPressure:
+        return TranslationConstants.bloodPressureNotiMsgs[randomIndex].tr;
+      case AlarmType.bloodSugar:
+        return TranslationConstants.bloodSugarNotiMsgs[randomIndex].tr;
+      case AlarmType.weightAndBMI:
+        return TranslationConstants.weightAndBMINotiMsgs[randomIndex].tr;
     }
   }
 

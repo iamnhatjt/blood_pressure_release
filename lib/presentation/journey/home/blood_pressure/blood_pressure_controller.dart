@@ -1,3 +1,4 @@
+import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/common/extensions/int_extension.dart';
 import 'package:bloodpressure/common/mixin/alarm_dialog_mixin.dart';
 import 'package:bloodpressure/common/mixin/date_time_mixin.dart';
@@ -11,12 +12,15 @@ import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_pressure/add_blood_pressure/add_blood_pressure_dialog.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog.dart';
 import 'package:collection/collection.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../common/constants/enums.dart';
 import '../../../../common/util/translation/app_translation.dart';
 import '../../../../domain/model/blood_pressure_model.dart';
+import '../../../widget/snack_bar/app_snack_bar.dart';
 
 class BloodPressureController extends GetxController
     with DateTimeMixin, AlarmDialogMixin {
@@ -39,8 +43,12 @@ class BloodPressureController extends GetxController
       BloodPressureModel().obs;
   RxBool isExporting = false.obs;
 
+  final analytics = FirebaseAnalytics.instance;
+
   BloodPressureController(
       this._bloodPressureUseCase, this._alarmUseCase);
+
+
 
   @override
   void onInit() {
@@ -74,6 +82,8 @@ class BloodPressureController extends GetxController
   }
 
   Future onAddData() async {
+    analytics.logEvent(name: AppLogEvent.addDataButtonBloodPressure);
+    debugPrint("Logged ${AppLogEvent.addDataButtonBloodPressure} at ${DateTime.now()}");
     final result = await showAppDialog(context, "", "",
         builder: (ctx) => const AddBloodPressureDialog());
     if (result != null && result) {
@@ -91,18 +101,18 @@ class BloodPressureController extends GetxController
     result
         .sort((a, b) => a.dateTime!.compareTo(b.dateTime!));
     bloodPressures.value = result;
-    chartMinDate.value =
-        DateTime.fromMillisecondsSinceEpoch(
-            result.first.dateTime!);
-    chartMaxDate.value =
-        DateTime.fromMillisecondsSinceEpoch(
-            result.last.dateTime!);
 
     if (bloodPressures.isNotEmpty) {
       bloodPressSelected.value = bloodPressures.last;
       chartXValueSelected.value = bloodPressSelected
           .value.dateTime!
           .getMillisecondDateFormat('dd/MM/yyyy');
+      chartMinDate.value =
+          DateTime.fromMillisecondsSinceEpoch(
+              result.first.dateTime!);
+      chartMaxDate.value =
+          DateTime.fromMillisecondsSinceEpoch(
+              result.last.dateTime!);
       final mapGroupData = groupBy(
           bloodPressures,
           (p0) => DateFormat('dd/MM/yyyy').format(
@@ -158,6 +168,9 @@ class BloodPressureController extends GetxController
   void onPressDeleteData() {
     _bloodPressureUseCase
         .deleteBloodPressure(bloodPressSelected.value.key!);
+    showTopSnackBar(context,
+        message: TranslationConstants.deleteDataSuccess.tr,
+        type: SnackBarType.done);
     filterBloodPressure();
   }
 
@@ -172,6 +185,8 @@ class BloodPressureController extends GetxController
   }
 
   Future<void> exportData() async {
+    analytics.logEvent(name: AppLogEvent.exportBloodPressure);
+    debugPrint("Logged ${AppLogEvent.exportBloodPressure} at ${DateTime.now()}");
     isExporting.value = true;
     List<String> header = [];
     List<List<String>> listOfData = [];
