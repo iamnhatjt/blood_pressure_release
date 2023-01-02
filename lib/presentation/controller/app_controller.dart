@@ -87,15 +87,38 @@ class AppController extends SuperController {
 
   @override
   void onResumed() {
-    if (Platform.isAndroid) {
-      InAppPurchase.instance.restorePurchases();
-    }
+    InAppPurchase.instance.restorePurchases();
   }
 
   @override
   void onReady() {
     super.onReady();
     _onInitIAPListener();
+    if (Platform.isIOS) {
+      int? firstTimeOpenApp = _localRepository.getFirstTimeOpenApp();
+      if (isNullEmptyFalseOrZero(firstTimeOpenApp)) {
+        isPremiumFull.value = true;
+        _localRepository.setFirstTimeOpenApp(DateTime.now().millisecondsSinceEpoch);
+      } else {
+        var now = DateTime.now().millisecondsSinceEpoch;
+        if (now - firstTimeOpenApp! > 86400000) {
+          configAds();
+        }
+      }
+    } else {
+      configAds();
+    }
+    // _initNotificationSelectHandle();
+  }
+
+  @override
+  void onClose() {
+    _subscriptionIAP?.cancel();
+    getIt<HiveConfig>().dispose();
+    super.onClose();
+  }
+
+  void configAds() {
     _appOpenAdManager = AppOpenAdManager()..loadAd();
     AppStateEventNotifier.startListening();
     AppStateEventNotifier.appStateStream.forEach((state) {
@@ -107,14 +130,6 @@ class AppController extends SuperController {
     });
     AddInterstitialAdManager().initializeInterstitialAds();
     AddRewardAdManager().initializeRewardedAds();
-    // _initNotificationSelectHandle();
-  }
-
-  @override
-  void onClose() {
-    _subscriptionIAP?.cancel();
-    getIt<HiveConfig>().dispose();
-    super.onClose();
   }
 
   void updateFreeAdCount() {

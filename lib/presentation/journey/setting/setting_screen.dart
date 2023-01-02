@@ -121,15 +121,25 @@ class SettingScreen extends GetView<SettingController> {
             child: ScrollConfiguration(
               behavior: DisableGlowBehavior(),
               child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 16.sp).copyWith(bottom: 16.sp),
+                padding: EdgeInsets.symmetric(horizontal: 16.sp)
+                    .copyWith(bottom: 16.sp),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    InkWell(
-                        onTap: () {
-                          Get.find<MainController>().pushToSubscribeScreen();
-                        },
-                        child: AppImageWidget.asset(path: AppImage.setting_banner)),
+                    Obx(
+                      () => Get.find<AppController>().isPremiumFull.value
+                          ? const SizedBox()
+                          : InkWell(
+                              onTap: () {
+                                Get.find<MainController>()
+                                    .pushToSubscribeScreen();
+                              },
+                              child: AppImageWidget.asset(
+                                  path: AppImage.setting_banner)),
+                    ),
+                    SizedBox(
+                      height: 18.sp,
+                    ),
                     _buildItemSetting(
                         controller.onPressShare,
                         AppImage.ic_share_app,

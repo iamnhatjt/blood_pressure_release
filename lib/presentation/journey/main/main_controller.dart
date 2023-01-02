@@ -17,11 +17,8 @@ class MainController extends GetxController {
     switch (index) {
       case 1:
       case 3:
-        {
-          showInterstitialAds(
-              () => currentTab.value = index);
-          break;
-        }
+        showInterstitialAds(() => currentTab.value = index);
+        break;
       default:
         currentTab.value = index;
         break;
@@ -46,8 +43,7 @@ class MainController extends GetxController {
       if (details != null &&
           details.didNotificationLaunchApp &&
           details.notificationResponse != null) {
-        AppNotificationLocal.onTapNotification(
-            details.notificationResponse!);
+        AppNotificationLocal.onTapNotification(details.notificationResponse!);
       }
     });
     appController = Get.find<AppController>();

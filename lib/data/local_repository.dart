@@ -169,4 +169,13 @@ class LocalRepository {
   Future<bool> setAllowWeigtAndBMIFirstTime(bool value) {
     return _sharePreferenceUtils.setBool("allowWeightAndBMIFirstTime", value);
   }
+
+/**
+ * [IOS] Set lan dau mo app
+ */
+  Future<bool> setFirstTimeOpenApp(int dateTime) =>
+      _sharePreferenceUtils.setInt(AppConfig.firstTimeOpenApp, dateTime);
+
+  int? getFirstTimeOpenApp() =>
+      _sharePreferenceUtils.getInt(AppConfig.firstTimeOpenApp);
 }
