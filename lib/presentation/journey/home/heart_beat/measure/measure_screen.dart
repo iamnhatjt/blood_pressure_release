@@ -92,10 +92,6 @@ class MeasureScreen extends GetView<MeasureController> {
 
   Widget _buildStateMeasure(BuildContext context) {
     double sizeCircle = Get.width / 1.725;
-    String tutorialPath = AppImage.heart_rate_tutorial_android;
-    if (Platform.isIOS) {
-      tutorialPath = AppImage.heart_rate_tutorial_ios;
-    }
     return Column(
       key: const ValueKey<int>(0),
       children: [
@@ -121,7 +117,7 @@ class MeasureScreen extends GetView<MeasureController> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(17.0.sp, 0, 17.0.sp, 0),
                           child: AppImageWidget.asset(
-                            path: tutorialPath,
+                            path: AppImage.heart_rate_lottie,
                           ),
                         ),
                       ],
