@@ -1,6 +1,8 @@
 import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
+import 'package:bloodpressure/presentation/journey/main/main_controller.dart';
 import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -123,7 +125,11 @@ class SettingScreen extends GetView<SettingController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppImageWidget.asset(path: AppImage.setting_banner),
+                    InkWell(
+                        onTap: () {
+                          Get.find<MainController>().pushToSubscribeScreen();
+                        },
+                        child: AppImageWidget.asset(path: AppImage.setting_banner)),
                     _buildItemSetting(
                         controller.onPressShare,
                         AppImage.ic_share_app,
