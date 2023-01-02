@@ -27,7 +27,6 @@ class AppController extends SuperController {
   Rx<UserModel> currentUser = UserModel().obs;
   final _localRepository = getIt.get<LocalRepository>();
 
-  // late AppOpenAdManager _appOpenAdManager;
   bool avoidShowOpenApp = false;
   RxBool isPremiumFull = false.obs;
   StreamSubscription<dynamic>? _subscriptionIAP;
@@ -94,22 +93,7 @@ class AppController extends SuperController {
   void onReady() {
     super.onReady();
     _onInitIAPListener();
-    if (Platform.isIOS) {
-      int? firstTimeOpenApp = _localRepository.getFirstTimeOpenApp();
-      if (isNullEmptyFalseOrZero(firstTimeOpenApp)) {
-        isPremiumFull.value = true;
-        _localRepository.setFirstTimeOpenApp(DateTime.now().millisecondsSinceEpoch);
-      } else {
-        var now = DateTime.now().millisecondsSinceEpoch;
-        if (now - firstTimeOpenApp! > 86400000) {
-          configAds();
-        } else {
-          isPremiumFull.value = true;
-        }
-      }
-    } else {
-      configAds();
-    }
+    configAds();
     // _initNotificationSelectHandle();
   }
 
@@ -121,15 +105,31 @@ class AppController extends SuperController {
   }
 
   void configAds() {
-    _appOpenAdManager = AppOpenAdManager()..loadAd();
-    AppStateEventNotifier.startListening();
-    AppStateEventNotifier.appStateStream.forEach((state) {
-      if (state == AppState.foreground) {
-        if (!isPremiumFull.value && !avoidShowOpenApp) {
-          _appOpenAdManager.showAdIfAvailable();
+    if (Platform.isIOS) {
+      int? firstTimeOpenApp = _localRepository.getFirstTimeOpenApp();
+      if (isNullEmptyFalseOrZero(firstTimeOpenApp)) {
+        _localRepository
+            .setFirstTimeOpenApp(DateTime.now().millisecondsSinceEpoch);
+      } else {
+        var now = DateTime.now().millisecondsSinceEpoch;
+        if (now - firstTimeOpenApp! > 86400000) {
+          _appOpenAdManager = AppOpenAdManager()..loadAd();
         }
       }
-    });
+    } else {
+      _appOpenAdManager = AppOpenAdManager()..loadAd();
+    }
+
+    AppStateEventNotifier.startListening();
+    if (!isNullEmpty(_appOpenAdManager)) {
+      AppStateEventNotifier.appStateStream.forEach((state) {
+        if (state == AppState.foreground) {
+          if (!isPremiumFull.value && !avoidShowOpenApp) {
+            _appOpenAdManager.showAdIfAvailable();
+          }
+        }
+      });
+    }
     AddInterstitialAdManager().initializeInterstitialAds();
     AddRewardAdManager().initializeRewardedAds();
   }

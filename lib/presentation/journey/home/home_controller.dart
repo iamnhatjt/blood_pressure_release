@@ -17,6 +17,7 @@ class HomeController extends GetxController {
     debugPrint("Logged ${AppLogEvent.homeHeartRate} at ${DateTime.now()}");
     if (Platform.isIOS && appController.freeAdCount < 4) {
       appController.increaseFreeAdCount();
+      Get.toNamed(AppRoute.heartBeatScreen);
     } else {
       showInterstitialAds(() => Get.toNamed(AppRoute.heartBeatScreen));
     }
