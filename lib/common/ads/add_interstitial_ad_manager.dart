@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:applovin_max/applovin_max.dart';
@@ -133,10 +134,15 @@ showInterstitialAds(Function() onAdHiddenCallback) async {
     AppLovinMAX.showInterstitial(
         BuildConstants.idInterstitialAd);
   } else {
-    showToast(AppTranslation.getString(
-        TranslationConstants.errorLoadAds));
+    if (Platform.isIOS) {
+      onAdHiddenCallback();
+    } else {
+      showToast(AppTranslation.getString(
+          TranslationConstants.errorLoadAds));
+    }
     AppLovinMAX.loadInterstitial(
         BuildConstants.idInterstitialAd);
+
   }
   await Future.delayed(const Duration(seconds: 1));
 }
