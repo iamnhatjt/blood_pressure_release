@@ -30,7 +30,7 @@ class SplashController extends GetxController {
     _appController.updateLocale(
         AppConstant.availableLocales[int.tryParse(language ?? '') ?? 1]);
     await _appController.getUser();
-    // await Get.find<AppController>().getIAPProductDetails();
+    await Get.find<AppController>().getIAPProductDetails();
     await _toNextScreen();
   }
 

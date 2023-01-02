@@ -1,4 +1,5 @@
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_pressure/blood_pressure_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_pressure/widget/blood_pressure_data_widget.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/alarm_add_data_button.dart';
@@ -79,7 +80,15 @@ class BloodPressureScreen
                   Expanded(
                     child: Obx(() => controller
                             .bloodPressures.isNotEmpty
-                        ? const BloodPressureDataWidget()
+                        ? SingleChildScrollView(
+                            physics: Get.find<
+                                        AppController>()
+                                    .isPremiumFull
+                                    .value
+                                ? const NeverScrollableScrollPhysics()
+                                : null,
+                            child:
+                                const BloodPressureDataWidget())
                         : EmptyWidget(
                             imagePath:
                                 AppImage.ic_blood_pressure2,

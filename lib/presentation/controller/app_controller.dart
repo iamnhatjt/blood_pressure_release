@@ -31,7 +31,8 @@ class AppController extends SuperController {
   StreamSubscription<dynamic>? _subscriptionIAP;
   List<ProductDetails> _listProductDetails = [];
   Map<String, ProductDetails> productDetailMap = {};
-  Rx<PurchaseStatus> rxPurchaseStatus = PurchaseStatus.canceled.obs;
+  Rx<PurchaseStatus> rxPurchaseStatus =
+      PurchaseStatus.canceled.obs;
 
   //late
   late AppOpenAdManager _appOpenAdManager;
@@ -156,7 +157,7 @@ class AppController extends SuperController {
           if (Platform.isAndroid) {
             isPremiumFull.value =
                 purchaseDetails.productID ==
-                    AppConfig.premiumIdentifierYearly;
+                    AppConfig.premiumIdentifierAndroid;
           } else if (Platform.isIOS) {
             isPremiumFull.value =
                 purchaseDetails.productID ==
@@ -190,7 +191,8 @@ class AppController extends SuperController {
               .queryProductDetails(kIds);
       _listProductDetails = response.productDetails;
       log('///////////// _listProductDetails: ${response.productDetails} ${response.productDetails.isNotEmpty ? response.productDetails.first.id : ''}');
-      for (final ProductDetails detail in _listProductDetails) {
+      for (final ProductDetails detail
+          in _listProductDetails) {
         productDetailMap[detail.id] = detail;
       }
     }

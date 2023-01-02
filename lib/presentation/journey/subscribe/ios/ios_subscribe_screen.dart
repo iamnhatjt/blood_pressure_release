@@ -142,6 +142,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                       ),
                     )
                   : Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           TranslationConstants.continues.tr,
@@ -150,7 +151,6 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                               fontWeight: FontWeight.w500,
                               color: AppColor.white),
                         ),
-                        SizedBox(height: 4.sp),
                         Text(
                           TranslationConstants.freeTrial.tr,
                           style:
@@ -176,6 +176,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              const SizedBox(),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 48.sp),
                 child: Column(

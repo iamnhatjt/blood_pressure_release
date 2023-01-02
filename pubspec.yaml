@@ -47,7 +47,7 @@ dependencies:
   flutter_screenutil: ^5.6.0
   flutter_svg: ^1.1.6
   url_launcher: ^6.1.6
-  in_app_purchase: ^3.0.8
+  in_app_purchase: ^3.1.0
   google_mobile_ads: ^2.3.0
   applovin_max: ^2.3.1
   firebase_core: ^2.3.0

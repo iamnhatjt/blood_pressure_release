@@ -109,6 +109,7 @@ class AppDialog extends StatelessWidget {
   final bool? hideGroupButton;
   final Widget? fullContentWidget;
   final EdgeInsetsGeometry? padding;
+  final bool hasScroll;
 
   const AppDialog({
     Key? key,
@@ -129,6 +130,7 @@ class AppDialog extends StatelessWidget {
     this.hideGroupButton,
     this.fullContentWidget,
     this.padding,
+    this.hasScroll = false,
   }) : super(key: key);
 
   Widget _buildGroupButtons() {
@@ -198,83 +200,93 @@ class AppDialog extends StatelessWidget {
         elevation: 0.0,
         backgroundColor:
             backgroundColor ?? Colors.transparent,
-        child: Stack(
-          children: [
-            fullContentWidget ??
-                Container(
-                  decoration: BoxDecoration(
-                    color:
-                        backgroundColor ?? AppColor.white,
-                    borderRadius:
-                        BorderRadius.circular(20.0.sp),
-                  ),
-                  width: widthDialog ?? dialogWidth,
-                  height: heightDialog,
-                  padding:
-                      padding ?? EdgeInsets.all(10.0.sp),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      (title ?? '').isNotEmpty
-                          ? Text(
-                              title!,
-                              textAlign: TextAlign.center,
-                              style: textStyle20700().merge(
-                                  const TextStyle(
-                                      color:
-                                          AppColor.black)),
-                            )
-                          : const SizedBox.shrink(),
-                      (message ?? '').isNotEmpty
-                          ? Padding(
-                              padding: EdgeInsets.only(
-                                  top: 8.0.sp),
-                              child: Text(
-                                message!,
+        child: SingleChildScrollView(
+          physics: !hasScroll
+              ? const NeverScrollableScrollPhysics()
+              : null,
+          child: Stack(
+            children: [
+              fullContentWidget ??
+                  Container(
+                    decoration: BoxDecoration(
+                      color:
+                          backgroundColor ?? AppColor.white,
+                      borderRadius:
+                          BorderRadius.circular(20.0.sp),
+                    ),
+                    width: widthDialog ?? dialogWidth,
+                    height: heightDialog,
+                    padding:
+                        padding ?? EdgeInsets.all(10.0.sp),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        (title ?? '').isNotEmpty
+                            ? Text(
+                                title!,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: AppColor.grayText,
-                                  fontSize: 16.0.sp,
-                                  fontWeight:
-                                      FontWeight.w400,
-                                  fontFamily: 'Roboto',
+                                style: textStyle20700()
+                                    .merge(const TextStyle(
+                                        color: AppColor
+                                            .black)),
+                              )
+                            : const SizedBox.shrink(),
+                        (message ?? '').isNotEmpty
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    top: 8.0.sp),
+                                child: Text(
+                                  message!,
+                                  textAlign:
+                                      TextAlign.center,
+                                  style: TextStyle(
+                                    color:
+                                        AppColor.grayText,
+                                    fontSize: 16.0.sp,
+                                    fontWeight:
+                                        FontWeight.w400,
+                                    fontFamily: 'Roboto',
+                                  ),
                                 ),
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                      widgetBody ??
-                          Column(
-                            children: [
-                              (message ?? '').isEmpty
-                                  ? const SizedBox.shrink()
-                                  : Text(
-                                      message!,
-                                      overflow: TextOverflow
-                                          .ellipsis,
-                                      textAlign:
-                                          TextAlign.center,
-                                      style: TextStyle(
-                                          color: AppColor
-                                              .white,
-                                          fontSize: 16.0.sp,
-                                          fontWeight:
-                                              FontWeight
-                                                  .w300),
-                                    ),
-                              messageWidget ??
-                                  const SizedBox.shrink(),
-                            ],
-                          ),
-                      hideGroupButton == true
-                          ? const SizedBox.shrink()
-                          : _buildGroupButtons(),
-                    ],
+                              )
+                            : const SizedBox.shrink(),
+                        widgetBody ??
+                            Column(
+                              children: [
+                                (message ?? '').isEmpty
+                                    ? const SizedBox
+                                        .shrink()
+                                    : Text(
+                                        message!,
+                                        overflow:
+                                            TextOverflow
+                                                .ellipsis,
+                                        textAlign: TextAlign
+                                            .center,
+                                        style: TextStyle(
+                                            color: AppColor
+                                                .white,
+                                            fontSize:
+                                                16.0.sp,
+                                            fontWeight:
+                                                FontWeight
+                                                    .w300),
+                                      ),
+                                messageWidget ??
+                                    const SizedBox.shrink(),
+                              ],
+                            ),
+                        hideGroupButton == true
+                            ? const SizedBox.shrink()
+                            : _buildGroupButtons(),
+                      ],
+                    ),
                   ),
-                ),
-            Positioned.fill(
-                child: coverScreenWidget ??
-                    const SizedBox.shrink()),
-          ],
+              Positioned.fill(
+                  child: coverScreenWidget ??
+                      const SizedBox.shrink()),
+            ],
+          ),
         ),
       ),
     );

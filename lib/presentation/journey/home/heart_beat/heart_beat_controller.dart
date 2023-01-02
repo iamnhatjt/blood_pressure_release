@@ -2,9 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:bloodpressure/common/constants/app_constant.dart';
+import 'package:bloodpressure/common/mixin/alarm_dialog_mixin.dart';
 import 'package:bloodpressure/domain/model/heart_rate_model.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
+import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -18,11 +21,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../common/constants/app_route.dart';
 import '../../../../common/util/app_util.dart';
 import '../../../../common/util/translation/app_translation.dart';
+import '../../../../domain/enum/alarm_type.dart';
 import '../../../theme/app_color.dart';
 import '../../../widget/app_dialog.dart';
 import '../../../widget/app_dialog_heart_rate_widget.dart';
 
-class HeartBeatController extends GetxController {
+class HeartBeatController extends GetxController with AlarmDialogMixin {
   late BuildContext context;
   RxList<HeartRateModel> listHeartRateModel = RxList();
   List<HeartRateModel> listHeartRateModelAll = [];
@@ -40,6 +44,7 @@ class HeartBeatController extends GetxController {
   Rx<DateTime> chartMaxDate = DateTime.now().obs;
   RxDouble chartSelectedX = 0.0.obs;
 
+  final alarmController = Get.find<AlarmController>();
   final analytics = FirebaseAnalytics.instance;
 
   @override
@@ -175,23 +180,26 @@ class HeartBeatController extends GetxController {
         inputDateTime: DateTime.now(),
         inputValue: 70,
         onPressCancel: () {
-          Get.back();
-          // _recentBPM = 0;
+          showInterstitialAds(Get.back);
         },
         onPressAdd: (dateTime, value) {
-          analytics.logEvent(name: AppLogEvent.addDataHeartRate);
-          debugPrint("Logged ${AppLogEvent.addDataHeartRate} at ${DateTime.now()}");
-          if (Get.isRegistered<HeartBeatController>()) {
-            Get.find<HeartBeatController>().addHeartRateData(HeartRateModel(
-              timeStamp: dateTime.millisecondsSinceEpoch,
-              value: value,
-              age: _appController.currentUser.value.age ?? 30,
-              genderId: _appController.currentUser.value.genderId ?? '0',
-            ));
-          }
-          Get.back();
-          showToast(TranslationConstants.addSuccess.tr);
-          // _recentBPM = 0;
+          showInterstitialAds(() {
+            analytics.logEvent(name: AppLogEvent.addDataHeartRate);
+            debugPrint(
+                "Logged ${AppLogEvent.addDataHeartRate} at ${DateTime.now()}");
+            if (Get.isRegistered<HeartBeatController>()) {
+              Get.find<HeartBeatController>().addHeartRateData(HeartRateModel(
+                timeStamp: dateTime.millisecondsSinceEpoch,
+                value: value,
+                age: _appController.currentUser.value.age ?? 30,
+                genderId: _appController.currentUser.value.genderId ?? '0',
+              ));
+            }
+            Get.back();
+            showToast(TranslationConstants.addSuccess.tr);
+            // _recentBPM = 0;
+          });
+
         },
       ),
     );
@@ -287,5 +295,16 @@ class HeartBeatController extends GetxController {
       secondButtonText: TranslationConstants.cancel.tr,
       secondButtonCallback: Get.back,
     );
+  }
+
+  onPressAddAlarm() {
+      showAddAlarm(
+        context: context,
+        alarmType: AlarmType.heartRate,
+        onPressSave: (alarmModel) {
+          alarmController.addAlarm(alarmModel);
+          Get.back();
+        },
+      );
   }
 }

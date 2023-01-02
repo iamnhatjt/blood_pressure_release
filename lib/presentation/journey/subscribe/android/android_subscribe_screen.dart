@@ -38,7 +38,7 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
                   ),
                 ),
                 Text(
-                  "${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierYearly]?.price ?? ''} ${TranslationConstants.perYear.tr}",
+                  "${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierAndroid]?.price ?? ''} ${TranslationConstants.perYear.tr}",
                   style: ThemeText.headline4.copyWith(color: AppColor.white),
                 ),
                 Text(TranslationConstants.subscribeAutoRenewable.tr,
@@ -75,7 +75,6 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
                             fontWeight: FontWeight.w500,
                             color: AppColor.white),
                       ),
-                      SizedBox(height: 4.sp),
                       Text(
                         TranslationConstants.freeTrial.tr,
                         style: ThemeText.caption.copyWith(color: AppColor.white),
@@ -97,6 +96,7 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            const SizedBox(),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [

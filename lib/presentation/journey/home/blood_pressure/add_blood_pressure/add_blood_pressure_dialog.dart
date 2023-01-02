@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/domain/enum/blood_pressure_type.dart';
 import 'package:bloodpressure/domain/model/blood_pressure_model.dart';
@@ -23,6 +26,12 @@ class AddBloodPressureDialog
     this.bloodPressureModel,
   });
 
+  void _onAddData() {
+    bloodPressureModel != null
+        ? controller.onSave()
+        : controller.addBloodPressure();
+  }
+
   @override
   Widget build(BuildContext context) {
     controller.context = context;
@@ -33,11 +42,21 @@ class AddBloodPressureDialog
       firstButtonText: bloodPressureModel != null
           ? TranslationConstants.save.tr
           : TranslationConstants.add.tr,
-      firstButtonCallback: bloodPressureModel != null
-          ? controller.onSave
-          : controller.addBloodPressure,
+      firstButtonCallback: () {
+        if (Platform.isAndroid) {
+          showInterstitialAds(() => _onAddData());
+        } else {
+          _onAddData();
+        }
+      },
       secondButtonText: TranslationConstants.cancel.tr,
-      secondButtonCallback: Get.back,
+      secondButtonCallback: () {
+        if (Platform.isAndroid) {
+          showInterstitialAds(() => Get.back());
+        } else {
+          Get.back();
+        }
+      },
       coverScreenWidget: Obx(() =>
           controller.isLoading.value
               ? const AppLoading()

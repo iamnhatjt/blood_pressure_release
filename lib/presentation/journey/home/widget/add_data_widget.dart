@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:bloodpressure/common/util/app_util.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
@@ -19,6 +22,7 @@ class AddDataDialog extends StatelessWidget {
   final Function()? secondButtonOnPressed;
   final Widget? coverScreenWidget;
   final String? firstButtonText;
+  final bool hasScroll;
 
   const AddDataDialog({
     super.key,
@@ -32,6 +36,7 @@ class AddDataDialog extends StatelessWidget {
     this.firstButtonOnPressed,
     this.firstButtonText,
     this.secondButtonOnPressed,
+    this.hasScroll = false,
   });
 
   Widget _buildDateTimeWidget() {
@@ -73,10 +78,24 @@ class AddDataDialog extends StatelessWidget {
       firstButtonText: isEdit
           ? TranslationConstants.save.tr
           : TranslationConstants.add.tr,
-      firstButtonCallback: firstButtonOnPressed ?? Get.back,
+      firstButtonCallback: () {
+        if (Platform.isAndroid) {
+          showInterstitialAds(() =>
+              firstButtonOnPressed?.call() ?? Get.back);
+        } else {
+          firstButtonOnPressed?.call() ?? Get.back;
+        }
+      },
       secondButtonText: TranslationConstants.cancel.tr,
-      secondButtonCallback:
-          secondButtonOnPressed ?? Get.back,
+      hasScroll: hasScroll,
+      secondButtonCallback: () {
+        if (Platform.isAndroid) {
+          showInterstitialAds(() =>
+              secondButtonOnPressed?.call() ?? Get.back);
+        } else {
+          secondButtonOnPressed?.call() ?? Get.back;
+        }
+      },
       coverScreenWidget: coverScreenWidget,
       widgetBody: InkWell(
         onTap: hideKeyboard,

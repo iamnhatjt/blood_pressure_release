@@ -62,7 +62,8 @@ class WeightBMIController extends GetxController
 
   void exportData() async {
     analytics.logEvent(name: AppLogEvent.exportWeightBMI);
-    debugPrint("Logged ${AppLogEvent.exportWeightBMI} at ${DateTime.now()}");
+    debugPrint(
+        "Logged ${AppLogEvent.exportWeightBMI} at ${DateTime.now()}");
     isExporting.value = true;
     List<String> header = [];
     List<List<String>> listOfData = [];
@@ -127,8 +128,10 @@ class WeightBMIController extends GetxController
   }
 
   void onAddData() async {
-    analytics.logEvent(name: AppLogEvent.addDataButtonWeightBMI);
-    debugPrint("Logged ${AppLogEvent.addDataButtonWeightBMI} at ${DateTime.now()}");
+    analytics.logEvent(
+        name: AppLogEvent.addDataButtonWeightBMI);
+    debugPrint(
+        "Logged ${AppLogEvent.addDataButtonWeightBMI} at ${DateTime.now()}");
     final result = await showAppDialog(context, "", "",
         builder: (ctx) => const AddWeightBMIDialog());
     if (result ?? false) {

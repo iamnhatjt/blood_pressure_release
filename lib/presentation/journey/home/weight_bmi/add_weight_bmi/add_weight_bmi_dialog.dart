@@ -37,255 +37,225 @@ class AddWeightBMIDialog
       controller.onEdit(bmiModel!);
     }
     final appController = Get.find<AppController>();
-    return SingleChildScrollView(
-      child: AddDataDialog(
-        rxStrDate: controller.stringBloodPrDate,
-        rxStrTime: controller.stringBloodPrTime,
-        onSelectDate: controller.onSelectBMIDate,
-        isEdit: bmiModel != null,
-        onSelectTime: controller.onSelectBMITime,
-        firstButtonOnPressed: bmiModel != null
-            ? controller.onSave
-            : controller.addBMI,
-        coverScreenWidget: Obx(() =>
-            controller.isLoading.value
-                ? const AppLoading()
-                : const SizedBox()),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 50.sp,
-            ),
-            Row(
+    return AddDataDialog(
+      rxStrDate: controller.stringBloodPrDate,
+      rxStrTime: controller.stringBloodPrTime,
+      onSelectDate: controller.onSelectBMIDate,
+      isEdit: bmiModel != null,
+      hasScroll: true,
+      onSelectTime: controller.onSelectBMITime,
+      secondButtonOnPressed: () => Get.back(),
+      firstButtonOnPressed: bmiModel != null
+          ? controller.onSave
+          : controller.addBMI,
+      coverScreenWidget: Obx(() =>
+          controller.isLoading.value
+              ? const AppLoading()
+              : const SizedBox()),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 50.sp,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Obx(
+                  () => UnitButton(
+                    value:
+                        '${TranslationConstants.weight.tr} '
+                        '(${controller.weightUnit.value.label})',
+                    onPressed:
+                        controller.onSelectWeightUnit,
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 16.sp,
+              ),
+              Expanded(
+                child: Obx(
+                  () => UnitButton(
+                    value:
+                        '${TranslationConstants.height.tr} '
+                        '(${controller.heightUnit.value.label})',
+                    onPressed:
+                        controller.onSelectHeightUnit,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 19.sp,
+          ),
+          SizedBox(
+            height: 68.sp,
+            child: Row(
               children: [
                 Expanded(
-                  child: Obx(
-                    () => UnitButton(
-                      value:
-                          '${TranslationConstants.weight.tr} '
-                          '(${controller.weightUnit.value.label})',
-                      onPressed:
-                          controller.onSelectWeightUnit,
-                    ),
+                  child: BloodTextFieldWidget(
+                    controller: controller.weightController,
+                    onChanged: controller.caculateBMI,
                   ),
                 ),
                 SizedBox(
                   width: 16.sp,
                 ),
                 Expanded(
-                  child: Obx(
-                    () => UnitButton(
-                      value:
-                          '${TranslationConstants.height.tr} '
-                          '(${controller.heightUnit.value.label})',
-                      onPressed:
-                          controller.onSelectHeightUnit,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 19.sp,
-            ),
-            SizedBox(
-              height: 68.sp,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: BloodTextFieldWidget(
-                      controller:
-                          controller.weightController,
-                      onChanged: controller.caculateBMI,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16.sp,
-                  ),
-                  Expanded(
-                    child: Obx(() {
-                      if (controller.heightUnit.value ==
-                          HeightUnit.cm) {
-                        return BloodTextFieldWidget(
-                          controller:
-                              controller.cmController,
-                          onChanged: controller.caculateBMI,
-                        );
-                      } else {
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: BloodTextFieldWidget(
-                                controller:
-                                    controller.ftController,
-                                onChanged:
-                                    controller.caculateBMI,
-                                inputFormatters: [
-                                  FeetFormatter(),
-                                ],
-                              ),
+                  child: Obx(() {
+                    if (controller.heightUnit.value ==
+                        HeightUnit.cm) {
+                      return BloodTextFieldWidget(
+                        controller: controller.cmController,
+                        onChanged: controller.caculateBMI,
+                      );
+                    } else {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: BloodTextFieldWidget(
+                              controller:
+                                  controller.ftController,
+                              onChanged:
+                                  controller.caculateBMI,
+                              inputFormatters: [
+                                FeetFormatter(),
+                              ],
                             ),
-                            SizedBox(
-                              width: 8.sp,
-                            ),
-                            Expanded(
-                              child: BloodTextFieldWidget(
-                                controller: controller
-                                    .inchController,
-                                onChanged:
-                                    controller.caculateBMI,
-                                inputFormatters: [
-                                  InchesFormatter(),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-                      }
-                    }),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 63.sp,
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Obx(
-                  () => Container(
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      color: controller.bmiType.value.color,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(8),
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    alignment: Alignment.center,
-                    child: Text(
-                      controller.bmiType.value.bmiName,
-                      style: textStyle20600().copyWith(
-                        color: AppColor.white,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 16.sp,
-                ),
-                Obx(
-                  () => AppTouchable(
-                    onPressed: controller.onShowInfo,
-                    width: double.maxFinite,
-                    decoration: const BoxDecoration(
-                      color: AppColor.lightGray,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(9),
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    child: Text(
-                      controller.bmiType.value.message,
-                      style: textStyle16400().copyWith(
-                        color: AppColor.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 28.sp,
-            ),
-            Obx(
-              () => Row(
-                children: BMIType.values
-                    .map(
-                      (e) => Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 6.sp),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              controller.bmiType.value == e
-                                  ? AppImageWidget.asset(
-                                      path:
-                                          AppImage.ic_down,
-                                      width: 20.0.sp,
-                                      height: 12.sp,
-                                      color: controller
-                                          .bmiType
-                                          .value
-                                          .color,
-                                    )
-                                  : SizedBox(
-                                      height: 12.sp,
-                                    ),
-                              SizedBox(
-                                height: 4.sp,
-                              ),
-                              Container(
-                                height: 12.sp,
-                                decoration: BoxDecoration(
-                                  color: e.color,
-                                  borderRadius:
-                                      const BorderRadius
-                                          .all(
-                                    Radius.circular(8),
-                                  ),
-                                ),
-                              )
-                            ],
                           ),
+                          SizedBox(
+                            width: 8.sp,
+                          ),
+                          Expanded(
+                            child: BloodTextFieldWidget(
+                              controller:
+                                  controller.inchController,
+                              onChanged:
+                                  controller.caculateBMI,
+                              inputFormatters: [
+                                InchesFormatter(),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                  }),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 63.sp,
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Obx(
+                () => Container(
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    color: controller.bmiType.value.color,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  alignment: Alignment.center,
+                  child: Text(
+                    controller.bmiType.value.bmiName,
+                    style: textStyle20600().copyWith(
+                      color: AppColor.white,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 16.sp,
+              ),
+              Obx(
+                () => AppTouchable(
+                  onPressed: controller.onShowInfo,
+                  width: double.maxFinite,
+                  decoration: const BoxDecoration(
+                    color: AppColor.lightGray,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(9),
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    controller.bmiType.value.message,
+                    style: textStyle16400().copyWith(
+                      color: AppColor.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 28.sp,
+          ),
+          Obx(
+            () => Row(
+              children: BMIType.values
+                  .map(
+                    (e) => Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 6.sp),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            controller.bmiType.value == e
+                                ? AppImageWidget.asset(
+                                    path: AppImage.ic_down,
+                                    width: 20.0.sp,
+                                    height: 12.sp,
+                                    color: controller
+                                        .bmiType
+                                        .value
+                                        .color,
+                                  )
+                                : SizedBox(
+                                    height: 12.sp,
+                                  ),
+                            SizedBox(
+                              height: 4.sp,
+                            ),
+                            Container(
+                              height: 12.sp,
+                              decoration: BoxDecoration(
+                                color: e.color,
+                                borderRadius:
+                                    const BorderRadius.all(
+                                  Radius.circular(8),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
-                    )
-                    .toList(),
-              ),
+                    ),
+                  )
+                  .toList(),
             ),
-            SizedBox(
-              height: 30.sp,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AppTouchable(
-                  onPressed: controller.onPressedAge,
-                  padding: EdgeInsets.symmetric(
-                      vertical: 8.0.sp,
-                      horizontal: 12.0.sp),
-                  child: Obx(() => Text(
-                        '${TranslationConstants.age.tr}: ${controller.age.value}',
-                        style: textStyle18400()
-                            .merge(const TextStyle(
-                          shadows: [
-                            Shadow(
-                                color: AppColor.grayText2,
-                                offset: Offset(0, -5))
-                          ],
-                          color: Colors.transparent,
-                          decoration:
-                              TextDecoration.underline,
-                          decorationColor:
-                              AppColor.grayText2,
-                        )),
-                      )),
-                ),
-                SizedBox(width: 12.0.sp),
-                AppTouchable(
-                  onPressed: controller.onPressGender,
-                  padding: EdgeInsets.symmetric(
-                      vertical: 8.0.sp,
-                      horizontal: 12.0.sp),
-                  child: Obx(() {
-                    return Text(
-                      chooseContentByLanguage(
-                          controller.gender['nameEN'],
-                          controller.gender['nameVN']),
+          ),
+          SizedBox(
+            height: 30.sp,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppTouchable(
+                onPressed: controller.onPressedAge,
+                padding: EdgeInsets.symmetric(
+                    vertical: 8.0.sp, horizontal: 12.0.sp),
+                child: Obx(() => Text(
+                      '${TranslationConstants.age.tr}: ${controller.age.value}',
                       style: textStyle18400()
                           .merge(const TextStyle(
                         shadows: [
@@ -298,16 +268,38 @@ class AddWeightBMIDialog
                             TextDecoration.underline,
                         decorationColor: AppColor.grayText2,
                       )),
-                    );
-                  }),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 70.sp,
-            )
-          ],
-        ),
+                    )),
+              ),
+              SizedBox(width: 12.0.sp),
+              AppTouchable(
+                onPressed: controller.onPressGender,
+                padding: EdgeInsets.symmetric(
+                    vertical: 8.0.sp, horizontal: 12.0.sp),
+                child: Obx(() {
+                  return Text(
+                    chooseContentByLanguage(
+                        controller.gender['nameEN'],
+                        controller.gender['nameVN']),
+                    style: textStyle18400()
+                        .merge(const TextStyle(
+                      shadows: [
+                        Shadow(
+                            color: AppColor.grayText2,
+                            offset: Offset(0, -5))
+                      ],
+                      color: Colors.transparent,
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppColor.grayText2,
+                    )),
+                  );
+                }),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 70.sp,
+          )
+        ],
       ),
     );
   }

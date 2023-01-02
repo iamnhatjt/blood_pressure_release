@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class AndroidSubscribeController extends AppBaseController {
   Future<void> onSubscribed() async {
     await Get.find<AppController>()
-        .onPressPremiumByProduct(AppConfig.premiumIdentifierYearly);
+        .onPressPremiumByProduct(AppConfig.premiumIdentifierAndroid);
   }
 
   void onRestored() async {

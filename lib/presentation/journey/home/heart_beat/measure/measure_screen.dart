@@ -1,4 +1,7 @@
+import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/heart_beat/measure/measure_controller.dart';
+import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -22,12 +25,38 @@ class MeasureScreen extends GetView<MeasureController> {
       key: const ValueKey<int>(1),
       children: [
         Expanded(
-          child: Center(
-            child: AppImageWidget.asset(
-              path: AppImage.heart_rate_lottie,
-              width: Get.width / 3,
-              height: Get.width / 3,
-            ),
+          child: Column(
+            children: [
+              Obx(
+                () {
+                  if (Get.find<AppController>().isPremiumFull.value) {
+                    return const SizedBox.shrink();
+                  }
+                  return NativeAdsWidget(
+                      factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                      isPremium: Get.find<AppController>().isPremiumFull.value);
+                },
+              ),
+              Expanded(
+                child: Center(
+                  child: AppImageWidget.asset(
+                    path: AppImage.heart_rate_lottie,
+                    width: Get.width * 0.4,
+                    height: Get.width * 0.4,
+                  ),
+                ),
+              ),
+              Obx(
+                    () {
+                  if (Get.find<AppController>().isPremiumFull.value) {
+                    return const SizedBox.shrink();
+                  }
+                  return NativeAdsWidget(
+                      factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                      isPremium: Get.find<AppController>().isPremiumFull.value);
+                },
+              ),
+            ],
           ),
         ),
         AppTouchable.common(
@@ -154,7 +183,8 @@ class MeasureScreen extends GetView<MeasureController> {
           child: Obx(() {
             return AnimatedSwitcher(
               duration: const Duration(milliseconds: 400),
-              child: controller.currentMeasureScreenState.value == MeasureScreenState.measuring
+              child: controller.currentMeasureScreenState.value ==
+                      MeasureScreenState.measuring
                   ? _buildStateMeasure(context)
                   : _buildStateIdle(),
             );

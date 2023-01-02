@@ -42,7 +42,7 @@ class _NativeAdsWidgetState extends State<NativeAdsWidget> {
           child: Container(
             decoration: commonDecoration(),
             alignment: Alignment.center,
-            height: widget.height ?? 250.0.sp,
+            height: widget.height ?? _getHeight(),
             width: widget.width ?? Get.width,
             child: AdWidget(ad: nativeAd!),
           ),
@@ -50,6 +50,13 @@ class _NativeAdsWidgetState extends State<NativeAdsWidget> {
       };
     });
     nativeAd.load();
+  }
+
+  double _getHeight() {
+    if (widget.factoryId == NativeFactoryId.appNativeAdFactorySmall) {
+      return 120.0.sp;
+    }
+    return 250.0.sp;
   }
 
   @override

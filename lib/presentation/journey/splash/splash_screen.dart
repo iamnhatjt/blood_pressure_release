@@ -15,6 +15,7 @@ class SplashScreen extends GetView<SplashController> {
   Widget build(BuildContext context) {
     controller.context = context;
     return AppContainer(
+      isShowBanner: false,
       child: SafeArea(
         child: Stack(
           alignment: Alignment.center,
@@ -23,7 +24,7 @@ class SplashScreen extends GetView<SplashController> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppImageWidget.asset(
-                  path: AppImage.ma_air_live,
+                  path: AppImage.logo,
                   width: Get.width / 3 * 2,
                   fit: BoxFit.contain,
                 ),
@@ -37,7 +38,8 @@ class SplashScreen extends GetView<SplashController> {
                   ),
                 ),
                 SizedBox(height: 12.0.sp),
-                const CircularProgressIndicator(color: AppColor.secondaryColor),
+                const CircularProgressIndicator(
+                    color: AppColor.secondaryColor),
               ],
             ),
             Positioned(

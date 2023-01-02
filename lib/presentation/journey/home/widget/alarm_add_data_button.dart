@@ -28,7 +28,14 @@ class AlarmAddDataButton extends StatelessWidget {
         Expanded(
           flex: 3,
           child: AppTouchable.common(
-            onPressed: onSetAlarm,
+            onPressed: () {
+              if (Platform.isAndroid) {
+                onSetAlarm.call();
+              } else {
+                showInterstitialAds(
+                    () => onSetAlarm.call());
+              }
+            },
             height: 70.0.sp,
             backgroundColor: AppColor.gold,
             child: Column(
@@ -51,13 +58,7 @@ class AlarmAddDataButton extends StatelessWidget {
         Expanded(
           flex: 5,
           child: AppTouchable.common(
-            onPressed: () {
-              if (Platform.isAndroid) {
-                showInterstitialAds(() => onAddData.call());
-              } else {
-                onAddData.call();
-              }
-            },
+            onPressed: onAddData,
             height: 70.0.sp,
             backgroundColor: AppColor.primaryColor,
             child: Text(

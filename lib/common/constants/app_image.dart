@@ -39,12 +39,20 @@ class AppImage {
       '${_internalImagePathSvg}ic_down.svg';
   static const String ic_arrow_2 =
       '${_internalImagePathSvg}ic_arrow_2.svg';
-  static const String icDone = '${_internalImagePathSvg}ic_done.svg';
-  static const String icCircleClose = '${_internalImagePathSvg}ic_circle_close.svg';
-  static const String icWarning = '${_internalImagePathSvg}ic_warning.svg';
-  static const String subscribeImg = '${_internalImagePathSvg}subscribe_img.svg';
-  static const String ic_select = '${_internalImagePathSvg}ic_select.svg';
-  static const String ic_unselect = '${_internalImagePathSvg}ic_unselect.svg';
+  static const String icDone =
+      '${_internalImagePathSvg}ic_done.svg';
+  static const String icCircleClose =
+      '${_internalImagePathSvg}ic_circle_close.svg';
+  static const String icWarning =
+      '${_internalImagePathSvg}ic_warning.svg';
+  static const String subscribeImg =
+      '${_internalImagePathSvg}subscribe_img.svg';
+  static const String ic_select =
+      '${_internalImagePathSvg}ic_select.svg';
+  static const String ic_unselect =
+      '${_internalImagePathSvg}ic_unselect.svg';
+  static const String logo =
+      '${_internalImagePathSvg}logo.svg';
 
   ///png
   static const String ma_air_live =

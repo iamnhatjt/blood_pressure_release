@@ -1,4 +1,7 @@
+import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/heart_beat/heart_beat_controller.dart';
+import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -50,19 +53,36 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AppImageWidget.asset(
-          path: AppImage.heart_rate_lottie,
-          width: Get.width / 3,
-          height: Get.width / 3,
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(67.0.sp, 40.0.sp, 67.0.sp, 0),
-          child: Text(
-            TranslationConstants.measureNowOrAdd.tr,
-            textAlign: TextAlign.center,
-            style:
-                textStyle20700().merge(const TextStyle(color: AppColor.black)),
-          ),
+        Expanded(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppImageWidget.asset(
+              path: AppImage.heart_rate_lottie,
+              width: Get.width / 3,
+              height: Get.width / 3,
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(67.0.sp, 40.0.sp, 67.0.sp, 0),
+              child: Text(
+                TranslationConstants.measureNowOrAdd.tr,
+                textAlign: TextAlign.center,
+                style: textStyle20700()
+                    .merge(const TextStyle(color: AppColor.black)),
+              ),
+            ),
+          ],
+        )),
+        Obx(
+          () {
+            final isPremium = Get.find<AppController>().isPremiumFull.value;
+            return isPremium
+                ? const SizedBox.shrink()
+                : NativeAdsWidget(
+                    factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                    isPremium: isPremium);
+          },
         ),
       ],
     );
@@ -365,7 +385,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               Expanded(
                 flex: 3,
                 child: AppTouchable.common(
-                  onPressed: () {},
+                  onPressed: controller.onPressAddAlarm,
                   height: 70.0.sp,
                   backgroundColor: AppColor.gold,
                   child: Column(
