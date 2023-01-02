@@ -7,7 +7,7 @@ import 'package:bloodpressure/data/local_repository.dart';
 import 'package:bloodpressure/domain/enum/alarm_type.dart';
 import 'package:bloodpressure/domain/model/alarm_model.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:get/get.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -52,7 +52,7 @@ class AlarmUseCase {
       final bool isSelected = alarmModel.alarmDays![index];
       if (isSelected) {
         final int weekday = index + 1;
-        final currentTimeZone = await FlutterNativeTimezone.getLocalTimezone();
+        final currentTimeZone = await FlutterTimezone.getLocalTimezone();
         final currentLocation = tz.getLocation(currentTimeZone);
         final DateTime tzNow =
             tz.TZDateTime.now(tz.getLocation(currentTimeZone));
