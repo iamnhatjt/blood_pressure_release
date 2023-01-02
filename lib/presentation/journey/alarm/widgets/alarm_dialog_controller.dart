@@ -46,7 +46,7 @@ class AlarmDialogController extends GetxController {
   }
 
   void reset() {
-    alarmModel.value = defaultModel.copyWith(time: DateTime.now());
+    alarmModel.value = defaultModel.copyWith(time: DateTime.now(), id: const Uuid().v4());
     validate();
   }
 

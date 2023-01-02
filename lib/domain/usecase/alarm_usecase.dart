@@ -22,19 +22,18 @@ class AlarmUseCase {
     await localRepository.addAlarm(alarmModel);
   }
 
-  Future<void> removeAlarm(int index) async {
-    final alarmModel = localRepository.getAlarms()[index];
+  Future<void> removeAlarm(AlarmModel alarmModel) async {
     for (int i = 0; i < alarmModel.alarmDays!.length; i++) {
       if (alarmModel.alarmDays![i]) {
         final notiId = alarmModel.id.hashCode + i + 1;
         await AppNotificationLocal.cancelScheduleNotification(notiId);
       }
     }
-    await localRepository.removeAlarm(index);
+    await localRepository.removeAlarm(alarmModel);
   }
 
-  Future<void> updateAlarm(int index, AlarmModel alarmModel) async {
-    await localRepository.updateAlarm(index, alarmModel);
+  Future<void> updateAlarm(AlarmModel alarmModel) async {
+    await localRepository.updateAlarm(alarmModel);
     for (int i = 0; i < alarmModel.alarmDays!.length; i++) {
       final notiId = alarmModel.id.hashCode + i + 1;
       await AppNotificationLocal.cancelScheduleNotification(notiId);

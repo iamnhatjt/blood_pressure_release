@@ -111,6 +111,10 @@ class AppImage {
       '${_internalImagePathPng}ic_box_2.png';
   static const String setting_banner =
       '${_internalImagePathPng}setting_banner.png';
+  static const String heart_rate_tutorial_ios =
+      '${_internalImagePathPng}heart_rate_tutorial_ios.png';
+  static const String heart_rate_tutorial_android =
+      '${_internalImagePathPng}heart_rate_tutorial_android.png';
 
   ///lottie
   static const String heart_rate_lottie =

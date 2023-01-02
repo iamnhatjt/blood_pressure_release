@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/heart_beat/measure/measure_controller.dart';
@@ -21,6 +23,10 @@ class MeasureScreen extends GetView<MeasureController> {
   const MeasureScreen({Key? key}) : super(key: key);
 
   Widget _buildStateIdle() {
+    String tutorialPath = AppImage.heart_rate_tutorial_android;
+    if (Platform.isIOS) {
+      tutorialPath = AppImage.heart_rate_tutorial_ios;
+    }
     return Column(
       key: const ValueKey<int>(1),
       children: [
@@ -38,11 +44,12 @@ class MeasureScreen extends GetView<MeasureController> {
                 },
               ),
               Expanded(
-                child: Center(
-                  child: AppImageWidget.asset(
-                    path: AppImage.heart_rate_lottie,
-                    width: Get.width * 0.4,
-                    height: Get.width * 0.4,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(17.0.sp, 0, 17.0.sp, 0),
+                  child: Center(
+                    child: AppImageWidget.asset(
+                      path: tutorialPath,
+                    ),
                   ),
                 ),
               ),
@@ -85,6 +92,10 @@ class MeasureScreen extends GetView<MeasureController> {
 
   Widget _buildStateMeasure(BuildContext context) {
     double sizeCircle = Get.width / 1.725;
+    String tutorialPath = AppImage.heart_rate_tutorial_android;
+    if (Platform.isIOS) {
+      tutorialPath = AppImage.heart_rate_tutorial_ios;
+    }
     return Column(
       key: const ValueKey<int>(0),
       children: [
@@ -107,31 +118,11 @@ class MeasureScreen extends GetView<MeasureController> {
                     center: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Obx(
-                        //   () => Text(
-                        //     '${controller.bpmAverage.value}',
-                        //     style: TextStyle(
-                        //       color: AppColor.red,
-                        //       fontSize: sizeCircle / 3,
-                        //       fontWeight: FontWeight.w700,
-                        //       height: 5 / 4,
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(height: 7.0.sp),
-                        // Text(
-                        //   'BPM',
-                        //   style: TextStyle(
-                        //     color: AppColor.red,
-                        //     fontSize: 30.0.sp,
-                        //     fontWeight: FontWeight.w500,
-                        //     height: 37.5 / 30,
-                        //   ),
-                        // ),
-                        AppImageWidget.asset(
-                          path: AppImage.heart_rate_lottie,
-                          width: sizeCircle / 3 * 2,
-                          height: sizeCircle / 3 * 2,
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(17.0.sp, 0, 17.0.sp, 0),
+                          child: AppImageWidget.asset(
+                            path: tutorialPath,
+                          ),
                         ),
                       ],
                     ),

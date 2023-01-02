@@ -28,17 +28,16 @@ class LocalRepository {
     return _hiveConfig.alarmBox.values.toList();
   }
 
-  Future<void> removeAlarm(int index) {
-    final key = _hiveConfig.alarmBox.keyAt(index);
-    return _hiveConfig.alarmBox.delete(key);
+  Future<void> removeAlarm(AlarmModel alarmModel) {
+    return _hiveConfig.alarmBox.delete(alarmModel.id);
   }
 
   Future<void> addAlarm(AlarmModel alarmModel) {
-    return _hiveConfig.alarmBox.add(alarmModel);
+    return _hiveConfig.alarmBox.put(alarmModel.id, alarmModel);
   }
 
-  Future<void> updateAlarm(int index, AlarmModel alarmModel) {
-    return _hiveConfig.alarmBox.putAt(index, alarmModel);
+  Future<void> updateAlarm(AlarmModel alarmModel) {
+    return _hiveConfig.alarmBox.put(alarmModel.id, alarmModel);
   }
 
   Future saveBloodPressure(BloodPressureModel bloodPressureModel) async {

@@ -33,7 +33,7 @@ class AlarmController extends GetxController with AlarmDialogMixin {
     try {
       final index =
       alarmList.indexWhere((element) => element.id == alarmModel.id);
-      await alarmUseCase.removeAlarm(index);
+      await alarmUseCase.removeAlarm(alarmModel);
       refresh();
       showTopSnackBar(Get.context!, message: TranslationConstants.deleteAlarmSuccess.tr, type: SnackBarType.done);
     } on Exception catch (_) {
@@ -64,9 +64,8 @@ class AlarmController extends GetxController with AlarmDialogMixin {
       log("updateAlarm.model: ${model.id}");
     }
     try {
-      final index =
-          alarmList.indexWhere((element) => element.id == alarmModel.id);
-      alarmUseCase.updateAlarm(index, alarmModel);
+
+      alarmUseCase.updateAlarm(alarmModel);
       refresh();
       showTopSnackBar(Get.context!, message: TranslationConstants.updateAlarmSuccess.tr, type: SnackBarType.done);
     } on Exception catch (_) {
