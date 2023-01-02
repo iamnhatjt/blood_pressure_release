@@ -29,15 +29,19 @@ class LocalRepository {
   }
 
   Future<void> removeAlarm(AlarmModel alarmModel) {
-    return _hiveConfig.alarmBox.delete(alarmModel.id);
+    final alarmList = _hiveConfig.alarmBox.values.toList();
+    final index = alarmList.indexWhere((element) => element.id == alarmModel.id);
+    return _hiveConfig.alarmBox.deleteAt(index);
   }
 
   Future<void> addAlarm(AlarmModel alarmModel) {
-    return _hiveConfig.alarmBox.put(alarmModel.id, alarmModel);
+    return _hiveConfig.alarmBox.add(alarmModel);
   }
 
   Future<void> updateAlarm(AlarmModel alarmModel) {
-    return _hiveConfig.alarmBox.put(alarmModel.id, alarmModel);
+    final alarmList = _hiveConfig.alarmBox.values.toList();
+    final index = alarmList.indexWhere((element) => element.id == alarmModel.id);
+    return _hiveConfig.alarmBox.putAt(index, alarmModel);
   }
 
   Future saveBloodPressure(BloodPressureModel bloodPressureModel) async {
