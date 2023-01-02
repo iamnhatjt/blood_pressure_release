@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloodpressure/common/constants/enums.dart';
 import 'package:bloodpressure/common/mixin/alarm_dialog_mixin.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
@@ -57,6 +59,10 @@ class AlarmController extends GetxController with AlarmDialogMixin {
   }
 
   void updateAlarm(AlarmModel alarmModel) {
+    log("updateAlarm.alarmModel.id: ${alarmModel.id}");
+    for(final AlarmModel model in alarmList) {
+      log("updateAlarm.model: ${model.id}");
+    }
     try {
       final index =
           alarmList.indexWhere((element) => element.id == alarmModel.id);

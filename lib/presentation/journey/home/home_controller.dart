@@ -16,7 +16,6 @@ class HomeController extends GetxController {
     analytics.logEvent(name: AppLogEvent.homeHeartRate);
     debugPrint("Logged ${AppLogEvent.homeHeartRate} at ${DateTime.now()}");
     if (Platform.isIOS && appController.freeAdCount < 4) {
-      Get.toNamed(AppRoute.heartBeatScreen);
       appController.increaseFreeAdCount();
     } else {
       showInterstitialAds(() => Get.toNamed(AppRoute.heartBeatScreen));
@@ -25,9 +24,8 @@ class HomeController extends GetxController {
 
   onPressBloodPressure() {
     analytics.logEvent(name: AppLogEvent.homeBloodPressure);
-    debugPrint("Logged ${AppLogEvent.homeBloodPressure} at ${DateTime.now()}");
     if (Platform.isIOS && appController.freeAdCount < 4) {
-      Get.toNamed(AppRoute.heartBeatScreen);
+      Get.toNamed(AppRoute.bloodPressureScreen);
       appController.increaseFreeAdCount();
     } else {
       showInterstitialAds(() => Get.toNamed(AppRoute.bloodPressureScreen));
@@ -36,10 +34,9 @@ class HomeController extends GetxController {
 
   onPressBloodSugar() {
     analytics.logEvent(name: AppLogEvent.homeBloodSugar);
-    debugPrint("Logged ${AppLogEvent.homeBloodSugar} at ${DateTime.now()}");
 
     if (Platform.isIOS && appController.freeAdCount < 4) {
-      Get.toNamed(AppRoute.heartBeatScreen);
+      Get.toNamed(AppRoute.bloodSugar);
       appController.increaseFreeAdCount();
     } else {
       showInterstitialAds(() => Get.toNamed(AppRoute.bloodSugar));
@@ -48,9 +45,8 @@ class HomeController extends GetxController {
 
   onPressWeightAndBMI() {
     analytics.logEvent(name: AppLogEvent.homeWeightBMI);
-    debugPrint("Logged ${AppLogEvent.homeWeightBMI} at ${DateTime.now()}");
     if (Platform.isIOS && appController.freeAdCount < 4) {
-      Get.toNamed(AppRoute.heartBeatScreen);
+      Get.toNamed(AppRoute.weightBMI);
       appController.increaseFreeAdCount();
     } else {
       showInterstitialAds(() => Get.toNamed(AppRoute.weightBMI));
@@ -59,7 +55,6 @@ class HomeController extends GetxController {
 
   onPressFoodScanner() {
     analytics.logEvent(name: AppLogEvent.homeFoodScanner);
-    debugPrint("Logged ${AppLogEvent.homeFoodScanner} at ${DateTime.now()}");
     if ((Platform.isIOS && appController.freeAdCount < 4) || (Platform.isAndroid && appController.skipOneAd.value)) {
       Get.toNamed(AppRoute.foodScanner);
       appController.increaseFreeAdCount();

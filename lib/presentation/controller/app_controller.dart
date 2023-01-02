@@ -103,6 +103,8 @@ class AppController extends SuperController {
         var now = DateTime.now().millisecondsSinceEpoch;
         if (now - firstTimeOpenApp! > 86400000) {
           configAds();
+        } else {
+          isPremiumFull.value = true;
         }
       }
     } else {

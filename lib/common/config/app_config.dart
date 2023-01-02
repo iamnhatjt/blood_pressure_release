@@ -1,7 +1,7 @@
 class AppConfig {
   static const String weightUnitIdKey = "weightUnitId";
   static const String heightUnitIdKey = "heightUnitId";
-  static const String firstTimeOpenApp = "heightUnitId";
+  static const String firstTimeOpenApp = "firstTimeOpenApp";
 
   /**
    * Sub key
