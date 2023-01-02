@@ -10,14 +10,14 @@ class BloodNativeAdsWidget extends StatelessWidget {
     return Column(
       children: [
         NativeAdsWidget(
-          height: 100.sp,
+          height: 120.sp,
           width: Get.width,
           isPremium: false,
           factoryId:
               NativeFactoryId.appNativeAdFactorySmall,
         ),
         SizedBox(
-          height: 20.sp,
+          height: 10.sp,
         ),
       ],
     );

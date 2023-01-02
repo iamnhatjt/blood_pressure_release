@@ -119,11 +119,11 @@ class SettingScreen extends GetView<SettingController> {
             child: ScrollConfiguration(
               behavior: DisableGlowBehavior(),
               child: SingleChildScrollView(
-                padding: EdgeInsets.all(17.0.sp),
+                padding: EdgeInsets.symmetric(horizontal: 16.sp).copyWith(bottom: 16.sp),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
+                    AppImageWidget.asset(path: AppImage.setting_banner),
                     _buildItemSetting(
                         controller.onPressShare,
                         AppImage.ic_share_app,

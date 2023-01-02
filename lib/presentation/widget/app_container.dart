@@ -74,7 +74,7 @@ class AppContainer extends GetView {
                             : Padding(
                                 padding:
                                     EdgeInsets.symmetric(
-                                        vertical: 4.sp),
+                                        vertical: 4.sp, horizontal: 20.0.sp),
                                 child: MaxAdView(
                                   adUnitId: BuildConstants
                                       .idBannerAd,

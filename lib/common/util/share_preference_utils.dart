@@ -18,4 +18,10 @@ class SharePreferenceUtils {
       _sharedPreferences.setInt(key, value);
 
   int? getInt(String key) => _sharedPreferences.getInt(key);
+
+  bool? getBool(String key) => _sharedPreferences.getBool(key);
+
+  Future<bool> setBool(String key, bool value) {
+    return _sharedPreferences.setBool(key, value);
+  }
 }

@@ -64,7 +64,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               height: Get.width / 3,
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(67.0.sp, 40.0.sp, 67.0.sp, 0),
+              padding: EdgeInsets.symmetric(horizontal: 68.sp),
               child: Text(
                 TranslationConstants.measureNowOrAdd.tr,
                 textAlign: TextAlign.center,
@@ -307,7 +307,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                             ),
                     ),
                   )
-                : const SizedBox.shrink()),
+                : SizedBox(width: 40.sp,)),
           ),
           titleStyle: const TextStyle(color: AppColor.white),
           extendWidget: AppTouchable(

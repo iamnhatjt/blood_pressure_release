@@ -1,3 +1,7 @@
+
+import 'dart:io';
+
+import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:bloodpressure/common/mixin/alarm_dialog_mixin.dart';
 import 'package:bloodpressure/domain/enum/bmi_type.dart';
 import 'package:bloodpressure/domain/enum/height_unit.dart';
@@ -5,8 +9,10 @@ import 'package:bloodpressure/domain/enum/weight_unit.dart';
 import 'package:bloodpressure/domain/model/alarm_model.dart';
 import 'package:bloodpressure/domain/model/bmi_model.dart';
 import 'package:bloodpressure/domain/usecase/bmi_usecase.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/add_weight_bmi/add_weight_bmi_dialog.dart';
+import 'package:bloodpressure/presentation/journey/main/main_controller.dart';
 import 'package:collection/collection.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +50,7 @@ class WeightBMIController extends GetxController
   final AlarmUseCase _alarmUseCase;
 
   final analytics = FirebaseAnalytics.instance;
+  final appController = Get.find<AppController>();
 
   WeightBMIController(this._bmiUsecase, this._alarmUseCase);
 
@@ -114,11 +121,23 @@ class WeightBMIController extends GetxController
   }
 
   void onSetAlarm() {
-    showAddAlarm(
-        context: context,
-        alarmType: AlarmType.weightAndBMI,
-        onPressCancel: Get.back,
-        onPressSave: _onSaveAlarm);
+    if (Platform.isIOS) {
+      showInterstitialAds(() {
+        showAddAlarm(
+            context: context,
+            alarmType: AlarmType.weightAndBMI,
+            onPressCancel: Get.back,
+            onPressSave: _onSaveAlarm);
+      });
+    }
+
+    {
+      showAddAlarm(
+          context: context,
+          alarmType: AlarmType.weightAndBMI,
+          onPressCancel: Get.back,
+          onPressSave: _onSaveAlarm);
+    }
   }
 
   void _onSaveAlarm(AlarmModel alarm) async {
@@ -128,10 +147,28 @@ class WeightBMIController extends GetxController
   }
 
   void onAddData() async {
-    analytics.logEvent(
-        name: AppLogEvent.addDataButtonWeightBMI);
-    debugPrint(
-        "Logged ${AppLogEvent.addDataButtonWeightBMI} at ${DateTime.now()}");
+    analytics.logEvent(name: AppLogEvent.addDataButtonWeightBMI);
+    debugPrint("Logged ${AppLogEvent.addDataButtonWeightBMI} at ${DateTime.now()}");
+    if (!appController.isPremiumFull.value) {
+      if (Platform.isIOS) {
+        if (appController.allowWeightAndBMIFirstTime.value) {
+          showInterstitialAds(_addData);
+        } else {
+          Get.find<MainController>().pushToSubscribeScreen();
+        }
+      }
+      if (Platform.isAndroid) {
+        showInterstitialAds(_addData);
+      }
+    } else {
+      _addData();
+    }
+    appController.setAllowBloodSugarFirstTime(false);
+
+
+  }
+
+  void _addData() async {
     final result = await showAppDialog(context, "", "",
         builder: (ctx) => const AddWeightBMIDialog());
     if (result ?? false) {

@@ -56,7 +56,7 @@ class BloodPressureScreen
                     )
                   : ExportButton(
                       titleColor: AppColor.primaryColor,
-                      onPressed: controller.exportData,
+                      onPressed: controller.onExportData,
                     ),
             ),
             extendWidget: Obx(() => FilterDateWidget(

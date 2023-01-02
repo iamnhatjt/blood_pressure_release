@@ -127,4 +127,46 @@ class LocalRepository {
   Future deleteBloodSugar(String key) async {
     await _hiveConfig.bloodSugarBox.delete(key);
   }
+
+  Future<int> getFreeAdCount() async {
+    return _sharePreferenceUtils.getInt("freeAdCount") ?? 0;
+  }
+
+  Future<bool> setFreeAdCount(int value) async {
+    return _sharePreferenceUtils.setInt("freeAdCount", value);
+  }
+
+  Future<bool> getAllowHeartRateFirstTime() async {
+    return _sharePreferenceUtils.getBool("allowHeartRateFirstTime") ?? true;
+  }
+
+  Future<bool> getAllowBloodPressureFirstTime() async {
+    return _sharePreferenceUtils.getBool("allowBloodPressureFirstTime") ?? true;
+  }
+
+  Future<bool> getAllowBloodSugarFirstTime() async {
+    return _sharePreferenceUtils.getBool("allowBloodSugarFirstTime") ?? true;
+  }
+
+  Future<bool> getAllowWeightAndBMIFirstTime() async {
+    return _sharePreferenceUtils.getBool("allowWeightAndBMIFirstTime") ?? true;
+  }
+
+  Future<bool> setAllowHeartRateFirstTime(bool value) async {
+    return _sharePreferenceUtils.setBool("allowHeartRateFirstTime", value);
+
+  }
+
+  Future<bool> setAllowBloodPressureFirstTime(bool value) {
+    return _sharePreferenceUtils.setBool("allowBloodPressureFirstTime", value);
+
+  }
+
+  Future<bool> setAllowBloodSugarFirstTime(bool value) {
+    return _sharePreferenceUtils.setBool("allowBloodSugarFirstTime", value);
+  }
+
+  Future<bool> setAllowWeigtAndBMIFirstTime(bool value) {
+    return _sharePreferenceUtils.setBool("allowWeightAndBMIFirstTime", value);
+  }
 }

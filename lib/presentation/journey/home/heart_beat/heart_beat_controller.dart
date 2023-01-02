@@ -8,6 +8,7 @@ import 'package:bloodpressure/common/mixin/alarm_dialog_mixin.dart';
 import 'package:bloodpressure/domain/model/heart_rate_model.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
+import 'package:bloodpressure/presentation/journey/main/main_controller.dart';
 import 'package:collection/collection.dart';
 import 'package:csv/csv.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -46,6 +47,7 @@ class HeartBeatController extends GetxController with AlarmDialogMixin {
 
   final alarmController = Get.find<AlarmController>();
   final analytics = FirebaseAnalytics.instance;
+  final appController = Get.find<AppController>();
 
   @override
   void onInit() {
@@ -136,7 +138,15 @@ class HeartBeatController extends GetxController with AlarmDialogMixin {
   }
 
   onPressMeasureNow() {
-    Get.toNamed(AppRoute.measureScreen);
+    if (_appController.isPremiumFull.value) {
+      Get.toNamed(AppRoute.measureScreen);
+    } else {
+      if (Platform.isIOS) {
+        Get.find<MainController>().pushToSubscribeScreen();
+      } else {
+        showInterstitialAds(() => Get.toNamed(AppRoute.measureScreen));
+      }
+    }
   }
 
   onPressDateRange() async {
@@ -183,31 +193,68 @@ class HeartBeatController extends GetxController with AlarmDialogMixin {
           showInterstitialAds(Get.back);
         },
         onPressAdd: (dateTime, value) {
-          showInterstitialAds(() {
-            analytics.logEvent(name: AppLogEvent.addDataHeartRate);
-            debugPrint(
-                "Logged ${AppLogEvent.addDataHeartRate} at ${DateTime.now()}");
-            if (Get.isRegistered<HeartBeatController>()) {
-              Get.find<HeartBeatController>().addHeartRateData(HeartRateModel(
-                timeStamp: dateTime.millisecondsSinceEpoch,
-                value: value,
-                age: _appController.currentUser.value.age ?? 30,
-                genderId: _appController.currentUser.value.genderId ?? '0',
-              ));
+          analytics.logEvent(name: AppLogEvent.addDataHeartRate);
+          debugPrint(
+              "Logged ${AppLogEvent.addDataHeartRate} at ${DateTime.now()}");
+          if (!appController.isPremiumFull.value) {
+            if (Platform.isIOS) {
+              if (appController.allowHeartRateFirstTime.value) {
+                showInterstitialAds(() => _addData(dateTime, value));
+              } else {
+                Get.find<MainController>().pushToSubscribeScreen();
+              }
             }
-            Get.back();
-            showToast(TranslationConstants.addSuccess.tr);
-            // _recentBPM = 0;
-          });
-
+            if (Platform.isAndroid) {
+              if (appController.allowHeartRateFirstTime.value) {
+                _addData(dateTime, value);
+              } else {
+                showInterstitialAds(() => _addData(dateTime, value));
+              }
+            }
+          } else {
+            _addData(dateTime, value);
+          }
+          appController.setAllowBloodPressureFirstTime(false);
         },
       ),
     );
   }
 
+  void _addData(dateTime, value) {
+    if (Get.isRegistered<HeartBeatController>()) {
+      Get.find<HeartBeatController>().addHeartRateData(HeartRateModel(
+        timeStamp: dateTime.millisecondsSinceEpoch,
+        value: value,
+        age: _appController.currentUser.value.age ?? 30,
+        genderId: _appController.currentUser.value.genderId ?? '0',
+      ));
+    }
+    Get.back();
+    showToast(TranslationConstants.addSuccess.tr);
+    // _recentBPM = 0;
+  }
+
   onPressExport() async {
     analytics.logEvent(name: AppLogEvent.exportHeartRate);
     debugPrint("Logged ${AppLogEvent.exportHeartRate} at ${DateTime.now()}");
+    if (appController.isPremiumFull.value) {
+      _exportData();
+    } else {
+      if (Platform.isIOS) {
+        if (appController.allowHeartRateFirstTime.value) {
+          showInterstitialAds(_exportData);
+        } else {
+          Get.find<MainController>().pushToSubscribeScreen();
+        }
+      }
+
+      if (Platform.isAndroid) {
+        showInterstitialAds(_exportData);
+      }
+    }
+  }
+
+  void _exportData() async {
     isExporting.value = true;
     List<String> header = [];
     List<List<String>> listOfData = [];
@@ -298,13 +345,21 @@ class HeartBeatController extends GetxController with AlarmDialogMixin {
   }
 
   onPressAddAlarm() {
-      showAddAlarm(
-        context: context,
-        alarmType: AlarmType.heartRate,
-        onPressSave: (alarmModel) {
-          alarmController.addAlarm(alarmModel);
-          Get.back();
-        },
-      );
+    if (Platform.isIOS) {
+      showInterstitialAds(_onPressAddAlarm);
+    } else {
+      _onPressAddAlarm();
+    }
+  }
+
+  void _onPressAddAlarm() {
+    showAddAlarm(
+      context: context,
+      alarmType: AlarmType.heartRate,
+      onPressSave: (alarmModel) {
+        alarmController.addAlarm(alarmModel);
+        Get.back();
+      },
+    );
   }
 }

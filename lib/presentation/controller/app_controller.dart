@@ -4,6 +4,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:bloodpressure/common/config/app_config.dart';
+import 'package:bloodpressure/data/local_repository.dart';
 import 'package:bloodpressure/domain/model/user_model.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -24,6 +25,7 @@ onSelectNotification(s1) async {}
 class AppController extends SuperController {
   Locale currentLocale = AppConstant.availableLocales[1];
   Rx<UserModel> currentUser = UserModel().obs;
+  final _localRepository = getIt.get<LocalRepository>();
 
   // late AppOpenAdManager _appOpenAdManager;
   bool avoidShowOpenApp = false;
@@ -31,11 +33,48 @@ class AppController extends SuperController {
   StreamSubscription<dynamic>? _subscriptionIAP;
   List<ProductDetails> _listProductDetails = [];
   Map<String, ProductDetails> productDetailMap = {};
-  Rx<PurchaseStatus> rxPurchaseStatus =
-      PurchaseStatus.canceled.obs;
+  Rx<PurchaseStatus> rxPurchaseStatus = PurchaseStatus.canceled.obs;
 
   //late
   late AppOpenAdManager _appOpenAdManager;
+
+  RxBool skipOneAd = false.obs;
+  RxInt freeAdCount = 0.obs;
+  RxBool allowHeartRateFirstTime = false.obs;
+  RxBool allowBloodPressureFirstTime = false.obs;
+  RxBool allowBloodSugarFirstTime = false.obs;
+  RxBool allowWeightAndBMIFirstTime = false.obs;
+
+  void increaseFreeAdCount() {
+    _localRepository.setFreeAdCount(++freeAdCount.value);
+  }
+
+  @override
+  void onInit() {
+    _setupAllowAd();
+    super.onInit();
+  }
+
+  void _setupAllowAd() {
+    _localRepository.getFreeAdCount().then((value) {
+      freeAdCount.value = value;
+    });
+    _localRepository.getAllowHeartRateFirstTime().then((value) {
+      allowHeartRateFirstTime.value = value;
+    });
+
+    _localRepository.getAllowBloodPressureFirstTime().then((value) {
+      allowBloodPressureFirstTime.value = value;
+    });
+
+    _localRepository.getAllowBloodSugarFirstTime().then((value) {
+      allowBloodSugarFirstTime.value = value;
+    });
+
+    _localRepository.getAllowWeightAndBMIFirstTime().then((value) {
+      allowWeightAndBMIFirstTime.value = value;
+    });
+  }
 
   @override
   void onDetached() {}
@@ -78,6 +117,11 @@ class AppController extends SuperController {
     super.onClose();
   }
 
+  void updateFreeAdCount() {
+    freeAdCount++;
+    _localRepository.setFreeAdCount(freeAdCount.value);
+  }
+
   updateLocale(Locale locale) {
     Get.updateLocale(locale);
     currentLocale = locale;
@@ -93,32 +137,26 @@ class AppController extends SuperController {
     final prefs = await SharedPreferences.getInstance();
     String? stringUser = prefs.getString('user');
     if ((stringUser ?? '').isNotEmpty) {
-      currentUser.value =
-          UserModel.fromJson(jsonDecode(stringUser!));
+      currentUser.value = UserModel.fromJson(jsonDecode(stringUser!));
     }
   }
 
   onPressPremiumByProduct(String productId) async {
-    ProductDetails? productDetails =
-        _listProductDetails.firstWhereOrNull(
-            (element) => element.id == productId);
-    if (productDetails == null ||
-        productDetails.id.isEmpty) {
+    ProductDetails? productDetails = _listProductDetails
+        .firstWhereOrNull((element) => element.id == productId);
+    if (productDetails == null || productDetails.id.isEmpty) {
       showToast('Not available');
     } else {
       log('---IAP---: response.productDetails ${productDetails.title}');
       final PurchaseParam purchaseParam =
           PurchaseParam(productDetails: productDetails);
-      InAppPurchase.instance
-          .buyNonConsumable(purchaseParam: purchaseParam);
+      InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
     }
   }
 
   _onInitIAPListener() {
-    final Stream purchaseUpdated =
-        InAppPurchase.instance.purchaseStream;
-    _subscriptionIAP =
-        purchaseUpdated.listen((purchaseDetailsList) {
+    final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+    _subscriptionIAP = purchaseUpdated.listen((purchaseDetailsList) {
       _listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
       log('---IAP--- done IAP stream');
@@ -128,24 +166,18 @@ class AppController extends SuperController {
     });
   }
 
-  _listenToPurchaseUpdated(
-      List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList
-        .forEach((PurchaseDetails purchaseDetails) async {
+  _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       log('---IAP---: purchaseDetails.productID: ${purchaseDetails.productID}');
       log('---IAP---: purchaseDetails.status: ${purchaseDetails.status}');
       rxPurchaseStatus.value = purchaseDetails.status;
-      if (purchaseDetails.status ==
-          PurchaseStatus.pending) {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
         // isPremium.value = false;
       } else {
-        if (purchaseDetails.status ==
-            PurchaseStatus.error) {
+        if (purchaseDetails.status == PurchaseStatus.error) {
           // isPremium.value = false;
-        } else if (purchaseDetails.status ==
-                PurchaseStatus.purchased ||
-            purchaseDetails.status ==
-                PurchaseStatus.restored) {
+        } else if (purchaseDetails.status == PurchaseStatus.purchased ||
+            purchaseDetails.status == PurchaseStatus.restored) {
           // isPremium.value = true;
           // final prefs = await SharedPreferences.getInstance();
           // prefs.setBool('isBought', true);
@@ -156,27 +188,22 @@ class AppController extends SuperController {
           }
           if (Platform.isAndroid) {
             isPremiumFull.value =
-                purchaseDetails.productID ==
-                    AppConfig.premiumIdentifierAndroid;
+                purchaseDetails.productID == AppConfig.premiumIdentifierYearly;
           } else if (Platform.isIOS) {
-            isPremiumFull.value =
-                purchaseDetails.productID ==
-                        AppConfig.premiumIdentifierWeekly ||
-                    purchaseDetails.productID ==
-                        AppConfig.premiumIdentifierYearly;
+            isPremiumFull.value = purchaseDetails.productID ==
+                    AppConfig.premiumIdentifierWeekly ||
+                purchaseDetails.productID == AppConfig.premiumIdentifierYearly;
           }
         }
         if (purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchase.instance
-              .completePurchase(purchaseDetails);
+          await InAppPurchase.instance.completePurchase(purchaseDetails);
         }
       }
     });
   }
 
   getIAPProductDetails() async {
-    final bool available =
-        await InAppPurchase.instance.isAvailable();
+    final bool available = await InAppPurchase.instance.isAvailable();
     if (!available) {
       showToast('Can not connect store');
     } else {
@@ -187,12 +214,10 @@ class AppController extends SuperController {
         kIds = AppConfig.listAndroidPremiumIdentifiers;
       }
       final ProductDetailsResponse response =
-          await InAppPurchase.instance
-              .queryProductDetails(kIds);
+          await InAppPurchase.instance.queryProductDetails(kIds);
       _listProductDetails = response.productDetails;
       log('///////////// _listProductDetails: ${response.productDetails} ${response.productDetails.isNotEmpty ? response.productDetails.first.id : ''}');
-      for (final ProductDetails detail
-          in _listProductDetails) {
+      for (final ProductDetails detail in _listProductDetails) {
         productDetailMap[detail.id] = detail;
       }
     }
@@ -214,26 +239,40 @@ class AppController extends SuperController {
   }
 
   _initNotificationSelectHandle() async {
-    const AndroidInitializationSettings
-        initializationSettingsAndroid =
+    const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('background');
-    final DarwinInitializationSettings
-        initializationSettingsIOS =
+    final DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
-            onDidReceiveLocalNotification:
-                onDidReceiveLocalNotification);
+            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     final InitializationSettings initializationSettings =
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsIOS);
-    FlutterLocalNotificationsPlugin
-        flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(
-        initializationSettings,
-        onDidReceiveBackgroundNotificationResponse:
-            onSelectNotification);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveBackgroundNotificationResponse: onSelectNotification);
   }
 
   onDidReceiveLocalNotification(i1, s1, s2, s3) {}
+
+  void setAllowHeartRateFirstTime(bool value) {
+    allowHeartRateFirstTime.value = value;
+    _localRepository.setAllowHeartRateFirstTime(value);
+  }
+
+  void setAllowBloodPressureFirstTime(bool value) {
+    allowBloodPressureFirstTime.value = value;
+    _localRepository.setAllowBloodPressureFirstTime(value);
+  }
+
+  void setAllowBloodSugarFirstTime(bool value) {
+    allowBloodSugarFirstTime.value = value;
+    _localRepository.setAllowBloodSugarFirstTime(value);
+  }
+
+  void setAllowWeightAndBMIFirstTime(bool value) {
+    allowWeightAndBMIFirstTime.value = value;
+    _localRepository.setAllowWeigtAndBMIFirstTime(value);
+  }
 }

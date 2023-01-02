@@ -57,45 +57,47 @@ class AppHeader extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
             child: Stack(
-                children: [
-              Row(
-                crossAxisAlignment:
-                    crossAxisAlignmentMainRow ?? CrossAxisAlignment.center,
-                children: [
-                  leftWidget ??
-                      AppTouchable(
-                        width: 40.0.sp,
-                        height: 40.0.sp,
-                        padding: EdgeInsets.all(2.0.sp),
-                        onPressed: Get.back,
-                        outlinedBorder: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(22.0.sp),
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 40.0.sp),
+                  child: Center(
+                    child: middleWidget ??
+                        Text(
+                          title ?? '',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20.0.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.black,
+                            height: 25 / 20,
+                          ).merge(titleStyle),
                         ),
-                        child: AppImageWidget.asset(
-                          path: AppImage.ic_back,
-                        ),
-                      ),
-                  SizedBox(width: additionSpaceButtonLeft ?? 0),
-                  Spacer(),
-                  rightWidget ?? SizedBox(width: 40.0.sp),
-                ],
-              ),
-              Positioned.fill(
-                child: Center(
-                  child: middleWidget ??
-                      Text(
-                        title ?? '',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20.0.sp,
-                          fontWeight: FontWeight.w700,
-                          color: AppColor.black,
-                          height: 25 / 20,
-                        ).merge(titleStyle),
-                      ),
+                  ),
                 ),
-              ),
-            ]),
+                Row(
+                  crossAxisAlignment:
+                      crossAxisAlignmentMainRow ?? CrossAxisAlignment.center,
+                  children: [
+                    leftWidget ??
+                        AppTouchable(
+                          width: 40.0.sp,
+                          height: 40.0.sp,
+                          padding: EdgeInsets.all(2.0.sp),
+                          onPressed: Get.back,
+                          outlinedBorder: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(22.0.sp),
+                          ),
+                          child: AppImageWidget.asset(
+                            path: AppImage.ic_back,
+                          ),
+                        ),
+                    SizedBox(width: additionSpaceButtonLeft ?? 0),
+                    const Spacer(),
+                    rightWidget ?? SizedBox(width: 40.0.sp),
+                  ],
+                ),
+              ],
+            ),
           ),
           extendWidget ?? const SizedBox.shrink(),
         ],

@@ -28,7 +28,7 @@ class EmptyWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(),
+              const SizedBox(),
               AppImageWidget.asset(
                 path: imagePath,
                 width: imageWidth,
@@ -41,7 +41,7 @@ class EmptyWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(),
+              const SizedBox(),
             ],
           ),
         ),

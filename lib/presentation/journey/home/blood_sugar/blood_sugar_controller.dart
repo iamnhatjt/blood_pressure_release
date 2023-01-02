@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/common/constants/enums.dart';
 import 'package:bloodpressure/common/extensions/int_extension.dart';
@@ -12,9 +15,11 @@ import 'package:bloodpressure/domain/model/blood_sugar_model.dart';
 import 'package:bloodpressure/domain/usecase/alarm_usecase.dart';
 import 'package:bloodpressure/domain/usecase/blood_sugar_usecase.dart';
 import 'package:bloodpressure/presentation/controller/app_base_controller.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_sugar/add_blood_sugar_dialog/add_blood_sugar_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_sugar/select_state_mixin.dart';
+import 'package:bloodpressure/presentation/journey/main/main_controller.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog.dart';
 import 'package:bloodpressure/presentation/widget/snack_bar/app_snack_bar.dart';
 import 'package:collection/collection.dart';
@@ -50,6 +55,7 @@ class BloodSugarController extends AppBaseController
   Rx<LoadedType> exportLoaded = LoadedType.finish.obs;
 
   final analytics = FirebaseAnalytics.instance;
+  final appController = Get.find<AppController>();
 
   BloodSugarController(
     this.useCase,
@@ -70,11 +76,22 @@ class BloodSugarController extends AppBaseController
   }
 
   void onSetAlarm() {
-    showAddAlarm(
+    if (Platform.isIOS) {
+      showInterstitialAds(() {
+        showAddAlarm(
+            context: context,
+            alarmType: AlarmType.bloodSugar,
+            onPressCancel: Get.back,
+            onPressSave: _onSaveAlarm);
+      });
+    }
+    else {
+      showAddAlarm(
         context: context,
         alarmType: AlarmType.bloodSugar,
         onPressCancel: Get.back,
         onPressSave: _onSaveAlarm);
+    }
   }
 
   Future<void> _onSaveAlarm(AlarmModel alarm) async {
@@ -92,7 +109,29 @@ class BloodSugarController extends AppBaseController
   Future onAddData() async {
     analytics.logEvent(name: AppLogEvent.addDataButtonBloodPressure);
     debugPrint("Logged ${AppLogEvent.addDataButtonBloodPressure} at ${DateTime.now()}");
+
+    if (!appController.isPremiumFull.value) {
+      if (Platform.isIOS) {
+        if (appController.allowBloodSugarFirstTime.value) {
+          showInterstitialAds(_addData);
+        } else {
+          Get.find<MainController>().pushToSubscribeScreen();
+
+        }
+      }
+      if (Platform.isAndroid) {
+        showInterstitialAds(_addData);
+      }
+    } else {
+      _addData();
+    }
+    appController.setAllowBloodSugarFirstTime(false);
+
+  }
+
+  void _addData() async {
     Get.find<AddBloodSugarController>().onInitialData();
+
     final result = await showAppDialog(context, "", "",
         builder: (ctx) => const BloodSugarAddDataDialog());
     await _onRefreshData();
@@ -216,6 +255,25 @@ class BloodSugarController extends AppBaseController
   Future<void> onExportData() async {
     analytics.logEvent(name: AppLogEvent.exportBloodSugar);
     debugPrint("Logged ${AppLogEvent.exportBloodSugar} at ${DateTime.now()}");
+
+    if (appController.isPremiumFull.value) {
+      _exportData();
+    } else {
+      if (Platform.isIOS) {
+        if (appController.allowHeartRateFirstTime.value) {
+          showInterstitialAds(_exportData);
+        } else {
+          Get.find<MainController>().pushToSubscribeScreen();
+        }
+      }
+
+      if (Platform.isAndroid) {
+        showInterstitialAds(_exportData);
+      }
+    }
+  }
+
+  void _exportData() async {
     exportLoaded.value = LoadedType.start;
     List<String> header = [];
     List<List<String>> listOfData = [];

@@ -1,5 +1,4 @@
 import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
-import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/home_controller.dart';
 import 'package:bloodpressure/presentation/journey/main/widgets/subscribe_button.dart';
@@ -10,7 +9,6 @@ import 'package:get/get.dart';
 import '../../../common/constants/app_image.dart';
 import '../../../common/util/disable_ glow_behavior.dart';
 import '../../../common/util/translation/app_translation.dart';
-import '../../controller/app_controller.dart';
 import '../../theme/theme_text.dart';
 import '../../widget/app_container.dart';
 import '../../widget/app_header.dart';
@@ -42,10 +40,11 @@ class HomeScreen extends GetView<HomeController> {
               padding: EdgeInsets.all(17.0.sp),
               child: Column(
                 children: [
-                  NativeAdsWidget(
-                    height: 240,
+                  Obx(() => NativeAdsWidget(
+                      height: 240,
                       factoryId: NativeFactoryId.appNativeAdFactoryMedium,
-                      isPremium: Get.find<AppController>().isPremiumFull.value),
+                      isPremium: Get.find<AppController>().isPremiumFull.value
+                  ),),
                   AppTouchable.common(
                     onPressed: controller.onPressHeartBeat,
                     height: 128.0.sp,
@@ -157,7 +156,6 @@ class HomeScreen extends GetView<HomeController> {
                       ),
                     ],
                   ),
-                 
                 ],
               ),
             ),
