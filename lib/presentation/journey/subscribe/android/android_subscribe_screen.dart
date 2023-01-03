@@ -21,7 +21,7 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          height: 80.sp,
+          height: 100.sp,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

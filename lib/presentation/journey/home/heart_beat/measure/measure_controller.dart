@@ -126,7 +126,7 @@ class MeasureController extends GetxController {
   }
 
   onRawData(SensorValue value) {
-    if (value.value > 75 || value.value < 65) {
+    if (value.value > 100 || value.value < 60) {
       // finger out
       _timer?.cancel();
       _timer = null;
