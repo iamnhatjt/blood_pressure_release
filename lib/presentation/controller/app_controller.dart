@@ -198,11 +198,11 @@ class AppController extends SuperController {
           // isPremium.value = true;
           // final prefs = await SharedPreferences.getInstance();
           // prefs.setBool('isBought', true);
-          switch (purchaseDetails.productID) {
-            case 'com.vietapps.thermometer.removeads':
-              isPremiumFull.value = true;
-              break;
-          }
+          // switch (purchaseDetails.productID) {
+          //   case 'com.vietapps.thermometer.removeads':
+          //     isPremiumFull.value = true;
+          //     break;
+          // }
           if (Platform.isAndroid) {
             isPremiumFull.value =
                 purchaseDetails.productID == AppConfig.premiumIdentifierYearly;
