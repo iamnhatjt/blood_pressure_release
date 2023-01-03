@@ -22,7 +22,7 @@ class ContentWidget extends StatelessWidget {
                 width: 16.sp,
                 child: Center(child: Icon(Icons.circle, size: 6.sp,))),
             SizedBox(width: 12.sp,),
-            Expanded(child: Text(text, style: ThemeText.bodyText2,))
+            Expanded(child: Text(text, style: ThemeText.bodyText1,))
           ],
         ),
       ),

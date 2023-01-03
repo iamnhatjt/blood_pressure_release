@@ -10,7 +10,7 @@ class AppConfig {
       'com.vietapps.bloodpressure.weekly';
   static const String _premiumIdentifierYearly =
       'com.vietapps.bloodpressure.yearly';
-  static const String _premiumIdentifierAndroid = 'yearly';
+  static const String _premiumIdentifierAndroid = 'com.vietapps.bloodpressure.fullpack';
   static final Set<String> listAndroidPremiumIdentifiers = <String>{
     _premiumIdentifierAndroid
   };

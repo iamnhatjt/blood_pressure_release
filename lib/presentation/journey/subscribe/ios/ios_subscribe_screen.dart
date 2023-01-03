@@ -37,7 +37,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(title,
-                      style: ThemeText.headline6.copyWith(
+                      style: ThemeText.headline5.copyWith(
                           color: AppColor.white, fontWeight: FontWeight.w500)),
                   !isNullEmpty(content)
                       ? Text(content!,
@@ -78,9 +78,9 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                             AppConfig.premiumIdentifierYearly);
                       },
                       title:
-                          "${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierYearly]?.price ?? ''} ${TranslationConstants.perYear.tr}",
+                          "   ${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierYearly]?.price ?? ''} ${TranslationConstants.perYear.tr}",
                       content:
-                          "${TranslationConstants.only.tr} ${getPriceOfWeek()} ${TranslationConstants.perWeek.tr}"),
+                          "     ${TranslationConstants.only.tr} ${getPriceOfWeek()} ${TranslationConstants.perWeek.tr}"),
                 ),
               ),
               Align(
@@ -117,7 +117,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                       .onSelectedIdentifier(AppConfig.premiumIdentifierWeekly);
                 },
                 title:
-                    "${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierWeekly]?.price ?? ''} ${TranslationConstants.perWeek.tr}"),
+                    "   ${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierWeekly]?.price ?? ''} ${TranslationConstants.perWeek.tr}"),
           ),
         ),
         SizedBox(

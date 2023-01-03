@@ -107,7 +107,7 @@ class SubscribeScreenState extends State<SubscribeScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(height: 12.sp),
+                  SizedBox(height: 24.sp),
                   AppImageWidget.asset(
                     path: AppImage.subscribeImg,
                     height: 153.sp,

@@ -20,35 +20,30 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SubscribeButton(
-          onPressed: null,
-          height: 128.sp,
-          child: Padding(
-            padding: EdgeInsets.only(top: 16.sp, bottom: 8.sp),
+        SizedBox(
+          height: 80.sp,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 52.sp),
-                  child: Text(
-                    TranslationConstants.subscribeContentAndroid6.tr,
-                    style: ThemeText.bodyText1.copyWith(
-                        color: AppColor.white, fontStyle: FontStyle.italic),
-                    textAlign: TextAlign.center,
-                  ),
+               Text("PAY ONCE FOR LIFETIME ACCESS",
+                    style:ThemeText.headline6.copyWith(
+                        color: AppColor.green,
+                        fontWeight: FontWeight.w600
+                    ),
+                ),
+                SizedBox(
+                  height: 3.sp,
                 ),
                 Text(
-                  "${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierAndroid]?.price ?? ''} ${TranslationConstants.perYear.tr}",
-                  style: ThemeText.headline4.copyWith(color: AppColor.white),
-                ),
-                Text(TranslationConstants.subscribeAutoRenewable.tr,
-                    style: ThemeText.caption.copyWith(color: AppColor.white)),
-              ],
-            ),
+                  "ONLY ${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierAndroid]?.price ?? ''}",
+                  style: ThemeText.headline4.copyWith(
+                      color: AppColor.green,
+                      fontWeight: FontWeight.w600),
+                )],
           ),
         ),
         SizedBox(
-          height: 12.sp,
+          height: 8.sp,
         ),
         Obx(
         () => SubscribeButton(
@@ -68,17 +63,14 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
                   )
                 : Column(
                     children: [
+                      SizedBox(height: 6.sp),
                       Text(
                         TranslationConstants.continues.tr,
                         style: ThemeText.headline5.copyWith(
-                            fontSize: 28.sp,
+                            fontSize: 32.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColor.white),
-                      ),
-                      Text(
-                        TranslationConstants.freeTrial.tr,
-                        style: ThemeText.caption.copyWith(color: AppColor.white),
-                      ),
+                      )
                     ],
                   ),
           ),
