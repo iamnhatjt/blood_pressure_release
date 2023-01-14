@@ -28,7 +28,7 @@ class AppController extends SuperController {
   final _localRepository = getIt.get<LocalRepository>();
 
   bool avoidShowOpenApp = false;
-  RxBool isPremiumFull = true.obs;
+  RxBool isPremiumFull = false.obs;
   StreamSubscription<dynamic>? _subscriptionIAP;
   List<ProductDetails> _listProductDetails = [];
   Map<String, ProductDetails> productDetailMap = {};
