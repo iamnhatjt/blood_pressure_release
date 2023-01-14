@@ -41,8 +41,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                 ),
               ],
             ),
-            titleStyle:
-                const TextStyle(color: AppColor.white),
+            titleStyle: const TextStyle(color: AppColor.white),
             leftWidget: const BackButton(
               color: AppColor.white,
             ),
@@ -63,11 +62,9 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                     ),
             ),
             extendWidget: Obx(() => FilterDateWidget(
-                  startDate:
-                      controller.filterStartDate.value,
+                  startDate: controller.filterStartDate.value,
                   endDate: controller.filterEndDate.value,
-                  onPressed: () =>
-                      controller.onPressDateRange(
+                  onPressed: () => controller.onPressDateRange(
                     context,
                     callback: controller.filterWeightBMI,
                   ),
@@ -80,8 +77,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                   if (controller.bmiList.isNotEmpty) {
                     return SingleChildScrollView(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
-                                horizontal: 16.sp)
+                        padding: EdgeInsets.symmetric(horizontal: 16.sp)
                             .copyWith(top: 16.sp),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -89,31 +85,19 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                             LineChartTitleWidget(
                                 title:
                                     '${TranslationConstants.weight.tr} (${controller.weightUnit.value.name})',
-                                minDate: controller
-                                    .chartMinDate.value,
-                                maxDate: controller
-                                    .chartMaxDate.value,
-                                listChartData: controller
-                                    .weightChartListData,
-                                buildLeftTitle:
-                                    _buildLeftTitleWeightChart,
+                                minDate: controller.chartMinDate.value,
+                                maxDate: controller.chartMaxDate.value,
+                                listChartData: controller.weightChartListData,
+                                buildLeftTitle: _buildLeftTitleWeightChart,
                                 horizontalInterval: 50,
-                                selectedX: controller
-                                    .chartSelectedX.value,
-                                spotIndex: controller
-                                    .spotIndex.value,
-                                getTooltipItems:
-                                    _getToolTipItems,
-                                onPressDot: (value,
-                                    spotIndex, dateTime) {
-                                  controller.chartSelectedX
-                                      .value = value;
-                                  controller.spotIndex
-                                      .value = spotIndex;
-                                  controller.currentBMI
-                                          .value =
-                                      controller.bmiList[
-                                          spotIndex];
+                                selectedX: controller.chartSelectedX.value,
+                                spotIndex: controller.spotIndex.value,
+                                getTooltipItems: _getToolTipItems,
+                                onPressDot: (value, spotIndex, dateTime) {
+                                  controller.chartSelectedX.value = value;
+                                  controller.spotIndex.value = spotIndex;
+                                  controller.currentBMI.value =
+                                      controller.bmiList[spotIndex];
                                 },
                                 maxY: 300,
                                 minY: 10),
@@ -121,65 +105,39 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                               () => BMIDetailWidget(
                                   date: DateFormat(
                                     'MMM dd, yyyy',
-                                    appController
-                                        .currentLocale
-                                        .languageCode,
+                                    appController.currentLocale.languageCode,
                                   ).format(DateTime.now()),
-                                  time: DateFormat('hh:mm a', appController.currentLocale.languageCode)
-                                      .format(
-                                          DateTime.now()),
-                                  bmi: controller.currentBMI
-                                          .value.bmi ??
-                                      0,
-                                  weight: controller
-                                      .currentBMI
-                                      .value
-                                      .weightKg
+                                  time: DateFormat(
+                                          'hh:mm a',
+                                          appController
+                                              .currentLocale.languageCode)
+                                      .format(DateTime.now()),
+                                  bmi: controller.currentBMI.value.bmi ?? 0,
+                                  weight: controller.currentBMI.value.weightKg
                                       .toInt(),
-                                  height: controller
-                                      .currentBMI
-                                      .value
-                                      .heightCm
+                                  height: controller.currentBMI.value.heightCm
                                       .toInt(),
-                                  bmiType: controller
-                                      .currentBMI
-                                      .value
-                                      .type,
-                                  onEdit:
-                                      controller.onEditBMI,
-                                  onDelete: controller
-                                      .onDeleteBMI),
+                                  bmiType: controller.currentBMI.value.type,
+                                  onEdit: controller.onEditBMI,
+                                  onDelete: controller.onDeleteBMI),
                             ),
                             LineChartTitleWidget(
-                              title: TranslationConstants
-                                  .bmi.tr,
-                              minDate: controller
-                                  .chartMinDate.value,
-                              maxDate: controller
-                                  .chartMaxDate.value,
-                              listChartData: controller
-                                  .bmiChartListData,
+                              title: TranslationConstants.bmi.tr,
+                              minDate: controller.chartMinDate.value,
+                              maxDate: controller.chartMaxDate.value,
+                              listChartData: controller.bmiChartListData,
                               maxY: 50,
                               minY: 5,
-                              buildLeftTitle:
-                                  _buildLeftTitleBMIChart,
-                              getTooltipItems:
-                                  _getToolTipItems,
-                              onPressDot:
-                                  (value, spotIndex, date) {
-                                controller.chartSelectedX
-                                    .value = value;
-                                controller.spotIndex.value =
-                                    spotIndex;
-                                controller
-                                        .currentBMI.value =
-                                    controller
-                                        .bmiList[spotIndex];
+                              buildLeftTitle: _buildLeftTitleBMIChart,
+                              getTooltipItems: _getToolTipItems,
+                              onPressDot: (value, spotIndex, date) {
+                                controller.chartSelectedX.value = value;
+                                controller.spotIndex.value = spotIndex;
+                                controller.currentBMI.value =
+                                    controller.bmiList[spotIndex];
                               },
-                              selectedX: controller
-                                  .chartSelectedX.value,
-                              spotIndex: controller
-                                  .spotIndex.value,
+                              selectedX: controller.chartSelectedX.value,
+                              spotIndex: controller.spotIndex.value,
                             ),
                             SizedBox(
                               height: 16.sp,
@@ -190,20 +148,19 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                     );
                   } else {
                     return Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.sp),
+                      padding: EdgeInsets.symmetric(horizontal: 16.sp),
                       child: EmptyWidget(
                           imagePath: AppImage.weight_scale_lottie,
                           message: TranslationConstants
-                              .addYourRecordToSeeStatistics
-                              .tr,
+                              .addYourRecordToSeeStatistics.tr,
+                          isPremium:
+                              Get.find<AppController>().isPremiumFull.value,
                           imageWidth: 0.37 * Get.width),
                     );
                   }
                 })),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                          horizontal: 16.sp)
+                  padding: EdgeInsets.symmetric(horizontal: 16.sp)
                       .copyWith(bottom: 16.sp),
                   child: AlarmAddDataButton(
                     onSetAlarm: controller.onSetAlarm,
@@ -218,8 +175,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
     );
   }
 
-  Widget _buildLeftTitleBMIChart(
-      double value, TitleMeta mate) {
+  Widget _buildLeftTitleBMIChart(double value, TitleMeta mate) {
     String text;
     switch (value.toInt()) {
       case 10:
@@ -251,13 +207,11 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
     }
 
     return Text(text,
-        style: textStyle12500()
-            .copyWith(color: AppColor.black),
+        style: textStyle12500().copyWith(color: AppColor.black),
         textAlign: TextAlign.center);
   }
 
-  Widget _buildLeftTitleWeightChart(
-      double value, TitleMeta meta) {
+  Widget _buildLeftTitleWeightChart(double value, TitleMeta meta) {
     String text;
     switch (value.toInt()) {
       case 50:
@@ -280,19 +234,15 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
     }
 
     return Text(text,
-        style: textStyle12500()
-            .copyWith(color: AppColor.black),
+        style: textStyle12500().copyWith(color: AppColor.black),
         textAlign: TextAlign.center);
   }
 
-  List<LineTooltipItem?> _getToolTipItems(
-      List<LineBarSpot> lineBarSpots) {
+  List<LineTooltipItem?> _getToolTipItems(List<LineBarSpot> lineBarSpots) {
     return lineBarSpots.map((lineBarSpot) {
-      final bmiMap = controller
-          .bmiChartListData[lineBarSpot.spotIndex];
+      final bmiMap = controller.bmiChartListData[lineBarSpot.spotIndex];
       final int bmi = bmiMap["value"];
-      final BMIType bmiType =
-          BMITypeEnum.getBMITypeByValue(bmi);
+      final BMIType bmiType = BMITypeEnum.getBMITypeByValue(bmi);
       return LineTooltipItem(
         bmiType.bmiName,
         const TextStyle(

@@ -180,6 +180,9 @@ class AddWeightBMIController extends GetxController
         onPressCancel: Get.back,
         onPressSave: (value) {
           Get.back();
+          if (value == gender.value) {
+            return;
+          }
           _appController.updateUser(UserModel(
               age: _appController.currentUser.value.age ??
                   30,
@@ -248,7 +251,8 @@ class AddWeightBMIController extends GetxController
 
   Future<void> addBMI() async {
     analytics.logEvent(name: AppLogEvent.addDataWeightBMI);
-    debugPrint("Logged ${AppLogEvent.addDataWeightBMI} at ${DateTime.now()}");
+    debugPrint(
+        "Logged ${AppLogEvent.addDataWeightBMI} at ${DateTime.now()}");
     isLoading.value = true;
     _weightBMIController.weightUnit.value =
         weightUnit.value;

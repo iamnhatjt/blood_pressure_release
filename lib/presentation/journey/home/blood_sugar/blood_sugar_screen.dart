@@ -1,6 +1,7 @@
 import 'package:bloodpressure/common/constants/app_image.dart';
 import 'package:bloodpressure/common/constants/enums.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
+import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/alarm_add_data_button.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/empty_widget.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
@@ -66,6 +67,8 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
                     imageWidth: 120.sp,
                     message:
                         TranslationConstants.addYourRecordToSeeStatistics.tr,
+                    isPremium:
+                    Get.find<AppController>().isPremiumFull.value,
                   ),
                 );
               },

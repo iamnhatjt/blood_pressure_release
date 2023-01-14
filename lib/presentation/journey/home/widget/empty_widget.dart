@@ -12,12 +12,14 @@ class EmptyWidget extends StatelessWidget {
   final String imagePath;
   final double imageWidth;
   final String message;
+  final bool isPremium;
 
   const EmptyWidget(
       {Key? key,
       required this.imagePath,
       required this.message,
-      required this.imageWidth})
+      required this.imageWidth,
+      required this.isPremium})
       : super(key: key);
 
   @override
@@ -45,7 +47,7 @@ class EmptyWidget extends StatelessWidget {
             ],
           ),
         ),
-        BloodNativeAdsWidget(),
+        BloodNativeAdsWidget(isPremium: isPremium,),
       ],
     );
   }

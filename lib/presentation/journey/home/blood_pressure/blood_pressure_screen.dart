@@ -14,15 +14,13 @@ import '../../../widget/app_container.dart';
 import '../../../widget/app_header.dart';
 import '../widget/empty_widget.dart';
 
-class BloodPressureScreen
-    extends GetView<BloodPressureController> {
+class BloodPressureScreen extends GetView<BloodPressureController> {
   const BloodPressureScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     controller.context = context;
-    final double paddingBottom =
-        MediaQuery.of(context).padding.bottom;
+    final double paddingBottom = MediaQuery.of(context).padding.bottom;
     return AppContainer(
       child: Column(
         children: [
@@ -38,8 +36,7 @@ class BloodPressureScreen
                 ),
               ],
             ),
-            titleStyle:
-                const TextStyle(color: AppColor.white),
+            titleStyle: const TextStyle(color: AppColor.white),
             leftWidget: const BackButton(
               color: AppColor.white,
             ),
@@ -60,42 +57,34 @@ class BloodPressureScreen
                     ),
             ),
             extendWidget: Obx(() => FilterDateWidget(
-                  startDate:
-                      controller.filterStartDate.value,
+                  startDate: controller.filterStartDate.value,
                   endDate: controller.filterEndDate.value,
-                  onPressed: () =>
-                      controller.onPressDateRange(
+                  onPressed: () => controller.onPressDateRange(
                     context,
-                    callback:
-                        controller.filterBloodPressure,
+                    callback: controller.filterBloodPressure,
                   ),
                 )),
           ),
           Expanded(
             child: Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 17.sp),
+              padding: EdgeInsets.symmetric(horizontal: 17.sp),
               child: Column(
                 children: [
                   Expanded(
-                    child: Obx(() => controller
-                            .bloodPressures.isNotEmpty
+                    child: Obx(() => controller.bloodPressures.isNotEmpty
                         ? SingleChildScrollView(
-                            physics: Get.find<
-                                        AppController>()
-                                    .isPremiumFull
-                                    .value
-                                ? const NeverScrollableScrollPhysics()
-                                : null,
-                            child:
-                                const BloodPressureDataWidget())
+                            physics:
+                                Get.find<AppController>().isPremiumFull.value
+                                    ? const NeverScrollableScrollPhysics()
+                                    : null,
+                            child: const BloodPressureDataWidget())
                         : EmptyWidget(
-                            imagePath:
-                                AppImage.ic_blood_pressure2,
+                            imagePath: AppImage.ic_blood_pressure2,
                             imageWidth: 168.sp,
+                            isPremium:
+                                Get.find<AppController>().isPremiumFull.value,
                             message: TranslationConstants
-                                .addYourRecordToSeeStatistics
-                                .tr)),
+                                .addYourRecordToSeeStatistics.tr)),
                   ),
                   AlarmAddDataButton(
                     onSetAlarm: controller.onSetAlarm,

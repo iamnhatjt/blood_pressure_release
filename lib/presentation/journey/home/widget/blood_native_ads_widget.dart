@@ -5,6 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class BloodNativeAdsWidget extends StatelessWidget {
+  final bool isPremium;
+
+  const BloodNativeAdsWidget({super.key, required this.isPremium});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -12,7 +15,7 @@ class BloodNativeAdsWidget extends StatelessWidget {
         NativeAdsWidget(
           height: 120.sp,
           width: Get.width,
-          isPremium: false,
+          isPremium: isPremium,
           factoryId:
               NativeFactoryId.appNativeAdFactorySmall,
         ),
