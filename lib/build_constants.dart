@@ -82,7 +82,7 @@ class _Config {
     apiBase: "http://8.9.31.66:8000",
     idInterstitialAdAndroidKey: "73e4e622eac6bc32",
     idInterstitialAdIosKey: "514a3ff4071ab64d",
-    idBannerAdAndroidKey: "6166b9dfc3fcb69f",
+    idBannerAdAndroidKey: "b7ddad78a4411530",
     idBannerAdIosKey: "1ce815b1a8955d76",
     iDOpenAppAdAndroidKey:
         "ca-app-pub-5294836995166944/9796755547",
