@@ -228,7 +228,7 @@ class AppController extends SuperController {
           if (Platform.isAndroid) {
             isPremiumFull.value =
                 purchaseDetails.productID ==
-                    AppConfig.premiumIdentifierYearly;
+                    AppConfig.premiumIdentifierAndroid;
           } else if (Platform.isIOS) {
             isPremiumFull.value =
                 purchaseDetails.productID ==
