@@ -51,7 +51,7 @@ class BMIModel extends HiveObject {
   }
 
   HeightUnit get heightUnit {
-    return HeightUnitEnum.getHeigtUnitById(heightUnitId);
+    return HeightUnitEnum.getHeightUnitById(heightUnitId);
   }
 
   BMIType get type => BMITypeEnum.getBMITypeById(typeId);

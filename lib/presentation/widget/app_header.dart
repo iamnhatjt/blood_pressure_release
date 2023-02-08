@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -47,24 +44,15 @@ class AppHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? EdgeInsets.fromLTRB(
-          0.0,
-          MediaQuery.of(context).padding.top + 16.0.sp,
-          0.0,
-          16.0.sp),
-      color: decoration == null
-          ? backgroundColor ?? Colors.transparent
-          : null,
+      padding: padding ?? EdgeInsets.fromLTRB(0.0, MediaQuery.of(context).padding.top + 16.0.sp, 0.0, 16.0.sp),
+      color: decoration == null ? backgroundColor ?? Colors.transparent : null,
       decoration: decoration,
       child: Column(
         children: [
           Padding(
-            padding:
-            EdgeInsets.symmetric(horizontal: 16.0.sp),
+            padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
             child: Row(
-              crossAxisAlignment:
-              crossAxisAlignmentMainRow ??
-                  CrossAxisAlignment.center,
+              crossAxisAlignment: crossAxisAlignmentMainRow ?? CrossAxisAlignment.center,
               children: [
                 leftWidget ??
                     AppTouchable(
@@ -72,17 +60,17 @@ class AppHeader extends StatelessWidget {
                       height: 40.0.sp,
                       padding: EdgeInsets.all(2.0.sp),
                       onPressed: Get.back,
-                      outlinedBorder:
-                      RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(22.0.sp),
+                      outlinedBorder: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22.0.sp),
                       ),
-                      child: AppImageWidget.asset(
-                        path: AppImage.ic_back,
+                      // child: AppImageWidget.asset(
+                      //   path: AppImage.ic_back,
+                      // ),
+                      child: const BackButton(
+                        color: AppColor.white,
                       ),
                     ),
-                SizedBox(
-                    width: additionSpaceButtonLeft ?? 0),
+                SizedBox(width: additionSpaceButtonLeft ?? 0),
                 Expanded(
                   child: Center(
                     child: middleWidget ??
@@ -113,8 +101,7 @@ class AppBackButton extends StatelessWidget {
   final Color? buttonColor;
   final Function()? onBack;
 
-  const AppBackButton(
-      {super.key, this.buttonColor, this.onBack});
+  const AppBackButton({super.key, this.buttonColor, this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -139,12 +126,7 @@ class ExportButton extends StatelessWidget {
   final bool isLoading;
   final Color? titleColor;
 
-  const ExportButton(
-      {Key? key,
-        this.onPressed,
-        this.isLoading = false,
-        this.titleColor})
-      : super(key: key);
+  const ExportButton({Key? key, this.onPressed, this.isLoading = false, this.titleColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -152,11 +134,13 @@ class ExportButton extends StatelessWidget {
       width: 80.0.sp,
       height: 28.0.sp,
       onPressed: () {
-        if (Platform.isAndroid) {
-          showInterstitialAds(() => onPressed?.call());
-        } else {
-          onPressed?.call();
-        }
+        // if (Platform.isAndroid) {
+        //   showInterstitialAds(() => onPressed?.call());
+        // } else {
+        //   onPressed?.call();
+        // }
+
+        onPressed?.call();
       },
       outlinedBorder: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(32.0.sp),
@@ -169,19 +153,18 @@ class ExportButton extends StatelessWidget {
         fit: BoxFit.scaleDown,
         child: isLoading
             ? Padding(
-          padding: EdgeInsets.all(8.0.sp),
-          child: Center(
-            child: CircularProgressIndicator(
-              color: titleColor,
-              strokeWidth: 3.0.sp,
-            ),
-          ),
-        )
+                padding: EdgeInsets.all(8.0.sp),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: titleColor,
+                    strokeWidth: 3.0.sp,
+                  ),
+                ),
+              )
             : Text(
-          TranslationConstants.export.tr,
-          style: textStyle18500().merge(TextStyle(
-              color: titleColor ?? AppColor.white)),
-        ),
+                TranslationConstants.export.tr,
+                style: textStyle18500().merge(TextStyle(color: titleColor ?? AppColor.white)),
+              ),
       ),
     );
   }

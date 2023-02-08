@@ -1,5 +1,5 @@
 import 'package:bloodpressure/common/util/app_permission.dart';
-import 'package:bloodpressure/common/util/disable_%20glow_behavior.dart';
+import 'package:bloodpressure/common/util/disable_glow_behavior.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';

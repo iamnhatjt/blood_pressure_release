@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../../common/util/disable_ glow_behavior.dart';
+import '../../../../../common/util/disable_glow_behavior.dart';
 import 'chart_title_widget/chart_bottom_title_widget.dart';
 
 class HomeBarChart extends StatelessWidget {

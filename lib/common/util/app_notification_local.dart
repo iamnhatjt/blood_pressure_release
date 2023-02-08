@@ -1,15 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:bloodpressure/common/constants/app_route.dart';
-import 'package:bloodpressure/domain/enum/alarm_type.dart';
-import 'package:bloodpressure/presentation/controller/app_controller.dart';
-import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
-import 'package:bloodpressure/presentation/journey/home/blood_pressure/blood_pressure_controller.dart';
-import 'package:bloodpressure/presentation/journey/home/blood_sugar/blood_sugar_controller.dart';
-import 'package:bloodpressure/presentation/journey/home/heart_beat/heart_beat_controller.dart';
-import 'package:bloodpressure/presentation/journey/home/weight_bmi/weight_bmi_controller.dart';
-import 'package:bloodpressure/presentation/journey/main/main_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -28,8 +19,7 @@ class AppNotificationConstants {
 class AppNotificationLocal {
   static Future<ByteArrayAndroidBitmap> getImageBytes(String imageUrl) async {
     final bytes = (await rootBundle.load(imageUrl)).buffer.asUint8List();
-    final androidBitMap =
-        ByteArrayAndroidBitmap.fromBase64String(base64.encode(bytes));
+    final androidBitMap = ByteArrayAndroidBitmap.fromBase64String(base64.encode(bytes));
     return androidBitMap;
   }
 
@@ -42,8 +32,7 @@ class AppNotificationLocal {
       AndroidBitmap<Object>? largeIcon,
       DateTimeComponents? matchDateTimeComponents,
       String? payload}) async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     flutterLocalNotificationsPlugin.zonedSchedule(
         notiId,
@@ -68,16 +57,13 @@ class AppNotificationLocal {
             )),
         payload: payload,
         androidAllowWhileIdle: true,
-        matchDateTimeComponents:
-            matchDateTimeComponents ?? DateTimeComponents.dayOfMonthAndTime,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+        matchDateTimeComponents: matchDateTimeComponents ?? DateTimeComponents.dayOfMonthAndTime,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
     debugPrint('-------Notification Added with ID: $notiId--------');
   }
 
   static Future<void> cancelScheduleNotification(int notiId) async {
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.cancel(notiId);
     debugPrint("-------Notification removed with ID: $notiId-------");
   }
@@ -88,23 +74,17 @@ class AppNotificationLocal {
     if (Permission.notification.isBlank == true) {
       await Permission.notification.request();
     }
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/ic_launcher');
     const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-            onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+        DarwinInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     const InitializationSettings initializationSettings =
-        InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: initializationSettingsIOS);
-    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
+        InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: onTapNotification);
 
     flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.requestPermission();
   }
 

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../common/util/app_util.dart';
-import '../../../../../common/util/disable_ glow_behavior.dart';
+import '../../../../../common/util/disable_glow_behavior.dart';
 
 class HomeLineChartWidget extends StatelessWidget {
   final List<Map>? listChartData;

@@ -17,6 +17,7 @@ class AlarmScreen extends GetView<AlarmController> {
   @override
   Widget build(BuildContext context) {
     return AppContainer(
+      isShowBanner: false,
       child: Column(
         children: [
           Obx(

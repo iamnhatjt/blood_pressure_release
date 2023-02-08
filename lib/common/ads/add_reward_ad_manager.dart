@@ -1,13 +1,13 @@
 import 'dart:math';
 
 import 'package:applovin_max/applovin_max.dart';
-import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 
 import '../../build_constants.dart';
 import '../../presentation/controller/app_controller.dart';
 import '../util/app_util.dart';
+import '../util/translation/app_translation.dart';
 
 class AddRewardAdManager {
   var _rewardedAdRetryAttempt = 0;
@@ -81,14 +81,12 @@ class AddRewardAdManager {
 }
 
 showRewardAds(Function() onAdHiddenCallback) async {
-  ConnectivityResult connectivityResult =
-      await Connectivity().checkConnectivity();
+  ConnectivityResult connectivityResult = await Connectivity().checkConnectivity();
   if (connectivityResult == ConnectivityResult.none) {
     showToast('No internet connection, please try again later');
     onAdHiddenCallback();
   }
-  bool? isRewardReady =
-      await AppLovinMAX.isRewardedAdReady(BuildConstants.idRewardAppAd);
+  bool? isRewardReady = await AppLovinMAX.isRewardedAdReady(BuildConstants.idRewardAppAd);
   if (isRewardReady == true) {
     AppLovinMAX.setRewardedAdListener(RewardedAdListener(
       onAdLoadedCallback: (ad) {},

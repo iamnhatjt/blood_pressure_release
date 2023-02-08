@@ -3,21 +3,12 @@ class AppConfig {
   static const String heightUnitIdKey = "heightUnitId";
   static const String firstTimeOpenApp = "firstTimeOpenApp";
 
-  /**
-   * Sub key
-   */
-  static const String _premiumIdentifierWeekly =
-      'com.vietapps.bloodpressure.weekly';
-  static const String _premiumIdentifierYearly =
-      'com.vietapps.bloodpressure.yearly';
+  static const String _premiumIdentifierWeekly = 'com.vietapps.bloodpressure.weekly';
+  static const String _premiumIdentifierYearly = 'com.vietapps.bloodpressure.yearly';
   static const String _premiumIdentifierAndroid = 'com.vietapps.bloodpressure.fullpack';
-  static final Set<String> listAndroidPremiumIdentifiers = <String>{
-    _premiumIdentifierAndroid
-  };
-  static final Set<String> listIOSPremiumIdentifiers = <String>{
-    premiumIdentifierWeekly,
-    premiumIdentifierYearly
-  };
+
+  static final Set<String> listAndroidPremiumIdentifiers = <String>{_premiumIdentifierAndroid};
+  static final Set<String> listIOSPremiumIdentifiers = <String>{premiumIdentifierWeekly, premiumIdentifierYearly};
 
   static String get premiumIdentifierWeekly => _premiumIdentifierWeekly;
 

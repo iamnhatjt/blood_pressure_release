@@ -1,6 +1,7 @@
 import 'package:bloodpressure/common/config/app_config.dart';
 import 'package:bloodpressure/common/constants/app_image.dart';
 import 'package:bloodpressure/common/constants/enums.dart';
+import 'package:bloodpressure/common/extensions/string_extension.dart';
 import 'package:bloodpressure/common/util/app_util.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
@@ -16,14 +17,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+import '../../../../common/util/disable_glow_behavior.dart';
+
 class IosSubscribeScreen extends GetView<IosSubscribeController> {
   const IosSubscribeScreen({super.key});
 
-  Widget _selectedSubscribeButton(
-      {required String title,
-      String? content,
-      bool? isSelected,
-      Function()? onSelected}) {
+  Widget _selectedSubscribeButton({required String title, String? content, bool? isSelected, Function()? onSelected}) {
     return SubscribeButton(
         height: 52.sp,
         onPressed: onSelected,
@@ -36,21 +35,14 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(title,
-                      style: ThemeText.headline5.copyWith(
-                          color: AppColor.white, fontWeight: FontWeight.w500)),
+                  Text(title, style: ThemeText.headline5.copyWith(color: AppColor.white, fontWeight: FontWeight.w500)),
                   !isNullEmpty(content)
-                      ? Text(content!,
-                          style: ThemeText.caption.copyWith(
-                              color: AppColor.white,
-                              fontWeight: FontWeight.w500))
+                      ? Text(content!, style: ThemeText.caption.copyWith(color: AppColor.white, fontWeight: FontWeight.w500))
                       : const SizedBox(),
                 ],
               ),
               AppImageWidget.asset(
-                path: isSelected == true
-                    ? AppImage.ic_select
-                    : AppImage.ic_unselect,
+                path: isSelected == true ? AppImage.ic_select : AppImage.ic_unselect,
                 height: 20.sp,
                 width: 20.sp,
               )
@@ -71,14 +63,12 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                 padding: EdgeInsets.only(top: 12.sp, right: 20.sp),
                 child: Obx(
                   () => _selectedSubscribeButton(
-                      isSelected: controller.rxSelectedIdentifier.value ==
-                          AppConfig.premiumIdentifierYearly,
+                      isSelected: controller.rxSelectedIdentifier.value == AppConfig.premiumIdentifierYearly,
                       onSelected: () {
-                        controller.onSelectedIdentifier(
-                            AppConfig.premiumIdentifierYearly);
+                        controller.onSelectedIdentifier(AppConfig.premiumIdentifierYearly);
                       },
                       title:
-                          "   ${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierYearly]?.price ?? ''} ${TranslationConstants.perYear.tr}",
+                          "   ${controller.productDetailsYear.price == '' ? '\$39.99' : controller.productDetailsYear.price} ${TranslationConstants.perYear.tr}",
                       content:
                           "     ${TranslationConstants.only.tr} ${getPriceOfWeek()} ${TranslationConstants.perWeek.tr}"),
                 ),
@@ -90,13 +80,10 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                   decoration: BoxDecoration(
                       color: AppColor.white,
                       borderRadius: BorderRadius.circular(3.sp),
-                      boxShadow: const [
-                        BoxShadow(color: AppColor.green, blurRadius: 10)
-                      ]),
+                      boxShadow: const [BoxShadow(color: AppColor.green, blurRadius: 10)]),
                   child: Text(
                     TranslationConstants.bestOffer.tr,
-                    style: ThemeText.caption.copyWith(
-                        fontWeight: FontWeight.w500, color: AppColor.green),
+                    style: ThemeText.caption.copyWith(fontWeight: FontWeight.w500, color: AppColor.green),
                   ),
                 ),
               )
@@ -110,14 +97,12 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
           padding: EdgeInsets.symmetric(horizontal: 48.sp),
           child: Obx(
             () => _selectedSubscribeButton(
-                isSelected: controller.rxSelectedIdentifier.value ==
-                    AppConfig.premiumIdentifierWeekly,
+                isSelected: controller.rxSelectedIdentifier.value == AppConfig.premiumIdentifierWeekly,
                 onSelected: () {
-                  controller
-                      .onSelectedIdentifier(AppConfig.premiumIdentifierWeekly);
+                  controller.onSelectedIdentifier(AppConfig.premiumIdentifierWeekly);
                 },
                 title:
-                    "   ${Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierWeekly]?.price ?? ''} ${TranslationConstants.perWeek.tr}"),
+                    "   ${controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsYear.price} ${TranslationConstants.perWeek.tr}"),
           ),
         ),
         SizedBox(
@@ -127,12 +112,10 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
           padding: EdgeInsets.symmetric(horizontal: 48.sp),
           child: Obx(
             () => SubscribeButton(
-              onPressed: Get.find<AppController>().rxPurchaseStatus.value ==
-                      PurchaseStatus.pending
+              onPressed: Get.find<AppController>().rxPurchaseStatus.value == PurchaseStatus.pending
                   ? null
                   : controller.onSubscribed,
-              child: Get.find<AppController>().rxPurchaseStatus.value ==
-                      PurchaseStatus.pending
+              child: Get.find<AppController>().rxPurchaseStatus.value == PurchaseStatus.pending
                   ? SizedBox(
                       height: 32.sp,
                       width: 32.sp,
@@ -142,19 +125,16 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                       ),
                     )
                   : Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           TranslationConstants.continues.tr,
-                          style: ThemeText.headline5.copyWith(
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.white),
+                          style: ThemeText.headline5
+                              .copyWith(fontSize: 28.sp, fontWeight: FontWeight.w500, color: AppColor.white),
                         ),
                         Text(
                           TranslationConstants.freeTrial.tr,
-                          style:
-                              ThemeText.caption.copyWith(color: AppColor.white),
+                          style: ThemeText.caption.copyWith(color: AppColor.white),
                         ),
                       ],
                     ),
@@ -170,60 +150,78 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
     return Obx(
       () => SubscribeScreen(
           padding: EdgeInsets.zero,
-          onRestored: controller.rxLoadedType.value == LoadedType.start
-              ? null
-              : controller.onRestored,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const SizedBox(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 48.sp),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ContentWidget(
-                        text: TranslationConstants.subscribeContentIos1.tr),
-                    ContentWidget(
-                        text: TranslationConstants.subscribeContentIos2.tr),
-                    ContentWidget(
-                        text: TranslationConstants.subscribeContentIos3.tr),
-                    ContentWidget(
-                        text: TranslationConstants.subscribeContentIos4.tr),
-                    ContentWidget(
-                        text: TranslationConstants.subscribeContentIos5.tr),
-                    ContentWidget(
-                        text: TranslationConstants.subscribeContentIos6.tr),
-                  ],
-                ),
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
+          onRestored: controller.rxLoadedType.value == LoadedType.start ? null : controller.onRestored,
+          onPressBack: controller.onPressBack,
+          child: ScrollConfiguration(
+            behavior: DisableGlowBehavior(),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(TranslationConstants.subscribeAutoRenewable.tr,
-                      style: ThemeText.caption),
-                  SizedBox(
-                    height: 2.sp,
+                  SizedBox(height: 24.sp),
+                  AppImageWidget.asset(
+                    path: AppImage.subscribeImg,
+                    height: 153.sp,
                   ),
-                  _groupButtonWidget(),
+                  SizedBox(height: 12.sp),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 48.sp),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ContentWidget(text: TranslationConstants.subscribeContentIos1.tr),
+                        ContentWidget(text: TranslationConstants.subscribeContentIos2.tr),
+                        ContentWidget(text: TranslationConstants.subscribeContentIos3.tr),
+                        ContentWidget(text: TranslationConstants.subscribeContentIos4.tr),
+                        ContentWidget(text: TranslationConstants.subscribeContentIos5.tr),
+                        ContentWidget(text: TranslationConstants.subscribeContentIos6.tr),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(height: 8.sp),
+                      Text(TranslationConstants.subscribeAutoRenewable.tr, style: ThemeText.bodyText1),
+                      SizedBox(height: 8.sp),
+                      _groupButtonWidget(),
+                      SizedBox(height: 16.sp),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
+                        child: Text(
+                          TranslationConstants.descriptionSub.trParams({
+                            "priceOfWeek":
+                                controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price,
+                            "priceOfYear":
+                                controller.productDetailsYear.price == '' ? '\$39.99' : controller.productDetailsWeek.price,
+                          }),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12.0.sp,
+                            color: AppColor.black,
+                            fontWeight: FontWeight.w400,
+                            fontStyle: FontStyle.normal,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.sp),
+                    ],
+                  ),
+                  const SizedBox()
                 ],
               ),
-              const SizedBox()
-            ],
+            ),
           )),
     );
   }
 
   String getPriceOfWeek() {
-    double price = Get.find<AppController>()
-            .productDetailMap[AppConfig.premiumIdentifierYearly]
-            ?.rawPrice ??
-        0;
-    String currencyUnit = Get.find<AppController>()
-            .productDetailMap[AppConfig.premiumIdentifierYearly]
-            ?.currencySymbol ??
-        '';
+    double price = controller.productDetailsWeek.price.toDouble;
+    String currencyUnit =
+        Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierYearly]?.currencySymbol ?? '';
     double priceOfWeek = ((price / 52 * 100).ceil()) / 100;
+    if(priceOfWeek == 0.0) priceOfWeek = 0.76;
+
     return '$priceOfWeek$currencyUnit';
   }
 }

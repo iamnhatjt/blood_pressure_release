@@ -24,13 +24,11 @@ extension HeightUnitExtension on HeightUnit {
 }
 
 class HeightUnitEnum {
-  static HeightUnit getHeigtUnitById(int? id) {
+  static HeightUnit getHeightUnitById(int? id) {
     if (id == null) {
       return HeightUnit.cm;
     } else {
-      return HeightUnit.values.firstWhere(
-          (element) => element.id == id,
-          orElse: () => HeightUnit.cm);
+      return HeightUnit.values.firstWhere((element) => element.id == id, orElse: () => HeightUnit.cm);
     }
   }
 }

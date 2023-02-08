@@ -12,24 +12,25 @@ import 'package:bloodpressure/presentation/widget/app_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../common/constants/app_image.dart';
+import '../../../../../common/constants/app_route.dart';
+import '../../../../controller/app_controller.dart';
 import '../../../../theme/theme_text.dart';
 import '../../../../widget/app_image_widget.dart';
 import '../../../../widget/app_touchable.dart';
 
-class AddBloodPressureDialog
-    extends GetView<AddBloodPressureController> {
+class AddBloodPressureDialog extends GetView<AddBloodPressureController> {
   final BloodPressureModel? bloodPressureModel;
+
   const AddBloodPressureDialog({
     super.key,
     this.bloodPressureModel,
   });
 
   void _onAddData() {
-    bloodPressureModel != null
-        ? controller.onSave()
-        : controller.addBloodPressure();
+    bloodPressureModel != null ? controller.onSave() : controller.addBloodPressure();
   }
 
   @override
@@ -39,39 +40,20 @@ class AddBloodPressureDialog
       controller.onEdit(bloodPressureModel!);
     }
     return AppDialog(
-      firstButtonText: bloodPressureModel != null
-          ? TranslationConstants.save.tr
-          : TranslationConstants.add.tr,
-      firstButtonCallback: () {
-        if (Platform.isAndroid) {
-          showInterstitialAds(() => _onAddData());
-        } else {
-          _onAddData();
-        }
-      },
+      firstButtonText: bloodPressureModel != null ? TranslationConstants.save.tr : TranslationConstants.add.tr,
+      firstButtonCallback: () => _onAddData(),
       secondButtonText: TranslationConstants.cancel.tr,
-      secondButtonCallback: () {
-        if (Platform.isAndroid) {
-          showInterstitialAds(() => Get.back());
-        } else {
-          Get.back();
-        }
-      },
-      coverScreenWidget: Obx(() =>
-          controller.isLoading.value
-              ? const AppLoading()
-              : const SizedBox()),
+      secondButtonCallback: () => Get.back(),
+      coverScreenWidget: Obx(() => controller.isLoading.value ? const AppLoading() : const SizedBox()),
       widgetBody: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
               AppTouchable(
-                  onPressed:
-                      controller.onSelectBloodPressureDate,
+                  onPressed: controller.onSelectBloodPressureDate,
                   backgroundColor: AppColor.lightGray,
-                  padding: EdgeInsets.symmetric(
-                      vertical: 8.sp, horizontal: 12.sp),
+                  padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 12.sp),
                   child: Obx(
                     () => Text(
                       controller.stringBloodPrDate.value,
@@ -80,11 +62,9 @@ class AddBloodPressureDialog
                   )),
               const Spacer(),
               AppTouchable(
-                  onPressed:
-                      controller.onSelectBloodPressureTime,
+                  onPressed: controller.onSelectBloodPressureTime,
                   backgroundColor: AppColor.lightGray,
-                  padding: EdgeInsets.symmetric(
-                      vertical: 8.sp, horizontal: 12.sp),
+                  padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 12.sp),
                   child: Obx(
                     () => Text(
                       controller.stringBloodPrTime.value,
@@ -97,25 +77,20 @@ class AddBloodPressureDialog
             height: 42.sp,
           ),
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ScrollBloodPressureValueWidget(
                   title: TranslationConstants.systolic.tr,
                   childCount: 281,
                   initItem: controller.systolic.value - 20,
-                  onSelectedItemChanged:
-                      controller.onSelectSys,
+                  onSelectedItemChanged: controller.onSelectSys,
                   itemBuilder: (ctx, value) {
                     return Center(
                       child: Obx(
                         () => Text(
                           '${value + 20}',
                           style: TextStyle(
-                            color: controller
-                                .bloodPressureType
-                                .value
-                                .color,
+                            color: controller.bloodPressureType.value.color,
                             fontSize: 40.0.sp,
                             fontWeight: FontWeight.w700,
                             height: 5 / 4,
@@ -128,18 +103,14 @@ class AddBloodPressureDialog
                   title: TranslationConstants.diastolic.tr,
                   childCount: 281,
                   initItem: controller.diastolic.value - 20,
-                  onSelectedItemChanged:
-                      controller.onSelectDia,
+                  onSelectedItemChanged: controller.onSelectDia,
                   itemBuilder: (ctx, value) {
                     return Center(
                       child: Obx(
                         () => Text(
                           '${value + 20}',
                           style: TextStyle(
-                            color: controller
-                                .bloodPressureType
-                                .value
-                                .color,
+                            color: controller.bloodPressureType.value.color,
                             fontSize: 40.0.sp,
                             fontWeight: FontWeight.w700,
                             height: 5 / 4,
@@ -152,18 +123,14 @@ class AddBloodPressureDialog
                   title: TranslationConstants.pulse.tr,
                   initItem: controller.pulse.value - 20,
                   childCount: 181,
-                  onSelectedItemChanged:
-                      controller.onSelectPules,
+                  onSelectedItemChanged: controller.onSelectPules,
                   itemBuilder: (ctx, value) {
                     return Center(
                       child: Obx(
                         () => Text(
                           '${value + 20}',
                           style: TextStyle(
-                            color: controller
-                                .bloodPressureType
-                                .value
-                                .color,
+                            color: controller.bloodPressureType.value.color,
                             fontSize: 40.0.sp,
                             fontWeight: FontWeight.w700,
                             height: 5 / 4,
@@ -181,20 +148,17 @@ class AddBloodPressureDialog
             () => Container(
               width: double.maxFinite,
               decoration: BoxDecoration(
-                color: controller
-                    .bloodPressureType.value.color,
+                color: controller.bloodPressureType.value.color,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(8),
                 ),
               ),
-              padding: EdgeInsets.symmetric(
-                  vertical: 8.sp, horizontal: 24.sp),
+              padding: EdgeInsets.symmetric(vertical: 8.sp, horizontal: 24.sp),
               child: FittedBox(
                 fit: BoxFit.scaleDown,
                 child: Text(
                   controller.bloodPressureType.value.name,
-                  style: textStyle20600()
-                      .copyWith(color: AppColor.white),
+                  style: textStyle20600().copyWith(color: AppColor.white),
                 ),
               ),
             ),
@@ -220,8 +184,7 @@ class AddBloodPressureDialog
                   child: FittedBox(
                       child: Obx(
                     () => Text(
-                      controller.bloodPressureType.value
-                          .sortMessageRange,
+                      controller.bloodPressureType.value.sortMessageRange,
                       style: textStyle16400(),
                       textAlign: TextAlign.center,
                     ),
@@ -243,8 +206,7 @@ class AddBloodPressureDialog
             () => Flexible(
               child: Text(
                 controller.bloodPressureType.value.message,
-                style: textStyle14400()
-                    .copyWith(color: AppColor.black),
+                style: textStyle14400().copyWith(color: AppColor.black),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -255,22 +217,16 @@ class AddBloodPressureDialog
                   .map(
                     (e) => Expanded(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 6.sp),
+                        padding: EdgeInsets.symmetric(horizontal: 6.sp),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            controller.bloodPressureType
-                                        .value ==
-                                    e
+                            controller.bloodPressureType.value == e
                                 ? AppImageWidget.asset(
                                     path: AppImage.ic_down,
                                     width: 20.0.sp,
                                     height: 12.sp,
-                                    color: controller
-                                        .bloodPressureType
-                                        .value
-                                        .color,
+                                    color: controller.bloodPressureType.value.color,
                                   )
                                 : SizedBox(
                                     height: 12.sp,
@@ -282,8 +238,7 @@ class AddBloodPressureDialog
                               height: 12.sp,
                               decoration: BoxDecoration(
                                 color: e.color,
-                                borderRadius:
-                                    const BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(8),
                                 ),
                               ),

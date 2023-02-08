@@ -1,6 +1,7 @@
-import 'package:bloodpressure/presentation/journey/subscribe/android/android_subscribe_controller.dart';
-import 'package:bloodpressure/presentation/journey/subscribe/ios/ios_subscribe_controller.dart';
 import 'package:get/get.dart';
+
+import '../../../presentation/journey/subscribe/android/android_subscribe_controller.dart';
+import '../../../presentation/journey/subscribe/ios/ios_subscribe_controller.dart';
 
 class IosSubscribeBinding extends Bindings {
   @override

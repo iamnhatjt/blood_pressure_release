@@ -1,8 +1,9 @@
 import 'dart:async';
 
-import 'package:bloodpressure/common/constants/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../common/constants/enums.dart';
 
 class AppBaseController extends GetxController {
   late BuildContext context;

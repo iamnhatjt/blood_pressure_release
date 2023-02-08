@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../common/util/disable_ glow_behavior.dart';
+import '../../common/util/disable_glow_behavior.dart';
 import '../theme/app_color.dart';
 
 class AppHeartRateChartWidget extends StatelessWidget {

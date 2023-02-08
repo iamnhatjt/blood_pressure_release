@@ -1,15 +1,14 @@
-import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../build_constants.dart';
+import '../../presentation/controller/app_controller.dart';
 import '../util/app_util.dart';
 
 /// Utility class that manages loading and showing app open ads.
 class AppOpenAdManager {
   /// Maximum duration allowed between loading and showing the ad.
-  final Duration maxCacheDuration =
-      const Duration(hours: 4);
+  final Duration maxCacheDuration = const Duration(hours: 4);
 
   /// Keep track of load time so we don't show an expired ad.
   DateTime? _appOpenLoadTime;
@@ -60,9 +59,7 @@ class AppOpenAdManager {
       log('---OPEN APP AD: Tried to show ad while already showing an ad.');
       return;
     }
-    if (DateTime.now()
-        .subtract(maxCacheDuration)
-        .isAfter(_appOpenLoadTime!)) {
+    if (DateTime.now().subtract(maxCacheDuration).isAfter(_appOpenLoadTime!)) {
       log('---OPEN APP AD: Maximum cache duration exceeded. Loading another ad.');
       _appOpenAd!.dispose();
       _appOpenAd = null;
@@ -70,8 +67,7 @@ class AppOpenAdManager {
       return;
     }
     // Set the fullScreenContentCallback and show the ad.
-    _appOpenAd!.fullScreenContentCallback =
-        FullScreenContentCallback(
+    _appOpenAd!.fullScreenContentCallback = FullScreenContentCallback(
       onAdShowedFullScreenContent: (ad) {
         _isShowingAd = true;
         log('---OPEN APP AD: $ad onAdShowedFullScreenContent');

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:bloodpressure/common/constants/app_constant.dart';
-import 'package:bloodpressure/common/util/app_util.dart';
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

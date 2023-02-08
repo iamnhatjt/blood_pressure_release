@@ -54,8 +54,11 @@ class BloodHeaderWidget extends StatelessWidget {
               outlinedBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(22.0.sp),
               ),
-              child: AppImageWidget.asset(
-                path: AppImage.ic_back,
+              // child: AppImageWidget.asset(
+              //   path: AppImage.ic_back,
+              //   color: AppColor.white,
+              // ),
+              child: const BackButton(
                 color: AppColor.white,
               ),
             ),

@@ -54,7 +54,7 @@ class MeasureScreen extends GetView<MeasureController> {
                 ),
               ),
               Obx(
-                    () {
+                () {
                   if (Get.find<AppController>().isPremiumFull.value) {
                     return const SizedBox.shrink();
                   }
@@ -164,14 +164,19 @@ class MeasureScreen extends GetView<MeasureController> {
   Widget build(BuildContext context) {
     controller.context = context;
     return AppContainer(
+      isShowBanner: false,
       child: Column(children: [
-        AppHeader(title: TranslationConstants.measure.tr),
+        AppHeader(
+          title: TranslationConstants.measure.tr,
+          leftWidget: const BackButton(
+            color: AppColor.black,
+          ),
+        ),
         Expanded(
           child: Obx(() {
             return AnimatedSwitcher(
               duration: const Duration(milliseconds: 400),
-              child: controller.currentMeasureScreenState.value ==
-                      MeasureScreenState.measuring
+              child: controller.currentMeasureScreenState.value == MeasureScreenState.measuring
                   ? _buildStateMeasure(context)
                   : _buildStateIdle(),
             );

@@ -12,6 +12,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../presentation/controller/app_controller.dart';
+
 mixin AlarmDialogMixin {
   RxList<bool> selectedWeekDays = List<bool>.generate(7, (_) => false).obs;
   Rx<DateTime> selectedTime = DateTime.now().obs;

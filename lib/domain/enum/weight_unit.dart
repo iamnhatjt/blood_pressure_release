@@ -1,4 +1,4 @@
-import 'package:bloodpressure/common/util/convert_utils.dart';
+import '../../common/util/convert_utils.dart';
 
 enum WeightUnit {
   kg,
@@ -39,9 +39,7 @@ class WeightUnitEnum {
     if (id == null) {
       return WeightUnit.kg;
     } else {
-      return WeightUnit.values.firstWhere(
-          (element) => element.id == id,
-          orElse: () => WeightUnit.kg);
+      return WeightUnit.values.firstWhere((element) => element.id == id, orElse: () => WeightUnit.kg);
     }
   }
 }

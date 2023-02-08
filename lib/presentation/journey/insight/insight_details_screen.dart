@@ -1,5 +1,5 @@
 import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
-import 'package:bloodpressure/common/util/disable_%20glow_behavior.dart';
+import 'package:bloodpressure/common/util/disable_glow_behavior.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';
@@ -33,10 +33,13 @@ class InsightDetails extends StatelessWidget {
           leftWidget: AppTouchable.common(
             onPressed: () => Get.back(),
             decoration: const BoxDecoration(boxShadow: null),
-            child: const Icon(
-              Icons.arrow_back_ios_rounded,
+            // child: const Icon(
+            //   Icons.arrow_back_ios_rounded,
+            //   color: AppColor.black,
+            //   // size: 40.0.sp,
+            // ),
+            child: const BackButton(
               color: AppColor.black,
-              // size: 40.0.sp,
             ),
           ),
           title: title,
@@ -56,17 +59,17 @@ class InsightDetails extends StatelessWidget {
                     ),
                     SizedBox(
                       height: 30.0.sp,
-                    ), 
-                    Text("${contents[0]}\n",
+                    ),
+                    Text(
+                      "${contents[0]}\n",
                       style: textStyle16400(),
                       textAlign: TextAlign.justify,
                     ),
                     Obx(
                       () => NativeAdsWidget(
-                        height: 240.sp,
+                          height: 240.sp,
                           factoryId: NativeFactoryId.appNativeAdFactoryMedium,
-                          isPremium:
-                              Get.find<AppController>().isPremiumFull.value),
+                          isPremium: Get.find<AppController>().isPremiumFull.value),
                     ),
                     ...contents.sublist(1).map(
                           (e) => Text(

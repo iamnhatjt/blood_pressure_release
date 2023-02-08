@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:bloodpressure/common/constants/app_constant.dart';
 import 'package:bloodpressure/common/extensions/int_extension.dart';
 import 'package:bloodpressure/common/mixin/alarm_dialog_mixin.dart';
@@ -14,21 +11,21 @@ import 'package:bloodpressure/domain/usecase/blood_pressure_usecase.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_pressure/add_blood_pressure/add_blood_pressure_dialog.dart';
-import 'package:bloodpressure/presentation/journey/main/main_controller.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog.dart';
 import 'package:collection/collection.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../common/constants/app_route.dart';
 import '../../../../common/constants/enums.dart';
 import '../../../../common/util/translation/app_translation.dart';
 import '../../../../domain/model/blood_pressure_model.dart';
 import '../../../widget/snack_bar/app_snack_bar.dart';
 
-class BloodPressureController extends GetxController
-    with DateTimeMixin, AlarmDialogMixin {
+class BloodPressureController extends GetxController with DateTimeMixin, AlarmDialogMixin {
   late BuildContext context;
   final BloodPressureUseCase _bloodPressureUseCase;
   final AlarmUseCase _alarmUseCase;
@@ -53,8 +50,7 @@ class BloodPressureController extends GetxController
 
   @override
   void onInit() {
-    filterEndDate.value = DateTime(DateTime.now().year, DateTime.now().month,
-        DateTime.now().day, 23, 59, 59);
+    filterEndDate.value = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 23, 59, 59);
     DateTime temp = filterEndDate.value.subtract(const Duration(days: 7));
     filterStartDate.value = DateTime(temp.year, temp.month, temp.day);
     filterBloodPressure();
@@ -62,21 +58,23 @@ class BloodPressureController extends GetxController
   }
 
   void onSetAlarm() {
-    if (Platform.isIOS) {
-      showInterstitialAds(() {
-        showAddAlarm(
-            context: context,
-            alarmType: AlarmType.bloodPressure,
-            onPressCancel: Get.back,
-            onPressSave: _onSaveAlarm);
-      });
-    } else {
-      showAddAlarm(
-          context: context,
-          alarmType: AlarmType.bloodPressure,
-          onPressCancel: Get.back,
-          onPressSave: _onSaveAlarm);
-    }
+    // if (Platform.isIOS) {
+    //   showInterstitialAds(() {
+    //     showAddAlarm(
+    //         context: context,
+    //         alarmType: AlarmType.bloodPressure,
+    //         onPressCancel: Get.back,
+    //         onPressSave: _onSaveAlarm);
+    //   });
+    // } else {
+    //   showAddAlarm(
+    //       context: context,
+    //       alarmType: AlarmType.bloodPressure,
+    //       onPressCancel: Get.back,
+    //       onPressSave: _onSaveAlarm);
+    // }
+
+    showAddAlarm(context: context, alarmType: AlarmType.bloodPressure, onPressCancel: Get.back, onPressSave: _onSaveAlarm);
   }
 
   Future<void> _onSaveAlarm(AlarmModel alarm) async {
@@ -87,29 +85,14 @@ class BloodPressureController extends GetxController
 
   Future onAddData() async {
     analytics.logEvent(name: AppLogEvent.addDataButtonBloodPressure);
-    debugPrint(
-        "Logged ${AppLogEvent.addDataButtonBloodPressure} at ${DateTime.now()}");
+    debugPrint("Logged ${AppLogEvent.addDataButtonBloodPressure} at ${DateTime.now()}");
 
-    if (!appController.isPremiumFull.value) {
-      if (Platform.isIOS) {
-        if (appController.allowBloodPressureFirstTime.value) {
-          showInterstitialAds(_addData);
-        } else {
-          Get.find<MainController>().pushToSubscribeScreen();
-        }
-      }
-      if (Platform.isAndroid) {
-        showInterstitialAds(_addData);
-      }
-    } else {
-      _addData();
-    }
+    _addData();
     appController.setAllowBloodPressureFirstTime(false);
   }
 
   void _addData() async {
-    final result = await showAppDialog(context, "", "",
-        builder: (ctx) => const AddBloodPressureDialog());
+    final result = await showAppDialog(context, "", "", builder: (ctx) => const AddBloodPressureDialog());
     if (result != null && result) {
       filterBloodPressure();
     }
@@ -126,16 +109,11 @@ class BloodPressureController extends GetxController
 
     if (bloodPressures.isNotEmpty) {
       bloodPressSelected.value = bloodPressures.last;
-      chartXValueSelected.value = bloodPressSelected.value.dateTime!
-          .getMillisecondDateFormat('dd/MM/yyyy');
-      chartMinDate.value =
-          DateTime.fromMillisecondsSinceEpoch(result.first.dateTime!);
-      chartMaxDate.value =
-          DateTime.fromMillisecondsSinceEpoch(result.last.dateTime!);
+      chartXValueSelected.value = bloodPressSelected.value.dateTime!.getMillisecondDateFormat('dd/MM/yyyy');
+      chartMinDate.value = DateTime.fromMillisecondsSinceEpoch(result.first.dateTime!);
+      chartMaxDate.value = DateTime.fromMillisecondsSinceEpoch(result.last.dateTime!);
       final mapGroupData = groupBy(
-          bloodPressures,
-          (p0) => DateFormat('dd/MM/yyyy')
-              .format(DateTime.fromMillisecondsSinceEpoch(p0.dateTime ?? 0)));
+          bloodPressures, (p0) => DateFormat('dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(p0.dateTime ?? 0)));
       if (mapGroupData.isNotEmpty) {
         final lastKey = mapGroupData.keys.last;
         final lastValue = mapGroupData[lastKey];
@@ -157,10 +135,7 @@ class BloodPressureController extends GetxController
               toY: item.systolic?.toDouble() ?? 0.0,
             ));
           }
-          bloodPressureChartData.add({
-            "dateTime": handleDate.millisecondsSinceEpoch,
-            "values": dataList
-          });
+          bloodPressureChartData.add({"dateTime": handleDate.millisecondsSinceEpoch, "values": dataList});
         }
       });
     }
@@ -169,11 +144,8 @@ class BloodPressureController extends GetxController
   void onSelectedBloodPress(int dateTime, int groupIndex) {
     chartGroupIndexSelected.value = groupIndex;
     chartXValueSelected.value = dateTime;
-    final tempData = bloodPressures
-        .where((element) =>
-            element.dateTime!.getMillisecondDateFormat('dd/MM/yyyy') ==
-            dateTime)
-        .toList();
+    final tempData =
+        bloodPressures.where((element) => element.dateTime!.getMillisecondDateFormat('dd/MM/yyyy') == dateTime).toList();
     if (tempData.isNotEmpty && tempData.length > groupIndex) {
       bloodPressSelected.value = tempData[groupIndex];
     }
@@ -181,9 +153,7 @@ class BloodPressureController extends GetxController
 
   void onPressDeleteData() {
     _bloodPressureUseCase.deleteBloodPressure(bloodPressSelected.value.key!);
-    showTopSnackBar(context,
-        message: TranslationConstants.deleteDataSuccess.tr,
-        type: SnackBarType.done);
+    showTopSnackBar(context, message: TranslationConstants.deleteDataSuccess.tr, type: SnackBarType.done);
     filterBloodPressure();
   }
 
@@ -199,29 +169,30 @@ class BloodPressureController extends GetxController
 
   Future<void> onExportData() async {
     analytics.logEvent(name: AppLogEvent.exportBloodPressure);
-    debugPrint(
-        "Logged ${AppLogEvent.exportBloodPressure} at ${DateTime.now()}");
+    debugPrint("Logged ${AppLogEvent.exportBloodPressure} at ${DateTime.now()}");
+
     if (appController.isPremiumFull.value) {
       _exportData();
     } else {
-      if (Platform.isIOS) {
-        if (appController.allowHeartRateFirstTime.value) {
-          showInterstitialAds(_exportData);
-        } else {
-          Get.find<MainController>().pushToSubscribeScreen();
-        }
-      }
+      if(appController.userLocation.compareTo("Other") != 0) {
+        final prefs = await SharedPreferences.getInstance();
+        int cntPressExport = prefs.getInt("cnt_export_blood_pressure") ?? 0;
 
-      if (Platform.isAndroid) {
-        showInterstitialAds(_exportData);
+        if (cntPressExport < 2) {
+          _exportData();
+          prefs.setInt("cnt_export_blood_pressure", cntPressExport + 1);
+        } else {
+          Get.toNamed(AppRoute.iosSub);
+        }
+      } else {
+        _exportData();
       }
     }
   }
 
   void _exportData() async {
     analytics.logEvent(name: AppLogEvent.exportBloodPressure);
-    debugPrint(
-        "Logged ${AppLogEvent.exportBloodPressure} at ${DateTime.now()}");
+    debugPrint("Logged ${AppLogEvent.exportBloodPressure} at ${DateTime.now()}");
     isExporting.value = true;
     List<String> header = [];
     List<List<String>> listOfData = [];
@@ -232,8 +203,7 @@ class BloodPressureController extends GetxController
     header.add(TranslationConstants.pulse.tr);
     header.add(TranslationConstants.type.tr);
     for (final item in bloodPressures) {
-      DateTime dateTime =
-          DateTime.fromMillisecondsSinceEpoch(item.dateTime ?? 0);
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(item.dateTime ?? 0);
       listOfData.add([
         DateFormat('MMM dd, yyyy').format(dateTime),
         DateFormat('h:mm a').format(dateTime),

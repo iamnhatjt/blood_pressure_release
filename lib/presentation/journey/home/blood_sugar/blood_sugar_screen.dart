@@ -18,8 +18,7 @@ import 'widgets/blood_sugar_data_widget.dart';
 import 'widgets/filter_state_widget.dart';
 import 'widgets/select_state_dialog.dart';
 
-Future showStateDialog(BuildContext context, Function(String) onSelected,
-        RxString rxSelectedState) =>
+Future showStateDialog(BuildContext context, Function(String) onSelected, RxString rxSelectedState) =>
     showAppDialog(context, TranslationConstants.bloodSugarState.tr, '',
         widgetBody: SelectStateDialog(
           onSelected: onSelected,
@@ -34,6 +33,7 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
   Widget build(BuildContext context) {
     controller.context = context;
     return AppContainer(
+      isShowBanner: false,
       child: Column(
         children: [
           Obx(
@@ -65,10 +65,8 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
                   child: EmptyWidget(
                     imagePath: AppImage.ic_blood_sugar_empty_data,
                     imageWidth: 120.sp,
-                    message:
-                        TranslationConstants.addYourRecordToSeeStatistics.tr,
-                    isPremium:
-                    Get.find<AppController>().isPremiumFull.value,
+                    message: TranslationConstants.addYourRecordToSeeStatistics.tr,
+                    isPremium: Get.find<AppController>().isPremiumFull.value,
                   ),
                 );
               },

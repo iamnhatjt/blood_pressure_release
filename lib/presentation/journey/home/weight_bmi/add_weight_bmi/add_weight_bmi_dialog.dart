@@ -3,7 +3,6 @@ import 'package:bloodpressure/domain/enum/bmi_type.dart';
 import 'package:bloodpressure/domain/enum/height_unit.dart';
 import 'package:bloodpressure/domain/enum/weight_unit.dart';
 import 'package:bloodpressure/domain/model/bmi_model.dart';
-import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/add_weight_bmi/add_weight_bmi_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/add_weight_bmi/widget/unit_button.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/add_data_widget.dart';
@@ -22,9 +21,9 @@ import '../../../../../common/util/app_util.dart';
 import '../../../../../common/util/format_utils.dart';
 import '../../../../widget/app_image_widget.dart';
 
-class AddWeightBMIDialog
-    extends GetView<AddWeightBMIController> {
+class AddWeightBMIDialog extends GetView<AddWeightBMIController> {
   final BMIModel? bmiModel;
+
   const AddWeightBMIDialog({
     super.key,
     this.bmiModel,
@@ -36,7 +35,6 @@ class AddWeightBMIDialog
     if (bmiModel != null) {
       controller.onEdit(bmiModel!);
     }
-    final appController = Get.find<AppController>();
     return AddDataDialog(
       rxStrDate: controller.stringBloodPrDate,
       rxStrTime: controller.stringBloodPrTime,
@@ -45,50 +43,35 @@ class AddWeightBMIDialog
       hasScroll: true,
       onSelectTime: controller.onSelectBMITime,
       secondButtonOnPressed: () => Get.back(),
-      firstButtonOnPressed: bmiModel != null
-          ? controller.onSave
-          : controller.addBMI,
-      coverScreenWidget: Obx(() =>
-          controller.isLoading.value
-              ? const AppLoading()
-              : const SizedBox()),
+      firstButtonOnPressed: bmiModel != null ? controller.onSave : controller.addBMI,
+      coverScreenWidget: Obx(() => controller.isLoading.value ? const AppLoading() : const SizedBox()),
       child: Column(
         children: [
-          SizedBox(
-            height: 50.sp,
-          ),
+          SizedBox(height: 24.sp),
           Row(
             children: [
               Expanded(
                 child: Obx(
                   () => UnitButton(
-                    value:
-                        '${TranslationConstants.weight.tr} '
+                    value: '${TranslationConstants.weight.tr} '
                         '(${controller.weightUnit.value.label})',
-                    onPressed:
-                        controller.onSelectWeightUnit,
+                    onPressed: controller.onSelectWeightUnit,
                   ),
                 ),
               ),
-              SizedBox(
-                width: 16.sp,
-              ),
+              SizedBox(width: 16.sp),
               Expanded(
                 child: Obx(
                   () => UnitButton(
-                    value:
-                        '${TranslationConstants.height.tr} '
+                    value: '${TranslationConstants.height.tr} '
                         '(${controller.heightUnit.value.label})',
-                    onPressed:
-                        controller.onSelectHeightUnit,
+                    onPressed: controller.onSelectHeightUnit,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(
-            height: 19.sp,
-          ),
+          SizedBox(height: 16.sp),
           SizedBox(
             height: 68.sp,
             child: Row(
@@ -104,8 +87,7 @@ class AddWeightBMIDialog
                 ),
                 Expanded(
                   child: Obx(() {
-                    if (controller.heightUnit.value ==
-                        HeightUnit.cm) {
+                    if (controller.heightUnit.value == HeightUnit.cm) {
                       return BloodTextFieldWidget(
                         controller: controller.cmController,
                         onChanged: controller.caculateBMI,
@@ -115,10 +97,8 @@ class AddWeightBMIDialog
                         children: [
                           Expanded(
                             child: BloodTextFieldWidget(
-                              controller:
-                                  controller.ftController,
-                              onChanged:
-                                  controller.caculateBMI,
+                              controller: controller.ftController,
+                              onChanged: controller.caculateBMI,
                               inputFormatters: [
                                 FeetFormatter(),
                               ],
@@ -129,10 +109,8 @@ class AddWeightBMIDialog
                           ),
                           Expanded(
                             child: BloodTextFieldWidget(
-                              controller:
-                                  controller.inchController,
-                              onChanged:
-                                  controller.caculateBMI,
+                              controller: controller.inchController,
+                              onChanged: controller.caculateBMI,
                               inputFormatters: [
                                 InchesFormatter(),
                               ],
@@ -147,7 +125,7 @@ class AddWeightBMIDialog
             ),
           ),
           SizedBox(
-            height: 63.sp,
+            height: 48.sp,
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -204,8 +182,7 @@ class AddWeightBMIDialog
                   .map(
                     (e) => Expanded(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 6.sp),
+                        padding: EdgeInsets.symmetric(horizontal: 6.sp),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -214,10 +191,7 @@ class AddWeightBMIDialog
                                     path: AppImage.ic_down,
                                     width: 20.0.sp,
                                     height: 12.sp,
-                                    color: controller
-                                        .bmiType
-                                        .value
-                                        .color,
+                                    color: controller.bmiType.value.color,
                                   )
                                 : SizedBox(
                                     height: 12.sp,
@@ -229,8 +203,7 @@ class AddWeightBMIDialog
                               height: 12.sp,
                               decoration: BoxDecoration(
                                 color: e.color,
-                                borderRadius:
-                                    const BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(8),
                                 ),
                               ),
@@ -252,20 +225,13 @@ class AddWeightBMIDialog
             children: [
               AppTouchable(
                 onPressed: controller.onPressedAge,
-                padding: EdgeInsets.symmetric(
-                    vertical: 8.0.sp, horizontal: 12.0.sp),
+                padding: EdgeInsets.symmetric(vertical: 8.0.sp, horizontal: 12.0.sp),
                 child: Obx(() => Text(
                       '${TranslationConstants.age.tr}: ${controller.age.value}',
-                      style: textStyle18400()
-                          .merge(const TextStyle(
-                        shadows: [
-                          Shadow(
-                              color: AppColor.grayText2,
-                              offset: Offset(0, -5))
-                        ],
+                      style: textStyle18400().merge(const TextStyle(
+                        shadows: [Shadow(color: AppColor.grayText2, offset: Offset(0, -5))],
                         color: Colors.transparent,
-                        decoration:
-                            TextDecoration.underline,
+                        decoration: TextDecoration.underline,
                         decorationColor: AppColor.grayText2,
                       )),
                     )),
@@ -273,20 +239,12 @@ class AddWeightBMIDialog
               SizedBox(width: 12.0.sp),
               AppTouchable(
                 onPressed: controller.onPressGender,
-                padding: EdgeInsets.symmetric(
-                    vertical: 8.0.sp, horizontal: 12.0.sp),
+                padding: EdgeInsets.symmetric(vertical: 8.0.sp, horizontal: 12.0.sp),
                 child: Obx(() {
                   return Text(
-                    chooseContentByLanguage(
-                        controller.gender['nameEN'],
-                        controller.gender['nameVN']),
-                    style: textStyle18400()
-                        .merge(const TextStyle(
-                      shadows: [
-                        Shadow(
-                            color: AppColor.grayText2,
-                            offset: Offset(0, -5))
-                      ],
+                    chooseContentByLanguage(controller.gender['nameEN'], controller.gender['nameVN']),
+                    style: textStyle18400().merge(const TextStyle(
+                      shadows: [Shadow(color: AppColor.grayText2, offset: Offset(0, -5))],
                       color: Colors.transparent,
                       decoration: TextDecoration.underline,
                       decorationColor: AppColor.grayText2,
@@ -297,7 +255,7 @@ class AddWeightBMIDialog
             ],
           ),
           SizedBox(
-            height: 70.sp,
+            height: 36.sp,
           )
         ],
       ),

@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 
 import '../../../common/constants/app_constant.dart';
 import '../../common/util/app_util.dart';
-import '../../common/util/disable_ glow_behavior.dart';
+import '../../common/util/disable_glow_behavior.dart';
 import '../theme/app_color.dart';
 import '../theme/theme_text.dart';
 import 'app_button.dart';

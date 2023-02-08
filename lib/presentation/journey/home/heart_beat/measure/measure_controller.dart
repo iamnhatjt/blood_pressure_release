@@ -85,7 +85,6 @@ class MeasureController extends GetxController {
   }
 
   onPressStartMeasure() {
-
     analytics.logEvent(name: AppLogEvent.measureNow);
     debugPrint("Logged ${AppLogEvent.measureNow} at ${DateTime.now()}");
 

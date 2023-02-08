@@ -40,65 +40,47 @@ class AppContainer extends GetView {
     return WillPopScope(
       onWillPop: onWillPop,
       child: Stack(
-        alignment:
-            alignLayer ?? AlignmentDirectional.topStart,
+        alignment: alignLayer ?? AlignmentDirectional.topStart,
         children: [
           GestureDetector(
             onTap: () {
-              FocusScopeNode currentFocus =
-                  FocusScope.of(context);
+              FocusScopeNode currentFocus = FocusScope.of(context);
               if (!currentFocus.hasPrimaryFocus) {
                 currentFocus.unfocus();
               }
             },
             child: Scaffold(
-              resizeToAvoidBottomInset:
-                  resizeToAvoidBottomInset,
-              backgroundColor:
-                  backgroundColor ?? AppColor.white,
+              resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+              backgroundColor: backgroundColor ?? AppColor.white,
               appBar: appBar,
               body: SizedBox(
                 width: Get.width,
                 height: Get.height,
                 child: Column(
                   children: [
-                    Expanded(
-                        child: child ??
-                            const SizedBox.shrink()),
+                    Expanded(child: child ?? const SizedBox.shrink()),
                     isShowBanner
-                        ? Obx(() => Get.find<
-                                    AppController>()
-                                .isPremiumFull
-                                .value
+                        ? Obx(() => Get.find<AppController>().isPremiumFull.value
                             ? const SizedBox.shrink()
                             : Padding(
-                                padding:
-                                    EdgeInsets.symmetric(
-                                        vertical: 4.sp, horizontal: 20.0.sp),
+                                padding: EdgeInsets.symmetric(vertical: 4.sp, horizontal: 20.0.sp),
                                 child: MaxAdView(
-                                  adUnitId: BuildConstants
-                                      .idBannerAd,
+                                  adUnitId: BuildConstants.idBannerAd,
                                   adFormat: AdFormat.banner,
-                                  listener:
-                                      AdViewAdListener(
-                                    onAdLoadedCallback:
-                                        (ad) {
+                                  listener: AdViewAdListener(
+                                    onAdLoadedCallback: (ad) {
                                       log('---ADS BANNER---onAdLoadedCallback');
                                     },
-                                    onAdLoadFailedCallback:
-                                        (adUnitId, error) {
+                                    onAdLoadFailedCallback: (adUnitId, error) {
                                       log('---ADS BANNER---onAdLoadFailedCallback: $error');
                                     },
-                                    onAdClickedCallback:
-                                        (ad) {
+                                    onAdClickedCallback: (ad) {
                                       log('---ADS BANNER---onAdClickedCallback');
                                     },
-                                    onAdExpandedCallback:
-                                        (ad) {
+                                    onAdExpandedCallback: (ad) {
                                       log('---ADS BANNER---onAdExpandedCallback');
                                     },
-                                    onAdCollapsedCallback:
-                                        (ad) {
+                                    onAdCollapsedCallback: (ad) {
                                       log('---ADS BANNER---onAdCollapsedCallback');
                                     },
                                   ),

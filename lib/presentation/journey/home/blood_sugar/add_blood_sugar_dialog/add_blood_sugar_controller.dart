@@ -17,19 +17,17 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../controller/app_base_controller.dart';
 
-class AddBloodSugarController extends AppBaseController
-    with DateTimeMixin, AddDateTimeMixin, SelectStateMixin {
+class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddDateTimeMixin, SelectStateMixin {
   final BloodSugarUseCase useCase;
 
   RxString rxUnit = BloodSugarUnit.mgdLUnit.obs;
   RxString rxInformation = TranslationConstants.bloodSugarInforNormal.tr.obs;
   RxString rxInfoCode = BloodSugarInformationCode.normalCode.obs;
-  Rx<String?> rxInfoContent =
-      bloodSugarInformationMgMap[BloodSugarInformationCode.lowCode].obs;
-  Rx<TextEditingController> textEditController =
-      TextEditingController(text: '80.0').obs;
+  Rx<String?> rxInfoContent = bloodSugarInformationMgMap[BloodSugarInformationCode.lowCode].obs;
+  Rx<TextEditingController> textEditController = TextEditingController(text: '80.0').obs;
 
   AddBloodSugarController(this.useCase);
+
   final analytics = FirebaseAnalytics.instance;
 
   void onInitialData({BloodSugarModel? model}) {
@@ -38,18 +36,14 @@ class AddBloodSugarController extends AppBaseController
       rxInfoCode.value = model.infoCode ?? BloodSugarInformationCode.normalCode;
       rxInformation.value = bloodSugarInfoDisplayMap[rxInfoCode.value]!;
       rxInfoContent.value = bloodSugarInformationMgMap[rxInfoCode.value];
-      textEditController.value.text = !isNullEmptyFalseOrZero(model.measure)
-          ? model.measure.toString()
-          : '80.0';
+      textEditController.value.text = !isNullEmptyFalseOrZero(model.measure) ? model.measure.toString() : '80.0';
       bloodPressureDate = DateTime.fromMillisecondsSinceEpoch(model.dateTime!);
     } else {
       rxUnit.value = BloodSugarUnit.mgdLUnit;
       rxInfoCode.value = BloodSugarInformationCode.normalCode;
       rxInformation.value = TranslationConstants.bloodSugarInforNormal.tr;
-      rxInfoContent.value =
-          bloodSugarInformationMgMap[BloodSugarInformationCode.lowCode];
-      textEditController.value =
-          TextEditingController(text: '80.0');
+      rxInfoContent.value = bloodSugarInformationMgMap[BloodSugarInformationCode.lowCode];
+      textEditController.value = TextEditingController(text: '80.0');
       bloodPressureDate = DateTime.now();
     }
     updateDateTimeString(bloodPressureDate);
@@ -71,12 +65,10 @@ class AddBloodSugarController extends AppBaseController
     String value = textEditController.value.text;
     if (rxUnit.value == BloodSugarUnit.mgdLUnit) {
       rxUnit.value = BloodSugarUnit.mmollUnit;
-      textEditController.value.text =
-          ConvertUtils.convertMg2MmolL(value).toString();
+      textEditController.value.text = ConvertUtils.convertMg2MmolL(value).toString();
     } else {
       rxUnit.value = BloodSugarUnit.mgdLUnit;
-      textEditController.value.text =
-          ConvertUtils.convertMmolL2MgDl(value).toString();
+      textEditController.value.text = ConvertUtils.convertMmolL2MgDl(value).toString();
     }
     onChangedInformation();
   }
@@ -106,8 +98,7 @@ class AddBloodSugarController extends AppBaseController
   }
 
   Future<void> onSelectBloodSugarDate() async {
-    final result =
-        await onSelectDate(context: context, initialDate: bloodPressureDate);
+    final result = await onSelectDate(context: context, initialDate: bloodPressureDate);
     onSelectAddDate(result);
   }
 
@@ -138,12 +129,10 @@ class AddBloodSugarController extends AppBaseController
       model.infoCode = rxInfoCode.value;
       model.dateTime = dateTime.millisecondsSinceEpoch;
       await useCase.saveBloodSugarData(model);
-      showTopSnackBar(context,
-          message: TranslationConstants.editDataSuccess.tr,
-          type: SnackBarType.done);
+      showTopSnackBar(context, message: TranslationConstants.editDataSuccess.tr, type: SnackBarType.done);
     } else {
       model = BloodSugarModel(
-        key: Uuid().v4(),
+        key: const Uuid().v4(),
         stateCode: rxSelectedState.value,
         measure: double.parse(textEditController.value.text),
         unit: rxUnit.value,
@@ -151,9 +140,7 @@ class AddBloodSugarController extends AppBaseController
         dateTime: dateTime.millisecondsSinceEpoch,
       );
       await useCase.saveBloodSugarData(model);
-      showTopSnackBar(context,
-          message: TranslationConstants.addDataSuccess.tr,
-          type: SnackBarType.done);
+      showTopSnackBar(context, message: TranslationConstants.addDataSuccess.tr, type: SnackBarType.done);
     }
 
     rxLoadedType.value = LoadedType.finish;

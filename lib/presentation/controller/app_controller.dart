@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:bloodpressure/common/config/app_config.dart';
 import 'package:bloodpressure/data/local_repository.dart';
 import 'package:bloodpressure/domain/model/user_model.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -19,6 +18,7 @@ import '../../common/config/hive_config/hive_config.dart';
 import '../../common/constants/app_constant.dart';
 import '../../common/injector/app_di.dart';
 import '../../common/util/app_util.dart';
+import '../theme/app_color.dart';
 
 onSelectNotification(s1) async {}
 
@@ -27,13 +27,15 @@ class AppController extends SuperController {
   Rx<UserModel> currentUser = UserModel().obs;
   final _localRepository = getIt.get<LocalRepository>();
 
+  RxString userLocation = "Other".obs;
+
   bool avoidShowOpenApp = false;
   RxBool isPremiumFull = false.obs;
   StreamSubscription<dynamic>? _subscriptionIAP;
+  RxList<ProductDetails> listProductDetailsSub = RxList();
   List<ProductDetails> _listProductDetails = [];
   Map<String, ProductDetails> productDetailMap = {};
-  Rx<PurchaseStatus> rxPurchaseStatus =
-      PurchaseStatus.canceled.obs;
+  Rx<PurchaseStatus> rxPurchaseStatus = PurchaseStatus.canceled.obs;
 
   //late
   late AppOpenAdManager _appOpenAdManager;
@@ -44,6 +46,11 @@ class AppController extends SuperController {
   RxBool allowBloodPressureFirstTime = false.obs;
   RxBool allowBloodSugarFirstTime = false.obs;
   RxBool allowWeightAndBMIFirstTime = false.obs;
+
+  bool firstOpenInsight = true;
+  bool firstOpenAlarm = true;
+  bool firstPressBloodPressure = true;
+  bool firstPressMeasureNow = true;
 
   void increaseFreeAdCount() {
     _localRepository.setFreeAdCount(++freeAdCount.value);
@@ -59,27 +66,19 @@ class AppController extends SuperController {
     _localRepository.getFreeAdCount().then((value) {
       freeAdCount.value = value;
     });
-    _localRepository
-        .getAllowHeartRateFirstTime()
-        .then((value) {
+    _localRepository.getAllowHeartRateFirstTime().then((value) {
       allowHeartRateFirstTime.value = value;
     });
 
-    _localRepository
-        .getAllowBloodPressureFirstTime()
-        .then((value) {
+    _localRepository.getAllowBloodPressureFirstTime().then((value) {
       allowBloodPressureFirstTime.value = value;
     });
 
-    _localRepository
-        .getAllowBloodSugarFirstTime()
-        .then((value) {
+    _localRepository.getAllowBloodSugarFirstTime().then((value) {
       allowBloodSugarFirstTime.value = value;
     });
 
-    _localRepository
-        .getAllowWeightAndBMIFirstTime()
-        .then((value) {
+    _localRepository.getAllowWeightAndBMIFirstTime().then((value) {
       allowWeightAndBMIFirstTime.value = value;
     });
   }
@@ -115,11 +114,9 @@ class AppController extends SuperController {
 
   void configAds() {
     if (Platform.isIOS) {
-      int? firstTimeOpenApp =
-          _localRepository.getFirstTimeOpenApp();
+      int? firstTimeOpenApp = _localRepository.getFirstTimeOpenApp();
       if (isNullEmptyFalseOrZero(firstTimeOpenApp)) {
-        _localRepository.setFirstTimeOpenApp(
-            DateTime.now().millisecondsSinceEpoch);
+        _localRepository.setFirstTimeOpenApp(DateTime.now().millisecondsSinceEpoch);
       } else {
         var now = DateTime.now().millisecondsSinceEpoch;
         if (now - firstTimeOpenApp! > 86400000) {
@@ -133,9 +130,7 @@ class AppController extends SuperController {
     AppStateEventNotifier.startListening();
     AppStateEventNotifier.appStateStream.forEach((state) {
       if (state == AppState.foreground) {
-        if (!isPremiumFull.value &&
-            !avoidShowOpenApp &&
-            !isNullEmpty(_appOpenAdManager)) {
+        if (!isPremiumFull.value && !avoidShowOpenApp && !isNullEmpty(_appOpenAdManager)) {
           _appOpenAdManager.showAdIfAvailable();
         }
       }
@@ -144,10 +139,10 @@ class AppController extends SuperController {
     AddRewardAdManager().initializeRewardedAds();
   }
 
-  void updateFreeAdCount() {
-    freeAdCount++;
-    _localRepository.setFreeAdCount(freeAdCount.value);
-  }
+  // void updateFreeAdCount() {
+  //   freeAdCount++;
+  //   _localRepository.setFreeAdCount(freeAdCount.value);
+  // }
 
   updateLocale(Locale locale) {
     Get.updateLocale(locale);
@@ -164,111 +159,8 @@ class AppController extends SuperController {
     final prefs = await SharedPreferences.getInstance();
     String? stringUser = prefs.getString('user');
     if ((stringUser ?? '').isNotEmpty) {
-      currentUser.value =
-          UserModel.fromJson(jsonDecode(stringUser!));
+      currentUser.value = UserModel.fromJson(jsonDecode(stringUser!));
     }
-  }
-
-  onPressPremiumByProduct(String productId) async {
-    ProductDetails? productDetails =
-        _listProductDetails.firstWhereOrNull(
-            (element) => element.id == productId);
-    if (productDetails == null ||
-        productDetails.id.isEmpty) {
-      showToast('Not available');
-    } else {
-      log('---IAP---: response.productDetails ${productDetails.title}');
-      final PurchaseParam purchaseParam =
-          PurchaseParam(productDetails: productDetails);
-      InAppPurchase.instance
-          .buyNonConsumable(purchaseParam: purchaseParam);
-    }
-  }
-
-  _onInitIAPListener() {
-    final Stream purchaseUpdated =
-        InAppPurchase.instance.purchaseStream;
-    _subscriptionIAP =
-        purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      log('---IAP--- done IAP stream');
-      _subscriptionIAP?.cancel();
-    }, onError: (error) {
-      log('---IAP--- error IAP stream: $error');
-    });
-  }
-
-  _listenToPurchaseUpdated(
-      List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList
-        .forEach((PurchaseDetails purchaseDetails) async {
-      log('---IAP---: purchaseDetails.productID: ${purchaseDetails.productID}');
-      log('---IAP---: purchaseDetails.status: ${purchaseDetails.status}');
-      rxPurchaseStatus.value = purchaseDetails.status;
-      if (purchaseDetails.status ==
-          PurchaseStatus.pending) {
-        // isPremium.value = false;
-      } else {
-        if (purchaseDetails.status ==
-            PurchaseStatus.error) {
-          // isPremium.value = false;
-        } else if (purchaseDetails.status ==
-                PurchaseStatus.purchased ||
-            purchaseDetails.status ==
-                PurchaseStatus.restored) {
-          // isPremium.value = true;
-          // final prefs = await SharedPreferences.getInstance();
-          // prefs.setBool('isBought', true);
-          switch (purchaseDetails.productID) {
-            case 'com.vietapps.thermometer.removeads':
-              isPremiumFull.value = true;
-              break;
-          }
-          if (Platform.isAndroid) {
-            isPremiumFull.value =
-                purchaseDetails.productID ==
-                    AppConfig.premiumIdentifierAndroid;
-          } else if (Platform.isIOS) {
-            isPremiumFull.value =
-                purchaseDetails.productID ==
-                        AppConfig.premiumIdentifierWeekly ||
-                    purchaseDetails.productID ==
-                        AppConfig.premiumIdentifierYearly;
-          }
-        }
-        if (purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchase.instance
-              .completePurchase(purchaseDetails);
-        }
-      }
-    });
-  }
-
-  getIAPProductDetails() async {
-    final bool available =
-        await InAppPurchase.instance.isAvailable();
-    if (!available) {
-      showToast('Can not connect store');
-    } else {
-      Set<String> kIds = <String>{};
-      if (Platform.isIOS) {
-        kIds = AppConfig.listIOSPremiumIdentifiers;
-      } else {
-        kIds = AppConfig.listAndroidPremiumIdentifiers;
-      }
-      final ProductDetailsResponse response =
-          await InAppPurchase.instance
-              .queryProductDetails(kIds);
-      _listProductDetails = response.productDetails;
-      log('///////////// _listProductDetails: ${response.productDetails} ${response.productDetails.isNotEmpty ? response.productDetails.first.id : ''}');
-      for (final ProductDetails detail
-          in _listProductDetails) {
-        productDetailMap[detail.id] = detail;
-      }
-    }
-
-    await restorePurchases();
   }
 
   Future<void> restorePurchases() async {
@@ -284,26 +176,155 @@ class AppController extends SuperController {
     // }
   }
 
+  onPressPremiumByProduct(String productId) async {
+    ProductDetails? productDetails = _listProductDetails.firstWhereOrNull((element) => element.id == productId);
+    productDetails ??= listProductDetailsSub.value.firstWhereOrNull((element) => element.id == productId);
+
+    if (productDetails == null || productDetails.id.isEmpty) {
+      showToast('Not available');
+    } else {
+      log('---IAP---: response.productDetails ${productDetails.title}');
+      final PurchaseParam purchaseParam = PurchaseParam(productDetails: productDetails);
+      InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
+    }
+  }
+
+  _onInitIAPListener() {
+    final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+    _subscriptionIAP = purchaseUpdated.listen((purchaseDetailsList) {
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      log('---IAP--- done IAP stream');
+      _subscriptionIAP?.cancel();
+    }, onError: (error) {
+      log('---IAP--- error IAP stream: $error');
+    });
+  }
+
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+      log('---IAP---: purchaseDetails.productID: ${purchaseDetails.productID}');
+      log('---IAP---: purchaseDetails.status: ${purchaseDetails.status}');
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+        // isPremium.value = false;
+      } else {
+        if (purchaseDetails.status == PurchaseStatus.error) {
+          // isPremium.value = false;
+        } else if (purchaseDetails.status == PurchaseStatus.purchased || purchaseDetails.status == PurchaseStatus.restored) {
+          // isPremium.value = true;
+          // final prefs = await SharedPreferences.getInstance();
+          // prefs.setBool('isBought', true);
+          switch (purchaseDetails.productID) {
+            case 'com.vietapps.bloodpressure.weekly':
+              isPremiumFull.value = true;
+              break;
+
+            case 'com.vietapps.bloodpressure.yearly':
+              isPremiumFull.value = true;
+              break;
+
+            case 'com.vietapps.bloodpressure.fullpack':
+              isPremiumFull.value = true;
+              break;
+          }
+        }
+
+        if (purchaseDetails.pendingCompletePurchase) {
+          await InAppPurchase.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
+  }
+
+  getIAPProductDetails() async {
+    final bool available = await InAppPurchase.instance.isAvailable();
+    if (!available) {
+      Get.snackbar('Error', 'Can not connect store', colorText: AppColor.white);
+    } else {
+      const Set<String> kIds = <String>{
+        'com.vietapps.bloodpressure.fullpack',
+      };
+      final ProductDetailsResponse response = await InAppPurchase.instance.queryProductDetails(kIds);
+      _listProductDetails = response.productDetails;
+      // productDetailsFullPack.value =
+      //     _listProductDetails.firstWhereOrNull((element) => element.id == 'com.vietapps.numerology.fullpack') ??
+      //         ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0);
+
+      const Set<String> kIdsSub = <String>{
+        'com.vietapps.bloodpressure.weekly',
+        'com.vietapps.bloodpressure.yearly',
+      };
+      final ProductDetailsResponse responseSub = await InAppPurchase.instance.queryProductDetails(kIdsSub);
+      listProductDetailsSub.value = responseSub.productDetails.reversed.toList();
+    }
+
+    await restorePurchases();
+  }
+
+  // _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+  //   purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+  //     log('---IAP---: purchaseDetails.productID: ${purchaseDetails.productID}');
+  //     log('---IAP---: purchaseDetails.status: ${purchaseDetails.status}');
+  //     rxPurchaseStatus.value = purchaseDetails.status;
+  //     if (purchaseDetails.status == PurchaseStatus.pending) {
+  //       // isPremium.value = false;
+  //     } else {
+  //       if (purchaseDetails.status == PurchaseStatus.error) {
+  //         // isPremium.value = false;
+  //       } else if (purchaseDetails.status == PurchaseStatus.purchased || purchaseDetails.status == PurchaseStatus.restored) {
+  //         // isPremium.value = true;
+  //         // final prefs = await SharedPreferences.getInstance();
+  //         // prefs.setBool('isBought', true);
+  //         switch (purchaseDetails.productID) {
+  //           case 'com.vietapps.bloodpressure.weekly':
+  //             isPremiumFull.value = true;
+  //             break;
+  //         }
+  //         if (Platform.isAndroid) {
+  //           isPremiumFull.value = purchaseDetails.productID == AppConfig.premiumIdentifierAndroid;
+  //         } else if (Platform.isIOS) {
+  //           isPremiumFull.value = purchaseDetails.productID == AppConfig.premiumIdentifierWeekly ||
+  //               purchaseDetails.productID == AppConfig.premiumIdentifierYearly;
+  //         }
+  //       }
+  //       if (purchaseDetails.pendingCompletePurchase) {
+  //         await InAppPurchase.instance.completePurchase(purchaseDetails);
+  //       }
+  //     }
+  //   });
+  // }
+
+  // getIAPProductDetails() async {
+  //   final bool available = await InAppPurchase.instance.isAvailable();
+  //   if (!available) {
+  //     showToast('Can not connect store');
+  //   } else {
+  //     Set<String> kIds = <String>{};
+  //     if (Platform.isIOS) {
+  //       kIds = AppConfig.listIOSPremiumIdentifiers;
+  //     } else {
+  //       kIds = AppConfig.listAndroidPremiumIdentifiers;
+  //     }
+  //     final ProductDetailsResponse response = await InAppPurchase.instance.queryProductDetails(kIds);
+  //     _listProductDetails = response.productDetails;
+  //     log('///////////// _listProductDetails: ${response.productDetails} ${response.productDetails.isNotEmpty ? response.productDetails.first.id : ''}');
+  //     for (final ProductDetails detail in _listProductDetails) {
+  //       productDetailMap[detail.id] = detail;
+  //     }
+  //   }
+  //
+  //   await restorePurchases();
+  // }
+
   _initNotificationSelectHandle() async {
-    const AndroidInitializationSettings
-        initializationSettingsAndroid =
-        AndroidInitializationSettings('background');
-    final DarwinInitializationSettings
-        initializationSettingsIOS =
-        DarwinInitializationSettings(
-            onDidReceiveLocalNotification:
-                onDidReceiveLocalNotification);
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('background');
+    final DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(onDidReceiveLocalNotification: onDidReceiveLocalNotification);
     final InitializationSettings initializationSettings =
-        InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: initializationSettingsIOS);
-    FlutterLocalNotificationsPlugin
-        flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(
-        initializationSettings,
-        onDidReceiveBackgroundNotificationResponse:
-            onSelectNotification);
+        InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveBackgroundNotificationResponse: onSelectNotification);
   }
 
   onDidReceiveLocalNotification(i1, s1, s2, s3) {}
@@ -325,6 +346,6 @@ class AppController extends SuperController {
 
   void setAllowWeightAndBMIFirstTime(bool value) {
     allowWeightAndBMIFirstTime.value = value;
-    _localRepository.setAllowWeigtAndBMIFirstTime(value);
+    _localRepository.setAllowWeightAndBMIFirstTime(value);
   }
 }

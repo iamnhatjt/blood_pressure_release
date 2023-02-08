@@ -45,8 +45,7 @@ class LocalRepository {
   }
 
   Future saveBloodPressure(BloodPressureModel bloodPressureModel) async {
-    return await _hiveConfig.bloodPressureBox
-        .put(bloodPressureModel.key, bloodPressureModel);
+    return await _hiveConfig.bloodPressureBox.put(bloodPressureModel.key, bloodPressureModel);
   }
 
   Future deleteBloodPressure(String key) async {
@@ -59,8 +58,7 @@ class LocalRepository {
 
   List<BloodPressureModel> filterBloodPressureDate(int start, int end) {
     return _hiveConfig.bloodPressureBox.values
-        .where((bloodPress) =>
-            bloodPress.dateTime! >= start && bloodPress.dateTime! <= end)
+        .where((bloodPress) => bloodPress.dateTime! >= start && bloodPress.dateTime! <= end)
         .toList();
   }
 
@@ -69,24 +67,18 @@ class LocalRepository {
   }
 
   List<BMIModel> filterBMI(int start, int end) {
-    return _hiveConfig.bmiBox.values
-        .where((bmi) => bmi.dateTime! >= start && bmi.dateTime! <= end)
-        .toList();
+    return _hiveConfig.bmiBox.values.where((bmi) => bmi.dateTime! >= start && bmi.dateTime! <= end).toList();
   }
 
   List<BMIModel> getAllBMI() => _hiveConfig.bmiBox.values.toList();
 
-  Future<bool> setWeightUnitId(int id) =>
-      _sharePreferenceUtils.setInt(AppConfig.weightUnitIdKey, id);
+  Future<bool> setWeightUnitId(int id) => _sharePreferenceUtils.setInt(AppConfig.weightUnitIdKey, id);
 
-  int? getWeightUnitId() =>
-      _sharePreferenceUtils.getInt(AppConfig.weightUnitIdKey);
+  int? getWeightUnitId() => _sharePreferenceUtils.getInt(AppConfig.weightUnitIdKey);
 
-  Future<bool> setHeightUnitId(int id) =>
-      _sharePreferenceUtils.setInt(AppConfig.heightUnitIdKey, id);
+  Future<bool> setHeightUnitId(int id) => _sharePreferenceUtils.setInt(AppConfig.heightUnitIdKey, id);
 
-  int? getHeightUnitId() =>
-      _sharePreferenceUtils.getInt(AppConfig.heightUnitIdKey);
+  int? getHeightUnitId() => _sharePreferenceUtils.getInt(AppConfig.heightUnitIdKey);
 
   Future updateBMI(BMIModel bmi) async {
     await _hiveConfig.bmiBox.put(bmi.key, bmi);
@@ -107,23 +99,18 @@ class LocalRepository {
     return _hiveConfig.bloodSugarBox.values.toList();
   }
 
-  List<BloodSugarModel> getBloodSugarListByFilter(
-      {required int startDate, required int endDate, String? stateCode}) {
+  List<BloodSugarModel> getBloodSugarListByFilter({required int startDate, required int endDate, String? stateCode}) {
     return _hiveConfig.bloodSugarBox.values.where((value) {
       if (!isNullEmpty(stateCode)) {
-        return value.dateTime! >= startDate &&
-            value.dateTime! <= endDate &&
-            value.stateCode == stateCode;
+        return value.dateTime! >= startDate && value.dateTime! <= endDate && value.stateCode == stateCode;
       }
       return value.dateTime! >= startDate && value.dateTime! <= endDate;
     }).toList();
   }
 
-  List<BloodSugarModel> getAllBloodSugarByDate(
-      {required int startDate, required int endDate}) {
+  List<BloodSugarModel> getAllBloodSugarByDate({required int startDate, required int endDate}) {
     return _hiveConfig.bloodSugarBox.values
-        .where((value) =>
-            value.dateTime! >= startDate && value.dateTime! <= endDate)
+        .where((value) => value.dateTime! >= startDate && value.dateTime! <= endDate)
         .toList();
   }
 
@@ -157,28 +144,24 @@ class LocalRepository {
 
   Future<bool> setAllowHeartRateFirstTime(bool value) async {
     return _sharePreferenceUtils.setBool("allowHeartRateFirstTime", value);
-
   }
 
   Future<bool> setAllowBloodPressureFirstTime(bool value) {
     return _sharePreferenceUtils.setBool("allowBloodPressureFirstTime", value);
-
   }
 
   Future<bool> setAllowBloodSugarFirstTime(bool value) {
     return _sharePreferenceUtils.setBool("allowBloodSugarFirstTime", value);
   }
 
-  Future<bool> setAllowWeigtAndBMIFirstTime(bool value) {
+  Future<bool> setAllowWeightAndBMIFirstTime(bool value) {
     return _sharePreferenceUtils.setBool("allowWeightAndBMIFirstTime", value);
   }
 
-/**
- * [IOS] Set lan dau mo app
- */
-  Future<bool> setFirstTimeOpenApp(int dateTime) =>
-      _sharePreferenceUtils.setInt(AppConfig.firstTimeOpenApp, dateTime);
+  /**
+   * [IOS] Set lan dau mo app
+   */
+  Future<bool> setFirstTimeOpenApp(int dateTime) => _sharePreferenceUtils.setInt(AppConfig.firstTimeOpenApp, dateTime);
 
-  int? getFirstTimeOpenApp() =>
-      _sharePreferenceUtils.getInt(AppConfig.firstTimeOpenApp);
+  int? getFirstTimeOpenApp() => _sharePreferenceUtils.getInt(AppConfig.firstTimeOpenApp);
 }

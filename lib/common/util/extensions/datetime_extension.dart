@@ -3,11 +3,11 @@ extension DateTimeExtension on DateTime {
     // if (day == this.weekday)
     //   return this.add(Duration(days: 7));
     // else {
-      return add(
-        Duration(
-          days: (day - this.weekday) % DateTime.daysPerWeek,
-        ),
-      );
+    return add(
+      Duration(
+        days: (day - weekday) % DateTime.daysPerWeek,
+      ),
+    );
     // }
   }
 
@@ -15,11 +15,11 @@ extension DateTimeExtension on DateTime {
     // if (day == weekday) {
     //   return subtract(Duration(days: 7));
     // } else {
-      return subtract(
-        Duration(
-          days: (this.weekday - day) % DateTime.daysPerWeek,
-        ),
-      );
+    return subtract(
+      Duration(
+        days: (weekday - day) % DateTime.daysPerWeek,
+      ),
+    );
     // }
   }
 }

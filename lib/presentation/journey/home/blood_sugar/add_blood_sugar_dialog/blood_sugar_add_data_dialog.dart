@@ -20,6 +20,10 @@ import 'package:bloodpressure/presentation/widget/app_touchable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../../common/constants/app_route.dart';
+import '../../../../controller/app_controller.dart';
 
 class BloodSugarAddDataDialog extends GetView<AddBloodSugarController> {
   final BloodSugarModel? currentBloodSugar;
@@ -150,8 +154,31 @@ class BloodSugarAddDataDialog extends GetView<AddBloodSugarController> {
               controller.onPressed(controller.onSelectBloodSugarTime),
           isEdit: !isNullEmpty(currentBloodSugar),
           firstButtonOnPressed: () => controller.onPressed(() async {
-            await controller.onSaved(model: currentBloodSugar);
-            Get.back();
+            final appController = Get.find<AppController>();
+
+            if (appController.isPremiumFull.value) {
+              await controller.onSaved(model: currentBloodSugar);
+              Get.back();
+            } else {
+              if (appController.userLocation.compareTo("Other") != 0) {
+                final prefs = await SharedPreferences.getInstance();
+                int cntAddData = prefs.getInt("cnt_add_data_blood_sugar") ?? 0;
+
+                if (cntAddData < 2) {
+                  await controller.onSaved(model: currentBloodSugar);
+                  Get.back();
+                  prefs.setInt("cnt_add_data_blood_sugar", cntAddData + 1);
+                } else {
+                  Get.toNamed(AppRoute.iosSub);
+                }
+              } else {
+                await controller.onSaved(model: currentBloodSugar);
+                Get.back();
+              }
+            }
+
+            // await controller.onSaved(model: currentBloodSugar);
+            // Get.back();
           }),
           secondButtonOnPressed: () => controller.onPressed(Get.back),
           child: Column(

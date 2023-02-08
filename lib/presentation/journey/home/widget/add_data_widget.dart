@@ -79,22 +79,12 @@ class AddDataDialog extends StatelessWidget {
           ? TranslationConstants.save.tr
           : TranslationConstants.add.tr,
       firstButtonCallback: () {
-        if (Platform.isAndroid) {
-          showInterstitialAds(() =>
-              firstButtonOnPressed?.call() ?? Get.back);
-        } else {
-          firstButtonOnPressed?.call() ?? Get.back;
-        }
+        firstButtonOnPressed?.call() ?? Get.back;
       },
       secondButtonText: TranslationConstants.cancel.tr,
       hasScroll: hasScroll,
       secondButtonCallback: () {
-        if (Platform.isAndroid) {
-          showInterstitialAds(() =>
-              secondButtonOnPressed?.call() ?? Get.back);
-        } else {
-          secondButtonOnPressed?.call() ?? Get.back;
-        }
+        secondButtonOnPressed?.call() ?? Get.back;
       },
       coverScreenWidget: coverScreenWidget,
       widgetBody: InkWell(

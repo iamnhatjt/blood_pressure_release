@@ -34,14 +34,12 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               HeartRateModel? checkedHeartRateModel;
               for (final item in controller.chartListData) {
                 if (dateTime.isAtSameMomentAs(item['date'])) {
-                  checkedHeartRateModel = controller.listHeartRateModelAll
-                      .firstWhere(
-                          (element) => item['timeStamp'] == element.timeStamp);
+                  checkedHeartRateModel =
+                      controller.listHeartRateModelAll.firstWhere((element) => item['timeStamp'] == element.timeStamp);
                   break;
                 }
               }
-              if (checkedHeartRateModel?.timeStamp !=
-                  controller.currentHeartRateModel.value.timeStamp) {
+              if (checkedHeartRateModel?.timeStamp != controller.currentHeartRateModel.value.timeStamp) {
                 controller.currentHeartRateModel.value = checkedHeartRateModel!;
               }
             },
@@ -68,8 +66,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               child: Text(
                 TranslationConstants.measureNowOrAdd.tr,
                 textAlign: TextAlign.center,
-                style: textStyle20700()
-                    .merge(const TextStyle(color: AppColor.black)),
+                style: textStyle20700().merge(const TextStyle(color: AppColor.black)),
               ),
             ),
           ],
@@ -79,9 +76,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
             final isPremium = Get.find<AppController>().isPremiumFull.value;
             return isPremium
                 ? const SizedBox.shrink()
-                : NativeAdsWidget(
-                    factoryId: NativeFactoryId.appNativeAdFactorySmall,
-                    isPremium: isPremium);
+                : NativeAdsWidget(factoryId: NativeFactoryId.appNativeAdFactorySmall, isPremium: isPremium);
           },
         ),
       ],
@@ -158,12 +153,10 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
           padding: EdgeInsets.only(top: 7.0.sp, left: 14.0.sp, right: 4.0.sp),
           margin: EdgeInsets.symmetric(horizontal: 16.0.sp, vertical: 8.0.sp),
           decoration: const BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage(AppImage.ic_box)),
+            image: DecorationImage(fit: BoxFit.fill, image: AssetImage(AppImage.ic_box)),
           ),
           child: Obx(() {
-            DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
-                controller.currentHeartRateModel.value.timeStamp ?? 0);
+            DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(controller.currentHeartRateModel.value.timeStamp ?? 0);
             int value = controller.currentHeartRateModel.value.value ?? 40;
             String status = '';
             Color color = AppColor.primaryColor;
@@ -214,8 +207,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                   ],
                 ),
                 Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 16.0.sp, vertical: 7.0.sp),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0.sp, vertical: 7.0.sp),
                   decoration: BoxDecoration(
                     color: color,
                     borderRadius: BorderRadius.circular(8.0.sp),
@@ -267,8 +259,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
             outlinedBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(22.0.sp),
             ),
-            child: AppImageWidget.asset(
-              path: AppImage.ic_back,
+            child: const BackButton(
               color: AppColor.white,
             ),
           ),
@@ -278,9 +269,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                 ? AppTouchable(
                     width: 80.0.sp,
                     height: 28.0.sp,
-                    onPressed: controller.isExporting.value
-                        ? null
-                        : controller.onPressExport,
+                    onPressed: controller.isExporting.value ? null : controller.onPressExport,
                     outlinedBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32.0.sp),
                     ),
@@ -302,12 +291,13 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                             )
                           : Text(
                               TranslationConstants.export.tr,
-                              style: textStyle18500()
-                                  .merge(const TextStyle(color: AppColor.red)),
+                              style: textStyle18500().merge(const TextStyle(color: AppColor.red)),
                             ),
                     ),
                   )
-                : SizedBox(width: 40.sp,)),
+                : SizedBox(
+                    width: 40.sp,
+                  )),
           ),
           titleStyle: const TextStyle(color: AppColor.white),
           extendWidget: AppTouchable(

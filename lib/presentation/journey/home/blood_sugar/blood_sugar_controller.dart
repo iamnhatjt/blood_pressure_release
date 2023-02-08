@@ -27,7 +27,9 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../common/constants/app_route.dart';
 import '../../../../domain/model/bar_chart_data_model.dart';
 import 'add_blood_sugar_dialog/blood_sugar_add_data_dialog.dart';
 
@@ -76,22 +78,28 @@ class BloodSugarController extends AppBaseController
   }
 
   void onSetAlarm() {
-    if (Platform.isIOS) {
-      showInterstitialAds(() {
-        showAddAlarm(
-            context: context,
-            alarmType: AlarmType.bloodSugar,
-            onPressCancel: Get.back,
-            onPressSave: _onSaveAlarm);
-      });
-    }
-    else {
-      showAddAlarm(
+    // if (Platform.isIOS) {
+    //   showInterstitialAds(() {
+    //     showAddAlarm(
+    //         context: context,
+    //         alarmType: AlarmType.bloodSugar,
+    //         onPressCancel: Get.back,
+    //         onPressSave: _onSaveAlarm);
+    //   });
+    // }
+    // else {
+    //   showAddAlarm(
+    //     context: context,
+    //     alarmType: AlarmType.bloodSugar,
+    //     onPressCancel: Get.back,
+    //     onPressSave: _onSaveAlarm);
+    // }
+
+    showAddAlarm(
         context: context,
         alarmType: AlarmType.bloodSugar,
         onPressCancel: Get.back,
         onPressSave: _onSaveAlarm);
-    }
   }
 
   Future<void> _onSaveAlarm(AlarmModel alarm) async {
@@ -101,8 +109,12 @@ class BloodSugarController extends AppBaseController
   }
 
   Future<void> onEdited(BloodSugarModel value) async {
-    final result = await showAppDialog(context, "", "",
+    await showAppDialog(context, "", "",
         builder: (ctx) => BloodSugarAddDataDialog(currentBloodSugar: value));
+
+    // final result = await showAppDialog(context, "", "",
+    //     builder: (ctx) => BloodSugarAddDataDialog(currentBloodSugar: value));
+
     await _onRefreshData();
   }
 
@@ -110,30 +122,38 @@ class BloodSugarController extends AppBaseController
     analytics.logEvent(name: AppLogEvent.addDataButtonBloodPressure);
     debugPrint("Logged ${AppLogEvent.addDataButtonBloodPressure} at ${DateTime.now()}");
 
-    if (!appController.isPremiumFull.value) {
-      if (Platform.isIOS) {
-        if (appController.allowBloodSugarFirstTime.value) {
-          showInterstitialAds(_addData);
-        } else {
-          Get.find<MainController>().pushToSubscribeScreen();
+    _addData();
 
-        }
-      }
-      if (Platform.isAndroid) {
-        showInterstitialAds(_addData);
-      }
-    } else {
-      _addData();
-    }
+    // if(appController.isPremiumFull.value) {
+    //   _addData();
+    // } else {
+    //   if(appController.userLocation.compareTo("Other") != 0) {
+    //     final prefs = await SharedPreferences.getInstance();
+    //     int cntAddData = prefs.getInt("cnt_add_data_blood_sugar") ?? 0;
+    //
+    //     if (cntAddData < 2) {
+    //       _addData();
+    //       prefs.setInt("cnt_add_data_blood_sugar", cntAddData + 1);
+    //     } else {
+    //       Get.toNamed(AppRoute.iosSub);
+    //     }
+    //   } else {
+    //     _addData();
+    //   }
+    // }
+
     appController.setAllowBloodSugarFirstTime(false);
-
   }
 
   void _addData() async {
     Get.find<AddBloodSugarController>().onInitialData();
 
-    final result = await showAppDialog(context, "", "",
+    // final result = await showAppDialog(context, "", "",
+    //     builder: (ctx) => const BloodSugarAddDataDialog());
+
+    await showAppDialog(context, "", "",
         builder: (ctx) => const BloodSugarAddDataDialog());
+
     await _onRefreshData();
   }
 
@@ -256,19 +276,23 @@ class BloodSugarController extends AppBaseController
     analytics.logEvent(name: AppLogEvent.exportBloodSugar);
     debugPrint("Logged ${AppLogEvent.exportBloodSugar} at ${DateTime.now()}");
 
+    // _exportData();
+
     if (appController.isPremiumFull.value) {
       _exportData();
     } else {
-      if (Platform.isIOS) {
-        if (appController.allowHeartRateFirstTime.value) {
-          showInterstitialAds(_exportData);
-        } else {
-          Get.find<MainController>().pushToSubscribeScreen();
-        }
-      }
+      if(appController.userLocation.compareTo("Other") != 0) {
+        final prefs = await SharedPreferences.getInstance();
+        int cntPressExport = prefs.getInt("cnt_export_blood_sugar") ?? 0;
 
-      if (Platform.isAndroid) {
-        showInterstitialAds(_exportData);
+        if (cntPressExport < 2) {
+          _exportData();
+          prefs.setInt("cnt_export_blood_sugar", cntPressExport + 1);
+        } else {
+          Get.toNamed(AppRoute.iosSub);
+        }
+      } else {
+        _exportData();
       }
     }
   }

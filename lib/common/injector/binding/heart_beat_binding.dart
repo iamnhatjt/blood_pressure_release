@@ -1,6 +1,6 @@
-import 'package:bloodpressure/presentation/journey/home/heart_beat/heart_beat_controller.dart';
 import 'package:get/get.dart';
 
+import '../../../presentation/journey/home/heart_beat/heart_beat_controller.dart';
 import '../../../presentation/journey/home/heart_beat/measure/measure_controller.dart';
 
 class HeartBeatBinding extends Bindings {
