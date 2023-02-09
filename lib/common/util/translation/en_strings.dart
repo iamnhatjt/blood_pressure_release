@@ -208,7 +208,7 @@ const enStrings = {
   "descriptionSub":
       "This subscription automatically renews after 3-days trial period for @priceOfWeek/week and @priceOfYear/year, you can cancel it anytime. Payment will be charged to your Google Play account at the confirmation of purchase. Subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. You can manage and cancel your subscriptions by going to your account settings on the GooglePlay after purchase. Any unused part or time-span of a free trial period will be forfeited, as soon as you purchase a subscriptions.",
   "descriptionSub1":
-      "This subscription automatically renews after 3-days trial period for @priceOfFullPack, you can cancel it anytime. Payment will be charged to your Google Play account at the confirmation of purchase. Subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. You can manage and cancel your subscriptions by going to your account settings on the GooglePlay after purchase. Any unused part or time-span of a free trial period will be forfeited, as soon as you purchase a subscriptions.",
+      "You only need to pay @priceOfFullPack for this payment once and use it for life, no trial period. Payment will be charged to your Google Play account at confirmation of purchase. If it's been less than 48 hours since you made an app purchase or in-app purchase: You can request a refund through Google Play. After you request a refund through the Google Play website.",
   "subscribeContentIos1": "Start your 3 Days Free trial",
   "subscribeContentIos2": "Unlimited measurements",
   "subscribeContentIos3": "Access to Blood sugar journal; Weight & BMI tracker and more,...",

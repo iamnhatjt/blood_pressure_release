@@ -93,7 +93,6 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
                       height: 153.sp,
                     ),
                     SizedBox(height: 12.sp),
-                    ContentWidget(text: TranslationConstants.subscribeContentAndroid1.tr),
                     ContentWidget(text: TranslationConstants.subscribeContentAndroid2.tr),
                     ContentWidget(text: TranslationConstants.subscribeContentAndroid3.tr),
                     ContentWidget(text: TranslationConstants.subscribeContentAndroid4.tr),
