@@ -27,6 +27,7 @@ class InsightDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppContainer(
+      isShowBanner: !Get.find<AppController>().isPremiumFull.value,
         child: Column(
       children: [
         AppHeader(

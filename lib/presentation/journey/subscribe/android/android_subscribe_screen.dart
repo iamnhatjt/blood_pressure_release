@@ -13,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../../../../common/constants/app_image.dart';
+import '../../../../common/util/disable_glow_behavior.dart';
 import '../../../widget/app_image_widget.dart';
 
 class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
@@ -35,7 +36,7 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
                 height: 3.sp,
               ),
               Text(
-                "ONLY ${controller.productDetailsFullPack.price == '' ? '\$29.99' : controller.productDetailsFullPack.price}",
+                "ONLY ${controller.productDetailsFullPack.price == '' ? '\$39.99' : controller.productDetailsFullPack.price}",
                 style: ThemeText.headline4.copyWith(color: AppColor.green, fontWeight: FontWeight.w600),
               )
             ],
@@ -77,28 +78,51 @@ class AndroidSubscribeScreen extends GetView<AndroidSubscribeController> {
   Widget build(BuildContext context) {
     return SubscribeScreen(
         onRestored: controller.rxLoadedType.value == LoadedType.start ? null : controller.onRestored,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SizedBox(),
-            Column(
-              mainAxisSize: MainAxisSize.min,
+        child: ScrollConfiguration(
+          behavior: DisableGlowBehavior(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppImageWidget.asset(
-                  path: AppImage.subscribeImg,
-                  height: 153.sp,
+                const SizedBox(),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppImageWidget.asset(
+                      path: AppImage.subscribeImg,
+                      height: 153.sp,
+                    ),
+                    SizedBox(height: 12.sp),
+                    ContentWidget(text: TranslationConstants.subscribeContentAndroid1.tr),
+                    ContentWidget(text: TranslationConstants.subscribeContentAndroid2.tr),
+                    ContentWidget(text: TranslationConstants.subscribeContentAndroid3.tr),
+                    ContentWidget(text: TranslationConstants.subscribeContentAndroid4.tr),
+                    ContentWidget(text: TranslationConstants.subscribeContentAndroid5.tr),
+                  ],
                 ),
-                SizedBox(height: 12.sp),
-                ContentWidget(text: TranslationConstants.subscribeContentAndroid1.tr),
-                ContentWidget(text: TranslationConstants.subscribeContentAndroid2.tr),
-                ContentWidget(text: TranslationConstants.subscribeContentAndroid3.tr),
-                ContentWidget(text: TranslationConstants.subscribeContentAndroid4.tr),
-                ContentWidget(text: TranslationConstants.subscribeContentAndroid5.tr),
+                _groupButtonWidget(),
+                SizedBox(height: 16.sp),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0.sp),
+                  child: Text(
+                    TranslationConstants.descriptionSub1.trParams({
+                      "priceOfFullPack":
+                          controller.productDetailsFullPack.price == '' ? '\$39.99' : controller.productDetailsFullPack.price
+                    }),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12.0.sp,
+                      color: AppColor.black,
+                      fontWeight: FontWeight.w400,
+                      fontStyle: FontStyle.normal,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.sp),
+                const SizedBox(),
               ],
             ),
-            _groupButtonWidget(),
-            const SizedBox(),
-          ],
+          ),
         ));
   }
 }

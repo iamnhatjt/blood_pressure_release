@@ -238,6 +238,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
   Widget build(BuildContext context) {
     controller.context = context;
     return AppContainer(
+      isShowBanner: false,
       child: Column(children: [
         AppHeader(
           title: TranslationConstants.heartRate.tr,

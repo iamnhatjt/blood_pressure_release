@@ -27,6 +27,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
     controller.context = context;
     final appController = Get.find<AppController>();
     return AppContainer(
+      isShowBanner: false,
       child: Column(
         children: [
           AppHeader(

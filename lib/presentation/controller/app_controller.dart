@@ -18,7 +18,6 @@ import '../../common/config/hive_config/hive_config.dart';
 import '../../common/constants/app_constant.dart';
 import '../../common/injector/app_di.dart';
 import '../../common/util/app_util.dart';
-import '../theme/app_color.dart';
 
 onSelectNotification(s1) async {}
 
@@ -27,18 +26,17 @@ class AppController extends SuperController {
   Rx<UserModel> currentUser = UserModel().obs;
   final _localRepository = getIt.get<LocalRepository>();
 
-  RxString userLocation = "Other".obs;
+  RxString userLocation = "US".obs;
 
   bool avoidShowOpenApp = false;
   RxBool isPremiumFull = false.obs;
   StreamSubscription<dynamic>? _subscriptionIAP;
   RxList<ProductDetails> listProductDetailsSub = RxList();
-  List<ProductDetails> _listProductDetails = [];
-  Map<String, ProductDetails> productDetailMap = {};
+  final List<ProductDetails> _listProductDetails = [];
   Rx<PurchaseStatus> rxPurchaseStatus = PurchaseStatus.canceled.obs;
 
   //late
-  late AppOpenAdManager _appOpenAdManager;
+  late AppOpenAdManager appOpenAdManager;
 
   RxBool skipOneAd = false.obs;
   RxInt freeAdCount = 0.obs;
@@ -120,18 +118,18 @@ class AppController extends SuperController {
       } else {
         var now = DateTime.now().millisecondsSinceEpoch;
         if (now - firstTimeOpenApp! > 86400000) {
-          _appOpenAdManager = AppOpenAdManager()..loadAd();
+          appOpenAdManager = AppOpenAdManager()..loadAd();
         }
       }
     } else {
-      _appOpenAdManager = AppOpenAdManager()..loadAd();
+      appOpenAdManager = AppOpenAdManager()..loadAd();
     }
 
     AppStateEventNotifier.startListening();
     AppStateEventNotifier.appStateStream.forEach((state) {
       if (state == AppState.foreground) {
-        if (!isPremiumFull.value && !avoidShowOpenApp && !isNullEmpty(_appOpenAdManager)) {
-          _appOpenAdManager.showAdIfAvailable();
+        if (!isPremiumFull.value && !avoidShowOpenApp && !isNullEmpty(appOpenAdManager)) {
+          appOpenAdManager.showAdIfAvailable();
         }
       }
     });
@@ -176,10 +174,88 @@ class AppController extends SuperController {
     // }
   }
 
+  // onPressPremiumByProduct(String productId) async {
+  //   ProductDetails? productDetails = _listProductDetails.firstWhereOrNull((element) => element.id == productId);
+  //   productDetails ??= listProductDetailsSub.value.firstWhereOrNull((element) => element.id == productId);
+  //
+  //   if (productDetails == null || productDetails.id.isEmpty) {
+  //     showToast('Not available');
+  //   } else {
+  //     log('---IAP---: response.productDetails ${productDetails.title}');
+  //     final PurchaseParam purchaseParam = PurchaseParam(productDetails: productDetails);
+  //     InAppPurchase.instance.buyNonConsumable(purchaseParam: purchaseParam);
+  //   }
+  // }
+  //
+  // _onInitIAPListener() {
+  //   final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+  //   _subscriptionIAP = purchaseUpdated.listen((purchaseDetailsList) {
+  //     _listenToPurchaseUpdated(purchaseDetailsList);
+  //   }, onDone: () {
+  //     log('---IAP--- done IAP stream');
+  //     _subscriptionIAP?.cancel();
+  //   }, onError: (error) {
+  //     log('---IAP--- error IAP stream: $error');
+  //   });
+  // }
+  //
+  // void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+  //   purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+  //     log('---IAP---: purchaseDetails.productID: ${purchaseDetails.productID}');
+  //     log('---IAP---: purchaseDetails.status: ${purchaseDetails.status}');
+  //     if (purchaseDetails.status == PurchaseStatus.pending) {
+  //       // isPremium.value = false;
+  //     } else {
+  //       if (purchaseDetails.status == PurchaseStatus.error) {
+  //         // isPremium.value = false;
+  //       } else if (purchaseDetails.status == PurchaseStatus.purchased || purchaseDetails.status == PurchaseStatus.restored) {
+  //         // isPremium.value = true;
+  //         // final prefs = await SharedPreferences.getInstance();
+  //         // prefs.setBool('isBought', true);
+  //         switch (purchaseDetails.productID) {
+  //           case 'com.vietapps.bloodpressure.weekly':
+  //             isPremiumFull.value = true;
+  //             break;
+  //
+  //           case 'com.vietapps.bloodpressure.yearly':
+  //             isPremiumFull.value = true;
+  //             break;
+  //
+  //           case 'com.vietapps.bloodpressure.fullpack':
+  //             isPremiumFull.value = true;
+  //             break;
+  //         }
+  //       }
+  //
+  //       if (purchaseDetails.pendingCompletePurchase) {
+  //         await InAppPurchase.instance.completePurchase(purchaseDetails);
+  //       }
+  //     }
+  //   });
+  // }
+  //
+  // getIAPProductDetails() async {
+  //   final bool available = await InAppPurchase.instance.isAvailable();
+  //   if (!available) {
+  //     Get.snackbar('Error', 'Can not connect store', colorText: AppColor.white);
+  //   } else {
+  //     const Set<String> kIdsSub = <String>{
+  //       'com.vietapps.bloodpressure.fullpack',
+  //       'com.vietapps.bloodpressure.weekly',
+  //       'com.vietapps.bloodpressure.yearly',
+  //     };
+  //     final ProductDetailsResponse responseSub = await InAppPurchase.instance.queryProductDetails(kIdsSub);
+  //     listProductDetailsSub.value = responseSub.productDetails;
+  //     log('///////////// _listProductDetails: ${responseSub.productDetails} ${responseSub.productDetails.isNotEmpty ? responseSub.productDetails.first.id : ''}');
+  //   }
+  //
+  //   await restorePurchases();
+  // }
+
+
   onPressPremiumByProduct(String productId) async {
     ProductDetails? productDetails = _listProductDetails.firstWhereOrNull((element) => element.id == productId);
     productDetails ??= listProductDetailsSub.value.firstWhereOrNull((element) => element.id == productId);
-
     if (productDetails == null || productDetails.id.isEmpty) {
       showToast('Not available');
     } else {
@@ -191,6 +267,7 @@ class AppController extends SuperController {
 
   _onInitIAPListener() {
     final Stream purchaseUpdated = InAppPurchase.instance.purchaseStream;
+
     _subscriptionIAP = purchaseUpdated.listen((purchaseDetailsList) {
       _listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
@@ -201,25 +278,24 @@ class AppController extends SuperController {
     });
   }
 
-  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+  _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       log('---IAP---: purchaseDetails.productID: ${purchaseDetails.productID}');
       log('---IAP---: purchaseDetails.status: ${purchaseDetails.status}');
+
       if (purchaseDetails.status == PurchaseStatus.pending) {
-        // isPremium.value = false;
+        isPremiumFull.value = false;
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
           // isPremium.value = false;
         } else if (purchaseDetails.status == PurchaseStatus.purchased || purchaseDetails.status == PurchaseStatus.restored) {
-          // isPremium.value = true;
-          // final prefs = await SharedPreferences.getInstance();
-          // prefs.setBool('isBought', true);
+          isPremiumFull.value = true;
           switch (purchaseDetails.productID) {
-            case 'com.vietapps.bloodpressure.weekly':
+            case 'weekly':
               isPremiumFull.value = true;
               break;
 
-            case 'com.vietapps.bloodpressure.yearly':
+            case 'yearly':
               isPremiumFull.value = true;
               break;
 
@@ -239,82 +315,23 @@ class AppController extends SuperController {
   getIAPProductDetails() async {
     final bool available = await InAppPurchase.instance.isAvailable();
     if (!available) {
-      Get.snackbar('Error', 'Can not connect store', colorText: AppColor.white);
+      showToast('Can not connect store');
     } else {
       const Set<String> kIds = <String>{
         'com.vietapps.bloodpressure.fullpack',
+        'weekly',
+        'yearly',
       };
-      final ProductDetailsResponse response = await InAppPurchase.instance.queryProductDetails(kIds);
-      _listProductDetails = response.productDetails;
-      // productDetailsFullPack.value =
-      //     _listProductDetails.firstWhereOrNull((element) => element.id == 'com.vietapps.numerology.fullpack') ??
-      //         ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0);
 
-      const Set<String> kIdsSub = <String>{
-        'com.vietapps.bloodpressure.weekly',
-        'com.vietapps.bloodpressure.yearly',
-      };
-      final ProductDetailsResponse responseSub = await InAppPurchase.instance.queryProductDetails(kIdsSub);
-      listProductDetailsSub.value = responseSub.productDetails.reversed.toList();
+      final ProductDetailsResponse response = await InAppPurchase.instance.queryProductDetails(kIds);
+      listProductDetailsSub.value = response.productDetails;
+      log('///////////// _listProductDetails: ${response.productDetails} ${response.productDetails.isNotEmpty ? response.productDetails.first.id : ''}');
     }
 
-    await restorePurchases();
+    if (Platform.isAndroid) {
+      InAppPurchase.instance.restorePurchases();
+    }
   }
-
-  // _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
-  //   purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-  //     log('---IAP---: purchaseDetails.productID: ${purchaseDetails.productID}');
-  //     log('---IAP---: purchaseDetails.status: ${purchaseDetails.status}');
-  //     rxPurchaseStatus.value = purchaseDetails.status;
-  //     if (purchaseDetails.status == PurchaseStatus.pending) {
-  //       // isPremium.value = false;
-  //     } else {
-  //       if (purchaseDetails.status == PurchaseStatus.error) {
-  //         // isPremium.value = false;
-  //       } else if (purchaseDetails.status == PurchaseStatus.purchased || purchaseDetails.status == PurchaseStatus.restored) {
-  //         // isPremium.value = true;
-  //         // final prefs = await SharedPreferences.getInstance();
-  //         // prefs.setBool('isBought', true);
-  //         switch (purchaseDetails.productID) {
-  //           case 'com.vietapps.bloodpressure.weekly':
-  //             isPremiumFull.value = true;
-  //             break;
-  //         }
-  //         if (Platform.isAndroid) {
-  //           isPremiumFull.value = purchaseDetails.productID == AppConfig.premiumIdentifierAndroid;
-  //         } else if (Platform.isIOS) {
-  //           isPremiumFull.value = purchaseDetails.productID == AppConfig.premiumIdentifierWeekly ||
-  //               purchaseDetails.productID == AppConfig.premiumIdentifierYearly;
-  //         }
-  //       }
-  //       if (purchaseDetails.pendingCompletePurchase) {
-  //         await InAppPurchase.instance.completePurchase(purchaseDetails);
-  //       }
-  //     }
-  //   });
-  // }
-
-  // getIAPProductDetails() async {
-  //   final bool available = await InAppPurchase.instance.isAvailable();
-  //   if (!available) {
-  //     showToast('Can not connect store');
-  //   } else {
-  //     Set<String> kIds = <String>{};
-  //     if (Platform.isIOS) {
-  //       kIds = AppConfig.listIOSPremiumIdentifiers;
-  //     } else {
-  //       kIds = AppConfig.listAndroidPremiumIdentifiers;
-  //     }
-  //     final ProductDetailsResponse response = await InAppPurchase.instance.queryProductDetails(kIds);
-  //     _listProductDetails = response.productDetails;
-  //     log('///////////// _listProductDetails: ${response.productDetails} ${response.productDetails.isNotEmpty ? response.productDetails.first.id : ''}');
-  //     for (final ProductDetails detail in _listProductDetails) {
-  //       productDetailMap[detail.id] = detail;
-  //     }
-  //   }
-  //
-  //   await restorePurchases();
-  // }
 
   _initNotificationSelectHandle() async {
     const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('background');

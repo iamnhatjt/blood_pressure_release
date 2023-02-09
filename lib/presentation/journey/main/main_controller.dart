@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bloodpressure/common/ads/add_interstitial_ad_manager.dart';
 import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/common/util/app_notification_local.dart';
@@ -7,7 +9,7 @@ import 'package:get/get.dart';
 import '../../controller/app_controller.dart';
 
 class MainController extends GetxController {
-  RxInt currentTab = 0.obs;
+  RxInt currentTab = 1.obs;
   AppController appController = Get.find<AppController>();
 
   onPressTab(int index) {
@@ -31,7 +33,7 @@ class MainController extends GetxController {
         if (appController.isPremiumFull.value) {
           currentTab.value = index;
         } else {
-          if (appController.userLocation.compareTo("Other") != 0) {
+          if (appController.userLocation.compareTo("Other") == 0) {
             if (appController.firstOpenAlarm) {
               showInterstitialAds(() {
                 currentTab.value = index;
@@ -61,12 +63,7 @@ class MainController extends GetxController {
   }
 
   void pushToSubscribeScreen() {
-    if (appController.isPremiumFull.value == false) {
-      // String route = AppRoute.androidSub;
-      // if (Platform.isIOS) {
-      //   route = AppRoute.iosSub;
-      // }
-
+    if (!appController.isPremiumFull.value) {
       Get.toNamed(AppRoute.iosSub);
     }
   }
@@ -78,7 +75,11 @@ class MainController extends GetxController {
         AppNotificationLocal.onTapNotification(details.notificationResponse!);
       }
     });
-    appController = Get.find<AppController>();
+
+    if (!appController.isPremiumFull.value && Platform.isAndroid) {
+      if (!appController.avoidShowOpenApp) appController.appOpenAdManager.showAdIfAvailable();
+    }
+
     super.onReady();
     pushToSubscribeScreen();
   }

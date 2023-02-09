@@ -205,12 +205,9 @@ const viStrings = {
    * Subscribe
    */
   "subscribeTitle": "Mở khóa máy đo nhịp tim cao cấp của bạn",
-  "descriptionSub": "Đăng ký này tự động gia hạn sau thời gian dùng thử 3 ngày cho @priceOfWeek/tuần và @priceOfYear/năm, "
-      "bạn có thể hủy đăng ký bất cứ lúc nào. Thanh toán sẽ được tính vào tài khoản Google Play của bạn khi xác nhận "
-      "mua hàng. Đăng ký tự động gia hạn trừ khi nó bị hủy ít nhất 24 giờ trước khi kết thúc giai đoạn hiện tại."
-      " Bạn có thể quản lý và hủy đăng ký của mình bằng cách truy cập cài đặt tài khoản của bạn trên GooglePlay "
-      "sau khi mua. Mọi phần hoặc khoảng thời gian chưa sử dụng của giai đoạn dùng thử miễn phí sẽ bị hủy bỏ, ngay "
-      "sau khi bạn mua đăng ký.",
+  "descriptionSub": "Đăng ký này tự động gia hạn sau thời gian dùng thử 3 ngày cho @priceOfWeek/tuần và @priceOfYear/năm, bạn có thể hủy đăng ký bất cứ lúc nào. Thanh toán sẽ được tính vào tài khoản Google Play của bạn khi xác nhận mua hàng. Đăng ký tự động gia hạn trừ khi nó bị hủy ít nhất 24 giờ trước khi kết thúc giai đoạn hiện tại. Bạn có thể quản lý và hủy đăng ký của mình bằng cách truy cập cài đặt tài khoản của bạn trên GooglePlay sau khi mua. Mọi phần hoặc khoảng thời gian chưa sử dụng của giai đoạn dùng thử miễn phí sẽ bị hủy bỏ, ngay sau khi bạn mua đăng ký.",
+  "descriptionSub1":
+      "Đăng ký này tự động gia hạn sau thời gian dùng thử 3 ngày cho @priceOfFullPack, bạn có thể hủy đăng ký bất cứ lúc nào. Thanh toán sẽ được tính vào tài khoản Google Play của bạn khi xác nhận mua hàng. Đăng ký tự động gia hạn trừ khi nó bị hủy ít nhất 24 giờ trước khi kết thúc giai đoạn hiện tại. Bạn có thể quản lý và hủy đăng ký của mình bằng cách truy cập cài đặt tài khoản của bạn trên GooglePlay sau khi mua. Mọi phần hoặc khoảng thời gian chưa sử dụng của giai đoạn dùng thử miễn phí sẽ bị hủy bỏ, ngay sau khi bạn mua đăng ký.",
   "subscribeContentIos1": "Start your 3 Days Free trial",
   "subscribeContentIos2": "Bắt đầu 3 ngày dùng thử miễn phí của bạn",
   "subscribeContentIos3": "Truy cập Tạp chí đường huyết; Theo dõi cân nặng & BMI và hơn thế nữa,...",

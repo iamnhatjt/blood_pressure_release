@@ -185,6 +185,7 @@ class TranslationConstants {
 
   static String subscribeTitle = "subscribeTitle";
   static String descriptionSub = "descriptionSub";
+  static String descriptionSub1 = "descriptionSub1";
   static String subscribeContentIos1 = "subscribeContentIos1";
   static String subscribeContentIos2 = "subscribeContentIos2";
   static String subscribeContentIos3 = "subscribeContentIos3";

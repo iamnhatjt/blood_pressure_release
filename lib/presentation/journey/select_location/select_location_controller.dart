@@ -7,11 +7,11 @@ import '../../controller/app_controller.dart';
 class SelectLocationController extends GetxController {
   List listItemAge = [];
   
-  RxInt valueChose = 13.obs;
+  RxInt valueChose = 30.obs;
   RxBool isMale = true.obs;
   RxBool isFemale = false.obs;
 
-  RxString location = "Other".obs;
+  RxString location = "United States".obs;
 
   @override
   void onInit() {

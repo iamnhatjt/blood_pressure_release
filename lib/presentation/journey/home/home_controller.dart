@@ -20,7 +20,7 @@ class HomeController extends GetxController {
     if(appController.isPremiumFull.value) {
       Get.toNamed(AppRoute.heartBeatScreen);
     } else {
-      if(appController.userLocation.compareTo("Other") != 0) {
+      if(appController.userLocation.compareTo("Other") == 0) {
         if(appController.firstPressMeasureNow) {
           showInterstitialAds(() {
             Get.toNamed(AppRoute.heartBeatScreen);
@@ -48,7 +48,7 @@ class HomeController extends GetxController {
     if(appController.isPremiumFull.value) {
       Get.toNamed(AppRoute.bloodPressureScreen);
     } else {
-      if(appController.userLocation.compareTo("Other") != 0) {
+      if(appController.userLocation.compareTo("Other") == 0) {
         if(appController.firstPressBloodPressure) {
           showInterstitialAds(() {
             Get.toNamed(AppRoute.bloodPressureScreen);

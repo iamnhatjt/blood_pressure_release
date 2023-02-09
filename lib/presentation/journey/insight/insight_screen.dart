@@ -33,11 +33,20 @@ class InsightScreen extends GetView<InsightController> {
             ),
             titleStyle: const TextStyle(fontWeight: FontWeight.w500),
           ),
-          NativeAdsWidget(
-            factoryId: NativeFactoryId.appNativeAdFactorySmall,
-            isPremium: Get.find<AppController>().isPremiumFull.value,
-            height: 120.0.sp,
-          ),
+          // NativeAdsWidget(
+          //   factoryId: NativeFactoryId.appNativeAdFactorySmall,
+          //   isPremium: Get.find<AppController>().isPremiumFull.value,
+          //   height: 120.0.sp,
+          // ),
+          Obx(() {
+            return Get.find<AppController>().isPremiumFull.value
+                ? const SizedBox.shrink()
+                : NativeAdsWidget(
+              factoryId: NativeFactoryId.appNativeAdFactorySmall,
+              isPremium: Get.find<AppController>().isPremiumFull.value,
+              height: 120.0.sp,
+            );
+          }),
           Expanded(
             child: Obx(
               () {

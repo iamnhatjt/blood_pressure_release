@@ -17,6 +17,7 @@ class FoodScannerScreen extends GetView<FoodScannerController> {
   @override
   Widget build(BuildContext context) {
     return AppContainer(
+      isShowBanner: false,
       child: Column(
         children: [
           AppHeader(

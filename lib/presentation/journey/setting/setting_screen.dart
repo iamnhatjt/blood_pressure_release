@@ -133,11 +133,20 @@ class SettingScreen extends GetView<SettingController> {
                     ),
                     _buildItemSetting(controller.onPressShare, AppImage.ic_share_app, TranslationConstants.shareApp.tr),
                     _buildItemSetting(controller.onPressPrivacy, AppImage.ic_pivacy, TranslationConstants.privacy.tr),
-                    NativeAdsWidget(
-                      factoryId: NativeFactoryId.appNativeAdFactorySmall,
-                      isPremium: Get.find<AppController>().isPremiumFull.value,
-                      height: 120.0.sp,
-                    ),
+                    // NativeAdsWidget(
+                    //   factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                    //   isPremium: Get.find<AppController>().isPremiumFull.value,
+                    //   height: 120.0.sp,
+                    // ),
+                    Obx(() {
+                      return Get.find<AppController>().isPremiumFull.value
+                          ? const SizedBox.shrink()
+                          : NativeAdsWidget(
+                        factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                        isPremium: Get.find<AppController>().isPremiumFull.value,
+                        height: 120.0.sp,
+                      );
+                    }),
                     _buildItemSetting(controller.onPressTerm, AppImage.ic_term, TranslationConstants.termOfCondition.tr),
                     _buildItemSetting(controller.onPressLanguage, AppImage.ic_language, TranslationConstants.language.tr,
                         isLanguage: true),

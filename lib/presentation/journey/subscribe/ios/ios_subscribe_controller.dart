@@ -20,10 +20,11 @@ class IosSubscribeController extends AppBaseController {
     super.onInit();
 
     productDetailsWeek = Get.find<AppController>().listProductDetailsSub.firstWhere(
-        (element) => element.id == 'com.vietapps.bloodpressure.weekly',
+        (element) => element.id == 'weekly',
         orElse: () => ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0));
+
     productDetailsYear = Get.find<AppController>().listProductDetailsSub.firstWhere(
-        (element) => element.id == 'com.vietapps.bloodpressure.yearly',
+        (element) => element.id == 'yearly',
         orElse: () => ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0));
   }
 

@@ -132,13 +132,15 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
                   SizedBox(height: 16.0.sp),
-                  Obx(
-                    () => NativeAdsWidget(
-                      factoryId: NativeFactoryId.appNativeAdFactorySmall,
-                      isPremium: Get.find<AppController>().isPremiumFull.value,
-                      height: 120.0.sp,
-                    ),
-                  ),
+                  Obx(() {
+                    return Get.find<AppController>().isPremiumFull.value
+                        ? const SizedBox.shrink()
+                        : NativeAdsWidget(
+                            factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                            isPremium: Get.find<AppController>().isPremiumFull.value,
+                            height: 120.0.sp,
+                          );
+                  }),
                   SizedBox(height: 16.0.sp),
                   Row(
                     children: [

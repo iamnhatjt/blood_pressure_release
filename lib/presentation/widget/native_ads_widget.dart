@@ -11,22 +11,17 @@ class NativeAdsWidget extends StatefulWidget {
   final double? height;
   final bool isPremium;
   final String factoryId;
-  const NativeAdsWidget(
-      {Key? key,
-      this.width,
-      this.height,
-      required this.factoryId,
-      required this.isPremium})
+
+  const NativeAdsWidget({Key? key, this.width, this.height, required this.factoryId, required this.isPremium})
       : super(key: key);
 
   @override
-  State<NativeAdsWidget> createState() =>
-      _NativeAdsWidgetState();
+  State<NativeAdsWidget> createState() => _NativeAdsWidgetState();
 }
 
 class _NativeAdsWidgetState extends State<NativeAdsWidget> {
-  final ValueNotifier<Map> _nativeAdsMap =
-      ValueNotifier({});
+  final ValueNotifier<Map> _nativeAdsMap = ValueNotifier({});
+
   @override
   void initState() {
     super.initState();

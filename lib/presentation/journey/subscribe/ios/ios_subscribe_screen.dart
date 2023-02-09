@@ -68,9 +68,10 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                         controller.onSelectedIdentifier(AppConfig.premiumIdentifierYearly);
                       },
                       title:
-                          "   ${controller.productDetailsYear.price == '' ? '\$39.99' : controller.productDetailsYear.price} ${TranslationConstants.perYear.tr}",
-                      content:
-                          "     ${TranslationConstants.only.tr} ${getPriceOfWeek()} ${TranslationConstants.perWeek.tr}"),
+                          "   ${controller.productDetailsYear.price == '' ? '\$29.99' : controller.productDetailsYear.price} ${TranslationConstants.perYear.tr}",
+                      // content:
+                      //     "     ${TranslationConstants.only.tr} ${getPriceOfWeek(controller.productDetailsYear.price == '' ? '29.99' : controller.productDetailsYear.price)} ${TranslationConstants.perWeek.tr}"
+                  ),
                 ),
               ),
               Align(
@@ -102,7 +103,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                   controller.onSelectedIdentifier(AppConfig.premiumIdentifierWeekly);
                 },
                 title:
-                    "   ${controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsYear.price} ${TranslationConstants.perWeek.tr}"),
+                    "   ${controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price} ${TranslationConstants.perWeek.tr}"),
           ),
         ),
         SizedBox(
@@ -193,7 +194,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                             "priceOfWeek":
                                 controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price,
                             "priceOfYear":
-                                controller.productDetailsYear.price == '' ? '\$39.99' : controller.productDetailsWeek.price,
+                                controller.productDetailsYear.price == '' ? '\$29.99' : controller.productDetailsWeek.price,
                           }),
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -215,12 +216,13 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
     );
   }
 
-  String getPriceOfWeek() {
-    double price = controller.productDetailsWeek.price.toDouble;
-    String currencyUnit =
-        Get.find<AppController>().productDetailMap[AppConfig.premiumIdentifierYearly]?.currencySymbol ?? '';
-    double priceOfWeek = ((price / 52 * 100).ceil()) / 100;
-    if(priceOfWeek == 0.0) priceOfWeek = 0.76;
+  String getPriceOfWeek(String price) {
+    double _price = price.toDouble;
+
+    // if (price == 0.0) price = 29.99;
+
+    String currencyUnit = controller.productDetailsYear.currencySymbol;
+    double priceOfWeek = ((_price / 52 * 100).ceil()) / 100;
 
     return '$priceOfWeek$currencyUnit';
   }
