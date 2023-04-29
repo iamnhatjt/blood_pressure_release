@@ -42,46 +42,46 @@ class MainScreen extends GetView<MainController> {
             ],
           );
         }),
-        bottomNavigationBar: Obx(() {
-          return BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: AppColor.red,
-            onTap: controller.onPressTab,
-            currentIndex: controller.currentTab.value,
-            unselectedItemColor: AppColor.white.withOpacity(0.5),
-            unselectedFontSize: 16.0.sp,
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
-            selectedItemColor: AppColor.white,
-            selectedFontSize: 16.0.sp,
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
-            items: [
-              BottomNavigationBarItem(
-                icon: AppImageWidget.asset(
-                    path: AppImage.ic_home,
-                    color: controller.currentTab.value == 0 ? AppColor.white : AppColor.white.withOpacity(0.5)),
-                label: TranslationConstants.home.tr.toUpperCase(),
-              ),
-              BottomNavigationBarItem(
-                icon: AppImageWidget.asset(
-                    path: AppImage.ic_insight,
-                    color: controller.currentTab.value == 1 ? AppColor.white : AppColor.white.withOpacity(0.5)),
-                label: TranslationConstants.insights.tr.toUpperCase(),
-              ),
-              BottomNavigationBarItem(
-                icon: AppImageWidget.asset(
-                    path: AppImage.ic_alarm,
-                    color: controller.currentTab.value == 2 ? AppColor.white : AppColor.white.withOpacity(0.5)),
-                label: TranslationConstants.alarm.tr.toUpperCase(),
-              ),
-              BottomNavigationBarItem(
-                icon: AppImageWidget.asset(
-                    path: AppImage.ic_setting,
-                    color: controller.currentTab.value == 3 ? AppColor.white : AppColor.white.withOpacity(0.5)),
-                label: TranslationConstants.setting.tr.toUpperCase(),
-              ),
-            ],
-          );
-        }),
+        // bottomNavigationBar: Obx(() {
+        //   return BottomNavigationBar(
+        //     type: BottomNavigationBarType.fixed,
+        //     backgroundColor: AppColor.red,
+        //     onTap: controller.onPressTab,
+        //     currentIndex: controller.currentTab.value,
+        //     unselectedItemColor: AppColor.white.withOpacity(0.5),
+        //     unselectedFontSize: 16.0.sp,
+        //     unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+        //     selectedItemColor: AppColor.white,
+        //     selectedFontSize: 16.0.sp,
+        //     selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+        //     items: [
+        //       BottomNavigationBarItem(
+        //         icon: AppImageWidget.asset(
+        //             path: AppImage.ic_home,
+        //             color: controller.currentTab.value == 0 ? AppColor.white : AppColor.white.withOpacity(0.5)),
+        //         label: TranslationConstants.home.tr.toUpperCase(),
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: AppImageWidget.asset(
+        //             path: AppImage.ic_insight,
+        //             color: controller.currentTab.value == 1 ? AppColor.white : AppColor.white.withOpacity(0.5)),
+        //         label: TranslationConstants.insights.tr.toUpperCase(),
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: AppImageWidget.asset(
+        //             path: AppImage.ic_alarm,
+        //             color: controller.currentTab.value == 2 ? AppColor.white : AppColor.white.withOpacity(0.5)),
+        //         label: TranslationConstants.alarm.tr.toUpperCase(),
+        //       ),
+        //       BottomNavigationBarItem(
+        //         icon: AppImageWidget.asset(
+        //             path: AppImage.ic_setting,
+        //             color: controller.currentTab.value == 3 ? AppColor.white : AppColor.white.withOpacity(0.5)),
+        //         label: TranslationConstants.setting.tr.toUpperCase(),
+        //       ),
+        //     ],
+        //   );
+        // }),
       ),
     );
   }

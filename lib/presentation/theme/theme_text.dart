@@ -240,3 +240,12 @@ class ThemeText {
     fontWeight: FontWeight.normal,
   );
 }
+
+class IosTextStyle {
+  static TextStyle f18w700w =  TextStyle(
+    fontSize: 18.0.sp,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
+    height: 22/18
+  );
+}

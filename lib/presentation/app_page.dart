@@ -3,7 +3,10 @@ import 'package:bloodpressure/common/injector/binding/food_scanner_binding.dart'
 import 'package:bloodpressure/common/injector/binding/subscribe_bindings.dart';
 import 'package:bloodpressure/common/injector/binding/weight_bmi_binding.dart';
 import 'package:bloodpressure/presentation/journey/home/food_scanner/food_scanner_screen.dart';
+import 'package:bloodpressure/presentation/journey/home/home_screen.dart';
 import 'package:bloodpressure/presentation/journey/home/weight_bmi/weight_bmi_screen.dart';
+import 'package:bloodpressure/presentation/journey/insight/insight_binding.dart';
+import 'package:bloodpressure/presentation/journey/insight/insight_screen.dart';
 import 'package:bloodpressure/presentation/journey/subscribe/android/android_subscribe_screen.dart';
 import 'package:bloodpressure/presentation/journey/subscribe/ios/ios_subscribe_screen.dart';
 import 'package:get/get.dart';
@@ -18,6 +21,7 @@ import 'journey/home/blood_pressure/blood_pressure_screen.dart';
 import 'journey/home/blood_sugar/blood_sugar_screen.dart';
 import 'journey/home/heart_beat/heart_beat_screen.dart';
 import 'journey/home/heart_beat/measure/measure_screen.dart';
+import 'journey/home/home_binding.dart';
 import 'journey/main/main_screen.dart';
 import 'journey/select_location/select_location_screen.dart';
 import 'journey/splash/splash_screen.dart';
@@ -46,6 +50,16 @@ class AppPage {
       name: AppRoute.androidSub,
       page: () => const AndroidSubscribeScreen(),
       binding: AndroidSubscribeBinding(),
+    ),
+    GetPage(
+      name: AppRoute.insight,
+      page: () => const InsightScreen(),
+      binding: InsightBinding(),
+    ),
+    GetPage(
+      name: AppRoute.insight,
+      page: () => const HomeScreen(),
+      binding: HomeBinding(),
     ),
   ];
 }

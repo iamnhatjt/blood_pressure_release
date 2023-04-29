@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import '../../controller/app_controller.dart';
 
 class MainController extends GetxController {
-  RxInt currentTab = 1.obs;
+  RxInt currentTab =0.obs;
   AppController appController = Get.find<AppController>();
 
   onPressTab(int index) {

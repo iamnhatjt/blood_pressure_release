@@ -61,9 +61,23 @@ class AppImage {
   static const String heart_rate_tutorial_ios = '${_internalImagePathPng}heart_rate_tutorial_ios.png';
   static const String heart_rate_tutorial_android = '${_internalImagePathPng}heart_rate_tutorial_android.png';
 
+  //ios
+  static const String iosSetting = '${_internalImagePathPng}ios_setting.png';
+  static const String iosBack = '${_internalImagePathPng}ios_back.png';
+  static const String iosBackgroundHomePage = '${_internalImagePathPng}ios_background_homepage.png';
+  static const String iosAlarm = '${_internalImagePathPng}ios_alarm.png';
+  static const String iosQR = '${_internalImagePathPng}ios_qr.png';
+  static const String iosInsight = '${_internalImagePathPng}ios_insight.png';
+
+
   ///lottie
   static const String heart_rate_lottie = '${_internalImagePathLottie}heart-rate.json';
   static const String weight_scale_lottie = '${_internalImagePathLottie}weight-scale.json';
   static const String heartScan = '${_internalImagePathLottie}heart-scan.json';
   static const String heartRate = '${_internalImagePathLottie}heart-rate-animation.json';
+  static const String iosBloodSugar = '${_internalImagePathLottie}ios_blood_sugar.json';
+  static const String iosHeartBeat = '${_internalImagePathLottie}ios_heart_beat.json';
+  static const String iosWeightBMI = '${_internalImagePathLottie}ios_weight_bmi.json';
+  static const String iosBloodPressure = '${_internalImagePathLottie}ios_blood_pressure.json';
+  static const String iosPremium = '${_internalImagePathLottie}ios_premium.json';
 }

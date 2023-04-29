@@ -10,4 +10,7 @@ class AppRoute {
   static const String foodScanner = '/foodScanner';
   static const String androidSub = '/androidSub';
   static const String iosSub = '/iosSub';
+  static const String insight = '/insight';
+  static const String homeScreen = '/home';
+
 }

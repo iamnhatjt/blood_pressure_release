@@ -19,7 +19,7 @@ class SubscribeButton extends StatelessWidget {
             Get.find<MainController>().pushToSubscribeScreen();
           },
           child: Image.asset(
-            AppImage.ic_premium,
+            AppImage.iosPremium,
             height: 36.0.sp,
           ));
     }

@@ -28,3 +28,11 @@ class AppColor {
   static const transparent = Colors.transparent;
   static const yellow = Color(0xffF8C646);
 }
+
+class AppColorIOS{
+  static const gradientHeartRate = [Color(0xFFFFCCCC), Color(0xFFDA2727)];
+  static const gradientWeightBMI = [Color(0xFF68DF55), Color(0xFF31A714)];
+  static const gradientBloodSugar = [Color(0xFFD4BAFF), Color(0xFFA900E4)];
+  static const gradientBloodPressure = [Color(0xFFB7E1FF), Color(0xFF1973DD)];
+  static const gradientbottomHomPage = [Color(0xFF84F19E), Color(0xFF03CECE)];
+}

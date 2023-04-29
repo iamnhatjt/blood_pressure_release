@@ -30,7 +30,7 @@ const enStrings = {
   "bloodPressure": "Blood Pressure",
   "bloodSugar": "Blood Sugar",
   "weightAndBMI": "Weight & BMI",
-  "foodScanner": "Food/Pharmacy Scanner",
+  "foodScanner": "Food \n Scanner",
   "scanFood": "Scan Food/Pharmacy",
   "home": "Home",
   "insights": "Insights",

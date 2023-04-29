@@ -50,7 +50,7 @@ class AppHeader extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
+            padding: EdgeInsets.symmetric(horizontal: 16.0.sp, vertical: 12.0.sp),
             child: Row(
               crossAxisAlignment: crossAxisAlignmentMainRow ?? CrossAxisAlignment.center,
               children: [
