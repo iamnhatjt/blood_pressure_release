@@ -8,6 +8,7 @@ import 'package:bloodpressure/presentation/journey/home/widget/alarm_add_data_bu
 import 'package:bloodpressure/presentation/journey/home/widget/empty_widget.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/app_container.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,44 +33,11 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
         children: [
           AppHeader(
             title: TranslationConstants.weightAndBMI.tr,
-            decoration: BoxDecoration(
-              color: AppColor.green,
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0x40000000),
-                  offset: Offset(0, 4.0.sp),
-                  blurRadius: 4.0.sp,
-                ),
-              ],
-            ),
-            titleStyle: const TextStyle(color: AppColor.white),
-            leftWidget: const BackButton(
-              color: AppColor.white,
-            ),
-            rightWidget: Obx(
-              () => controller.isExporting.value
-                  ? Padding(
-                      padding: EdgeInsets.all(4.0.sp),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: AppColor.primaryColor,
-                          strokeWidth: 3.0.sp,
-                        ),
-                      ),
-                    )
-                  : ExportButton(
-                      titleColor: AppColor.green,
-                      onPressed: controller.exportData,
-                    ),
-            ),
-            extendWidget: Obx(() => FilterDateWidget(
-                  startDate: controller.filterStartDate.value,
-                  endDate: controller.filterEndDate.value,
-                  onPressed: () => controller.onPressDateRange(
-                    context,
-                    callback: controller.filterWeightBMI,
-                  ),
-                )),
+
+            titleStyle: IosTextStyle.StyleHeaderApp,
+            leftWidget: const  IosLeftHeaderWidget(),
+            rightWidget: const IosRightHeaderWidget(),
+
           ),
           Expanded(
             child: Column(

@@ -44,8 +44,8 @@ class SetAlarmButton extends StatelessWidget {
                   Text(
                     TranslationConstants.setAlarm.tr,
                     style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
                         height: 30 / 24,
                         color: Color(0xFF3E96E6)),
                   )
@@ -97,8 +97,8 @@ class HandleSafeAndAdd extends StatelessWidget {
                   Text(
                     TranslationConstants.addData.tr,
                     style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 24,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
                         height: 30 / 24,
                         color: Colors.white),
                   )

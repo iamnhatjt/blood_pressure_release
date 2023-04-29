@@ -10,6 +10,7 @@ import 'package:bloodpressure/presentation/widget/app_container.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
 import 'package:bloodpressure/presentation/widget/app_image_widget.dart';
 import 'package:bloodpressure/presentation/widget/app_touchable.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,12 +27,9 @@ class InsightScreen extends GetView<InsightController> {
         children: [
           AppHeader(
             title: TranslationConstants.insights.tr,
-            leftWidget: SizedBox(width: 40.0.sp),
-            rightWidget: Obx(
-              () => SubscribeButton(
-                  isPremiumFull: Get.find<AppController>().isPremiumFull.value),
-            ),
-            titleStyle: const TextStyle(fontWeight: FontWeight.w500),
+            leftWidget: const IosLeftHeaderWidget(),
+            rightWidget: const IosRightHeaderWidget(),
+            titleStyle: IosTextStyle.StyleHeaderApp,
           ),
           // NativeAdsWidget(
           //   factoryId: NativeFactoryId.appNativeAdFactorySmall,

@@ -249,7 +249,26 @@ class IosTextStyle {
     height: 22/18
   );
 
+  static TextStyle f16w500wb =  TextStyle(
+      fontSize: 18.0.sp,
+      fontWeight: FontWeight.w500,
+      color: const Color(0xFF646464),
+      height: 20/16,
+      fontFamily: 'roboto'
+  );
+
+  static TextStyle f14w400wb =  TextStyle(
+      fontSize: 14.0.sp,
+      fontWeight: FontWeight.w400,
+      color: const Color(0xFF656565),
+      height: 20/16,
+      fontFamily: 'roboto'
+  );
+
+
+
   static TextStyle StyleHeaderApp =  TextStyle(
+    fontFamily: 'roboto',
       fontSize: 20.0.sp,
       fontWeight: FontWeight.w700,
       color: Color(0xFF7A7A7A),

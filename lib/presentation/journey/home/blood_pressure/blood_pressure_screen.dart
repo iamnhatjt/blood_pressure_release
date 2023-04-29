@@ -3,7 +3,9 @@ import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_pressure/blood_pressure_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/blood_pressure/widget/blood_pressure_data_widget.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/alarm_add_data_button.dart';
+import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/filter/filter_date_widget.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -37,26 +39,9 @@ class BloodPressureScreen extends GetView<BloodPressureController> {
                 ),
               ],
             ),
-            titleStyle: const TextStyle(color: AppColor.white),
-            leftWidget: const BackButton(
-              color: AppColor.white,
-            ),
-            rightWidget: Obx(
-              () => controller.isExporting.value
-                  ? Padding(
-                      padding: EdgeInsets.all(4.0.sp),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: AppColor.primaryColor,
-                          strokeWidth: 3.0.sp,
-                        ),
-                      ),
-                    )
-                  : ExportButton(
-                      titleColor: AppColor.primaryColor,
-                      onPressed: controller.onExportData,
-                    ),
-            ),
+            titleStyle: IosTextStyle.StyleHeaderApp,
+            leftWidget: const IosLeftHeaderWidget(),
+            rightWidget: const IosRightHeaderWidget(),
             extendWidget: Obx(() => FilterDateWidget(
                   startDate: controller.filterStartDate.value,
                   endDate: controller.filterEndDate.value,

@@ -126,10 +126,7 @@ class HomeScreen extends GetView<HomeController> {
             leftWidget: const IosLeftHeaderWidget(isHome: true),
             titleStyle:
                 const TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
-            rightWidget: Obx(
-              () => SubscribeButton(
-                  isPremiumFull: Get.find<AppController>().isPremiumFull.value),
-            ),
+            rightWidget: const IosRightHeaderWidget(),
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
           ),
           Expanded(

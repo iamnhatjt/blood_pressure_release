@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bloodpressure/presentation/journey/home/heart_beat/heart_beat_controller.dart';
 import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import '../../common/util/translation/app_translation.dart';
 import '../theme/app_color.dart';
 import '../theme/theme_text.dart';
 import 'app_button.dart';
+import 'ios_cofig_widget/widget_buton_handle_data.dart';
 
 showDialogSuccess(
   BuildContext context,
@@ -136,17 +138,25 @@ class AppDialog extends StatelessWidget {
 
   Widget _buildGroupButtons() {
     if ((secondButtonText ?? '').isEmpty) {
-      return AppButton(
-        height: 60.0.sp,
-        width: Get.width,
-        onPressed: firstButtonCallback ?? Get.back,
-        text: firstButtonText,
-        color: AppColor.primaryColor,
-        radius: 10.0.sp,
-        child: Text(
-          firstButtonText,
-          textAlign: TextAlign.center,
-          style: textStyle24700(),
+      return Container(
+        margin: EdgeInsets.symmetric(horizontal: 16.0.sp),
+        child: HandleSafeAndAdd(
+          height: 36.0.sp,
+          width: Get.width,
+          onPress: (){
+            firstButtonCallback ?? Get.back();
+            Get.find<HeartBeatController>().onPressAddData();
+          },
+          // text: firstButtonText,
+          // bac: AppColor.primaryColor,
+          // ra: 10.0.sp,
+          child: Center(
+            child: Text(
+              firstButtonText.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: textStyle24700(),
+            ),
+          ),
         ),
       );
     }

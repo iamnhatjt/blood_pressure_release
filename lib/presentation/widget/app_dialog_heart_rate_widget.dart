@@ -4,6 +4,7 @@ import 'package:bloodpressure/domain/model/user_model.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -82,17 +83,17 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
       _restingHeartRateValue = '< 60';
       _restingHeartRateStatus = TranslationConstants.slow.tr;
       _restingHeartRateMessage = TranslationConstants.rhSlowMessage.tr;
-      _restingHeartRateColor = AppColor.violet;
+      _restingHeartRateColor = const Color(0xFFCF71FB);
     } else if ((_value ?? 0) > 100) {
       _restingHeartRateValue = '> 100';
       _restingHeartRateStatus = TranslationConstants.fast.tr;
       _restingHeartRateMessage = TranslationConstants.rhFastMessage.tr;
-      _restingHeartRateColor = AppColor.red;
+      _restingHeartRateColor = const Color(0xFFFF6C6C);
     } else {
       _restingHeartRateValue = '60 - 100';
       _restingHeartRateStatus = TranslationConstants.normal.tr;
       _restingHeartRateMessage = TranslationConstants.rhNormalMessage.tr;
-      _restingHeartRateColor = AppColor.green;
+      _restingHeartRateColor = const Color(0xFF0B8C10);
     }
   }
 
@@ -185,87 +186,144 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
   }
 
   _onPressHint() {
+    Get.back();
     showAppDialog(
       context,
       TranslationConstants.heartRate.tr,
       '',
       firstButtonText: 'Ok',
-      widgetBody: Column(
-        children: [
-          SizedBox(height: 8.0.sp),
-          Container(
-            height: 39.0.sp,
-            width: Get.width,
-            padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
-            margin: EdgeInsets.all(12.0.sp),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0.sp),
-              color: AppColor.red,
-            ),
-            child: Row(
-              children: [
-                Text(
-                  TranslationConstants.fast.tr,
-                  style: textStyle20700(),
+      widgetBody: Container(
+        margin: EdgeInsets.symmetric(horizontal: 32.0.sp),
+        child: Column(
+          children: [
+            SizedBox(height: 32.0.sp),
+            ButtonIos3D.onlyInner(
+              radius: 12,
+              height: 52.0.sp,
+              width: Get.width,
+              innerRadius: 5,
+              offsetInner: Offset(0, 0),
+              innerColor: const Color(0xFFFFA6C1),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
+                child: Row(
+                  children: [
+                    const Icon(
+                      CupertinoIcons.heart_solid,
+                      color: const Color(0xFFFF6C6C),
+                    ),
+                    SizedBox(
+                      width: 12.0.sp,
+                    ),
+                    Text(
+                      TranslationConstants.fast.tr,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFFFF6C6C),
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${TranslationConstants.heartRate.tr} > 100',
+                      style: textStyle16400().merge(const TextStyle(
+                          color: const Color(0xFFFF6C6C),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16)),
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                Text(
-                  '${TranslationConstants.heartRate.tr} > 100',
-                  style: textStyle16400()
-                      .merge(const TextStyle(color: AppColor.white)),
-                ),
-              ],
+              ),
             ),
-          ),
-          Container(
-            height: 39.0.sp,
-            width: Get.width,
-            padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
-            margin: EdgeInsets.fromLTRB(12.0.sp, 0, 12.0.sp, 12.0.sp),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0.sp),
-              color: AppColor.green,
+            SizedBox(
+              height: 16.0.sp,
             ),
-            child: Row(
-              children: [
-                Text(
-                  TranslationConstants.normal.tr,
-                  style: textStyle20700(),
+            ButtonIos3D.onlyInner(
+              radius: 12,
+              height: 52.0.sp,
+
+              width: Get.width,
+              innerRadius: 5,
+              offsetInner: Offset(0, 0),
+              innerColor: const Color(0xFF3AB600).withOpacity(0.5),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
+                child: Row(
+                  children: [
+                    const Icon(
+                      CupertinoIcons.heart_solid,
+                      color: const Color(0xFF0B8C10),
+                    ),
+                    SizedBox(
+                      width: 12.0.sp,
+                    ),
+                    Text(
+                      TranslationConstants.normal.tr,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF0B8C10),
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${TranslationConstants.heartRate.tr} > 60',
+                      style: textStyle16400().merge(const TextStyle(
+                          color: Color(0xFF0B8C10),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16)),
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                Text(
-                  '${TranslationConstants.heartRate.tr} 60 - 100',
-                  style: textStyle16400()
-                      .merge(const TextStyle(color: AppColor.white)),
-                ),
-              ],
+              ),
             ),
-          ),
-          Container(
-            height: 39.0.sp,
-            width: Get.width,
-            padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
-            margin: EdgeInsets.fromLTRB(12.0.sp, 0, 12.0.sp, 24.0.sp),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.0.sp),
-              color: AppColor.violet,
+            SizedBox(
+              height: 16.0.sp,
             ),
-            child: Row(
-              children: [
-                Text(
-                  TranslationConstants.slow.tr,
-                  style: textStyle20700(),
+            ButtonIos3D.onlyInner(
+              radius: 12,
+              height: 52.0.sp,
+
+              width: Get.width,
+              innerRadius: 5,
+              offsetInner: Offset(0, 0),
+              innerColor: const Color(0xFFCD00DF).withOpacity(0.31),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
+                child: Row(
+                  children: [
+                    const Icon(
+                      CupertinoIcons.heart_solid,
+                      color: const Color(0xFFCF71FB),
+                    ),
+                    SizedBox(
+                      width: 12.0.sp,
+                    ),
+                    Text(
+                      TranslationConstants.slow.tr,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFFCF71FB),
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      '${TranslationConstants.heartRate.tr} < 60',
+                      style: textStyle16400().merge(const TextStyle(
+                          color: const Color(0xFFCF71FB),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16)),
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                Text(
-                  '${TranslationConstants.heartRate.tr} < 60',
-                  style: textStyle16400()
-                      .merge(const TextStyle(color: AppColor.white)),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 64.0.sp,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -280,191 +338,279 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
           padding: EdgeInsets.symmetric(vertical: 2.0.sp, horizontal: 12.0.sp),
           child: Row(
             children: [
-              AppTouchable(
-                  onPressed: widget.allowChange == true ? _onPressDate : null,
-                  child: Text(_date, style: textStyle18500())),
+              ButtonIos3D(
+                  innerColor: Colors.black.withOpacity(0.15),
+                  innerRadius: 4,
+                  offsetInner: const Offset(0, -2),
+                  dropColor: Colors.black.withOpacity(0.25),
+                  offsetDrop: const Offset(0, 1),
+                  radius: 10,
+                  onPress: widget.allowChange == true ? _onPressDate : null,
+                  child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 8.0.sp, horizontal: 26.0.sp),
+                      child: Text(_date, style: IosTextStyle.f16w500wb))),
               const Spacer(),
-              AppTouchable(
-                  onPressed: widget.allowChange == true ? _onPressTime : null,
-                  child: Text(_time, style: textStyle18500())),
+              ButtonIos3D(
+                  innerColor: Colors.black.withOpacity(0.15),
+                  innerRadius: 4,
+                  offsetInner: const Offset(0, -2),
+                  dropColor: Colors.black.withOpacity(0.25),
+                  offsetDrop: const Offset(0, 1),
+                  radius: 10,
+                  onPress: widget.allowChange == true ? _onPressTime : null,
+                  child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 8.0.sp, horizontal: 26.0.sp),
+                      child: Text(_time, style: IosTextStyle.f16w500wb))),
             ],
           ),
         ),
-        SizedBox(height: 18.0.sp),
+        SizedBox(height: 52.0.sp),
         widget.allowChange == true
             ? SizedBox(
-                width: 100.0.sp,
-                height: 140.0.sp,
+                // width: 100.0.sp,
+                // height: 140.0.sp,
                 child: ScrollConfiguration(
                   behavior: DisableGlowBehavior(),
-                  child: CupertinoPicker.builder(
-                    scrollController: fixedExtentScrollController,
-                    childCount: 180,
-                    itemExtent: 60.0.sp,
-                    onSelectedItemChanged: (value) {
-                      setState(() {
-                        _value = value + 40;
-                      });
-                      _updateStatusByValue(value + 40);
-                    },
-                    selectionOverlay: Container(
-                      decoration: BoxDecoration(
-                          border: Border.symmetric(
-                              horizontal: BorderSide(
-                                  color: const Color(0xFFCACACA),
-                                  width: 2.0.sp))),
-                    ),
-                    itemBuilder: (context, value) {
-                      Color color = AppColor.primaryColor;
-                      if (value + 40 < 60) {
-                        color = AppColor.violet;
-                      } else if (value + 40 > 100) {
-                        color = AppColor.red;
-                      } else {
-                        color = AppColor.green;
-                      }
-                      return Center(
-                        child: Text(
-                          '${value + 40}',
-                          style: TextStyle(
-                            color: color,
-                            fontSize: 40.0.sp,
-                            fontWeight: FontWeight.w700,
-                            height: 5 / 4,
+                  child: ButtonIos3D.onlyInner(
+                    height: 128.0.sp,
+                    width: 260.0.sp,
+                    innerColor: const Color(0xFF89C7FF),
+                    radius: 16,
+                    innerRadius: 5,
+                    offsetInner: Offset.zero,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 20.0.sp,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(
+                              height: 16.0.sp,
+                            ),
+                            ButtonIos3D(
+                              onPress: () {
+                                setState(() {
+                                  if (_value != null) _value = _value! + 1;
+                                  _updateStatusByValue(_value ?? 70);
+                                });
+                              },
+                              innerColor:
+                                  const Color(0xFF40A4FF).withOpacity(0.25),
+                              dropColor:
+                                  const Color(0xFF40A4FF).withOpacity(0.25),
+                              innerRadius: 4,
+                              dropRadius: 4,
+                              offsetDrop: const Offset(0, -1),
+                              offsetInner: const Offset(0, -2),
+                              radius: 10,
+                              child: Container(
+                                padding: EdgeInsets.all(12.0.sp),
+                                child: AppImageWidget.asset(
+                                  path: AppImage.iosUpAge,
+                                  height: 16.0.sp,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16.0.sp,
+                            ),
+                            ButtonIos3D(
+                              onPress: () {
+                                setState(() {
+                                  if (_value != null && _value! > 0)
+                                    _value = _value! - 1;
+                                  _updateStatusByValue(_value ?? 70);
+                                });
+                              },
+                              radius: 10,
+                              innerColor:
+                                  const Color(0xFF40A4FF).withOpacity(0.25),
+                              dropColor:
+                                  const Color(0xFF40A4FF).withOpacity(0.25),
+                              innerRadius: 4,
+                              dropRadius: 4,
+                              offsetDrop: const Offset(0, -1),
+                              offsetInner: const Offset(0, -2),
+                              child: Container(
+                                padding: EdgeInsets.all(12.0.sp),
+                                child: AppImageWidget.asset(
+                                  path: AppImage.iosDownAge,
+                                  height: 16.0.sp,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 16.0.sp,
+                            ),
+                          ],
+                        ),
+                        // const Spacer(),
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '$_value',
+                                style: TextStyle(
+                                    color: _restingHeartRateColor,
+                                    fontSize: 72,
+                                    fontWeight: FontWeight.w700,
+                                    height: 0.85),
+                              ),
+                              Text(
+                                'BPM ',
+                                style: TextStyle(
+                                  fontSize: 22.0.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF656565),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
+                        SizedBox(
+                          width: 26.0.sp,
+                        )
+                      ],
+                    ),
                   ),
                 ),
               )
-            : Text(
-                '${_value ?? 0}',
-                style: TextStyle(
-                  fontSize: 80.0.sp,
-                  fontWeight: FontWeight.w700,
-                  color: _restingHeartRateColor,
-                  height: 5 / 4,
-                ),
-              ),
-        SizedBox(height: 4.0.sp),
-        Text(
-          'BPM',
-          style: TextStyle(
-            fontSize: 30.0.sp,
-            fontWeight: FontWeight.w500,
-            color: AppColor.black,
-            height: 37.5 / 30,
-          ),
-        ),
+            : InnerShadow(
+                    shadows: [
+                      BoxShadow(
+                          color: const Color(0xFF000000).withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, -6))
+                    ],
+                    child: Container(
+                      margin: EdgeInsets.all(12.0.sp),
+
+                      height: 220.0.sp,
+                      width: 220.0.sp,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                                color: const Color(0xFF000000).withOpacity(0.25),
+                                blurRadius: 4,
+                                offset: const Offset(0, 0))
+                          ]),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${_value ?? 0}',
+                              style: TextStyle(
+                                fontSize: 80.0.sp,
+                                fontWeight: FontWeight.w700,
+                                color: _restingHeartRateColor,
+                                height: 5 / 4,
+                              ),
+                            ),
+                            SizedBox(height: 12.0.sp),
+                            Text(
+                              'BPM ',
+                              style: TextStyle(
+                                fontSize: 30.0.sp,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xFF656565),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
         SizedBox(height: 20.0.sp),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12.0.sp, vertical: 8.0.sp),
           decoration: BoxDecoration(
-            color: _restingHeartRateColor,
             borderRadius: BorderRadius.circular(8.0.sp),
           ),
-          child: Text(
-            _restingHeartRateStatus,
-            style:
-                textStyle20500().merge(const TextStyle(color: AppColor.white)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                CupertinoIcons.heart_solid,
+                color: _restingHeartRateColor,
+                size: 40,
+              ),
+              SizedBox(
+                width: 12.0.sp,
+              ),
+              Text(
+                _restingHeartRateStatus,
+                style: textStyle16500()
+                    .merge(const TextStyle(color: Color(0xFF656565))),
+              ),
+            ],
           ),
         ),
         SizedBox(height: 32.0.sp),
-        AppTouchable(
-          onPressed: _onPressHint,
-          width: Get.width,
-          padding: EdgeInsets.symmetric(vertical: 8.0.sp),
-          margin: EdgeInsets.symmetric(horizontal: 12.0.sp),
-          outlinedBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(9.0.sp),
-          ),
-          decoration: BoxDecoration(
-            color: AppColor.lightGray,
-            borderRadius: BorderRadius.circular(9.0.sp),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${TranslationConstants.restingHeartRate.tr} $_restingHeartRateValue',
-                style: textStyle16400(),
-              ),
-              SizedBox(width: 4.0.sp),
-              Icon(Icons.info_outline, size: 18.0.sp, color: AppColor.black),
-            ],
-          ),
-        ),
-        SizedBox(height: 12.0.sp),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
-          child: Text(
-            _restingHeartRateMessage,
-            textAlign: TextAlign.center,
-            style: textStyle14400().merge(
-                const TextStyle(color: AppColor.black, height: 17.5 / 14)),
-          ),
-        ),
-        SizedBox(height: 24.0.sp),
-        SizedBox(
-          width: widthBar + 20.0.sp,
-          child: Row(
-            children: [
-              SizedBox(width: widthBar * ((_value ?? 40) - 40) / range),
-              AppImageWidget.asset(
-                path: AppImage.ic_down,
-                width: 20.0.sp,
-                color: _restingHeartRateColor,
-              ),
-            ],
-          ),
-        ),
-        SizedBox(height: 2.0.sp),
-        SizedBox(
-          width: widthBar,
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(
-                  height: 12.0.sp,
-                  decoration: BoxDecoration(
-                    color: AppColor.violet,
-                    borderRadius: BorderRadius.circular(8.0.sp),
-                  ),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ButtonIos3D(
+              onPress: _onPressHint,
+              innerColor: Colors.black.withOpacity(0.15),
+              innerRadius: 4,
+              offsetInner: const Offset(0, -2),
+              dropColor: Colors.black.withOpacity(0.25),
+              offsetDrop: const Offset(0, 1),
+              radius: 10,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 8.0.sp),
+                margin: EdgeInsets.symmetric(horizontal: 12.0.sp),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.0.sp),
+                      child: Text(
+                        '${TranslationConstants.restingHeartRate.tr} $_restingHeartRateValue',
+                        style: IosTextStyle.f14w400wb,
+                      ),
+                    ),
+                    SizedBox(width: 8.0.sp),
+                    Icon(Icons.info_outline,
+                        size: 18.0.sp, color: AppColor.black),
+                  ],
                 ),
               ),
-              SizedBox(width: 2.0.sp),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  height: 12.0.sp,
-                  decoration: BoxDecoration(
-                    color: AppColor.green,
-                    borderRadius: BorderRadius.circular(8.0.sp),
-                  ),
-                ),
+            ),
+            SizedBox(height: 16.0.sp),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 44.0.sp),
+              child: Text(
+                _restingHeartRateMessage,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12.0.sp,
+                    color: const Color(0xFF6C6C6C)),
               ),
-              SizedBox(width: 2.0.sp),
-              Expanded(
-                flex: 6,
-                child: Container(
-                  height: 12.0.sp,
-                  decoration: BoxDecoration(
-                    color: AppColor.red,
-                    borderRadius: BorderRadius.circular(8.0.sp),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        SizedBox(height: 12.0.sp),
+        SizedBox(height: 36.0.sp),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AppTouchable(
-              onPressed: _onPressAge,
+              onPressed: () {
+                Get.back();
+                _onPressAge();
+              },
               padding:
                   EdgeInsets.symmetric(vertical: 8.0.sp, horizontal: 12.0.sp),
               child: Obx(() => Text(
@@ -481,7 +627,10 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
             ),
             SizedBox(width: 12.0.sp),
             AppTouchable(
-              onPressed: _onPressGender,
+              onPressed: () {
+                Get.back();
+                _onPressGender();
+              },
               padding:
                   EdgeInsets.symmetric(vertical: 8.0.sp, horizontal: 12.0.sp),
               child: Obx(() {
@@ -520,7 +669,7 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
                 dropColor: Colors.black.withOpacity(0.25),
                 innerColor: Colors.black.withOpacity(0.25),
                 innerRadius: 4,
-                offsetInner: const Offset(0,-4),
+                offsetInner: const Offset(0, -4),
                 radius: 20.0.sp,
                 child: Center(
                   child: Text(
@@ -534,7 +683,6 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
             SizedBox(width: 8.0.sp),
             Expanded(
               child: ButtonIos3D(
-
                 onPress: () => widget.onPressAdd!(
                     _dateTime ?? DateTime.now(), _value ?? 0),
                 height: 60.0.sp,
@@ -546,7 +694,7 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
                 dropColor: Colors.black.withOpacity(0.25),
                 innerColor: Colors.black.withOpacity(0.25),
                 innerRadius: 4,
-                offsetInner: const Offset(0,-4),
+                offsetInner: const Offset(0, -4),
                 radius: 20.0.sp,
                 child: Center(
                   child: Text(

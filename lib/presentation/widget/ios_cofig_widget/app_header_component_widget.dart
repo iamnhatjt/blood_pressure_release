@@ -49,11 +49,11 @@ class IosRightHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return !isShow
-        ? SizedBox.shrink()
+        ? SizedBox(width: 40.0.sp,)
         : Get.find<AppController>().isPremiumFull.value
-            ? const SizedBox.shrink()
+            ?  SizedBox(width: 40.0.sp,)
             : GestureDetector(
-                child: AppImageWidget.asset(path: AppImage.ic_premium),
+                child: AppImageWidget.asset(path: AppImage.iosPremium, width: 52.0.sp,),
                 onTap: () {
                   Get.toNamed(AppRoute.iosSub);
                 });

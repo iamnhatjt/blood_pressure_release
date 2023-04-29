@@ -79,6 +79,11 @@ class AppImage {
   static const String  iosMatheo  = '${_internalImagePathPng}ma_thermometer.png';
   static const String  iosMaTrip  = '${_internalImagePathPng}ma_trip.png';
   static const String  iosMapet  = '${_internalImagePathPng}ma_pet.png';
+  static const String  iosInfor  = '${_internalImagePathPng}ios_infor.png';
+  static const String  iosIcSelect  = '${_internalImagePathPng}ios_ic_select.png';
+  static const String  iosNotIcSelect  = '${_internalImagePathPng}ios_ic_not_select.png';
+  static const String  iosDownAge  = '${_internalImagePathPng}ios_down_age.png';
+  static const String  iosUpAge  = '${_internalImagePathPng}ios_up_age.png';
 
 
   ///lottie

@@ -188,7 +188,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
             ),
           ),
           Padding(
-            padding:  EdgeInsets.symmetric(vertical:16.0.sp),
+            padding:  EdgeInsets.symmetric(vertical:12.0.sp, horizontal: 12.0.sp),
             child: ButtonIos3D.onlyInner(
               backgroundColor: Colors.white,
               innerColor: const Color(0xFF89C7FF),
@@ -309,8 +309,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
               isHome: false,
             ),
             // additionSpaceButtonLeft: 40.0.sp,
-            rightWidget: Obx(() => SubscribeButton(
-                isPremiumFull: Get.find<AppController>().isPremiumFull.value)),
+            rightWidget: const IosRightHeaderWidget(),
             titleStyle: IosTextStyle.StyleHeaderApp,
           ),
           Expanded(
@@ -324,6 +323,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                     ? _buildBodyEmpty()
                     : _buildBodyData()),
           ),
+          SizedBox(height: 8.0.sp,),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20.0.sp),
             color: Colors.white,
@@ -334,36 +334,55 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                   onTap: (){
                     controller.onPressMeasureNow();
                   },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.0.sp),
-                    decoration:  BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      gradient: const  LinearGradient(
-                        colors: AppColorIOS.gradientWeightBMI,
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
+                  child:  Stack(
+                    children: [
+                      Container(
+                        // padding: EdgeInsets.symmetric(horizontal: 20.0.sp),
+                        decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                        child: ButtonIos3D.onlyInner(
+                          innerRadius: 4,
+                            offsetInner: const Offset(0,-5),
+                            innerColor: Colors.black.withOpacity(0.15),
 
-                      )
-                        ,
-                      boxShadow: [
-                        BoxShadow (
-                          color:  Color(0xFF000000).withOpacity(0.15),
-                          offset: Offset(0,-5),
-                          blurRadius: 10,
-                          spreadRadius: -4
-                        )
-                      ]
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(padding: EdgeInsets.only(left:12.0.sp ),
-                        child: AppImageWidget.asset(path: AppImage.iosHeartBeat, height: 60.0.sp,),
+                            radius: 20,
+                            onPress: controller.onPressMeasureNow,
+                            height: 70.0.sp,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: AppColorIOS.gradientWeightBMI,
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20)),
+                              height: double.infinity,
+                              width: double.infinity,
+                              child: Row(
+                                children: [
+                                  const SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                  ),
+                                  Expanded(
+                                      child: Center(
+                                        child: Text(TranslationConstants.measureNow.tr,
+                                            style: IosTextStyle.f18w700w.copyWith(
+                                                fontWeight: FontWeight.w700, fontSize: 24)),
+                                      ))
+                                ],
+                              ),
+                            )),
+                      ),
+                      Positioned(
+                        top: 8.0.sp,
+                        left: 16.0.sp,
+                        child: AppImageWidget.asset(
+                          path: AppImage.iosHeartBeat,
+                          height: 52.0.sp,
                         ),
-                        Expanded(child: Center(
-                          child: Text(TranslationConstants.measureNow.tr, style: IosTextStyle.f18w700w),
-                        ))
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
 

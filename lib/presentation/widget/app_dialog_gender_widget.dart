@@ -1,4 +1,6 @@
 import 'package:bloodpressure/common/constants/app_constant.dart';
+import 'package:bloodpressure/presentation/journey/home/heart_beat/heart_beat_controller.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -38,78 +40,104 @@ class _AppDialogGenderWidgetState extends State<AppDialogGenderWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 12.0.sp),
+        SizedBox(height: 28.0.sp),
         for (int i = 0; i < AppConstant.listGender.length; i++)
-          AppTouchable(
-            height: 41.0.sp,
-            padding: EdgeInsets.symmetric(horizontal: 10.0.sp),
-            margin: EdgeInsets.symmetric(vertical: 2.0.sp, horizontal: 8.0.sp),
-            decoration: BoxDecoration(
-              color: AppConstant.listGender[i]['id'] == _value['id']
-                  ? AppColor.primaryColor.withOpacity(0.2)
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(10.0.sp),
-            ),
-            onPressed: () {
-              setState(() {
-                _value = AppConstant.listGender[i];
-              });
-            },
-            child: Row(
-              children: [
-                Text(
-                  chooseContentByLanguage(AppConstant.listGender[i]['nameEN'],
-                      AppConstant.listGender[i]['nameVN']),
-                  style: textStyle20700().merge(TextStyle(
-                      color: AppConstant.listGender[i]['id'] == _value['id']
-                          ? AppColor.primaryColor
-                          : AppColor.black)),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 8.0.sp, horizontal: 28.0.sp),
+            child: ButtonIos3D.onlyInner(
+              backgroundColor: AppConstant.listGender[i]['id'] == _value['id']
+                  ? const Color(0xFF40A4FF)
+                  : Colors.white,
+              height: 48.0.sp,
+              radius: 12,
+              onPress: () {
+                setState(() {
+                  _value = AppConstant.listGender[i];
+                });
+              },
+              child: Container(
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 20.0.sp,
+                    ),
+                    Text(
+                      chooseContentByLanguage(
+                          AppConstant.listGender[i]['nameEN'],
+                          AppConstant.listGender[i]['nameVN']),
+                      style: textStyle20700().merge(TextStyle(
+                          color: AppConstant.listGender[i]['id'] == _value['id']
+                              ? Colors.white
+                              : const Color(0xFF7A7A7A))),
+                    ),
+                    const Spacer(),
+                    AppConstant.listGender[i]['id'] == _value['id']
+                        ? AppImageWidget.asset(
+                            path: AppImage.iosIcSelect,
+                            width: 20.0.sp,
+                          )
+                        : AppImageWidget.asset(
+                            path: AppImage.iosNotIcSelect,
+                            width: 20.0.sp,
+                          ),
+                    SizedBox(
+                      width: 16.0.sp,
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                AppConstant.listGender[i]['id'] == _value['id']
-                    ? AppImageWidget.asset(
-                        path: AppImage.ic_check,
-                        width: 20.0.sp,
-                      )
-                    : Container(
-                        width: 20.0.sp,
-                        height: 20.0.sp,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.0.sp),
-                            color: const Color(0xFFD9D9D9)),
-                      ),
-              ],
+              ),
             ),
           ),
-        SizedBox(height: 22.0.sp),
+        SizedBox(height:56.0.sp),
         Row(
           children: [
             Expanded(
-              child: AppButton(
-                onPressed: widget.onPressCancel,
+              child: ButtonIos3D(
                 height: 60.0.sp,
                 width: Get.width,
-                color: AppColor.red,
-                radius: 10.0.sp,
-                child: Text(
-                  TranslationConstants.cancel.tr,
-                  textAlign: TextAlign.center,
-                  style: textStyle24700(),
+                onPress: () {
+                  widget.onPressCancel!();
+                  Get.find<HeartBeatController>().onPressAddData();
+                },
+                backgroundColor: const Color(0xFFFF6464),
+                dropRadius: 10,
+                offsetDrop: Offset.zero,
+                dropColor: Colors.black.withOpacity(0.25),
+                innerColor: Colors.black.withOpacity(0.25),
+                innerRadius: 4,
+                offsetInner: const Offset(0, -4),
+                child: Center(
+                  child: Text(
+                    TranslationConstants.cancel.tr,
+                    textAlign: TextAlign.center,
+                    style: textStyle24700(),
+                  ),
                 ),
               ),
             ),
             SizedBox(width: 8.0.sp),
             Expanded(
-              child: AppButton(
+              child: ButtonIos3D(
                 height: 60.0.sp,
                 width: Get.width,
-                onPressed: () => widget.onPressSave!(_value),
-                color: AppColor.primaryColor,
-                radius: 10.0.sp,
-                child: Text(
-                  TranslationConstants.save.tr,
-                  textAlign: TextAlign.center,
-                  style: textStyle24700(),
+                onPress: () {
+                  widget.onPressSave!(_value);
+                  Get.find<HeartBeatController>().onPressAddData();
+                },
+                backgroundColor: const Color(0xFF5298EB),
+                dropRadius: 10,
+                offsetDrop: Offset.zero,
+                dropColor: Colors.black.withOpacity(0.25),
+                innerColor: Colors.black.withOpacity(0.25),
+                innerRadius: 4,
+                offsetInner: const Offset(0, -4),
+                radius: 20.0.sp,
+                child: Center(
+                  child: Text(
+                    TranslationConstants.save.tr,
+                    textAlign: TextAlign.center,
+                    style: textStyle24700(),
+                  ),
                 ),
               ),
             ),

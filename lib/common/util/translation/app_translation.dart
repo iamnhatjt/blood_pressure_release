@@ -79,8 +79,8 @@ class TranslationConstants {
   static String normal = 'normal';
   static String fast = 'fast';
   static String age = 'age';
-  static String choseYourAge = 'choseYourAge';
-  static String choseYourGender = 'choseYourGender';
+  static String choseYourAge = 'chooseYourAge';
+  static String choseYourGender = 'chooseYourGender';
   static String save = 'save';
   static String rhSlowMessage = 'rhSlowMessage';
   static String rhNormalMessage = 'rhNormalMessage';

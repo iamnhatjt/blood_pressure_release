@@ -1,6 +1,5 @@
 import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
-import 'package:bloodpressure/presentation/journey/main/main_controller.dart';
 import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
 import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
@@ -233,15 +232,7 @@ class SettingScreen extends GetView<SettingController> {
                             () => Get.find<AppController>().isPremiumFull.value ? const SizedBox.shrink() : _unlockAllFeature()
                     ),
 
-                    Obx(
-                      () => Get.find<AppController>().isPremiumFull.value
-                          ? const SizedBox()
-                          : InkWell(
-                              onTap: () {
-                                Get.find<MainController>().pushToSubscribeScreen();
-                              },
-                              child: AppImageWidget.asset(path: AppImage.setting_banner)),
-                    ),
+
                     SizedBox(
                       height: 18.sp,
                     ),
