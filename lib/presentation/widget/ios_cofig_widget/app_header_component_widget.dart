@@ -1,5 +1,7 @@
 import 'package:bloodpressure/common/constants/app_image.dart';
+import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
+import 'package:bloodpressure/presentation/journey/setting/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,7 +19,25 @@ class IosLeftHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return !isShow
         ? const SizedBox.shrink()
-        : isHome? AppImageWidget.asset(path: AppImage.iosSetting, height: 32.0.sp,) : AppImageWidget.asset(path: AppImage.iosBack, height: 40.0.sp,) ;
+        : isHome
+            ? GestureDetector(
+      onTap: (){
+        Get.to(SettingScreen());
+      },
+              child: AppImageWidget.asset(
+
+                  path: AppImage.iosSetting,
+                  height: 32.0.sp,
+                ),
+            )
+            : GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: AppImageWidget.asset(
+                  path: AppImage.iosBack,
+                  height: 40.0.sp,
+                ));
   }
 }
 
@@ -32,6 +52,10 @@ class IosRightHeaderWidget extends StatelessWidget {
         ? SizedBox.shrink()
         : Get.find<AppController>().isPremiumFull.value
             ? const SizedBox.shrink()
-            : AppImageWidget.asset(path: AppImage.ic_premium);
+            : GestureDetector(
+                child: AppImageWidget.asset(path: AppImage.ic_premium),
+                onTap: () {
+                  Get.toNamed(AppRoute.iosSub);
+                });
   }
 }

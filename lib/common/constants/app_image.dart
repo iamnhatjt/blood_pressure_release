@@ -74,6 +74,11 @@ class AppImage {
   static const String iosSetalarm = '${_internalImagePathPng}ios_set_alarm.png';
   static const String iosAddData = '${_internalImagePathPng}ios_add_data.png';
   static const String  iosGuide  = '${_internalImagePathPng}ios_guide.png';
+  static const String  ios_unlock_screen  = '${_internalImagePathPng}ios_setting_premium.png';
+  static const String  iosMaNFC  = '${_internalImagePathPng}ios_ma_nfc.png';
+  static const String  iosMatheo  = '${_internalImagePathPng}ma_thermometer.png';
+  static const String  iosMaTrip  = '${_internalImagePathPng}ma_trip.png';
+  static const String  iosMapet  = '${_internalImagePathPng}ma_pet.png';
 
 
   ///lottie

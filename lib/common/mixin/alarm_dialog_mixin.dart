@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 
 import '../../presentation/controller/app_controller.dart';
 
+
 mixin AlarmDialogMixin {
   RxList<bool> selectedWeekDays = List<bool>.generate(7, (_) => false).obs;
   Rx<DateTime> selectedTime = DateTime.now().obs;
@@ -65,29 +66,30 @@ mixin AlarmDialogMixin {
     );
   }
 
+
+
   void showConfirmDeleteAlarmDialog(
-    BuildContext context, {
-    required AlarmModel alarmModel,
-    void Function()? onPressCancel,
-    void Function(AlarmModel)? onPressConfirm,
-  }) async {
+      BuildContext context, {
+        required AlarmModel alarmModel,
+        void Function()? onPressCancel,
+        void Function(AlarmModel)? onPressConfirm,
+      }) async {
     return showAppDialog(
-        context,
-        "%s %s %s".trArgs([
-          TranslationConstants.delete.tr.toCapitalized(),
-          TranslationConstants.alarm.tr.toLowerCase(),
-          alarmModel.type?.tr ?? "Unknown",
-        ]),
+        context
+        // "%s %s %s".trArgs([
+        //   TranslationConstants.delete.tr.toCapitalized(),
+        //   TranslationConstants.alarm.tr.toLowerCase(),
+        //   alarmModel.type?.tr ?? "Unknown",
+        // ]),
+        ,' ',
         "",
         hideGroupButton: true,
         widgetBody: Column(
           children: [
-            SizedBox(
-              height: 32.0.sp,
-            ),
+
             Text(
               TranslationConstants.deleteAlarmConfirmMsg.tr,
-              style: textStyle20400(),
+              style: textStyle20700().copyWith(color: const Color(0xFF7A7A7A)),
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -100,29 +102,32 @@ mixin AlarmDialogMixin {
                     onPressed: onPressCancel ?? Get.back,
                     height: 60.0.sp,
                     width: Get.width,
-                    color: AppColor.red,
-                    radius: 10.0.sp,
-                    child: Text(
-                      TranslationConstants.cancel.tr,
-                      textAlign: TextAlign.center,
-                      style: textStyle24700(),
+                    // backgroundColor: const Color(0xFF5298EB),
+                    radius: 20.0.sp,
+                    child: Center(
+                      child: Text(
+                        TranslationConstants.cancel.tr,
+                        textAlign: TextAlign.center,
+                        style: textStyle24700().copyWith(fontSize: 22.0.sp, ),
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(width: 8.0.sp),
                 Expanded(
                   child: AppButton(
+
                     height: 60.0.sp,
                     width: Get.width,
-                    onPressed: onPressConfirm != null
-                        ? () => onPressConfirm(alarmModel)
-                        : null,
-                    color: AppColor.primaryColor,
-                    radius: 10.0.sp,
-                    child: Text(
-                      TranslationConstants.delete.tr,
-                      textAlign: TextAlign.center,
-                      style: textStyle24700(),
+                    onPressed: onPressConfirm != null ? () => onPressConfirm(alarmModel) : null,
+                    // backgroundColor: const Color(0xFFFF6464),
+                    radius:20.0.sp,
+                    child: Center(
+                      child: Text(
+                        TranslationConstants.delete.tr,
+                        textAlign: TextAlign.center,
+                        style: textStyle24700(),
+                      ),
                     ),
                   ),
                 ),

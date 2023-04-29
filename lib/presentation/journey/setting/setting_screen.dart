@@ -1,6 +1,8 @@
 import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/main/main_controller.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +10,8 @@ import 'package:get/get.dart';
 import 'package:store_redirect/store_redirect.dart';
 
 import '../../../common/constants/app_image.dart';
+import '../../../common/constants/app_route.dart';
+import '../../../common/util/app_util.dart';
 import '../../../common/util/disable_glow_behavior.dart';
 import '../../../common/util/translation/app_translation.dart';
 import '../../theme/theme_text.dart';
@@ -22,42 +26,53 @@ class SettingScreen extends GetView<SettingController> {
   const SettingScreen({Key? key}) : super(key: key);
 
   Widget _buildItemMore({Function()? onPressed, String? asset, String? title, String? subTitle}) {
-    return AppTouchable.commonRadius20(
-      onPressed: onPressed,
-      padding: EdgeInsets.all(12.0.sp),
-      margin: EdgeInsets.only(top: 12.0.sp, left: 20.0.sp, right: 20.0.sp),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(25.0.sp),
-            child: Image.asset(
-              asset ?? '',
-              width: 48.0.sp,
-            ),
-          ),
-          SizedBox(width: 6.0.sp),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title ?? '',
-                  style: textStyle16400(),
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 12.0.sp, horizontal: 12.0.sp),
+
+      child: ButtonIos3D(
+        onPress: onPressed,
+        innerColor: const Color(0xFF000000).withOpacity(0.15),
+        dropColor: const Color(0xFF000000).withOpacity(0.25),
+        offsetInner: Offset(0,-2),
+        offsetDrop: Offset(0,1),
+
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 12.0.sp, horizontal: 12.0.sp),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(25.0.sp),
+                child: Image.asset(
+                  asset ?? '',
+                  width: 48.0.sp,
                 ),
-                Text(
-                  subTitle ?? '',
-                  style: textStyle14400(),
+              ),
+              SizedBox(width: 6.0.sp),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title ?? '',
+                      style: textStyle16400(),
+                    ),
+                    Text(
+                      subTitle ?? '',
+                      style: textStyle14400(),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildItemSetting(Function() onPressed, String imagePath, String text, {bool isLanguage = false}) {
     return AppTouchable.commonRadius87(
+
       onPressed: onPressed,
       width: Get.width,
       height: 48.0.sp,
@@ -100,7 +115,102 @@ class SettingScreen extends GetView<SettingController> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+
+    Widget _unlockAllFeature() {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 8.0.sp, horizontal: 12.0.sp),
+        margin: EdgeInsets.symmetric(
+          horizontal: 16.0.sp,
+
+        ).copyWith(top: 12.0.sp),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0.sp),
+            image: const DecorationImage(
+                image: AssetImage(AppImage.ios_unlock_screen),
+                fit: BoxFit.cover
+            ),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.25),
+                  blurRadius: 10.0.sp,
+                  offset: const Offset(0, 0))
+            ]),
+        child: Row(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 4,
+                          offset: Offset(0,1),
+                          color: Colors.black.withOpacity(0.15)
+                      )
+                    ]
+                ),
+                child: Text(
+                    TranslationConstants.bloodPressure.tr,
+                    style: TextStyle(
+                      fontSize: 20.0.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,)
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 4,
+                          offset: Offset(0,1),
+                          color: Colors.black.withOpacity(0.15)
+                      )
+                    ]
+                ),
+                child: Text(
+                  chooseContentByLanguage('Unlock all Features', 'Mở khóa tất cả tính năng'),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 8.0.sp,
+              ),
+              GestureDetector(
+                onTap: () => Get.toNamed(AppRoute.iosSub),
+
+                child: Container(
+                  height: 34.0.sp,
+                  width: 151.0.sp,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: const Color(0xFF5298EB),
+
+                  ),
+                  child: Center(
+                      child: Text(
+                        chooseContentByLanguage('Join Now', 'Tham gia ngay'),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
+                ),
+              )
+            ],
+          ),
+
+        ]),
+      );
+    }
+
+
     controller.context = context;
     return AppContainer(
       isShowBanner: false,
@@ -109,7 +219,7 @@ class SettingScreen extends GetView<SettingController> {
         children: [
           AppHeader(
             title: TranslationConstants.setting.tr,
-            leftWidget: SizedBox(width: 40.0.sp),
+            leftWidget: IosLeftHeaderWidget(),
           ),
           Expanded(
             child: ScrollConfiguration(
@@ -119,6 +229,10 @@ class SettingScreen extends GetView<SettingController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Obx(
+                            () => Get.find<AppController>().isPremiumFull.value ? const SizedBox.shrink() : _unlockAllFeature()
+                    ),
+
                     Obx(
                       () => Get.find<AppController>().isPremiumFull.value
                           ? const SizedBox()
@@ -159,86 +273,47 @@ class SettingScreen extends GetView<SettingController> {
                         style: textStyle20400(),
                       ),
                     ),
+
                     _buildItemMore(
                         onPressed: () {
                           StoreRedirect.redirect(
-                              androidAppId: 'com.vietapps.numerology.thansohoc', iOSAppId: 'id1620921159');
+                              androidAppId: '', iOSAppId: 'id1671558516');
                         },
-                        asset: AppImage.ma_numerology,
-                        title: 'Psychic numerology & life path',
-                        subTitle: "Explore all about: Numerology, Tarot cards, Zodiac, Dream meaning, Life path or Love"),
-                    _buildItemMore(
-                        onPressed: () {
-                          StoreRedirect.redirect(androidAppId: 'com.vietapps.watchface', iOSAppId: 'id1543589965');
-                        },
-                        asset: AppImage.ma_watchface,
-                        title: 'Watch Face Wallpaper Gallery',
+                        asset: AppImage.iosMapet,
+                        title: 'Dynamics Pixel Pets for 14 pro',
                         subTitle:
-                            "Feel free to customize watch faces on your own apple watch with up to 2000+ wallpapers from Watch Face Wallpaper Gallery app. Let's try it!!!"),
+                        "Customize your dynamic island with 9 exclusive Pixel Pets. Put them on the lock screen widget to Feed & play with your virtual friends anytime you want! Only for iOS 16"),
                     _buildItemMore(
                         onPressed: () {
-                          StoreRedirect.redirect(androidAppId: 'com.infinity.nfctools', iOSAppId: 'id1639914460');
+                          StoreRedirect.redirect(
+                              androidAppId: '', iOSAppId: 'id1670239220');
                         },
-                        asset: AppImage.ma_nfc,
-                        title: 'Read nfc tagwriter - nfc writer',
+                        asset: AppImage.iosMatheo,
+                        title: 'Thermometer - Check temperature',
                         subTitle:
-                            "NFC Tools- nfc tag reader are simple, intuitive, can record standard information on your NFC tags"),
+                        "Plan your day with weather forecast, thermometer, hygrometer, rain precipitation, AQI, UV index, wind speed, direction, compass, snow fall, visibility distance and more."),
                     _buildItemMore(
                         onPressed: () {
-                          StoreRedirect.redirect(androidAppId: 'com.vietapps.multiscanner', iOSAppId: 'id1639914460');
+                          StoreRedirect.redirect(
+                              androidAppId: '', iOSAppId: 'id6446508641');
                         },
-                        asset: AppImage.ma_qrcode,
-                        title: 'QR Reader & MRZ, NFC Reader',
-                        subTitle: "The simplest QR code generator- QR, NFC, MRZ, Barcode scanner app for Android!"),
-                    _buildItemMore(
-                        onPressed: () {
-                          StoreRedirect.redirect(androidAppId: 'com.vietapps.airlive', iOSAppId: 'id1556565950');
-                        },
-                        asset: AppImage.ma_air_live,
-                        title: 'Airlive Wallpaper',
-                        subTitle: "Feel free to customize"),
-                    _buildItemMore(
-                        onPressed: () {
-                          StoreRedirect.redirect(androidAppId: 'com.vietapps.umeme', iOSAppId: 'id1574788977');
-                        },
-                        asset: AppImage.ma_umeme,
-                        title: 'uMeme - Your Meme Maker',
-                        subTitle: "uMeme is the new way to share your mood into the world"),
-                    _buildItemMore(
-                        onPressed: () {
-                          StoreRedirect.redirect(androidAppId: 'com.vietapps.ballline', iOSAppId: 'id1607340262');
-                        },
-                        asset: AppImage.ma_animal_cross,
-                        title: 'Animal Cross',
-                        subTitle: "Addictive puzzle game"),
-                    _buildItemMore(
-                        onPressed: () =>
-                            StoreRedirect.redirect(androidAppId: 'com.vietapps.gravityball', iOSAppId: 'id1603988842'),
-                        asset: AppImage.ma_gravity,
-                        title: 'Gravity Ball',
-                        subTitle: "Help the gravity ball find its way to the black hole despite the gravity and spikes?"),
-                    _buildItemMore(
-                        onPressed: () =>
-                            StoreRedirect.redirect(androidAppId: 'com.vietapps.tilematch', iOSAppId: 'id1609914640'),
-                        asset: AppImage.ma_connect_title,
-                        title: 'Connect Tile',
+                        asset: AppImage.iosMaNFC,
+                        title: 'Smart NFC tools - RFID scanner',
                         subTitle:
-                            "Connect Tile - Geometry tile matching game is a brand new tile connect game with innovative gameplay."),
+                        "Start automating daily boring repetitive tasks with Smart NFC tools - RFID scanner. Easy for new users to write and read NFC card, chip & Stickers with unlimited storage."),
                     _buildItemMore(
-                        onPressed: () =>
-                            StoreRedirect.redirect(androidAppId: 'com.vietapps.healthyfit', iOSAppId: 'id1525850085'),
-                        asset: AppImage.ma_fitness,
-                        title: 'HealthyFit - Fitness for your health',
+                        onPressed: () {
+                          StoreRedirect.redirect(
+                              androidAppId: '', iOSAppId: 'id6446268145');
+                        },
+                        asset: AppImage.iosMaTrip,
+                        title: 'Road conditions: Drive weather',
                         subTitle:
-                            "We created this application to target office workers, those who have little time and also those who are passionate about gym. Let's exercise with us!!!"),
-                    _buildItemMore(
-                        onPressed: () =>
-                            StoreRedirect.redirect(androidAppId: 'com.vietapps.thermometer', iOSAppId: 'id1525850085'),
-                        asset: AppImage.ma_weather,
-                        title: 'Smart thermometer for room',
-                        subTitle:
-                            "Temperature tracker- temperature detector helps you check temperature, check thermometer. Besides, check thermometer, show weather, humidity, or air quality are integrated like a thermostat app"),
-                  ],
+                        "Check road conditions and be prepared for any situation with road trip planner! Display waypoint weather forecast and detailed route weather information to arrive safely."),
+                    SizedBox(
+                      height: 30.0.sp,
+                    )
+                    ],
                 ),
               ),
             ),

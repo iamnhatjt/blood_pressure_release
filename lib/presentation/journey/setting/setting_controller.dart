@@ -87,7 +87,7 @@ class SettingController extends GetxController {
   onPressShare() {
     if (Platform.isIOS) {
       Share.share(
-          'Install this app and track your health: itms-apps://apple.com/app/id1620921159');
+          'Install this app and track your health: itms-apps://apple.com/app/id6448509515');
     } else {
       Share.share(
           'Install this app and track your health: https://play.google.com/store/apps/details?id=com.infinity.nfctools');

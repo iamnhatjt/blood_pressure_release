@@ -101,9 +101,9 @@ class BloodSugarUnit {
 }
 
 class AppExternalUrl {
-  static const String privacy = "https://sites.google.com/view/instant-blood-pressure-tracker/privacy-policy";
-  static const String termsAndConditions = "https://sites.google.com/view/instant-blood-pressure-tracker/terms-conditions";
-  static const String contactUs = "https://sites.google.com/view/instant-blood-pressure-tracker/contact-us?authuser=0";
+  static const String privacy = "https://sites.google.com/view/heart-rate-monitor-inbody-bmi/privacy-policy";
+  static const String termsAndConditions = "https://sites.google.com/view/heart-rate-monitor-inbody-bmi/terms-conditions";
+  static const String contactUs = "https://sites.google.com/view/heart-rate-monitor-inbody-bmi/contact";
 }
 
 class AppLogEvent {
