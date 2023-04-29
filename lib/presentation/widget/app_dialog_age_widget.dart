@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +8,7 @@ import '../../common/util/translation/app_translation.dart';
 import '../theme/app_color.dart';
 import '../theme/theme_text.dart';
 import 'app_button.dart';
+import 'ios_cofig_widget/Button_ios_3d.dart';
 
 class AppDialogAgeWidget extends StatefulWidget {
   final int? initialAge;
@@ -75,31 +77,49 @@ class _AppDialogAgeWidgetState extends State<AppDialogAgeWidget> {
         Row(
           children: [
             Expanded(
-              child: AppButton(
-                onPressed: widget.onPressCancel,
+              child: ButtonIos3D(
+                onPress: widget.onPressCancel,
                 height: 60.0.sp,
                 width: Get.width,
-                color: AppColor.red,
-                radius: 10.0.sp,
-                child: Text(
-                  TranslationConstants.cancel.tr,
-                  textAlign: TextAlign.center,
-                  style: textStyle24700(),
+                backgroundColor: const Color(0xFFFF6464),
+                radius: 20.0.sp,
+                dropRadius: 10,
+                offsetDrop: Offset.zero,
+                dropColor: Colors.black.withOpacity(0.25),
+                innerColor: Colors.black.withOpacity(0.25),
+                innerRadius: 4,
+                offsetInner: const Offset(0,-4),
+                child: Center(
+                  child: Text(
+                    TranslationConstants.cancel.tr,
+                    textAlign: TextAlign.center,
+                    style: textStyle24700(),
+                  ),
                 ),
               ),
             ),
             SizedBox(width: 8.0.sp),
             Expanded(
-              child: AppButton(
+              child: ButtonIos3D(
+
+                onPress: () => widget.onPressSave!(_value),
                 height: 60.0.sp,
                 width: Get.width,
-                onPressed: () => widget.onPressSave!(_value),
-                color: AppColor.primaryColor,
-                radius: 10.0.sp,
-                child: Text(
-                  TranslationConstants.save.tr,
-                  textAlign: TextAlign.center,
-                  style: textStyle24700(),
+                // text: firstButtonText,
+                backgroundColor: const Color(0xFF5298EB),
+                dropRadius: 10,
+                offsetDrop: Offset.zero,
+                dropColor: Colors.black.withOpacity(0.25),
+                innerColor: Colors.black.withOpacity(0.25),
+                innerRadius: 4,
+                offsetInner: const Offset(0,-4),
+                radius: 20.0.sp,
+                child: Center(
+                  child: Text(
+                    TranslationConstants.save.tr,
+                    textAlign: TextAlign.center,
+                    style: textStyle24700(),
+                  ),
                 ),
               ),
             ),

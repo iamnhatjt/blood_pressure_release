@@ -17,21 +17,21 @@ class IosLeftHeaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return !isShow
         ? const SizedBox.shrink()
-        : AppImageWidget.asset(
-            height: 28.0.sp,
-            path: isHome ? AppImage.iosSetting : AppImage.iosBack,
-          );
+        : isHome? AppImageWidget.asset(path: AppImage.iosSetting, height: 32.0.sp,) : AppImageWidget.asset(path: AppImage.iosBack, height: 40.0.sp,) ;
   }
 }
 
 class IosRightHeaderWidget extends StatelessWidget {
   final bool isShow;
-  
-  const IosRightHeaderWidget({Key? key,  this.isShow = true}) : super(key: key);
+
+  const IosRightHeaderWidget({Key? key, this.isShow = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return !isShow ? SizedBox.shrink() : Get.find<AppController>().isPremiumFull.value ? const SizedBox.shrink() : AppImageWidget.asset(path: AppImage.ic_premium) ;
+    return !isShow
+        ? SizedBox.shrink()
+        : Get.find<AppController>().isPremiumFull.value
+            ? const SizedBox.shrink()
+            : AppImageWidget.asset(path: AppImage.ic_premium);
   }
 }
-

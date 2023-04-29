@@ -28,6 +28,8 @@ class AppImage {
   static const String ic_unselect = '${_internalImagePathSvg}ic_unselect.svg';
   static const String logo = '${_internalImagePathSvg}logo.svg';
   static const String icSelectLocation = '${_internalImagePathSvg}ic_select_location.svg';
+  //ios
+  static const String  iosDelete = '${_internalImagePathSvg}ios_del.svg';
 
   ///png
   static const String ma_air_live = '${_internalImagePathPng}ma_air_live.png';
@@ -68,6 +70,10 @@ class AppImage {
   static const String iosAlarm = '${_internalImagePathPng}ios_alarm.png';
   static const String iosQR = '${_internalImagePathPng}ios_qr.png';
   static const String iosInsight = '${_internalImagePathPng}ios_insight.png';
+  static const String iosHeartNoChart = '${_internalImagePathPng}Ios_heart_no_chart.png';
+  static const String iosSetalarm = '${_internalImagePathPng}ios_set_alarm.png';
+  static const String iosAddData = '${_internalImagePathPng}ios_add_data.png';
+  static const String  iosGuide  = '${_internalImagePathPng}ios_guide.png';
 
 
   ///lottie

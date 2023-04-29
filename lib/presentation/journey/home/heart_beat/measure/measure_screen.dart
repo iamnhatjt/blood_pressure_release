@@ -48,7 +48,7 @@ class MeasureScreen extends GetView<MeasureController> {
                   padding: EdgeInsets.fromLTRB(17.0.sp, 0, 17.0.sp, 0),
                   child: Center(
                     child: AppImageWidget.asset(
-                      path: tutorialPath,
+                      path: AppImage.iosGuide,
                     ),
                   ),
                 ),

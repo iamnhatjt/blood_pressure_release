@@ -19,6 +19,7 @@ import 'app_dialog_age_widget.dart';
 import 'app_dialog_gender_widget.dart';
 import 'app_image_widget.dart';
 import 'app_touchable.dart';
+import 'ios_cofig_widget/Button_ios_3d.dart';
 
 class AppDialogHeartRateWidget extends StatefulWidget {
   final DateTime? inputDateTime;
@@ -508,32 +509,51 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
         Row(
           children: [
             Expanded(
-              child: AppButton(
-                onPressed: widget.onPressCancel,
+              child: ButtonIos3D(
+                onPress: widget.onPressCancel,
                 height: 60.0.sp,
                 width: Get.width,
-                color: AppColor.red,
-                radius: 10.0.sp,
-                child: Text(
-                  TranslationConstants.cancel.tr,
-                  textAlign: TextAlign.center,
-                  style: textStyle24700(),
+                // text: firstButtonText,
+                backgroundColor: const Color(0xFFFF6464),
+                dropRadius: 10,
+                offsetDrop: Offset.zero,
+                dropColor: Colors.black.withOpacity(0.25),
+                innerColor: Colors.black.withOpacity(0.25),
+                innerRadius: 4,
+                offsetInner: const Offset(0,-4),
+                radius: 20.0.sp,
+                child: Center(
+                  child: Text(
+                    TranslationConstants.cancel.tr,
+                    textAlign: TextAlign.center,
+                    style: textStyle24700(),
+                  ),
                 ),
               ),
             ),
             SizedBox(width: 8.0.sp),
             Expanded(
-              child: AppButton(
+              child: ButtonIos3D(
+
+                onPress: () => widget.onPressAdd!(
+                    _dateTime ?? DateTime.now(), _value ?? 0),
                 height: 60.0.sp,
                 width: Get.width,
-                onPressed: () => widget.onPressAdd!(
-                    _dateTime ?? DateTime.now(), _value ?? 0),
-                color: AppColor.primaryColor,
-                radius: 10.0.sp,
-                child: Text(
-                  TranslationConstants.add.tr,
-                  textAlign: TextAlign.center,
-                  style: textStyle24700(),
+                // text: firstButtonText,
+                backgroundColor: const Color(0xFF5298EB),
+                dropRadius: 10,
+                offsetDrop: Offset.zero,
+                dropColor: Colors.black.withOpacity(0.25),
+                innerColor: Colors.black.withOpacity(0.25),
+                innerRadius: 4,
+                offsetInner: const Offset(0,-4),
+                radius: 20.0.sp,
+                child: Center(
+                  child: Text(
+                    TranslationConstants.add.tr,
+                    textAlign: TextAlign.center,
+                    style: textStyle24700(),
+                  ),
                 ),
               ),
             ),

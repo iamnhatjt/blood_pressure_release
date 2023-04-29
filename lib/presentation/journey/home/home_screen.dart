@@ -1,14 +1,11 @@
-import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
 import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_screen.dart';
 import 'package:bloodpressure/presentation/journey/home/home_controller.dart';
 import 'package:bloodpressure/presentation/journey/main/widgets/subscribe_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../common/constants/app_image.dart';
 import '../../../common/util/disable_glow_behavior.dart';
@@ -18,9 +15,7 @@ import '../../theme/theme_text.dart';
 import '../../widget/app_container.dart';
 import '../../widget/app_header.dart';
 import '../../widget/app_image_widget.dart';
-import '../../widget/app_touchable.dart';
 import '../../widget/ios_cofig_widget/app_header_component_widget.dart';
-import '../../widget/native_ads_widget.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);

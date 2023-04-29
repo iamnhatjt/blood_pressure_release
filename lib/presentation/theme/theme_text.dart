@@ -115,7 +115,7 @@ TextStyle textStyle14400() {
   return TextStyle(
     fontSize: 14.0.sp,
     fontWeight: FontWeight.w400,
-    color: const Color(0xFF9F9F9F),
+    color: const Color(0xFF646464),
     height: 20 / 14,
   );
 }
@@ -124,7 +124,7 @@ TextStyle textStyle14500() {
   return TextStyle(
     fontSize: 14.0.sp,
     fontWeight: FontWeight.w500,
-    color: AppColor.black,
+    color: const Color(0xFF606060),
     height: 17.5 / 14,
   );
 }
@@ -248,4 +248,26 @@ class IosTextStyle {
     color: Colors.white,
     height: 22/18
   );
+
+  static TextStyle StyleHeaderApp =  TextStyle(
+      fontSize: 20.0.sp,
+      fontWeight: FontWeight.w700,
+      color: Color(0xFF7A7A7A),
+      height: 25/20
+  );
+
+  static TextStyle StyleBodyChartEmptyData =  TextStyle(
+      fontSize: 20.0.sp,
+      fontWeight: FontWeight.w500,
+      color: Color(0xFF6C6C6C),
+      height: 25/20
+  );
+
+  static TextStyle IosTextPickTime =  TextStyle(
+      fontSize: 16.0.sp,
+      fontWeight: FontWeight.w400,
+      color: Color(0xFF7A7A7A),
+      height: 20/16
+  );
 }
+

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -152,33 +153,50 @@ class AppDialog extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: AppButton(
-            onPressed: secondButtonCallback,
+          child: ButtonIos3D(
+            onPress: secondButtonCallback,
+            dropRadius: 10,
+            offsetDrop: Offset.zero,
+            dropColor: Colors.black.withOpacity(0.25),
+            innerColor: Colors.black.withOpacity(0.25),
+            innerRadius: 4,
+            offsetInner: const Offset(0,-4),
+
+
             height: 60.0.sp,
             width: Get.width,
-            text: secondButtonText,
-            color: AppColor.red,
-            radius: 10.0.sp,
-            child: Text(
-              secondButtonText ?? '',
-              textAlign: TextAlign.center,
-              style: textStyle24700(),
+            backgroundColor: const Color(0xFFFF6464),
+            radius: 20.0.sp,
+            child: Center(
+              child: Text(
+                secondButtonText ?? '',
+                textAlign: TextAlign.center,
+                style: textStyle24700(),
+              ),
             ),
           ),
         ),
         SizedBox(width: 8.0.sp),
         Expanded(
-          child: AppButton(
+          child: ButtonIos3D(
             height: 60.0.sp,
             width: Get.width,
-            onPressed: firstButtonCallback ?? Get.back,
-            text: firstButtonText,
-            color: AppColor.primaryColor,
-            radius: 10.0.sp,
-            child: Text(
-              firstButtonText,
-              textAlign: TextAlign.center,
-              style: textStyle24700(),
+            onPress: firstButtonCallback ?? Get.back,
+            // text: firstButtonText,
+            backgroundColor: const Color(0xFF5298EB),
+            dropRadius: 10,
+            offsetDrop: Offset.zero,
+            dropColor: Colors.black.withOpacity(0.25),
+            innerColor: Colors.black.withOpacity(0.25),
+            innerRadius: 4,
+            offsetInner: const Offset(0,-4),
+            radius: 20.0.sp,
+            child: Center(
+              child: Text(
+                firstButtonText,
+                textAlign: TextAlign.center,
+                style: textStyle24700(),
+              ),
             ),
           ),
         ),
@@ -227,8 +245,7 @@ class AppDialog extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: textStyle20700()
                                     .merge(const TextStyle(
-                                        color: AppColor
-                                            .black)),
+                                        color: const Color(0xFF7A7A7A))),
                               )
                             : const SizedBox.shrink(),
                         (message ?? '').isNotEmpty
@@ -241,8 +258,8 @@ class AppDialog extends StatelessWidget {
                                       TextAlign.center,
                                   style: TextStyle(
                                     color:
-                                        AppColor.grayText,
-                                    fontSize: 16.0.sp,
+                                        const Color(0xFF7A7A7A),
+                                    fontSize: 20.0.sp,
                                     fontWeight:
                                         FontWeight.w400,
                                     fontFamily: 'Roboto',

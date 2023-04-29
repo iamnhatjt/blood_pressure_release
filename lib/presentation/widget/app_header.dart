@@ -44,7 +44,7 @@ class AppHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? EdgeInsets.fromLTRB(0.0, MediaQuery.of(context).padding.top + 16.0.sp, 0.0, 16.0.sp),
+      padding: padding ?? EdgeInsets.fromLTRB(0.0, MediaQuery.of(context).padding.top + 16.0.sp, 0.0, 4.0.sp),
       color: decoration == null ? backgroundColor ?? Colors.transparent : null,
       decoration: decoration,
       child: Column(

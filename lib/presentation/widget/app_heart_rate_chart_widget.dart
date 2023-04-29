@@ -38,7 +38,7 @@ class AppHeartRateChartWidget extends StatelessWidget {
     listFlSpot.sort((a, b) => a.x.compareTo(b.x));
     return LineChartBarData(
       isCurved: true,
-      color: AppColor.black,
+      color: const Color(0xFF92B6CA),
       barWidth: 1,
       isStrokeCapRound: true,
       dotData: FlDotData(
@@ -53,14 +53,18 @@ class AppHeartRateChartWidget extends StatelessWidget {
             } else {
               color = AppColor.green;
             }
+            color = const Color(0xFF40A4FF);
+            print('selectedX $selectedX' );
+
             return FlDotCirclePainter(
               radius: 7.0.sp,
-              color: (selectedX ?? 0) == 0 &&
-                      spotValue.x == listFlSpot.last.x
-                  ? AppColor.gold
-                  : selectedX == spotValue.x
-                      ? AppColor.gold
-                      : color,
+              // color: (selectedX ?? 0) == 0 &&
+              //         spotValue.x == listFlSpot.last.x
+              //     ? AppColor.gold
+              //     : selectedX == spotValue.x
+              //         ? AppColor.gold
+              //         : color,
+              color: color,
               strokeColor: Colors.transparent,
               strokeWidth: 1,
             );
@@ -70,9 +74,23 @@ class AppHeartRateChartWidget extends StatelessWidget {
     );
   }
 
+
+
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
+    
     TextStyle style = TextStyle(
-      color: AppColor.black,
+      color: const Color(0xFF6F6F6F),
+      fontWeight: FontWeight.w500,
+      fontSize: 12.0.sp,
+    );
+
+    double? checkNumber = selectedX == 0 ? 1 : selectedX;
+
+
+
+
+    TextStyle stylehover = TextStyle(
+      color: const Color(0xFFFFFFFF) ,
       fontWeight: FontWeight.w500,
       fontSize: 12.0.sp,
     );
@@ -85,8 +103,8 @@ class AppHeartRateChartWidget extends StatelessWidget {
         for (final item in listChartData!) {
           if (dateTime.isAtSameMomentAs(item['date'])) {
             text = Text(
-                DateFormat('dd/MM').format(dateTime),
-                style: style);
+                DateFormat('dd/MM').format(dateTime).replaceAll('/', ' - '),
+                style: ( checkNumber?? 1)  == value ? stylehover : style);
             break;
           }
         }
@@ -97,8 +115,18 @@ class AppHeartRateChartWidget extends StatelessWidget {
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 10.0.sp,
-      child: text,
+      space: 1.0.sp,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color:  ( checkNumber  ?? 1) == value  ? const Color(0xFF40A4FF) :  Colors.transparent  ,
+
+        ),
+        child: Container(
+          padding:  EdgeInsets.symmetric(vertical: 4.0.sp, horizontal: 8.0.sp),
+          child: text,
+        ),
+      ),
     );
   }
 
@@ -174,13 +202,13 @@ class AppHeartRateChartWidget extends StatelessWidget {
           }
           const lineStrokeWidth = 4.0;
           final flLine = FlLine(
-              color: lineColor,
+              color: const Color(0xFF92B6CA),
               strokeWidth: lineStrokeWidth);
           final dotData = FlDotData(
               getDotPainter: (spot, percent, bar, index) =>
                   FlDotCirclePainter(
                     radius: 7.0.sp,
-                    color: Colors.transparent,
+                    color: const Color(0xFF40A4FF),
                     strokeColor: Colors.transparent,
                   ));
 
@@ -189,8 +217,17 @@ class AppHeartRateChartWidget extends StatelessWidget {
       });
 
   FlGridData get gridData => FlGridData(
-        drawHorizontalLine: true,
-        drawVerticalLine: false,
+    drawHorizontalLine: true,
+    drawVerticalLine: false,
+    getDrawingHorizontalLine: (value) => FlLine(
+      color: const Color(0xFFCDD6E9),
+      strokeWidth: 1,
+      dashArray: null, // thiết lập đường nét liền
+    ),
+
+
+
+        // drawVerticalLine: true,
       );
 
   FlTitlesData get titlesData1 => FlTitlesData(
