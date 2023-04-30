@@ -148,7 +148,7 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
             : initialAge;
     showAppDialog(
       context,
-      TranslationConstants.choseYourAge.tr,
+      'Choose Your Age',
       '',
       hideGroupButton: true,
       widgetBody: AppDialogAgeWidget(
@@ -169,7 +169,7 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
         element['id'] == (_appController.currentUser.value.genderId ?? '0'));
     showAppDialog(
       context,
-      TranslationConstants.choseYourAge.tr,
+      'Choose your gender',
       '',
       hideGroupButton: true,
       widgetBody: AppDialogGenderWidget(

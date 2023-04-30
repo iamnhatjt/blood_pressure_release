@@ -9,7 +9,7 @@ extension HeightUnitExtension on HeightUnit {
       case HeightUnit.cm:
         return "cm";
       case HeightUnit.ftIn:
-        return "fit . in";
+        return "fit";
     }
   }
 

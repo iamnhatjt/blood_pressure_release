@@ -72,7 +72,7 @@ const enStrings = {
   "delete": "Delete",
   "deleteData": "Delete data",
   "deleteDataConfirm": "Do you want to delete this data?",
-  "addYourRecordToSeeStatisitcs": "Add your record to see statisitcs",
+  "addYourRecordToSeeStatisitcs": "Add your record to see\n statisitcs",
   "systolic": "Systolic",
   "diastolic": "Diastolic",
   "hypotension": "Hypotension",

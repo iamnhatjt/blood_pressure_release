@@ -39,7 +39,7 @@ class EmptyWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 52.sp),
                 child: Text(
                   message,
-                  style: textStyle20700().copyWith(color: AppColor.black),
+                  style:  IosTextStyle.StyleBodyChartEmptyData.copyWith(fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
               ),

@@ -61,7 +61,7 @@ class HomeLineChartWidget extends StatelessWidget {
     listFlSpot.sort((a, b) => a.x.compareTo(b.x));
     return LineChartBarData(
       isCurved: true,
-      color: AppColor.black,
+      color:const Color(0xFF92B6CA),
       barWidth: 1,
       isStrokeCapRound: true,
       dotData: FlDotData(
@@ -86,14 +86,15 @@ class HomeLineChartWidget extends StatelessWidget {
     } else {
       color = AppColor.green;
     }
+    color = const Color(0xFF40A4FF);
     return FlDotCirclePainter(
       radius: 7.0.sp,
       color: (selectedX ?? 0) == 0 &&
               spotValue.x ==
                   lineChartBarDataValue.spots.last.x
-          ? AppColor.gold
+          ? color
           : selectedX == spotValue.x
-              ? AppColor.gold
+              ? color
               : color,
       strokeColor: Colors.transparent,
       strokeWidth: 1,
@@ -102,10 +103,23 @@ class HomeLineChartWidget extends StatelessWidget {
 
   Widget _bottomTitleWidgets(double value, TitleMeta meta) {
     TextStyle style = TextStyle(
-      color: AppColor.black,
+      color: const Color(0xFF6F6F6F),
+
       fontWeight: FontWeight.w500,
       fontSize: 12.0.sp,
     );
+
+    TextStyle styleHover = TextStyle(
+      color: Colors.white,
+
+      fontWeight: FontWeight.w500,
+      fontSize: 12.0.sp,
+    );
+
+
+    int checkNumber = selectedX == 0 ? 1 : selectedX;
+    print('selectx $selectedX, value $value, length: ${listChartData!.length}');
+
     Widget text = const SizedBox.shrink();
     DateTime dateTime = DateTime(
         minDate!.year, minDate!.month, minDate!.day);
@@ -115,8 +129,8 @@ class HomeLineChartWidget extends StatelessWidget {
         for (final item in listChartData!) {
           if (dateTime.isAtSameMomentAs(item['date'])) {
             text = Text(
-                DateFormat('dd/MM').format(dateTime),
-                style: style);
+                DateFormat('dd - MM').format(dateTime),
+                style:  checkNumber == value ? styleHover:  style);
             break;
           }
         }
@@ -127,15 +141,21 @@ class HomeLineChartWidget extends StatelessWidget {
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 10.0.sp,
-      child: text,
+      space: 4.0.sp,
+      child: Container(
+          padding: checkNumber == value ? EdgeInsets.symmetric(vertical: 4.0.sp, horizontal: 8.0.sp) : EdgeInsets.symmetric(vertical: 4.0.sp),
+          decoration: BoxDecoration(
+            color: checkNumber == value ?const Color(0xFF40A4FF) : const Color(0xFFFFFFFF),
+            borderRadius: BorderRadius.circular(6)
+          ),
+          child: text),
     );
   }
 
   Widget _leftTitleWidgets(double value, TitleMeta meta) {
     TextStyle style = TextStyle(
-      color: AppColor.black,
-      fontWeight: FontWeight.w400,
+      color: const Color(0xFF6E6E6E),
+      fontWeight: FontWeight.w500,
       fontSize: 12.0.sp,
     );
     String text;
@@ -159,8 +179,12 @@ class HomeLineChartWidget extends StatelessWidget {
         return const SizedBox.shrink();
     }
 
-    return Text(text,
-        style: style, textAlign: TextAlign.center);
+    return Container(
+
+      padding:  EdgeInsets.symmetric(vertical: 5.0.sp, horizontal: 8.0.sp),
+      child: Text(text,
+          style: style, textAlign: TextAlign.center),
+    );
   }
 
   SideTitles _leftTitles() => SideTitles(
@@ -240,11 +264,13 @@ class HomeLineChartWidget extends StatelessWidget {
   }
 
   FlGridData get _gridData => FlGridData(
+
+
         drawHorizontalLine: true,
         drawVerticalLine: false,
         horizontalInterval: horizontalInterval ?? 5,
         getDrawingHorizontalLine: (value) => FlLine(
-          color: AppColor.gray2,
+          color:const Color(0xFFCDD6E9),
           strokeWidth: 1.sp,
         ),
       );
@@ -286,12 +312,15 @@ class HomeLineChartWidget extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Container(
           width:
+
               (maxDate!.difference(minDate!).inDays + 2) *
                   40.0.sp,
           constraints:
               BoxConstraints(minWidth: Get.width / 7 * 6),
           child: LineChart(
             LineChartData(
+
+              backgroundColor: Colors.transparent,
               lineTouchData: _lineTouchData1,
               gridData: _gridData,
               titlesData: _titlesData1,

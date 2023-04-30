@@ -49,16 +49,7 @@ class LineChartTitleWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding:
-                EdgeInsets.only(top: 20.sp, left: 20.sp),
-            child: Text(
-              title,
-              style: textStyle18500().copyWith(
-                color: AppColor.black,
-              ),
-            ),
-          ),
+
           Expanded(
             child: HomeLineChartWidget(
               listChartData: listChartData,

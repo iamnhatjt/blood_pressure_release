@@ -28,6 +28,7 @@ import '../../../widget/snack_bar/app_snack_bar.dart';
 
 class WeightBMIController extends GetxController with DateTimeMixin, AlarmDialogMixin {
   final RxBool isExporting = false.obs;
+  final RxBool isWeight = true.obs;
   late BuildContext context;
   RxList<BMIModel> bmiList = <BMIModel>[].obs;
   Rx<BMIModel> currentBMI = BMIModel().obs;
@@ -55,6 +56,13 @@ class WeightBMIController extends GetxController with DateTimeMixin, AlarmDialog
     filterWeightBMI();
     _getWeightUnit();
     super.onInit();
+  }
+
+  void ChangeToWeight(){
+    isWeight.value = true;
+  }
+  void ChangeToBMI(){
+    isWeight.value = false;
   }
 
   void _getWeightUnit() {
@@ -219,8 +227,20 @@ class WeightBMIController extends GetxController with DateTimeMixin, AlarmDialog
   }
 
   void onDeleteBMI() async {
-    await _bmiUsecase.deleteBMI(currentBMI.value.key ?? '');
-    filterWeightBMI();
-    showTopSnackBar(context, message: TranslationConstants.deleteDataSuccess.tr, type: SnackBarType.done);
+    showAppDialog(
+      context,
+      TranslationConstants.deleteData.tr,
+      TranslationConstants.deleteDataConfirm.tr,
+      firstButtonText: TranslationConstants.delete.tr,
+      firstButtonCallback: () async {
+        Get.back();
+        await _bmiUsecase.deleteBMI(currentBMI.value.key ?? '');
+        filterWeightBMI();
+        showTopSnackBar(context, message: TranslationConstants.deleteDataSuccess.tr, type: SnackBarType.done);
+      },
+      secondButtonText: TranslationConstants.cancel.tr,
+      secondButtonCallback: Get.back,
+    );
+
   }
 }

@@ -74,9 +74,9 @@ class HandleSafeAndAdd extends StatelessWidget {
     return ButtonIos3D(
       backgroundColor: const Color(0xFF5298EB),
         onPress: onPress,
-        dropColor: Colors.black.withOpacity(0.25),
+        dropColor: Colors.black.withOpacity(0.15),
         // dropRadius:,
-        innerColor: Colors.black.withOpacity(0.15),
+        innerColor: Colors.black.withOpacity(0.25),
         offsetDrop: const Offset(0, 0),
         offsetInner: const Offset(0, -4),
         innerRadius: 4,

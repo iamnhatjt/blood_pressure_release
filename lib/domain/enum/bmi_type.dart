@@ -125,23 +125,51 @@ extension BMITypeExtension on BMIType {
   Color get color {
     switch (this) {
       case BMIType.verySeverelyUnderweight:
-        return AppColor.violet;
+        return const Color(0XFFF6E7FF);
       case BMIType.severelyUnderweight:
-        return AppColor.deepViolet;
+        return const Color(0XFFC7E0FF);
       case BMIType.underweight:
-        return AppColor.primaryColor;
+        return const Color(0XFFC7E0FF);
       case BMIType.normal:
-        return AppColor.green;
+        return const Color(0XFFE1FFC2);
       case BMIType.overweight:
-        return AppColor.gold;
+        return const Color(0XFFFFF4CF);
       case BMIType.obeseClassI:
-        return AppColor.lightOrange;
+        return const Color(0xFFFFE1B4);
       case BMIType.obeseClassII:
-        return AppColor.orange;
+        return const Color(0XFFFFE1D3);
       case BMIType.obeseClassIII:
-        return AppColor.lightRed;
+        return const Color(0XFFFFD3D3);
     }
   }
+
+  Color get colorText {
+    switch (this) {
+      case BMIType.verySeverelyUnderweight:
+        return const Color(0xFFB152EB);
+      case BMIType.severelyUnderweight:
+        return const Color(0xFF5298EB);
+
+      case BMIType.underweight:
+        return const Color(0xFF5298EB);
+
+      case BMIType.normal:
+        return const Color(0xFF0B8C10);
+
+      case BMIType.overweight:
+        return const Color(0xFFE4A604);
+
+      case BMIType.obeseClassI:
+        return const Color(0xFFFF9900);
+
+      case BMIType.obeseClassII:
+        return const Color(0xFFFF7020);
+
+      case BMIType.obeseClassIII:
+        return const Color(0xFFFF0000);
+    }
+  }
+
 
   int get id {
     switch (this) {

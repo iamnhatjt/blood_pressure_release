@@ -7,6 +7,7 @@ import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/app_dialog.dart';
 import 'package:bloodpressure/presentation/widget/app_touchable.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -44,27 +45,44 @@ class AddDataDialog extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 6.sp),
       child: Row(
         children: [
-          AppTouchable(
-              onPressed: onSelectDate,
-              backgroundColor: AppColor.lightGray,
-              padding: EdgeInsets.symmetric(
-                  vertical: 8.sp, horizontal: 28.sp),
+          ButtonIos3D(
+              innerColor: Colors.black.withOpacity(0.15),
+              innerRadius: 4,
+              offsetInner: const Offset(0, -2),
+              dropColor: Colors.black.withOpacity(0.25),
+              offsetDrop: const Offset(0, 1),
+              radius: 10,
+              onPress: onSelectDate,
+
               child: Obx(
-                () => Text(
-                  rxStrDate.value,
-                  style: textStyle18500(),
+                () => Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 8.sp, horizontal: 28.sp),
+                  child: Text(
+                    rxStrDate.value,
+                    style: IosTextStyle.f16w500wb,
+                  ),
                 ),
               )),
           const Spacer(),
-          AppTouchable(
-              onPressed: onSelectTime,
-              backgroundColor: AppColor.lightGray,
-              padding: EdgeInsets.symmetric(
-                  vertical: 8.sp, horizontal: 20.sp),
+          ButtonIos3D(
+              innerColor: Colors.black.withOpacity(0.15),
+              innerRadius: 4,
+              offsetInner: const Offset(0, -2),
+              dropColor: Colors.black.withOpacity(0.25),
+              offsetDrop: const Offset(0, 1),
+              radius: 10,
+
+              onPress: onSelectTime,
+
               child: Obx(
-                () => Text(
-                  rxStrTime.value,
-                  style: textStyle18500(),
+                () => Container(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 8.sp, horizontal: 20.sp),
+                  child: Text(
+                    rxStrTime.value,
+                    style: IosTextStyle.f16w500wb,
+                  ),
                 ),
               )),
         ],

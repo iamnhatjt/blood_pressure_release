@@ -74,8 +74,8 @@ class BloodSugarDataWidget
 
     return FittedBox(
       child: Text(text,
-          style: textStyle12400().copyWith(
-            color: AppColor.black,
+          style: textStyle12500().copyWith(
+            color: const Color(0xFF6E6E6E),
           ),
           textAlign: TextAlign.center),
     );
