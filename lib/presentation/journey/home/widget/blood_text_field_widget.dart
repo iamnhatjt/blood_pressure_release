@@ -38,12 +38,13 @@ class _BloodTextFieldWidgetState
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColor.lightGray,
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(9.sp),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(9.sp),
         child: Center(
           child: TextFormField(
+
             focusNode: focus,
             controller: widget.controller,
             cursorColor: AppColor.primaryColor,
@@ -52,15 +53,17 @@ class _BloodTextFieldWidgetState
             expands: true,
             inputFormatters: widget.inputFormatters,
             style: ThemeText.headline4.copyWith(
-                fontSize: 30.sp,
-                fontWeight: FontWeight.w600),
+                fontSize: 36.sp,
+                fontWeight: FontWeight.w600,
+              color: const Color(0xFF40A4FF)
+            ),
             keyboardType:
                 const TextInputType.numberWithOptions(
                     decimal: true),
             onChanged: (value) => widget.onChanged,
             decoration: InputDecoration(
+              fillColor: Colors.transparent,
                 filled: true,
-                fillColor: AppColor.lightGray,
                 isDense: true,
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 16.sp),

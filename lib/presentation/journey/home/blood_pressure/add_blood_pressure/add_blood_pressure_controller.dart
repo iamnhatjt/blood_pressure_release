@@ -14,8 +14,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../common/constants/app_route.dart';
 import '../../../../../common/constants/enums.dart';
 import '../../../../../common/util/translation/app_translation.dart';
+import '../../../../../domain/model/user_model.dart';
 import '../../../../widget/app_dialog.dart';
+import '../../../../widget/app_dialog_age_widget.dart';
+import '../../../../widget/app_dialog_gender_widget.dart';
 import '../../../../widget/snack_bar/app_snack_bar.dart';
+import '../blood_pressure_controller.dart';
 import 'widget/blood_pressure_info_widget.dart';
 
 class AddBloodPressureController extends GetxController with DateTimeMixin {
@@ -31,6 +35,11 @@ class AddBloodPressureController extends GetxController with DateTimeMixin {
   Rx<DateTime> bloodPressureDate = DateTime.now().obs;
   RxBool isLoading = false.obs;
   final _appController = Get.find<AppController>();
+  RxInt age = (Get.find<AppController>().currentUser.value.age ?? 30).obs;
+  RxMap gender = AppConstant.listGender
+      .firstWhere((element) => element['id'] == Get.find<AppController>().currentUser.value.genderId,
+      orElse: () => AppConstant.listGender[0])
+      .obs;
 
   BloodPressureModel? _bloodPressure;
 
@@ -43,6 +52,66 @@ class AddBloodPressureController extends GetxController with DateTimeMixin {
     _updateDateTimeString(bloodPressureDate.value);
     super.onInit();
   }
+
+
+  void onPressedAge() {
+    Get.back();
+    age.value = age.value < 2
+        ? 2
+        : age.value > 110
+        ? 110
+        : age.value;
+    showAppDialog(
+      context,
+      TranslationConstants.choseYourAge.tr,
+      '',
+      hideGroupButton: true,
+      widgetBody: AppDialogAgeWidget(
+        initialAge: age.value,
+        onPressCancel:(){
+          Get.back();
+          Get.find<BloodPressureController>().onAddData();
+        },
+        onPressSave: (value) {
+          Get.back();
+          Get.find<BloodPressureController>().onAddData();
+
+          _appController.updateUser(UserModel(age: value, genderId: _appController.currentUser.value.genderId ?? '0'));
+          age.value = value;
+        },
+      ),
+    );
+  }
+
+  void onPressGender() {
+    Get.back();
+    showAppDialog(
+      context,
+      TranslationConstants.choseYourAge.tr,
+      '',
+      hideGroupButton: true,
+      widgetBody: AppDialogGenderWidget(
+        initialGender: gender,
+        onPressCancel: (){
+          Get.back();
+          Get.find<BloodPressureController>().onAddData();
+
+        },
+        onPressSave: (value) {
+          Get.back();
+          Get.find<BloodPressureController>().onAddData();
+
+          if (value == gender.value) {
+            return;
+          }
+          _appController
+              .updateUser(UserModel(age: _appController.currentUser.value.age ?? 30, genderId: value['id'] ?? '0'));
+          gender.value = value;
+        },
+      ),
+    );
+  }
+
 
   void onEdit(BloodPressureModel bloodPressureModel) {
     _bloodPressure = bloodPressureModel;

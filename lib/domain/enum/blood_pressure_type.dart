@@ -124,17 +124,42 @@ extension BloodPressureTypeExtension on BloodPressureType {
   Color get color {
     switch (this) {
       case BloodPressureType.hypotension:
-        return AppColor.primaryColor;
+        return Color(0xFFC7E0FF);
       case BloodPressureType.normal:
-        return AppColor.green;
+        return Color(0xFFE1FFC2);
+
       case BloodPressureType.elevated:
-        return AppColor.gold;
+        return Color(0xFFFFF4CF);
+
       case BloodPressureType.hypertensionStage1:
-        return AppColor.lightOrange;
+        return Color(0xFFFFE1B4);
+
       case BloodPressureType.hypertensionStage2:
-        return AppColor.orange;
+        return Color(0xFFFFE1D3);
+
       case BloodPressureType.hypertensionCrisis:
-        return AppColor.lightRed;
+        return Color(0xFFFFD3D3);
+    }
+  }
+
+  Color get colorText {
+    switch (this) {
+      case BloodPressureType.hypotension:
+        return Color(0xFF5298EB);
+      case BloodPressureType.normal:
+        return Color(0xFF0B8C10);
+
+      case BloodPressureType.elevated:
+        return Color(0xFFE4A604);
+
+      case BloodPressureType.hypertensionStage1:
+        return Color(0xFFFF9900);
+
+      case BloodPressureType.hypertensionStage2:
+        return Color(0xFFFF7020);
+
+      case BloodPressureType.hypertensionCrisis:
+        return Color(0xFFFF0000);
     }
   }
 }

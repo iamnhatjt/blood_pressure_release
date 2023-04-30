@@ -7,6 +7,8 @@ import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/app_image_widget.dart';
 import 'package:bloodpressure/presentation/widget/app_touchable.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -18,22 +20,24 @@ class BloodSugarDetailWidget extends GetWidget<BloodSugarController> {
   @override
   Widget build(BuildContext context) {
     var appController = Get.find<AppController>();
-    return AppTouchable(
-      onPressed: () => controller.onEdited(controller.selectedBloodSugar.value),
+    return ButtonIos3D.onlyInner(
+      backgroundColor: Colors.white,
+      innerColor: const Color(0xFF89C7FF),
+      radius: 16,
+      offsetInner: const Offset(0, 0),
+      onPress: () => controller.onEdited(controller.selectedBloodSugar.value),
       child: Container(
         width: Get.width,
-        padding: EdgeInsets.all(14.sp).copyWith(top: 24.sp),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.fill, image: AssetImage(AppImage.ic_box)),
-        ),
+        padding: EdgeInsets.symmetric( horizontal: 14.sp, vertical: 8.0.sp),
+
         child: Obx(
           () => Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       DateFormat(
@@ -43,9 +47,7 @@ class BloodSugarDetailWidget extends GetWidget<BloodSugarController> {
                         DateTime.fromMillisecondsSinceEpoch(
                             controller.selectedBloodSugar.value.dateTime!),
                       ),
-                      style: ThemeText.subtitle2.copyWith(
-                        color: AppColor.black,
-                      ),
+                      style: IosTextStyle.f16w500wb.copyWith(fontSize: 14)
                     ),
                     SizedBox(
                       height: 2.sp,
@@ -55,16 +57,15 @@ class BloodSugarDetailWidget extends GetWidget<BloodSugarController> {
                               appController.currentLocale.languageCode)
                           .format(DateTime.fromMillisecondsSinceEpoch(
                               controller.selectedBloodSugar.value.dateTime!)),
-                      style: ThemeText.subtitle2.copyWith(
-                        color: AppColor.black,
-                      ),
-                    )
+                        style: IosTextStyle.f16w500wb.copyWith(fontSize: 14)
+
+                    ),
+
                   ],
                 ),
               ),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -72,62 +73,55 @@ class BloodSugarDetailWidget extends GetWidget<BloodSugarController> {
                       '${controller.selectedBloodSugar.value.measure}',
                       style: ThemeText.headline4.copyWith(
                           fontSize: 36.sp,
-                          color: AppColor.black,
+                          color: const Color(0xFF606060),
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
                       '${controller.selectedBloodSugar.value.unit}',
-                      style: ThemeText.subtitle2.copyWith(
-                        color: AppColor.black,
-                      ),
+                      style: IosTextStyle.f14w400wb.copyWith(fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
                       height: 2.sp,
                     ),
                     Text(
                       "${TranslationConstants.bloodSugarState.tr}: ${bloodSugarStateDisplayMap[controller.selectedBloodSugar.value.stateCode]!}",
-                      style: ThemeText.subtitle2.copyWith(
-                        color: AppColor.black,
-                      ),
+                      style: IosTextStyle.f14w400wb.copyWith(fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center,
                     )
                   ],
                 ),
               ),
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: bloodSugarInfoColorMap[
-                            controller.selectedBloodSugar.value.infoCode],
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                      ),
-                      padding: EdgeInsets.all(6.sp),
-                      child: Text(
-                        bloodSugarInfoDisplayMap[
-                            controller.selectedBloodSugar.value.infoCode]!,
-                        style: textStyle20600().copyWith(
-                          color: AppColor.white,
+                    Icon(
+                      CupertinoIcons.heart_fill,
+                      color: bloodSugarInfoColorMap[
+                      controller.selectedBloodSugar.value.infoCode],
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: 60.0.sp,
+                        child: Text(
+                          bloodSugarInfoDisplayMap[
+                          controller.selectedBloodSugar.value.infoCode]!,
+                          style: const TextStyle(
+                              overflow: TextOverflow.visible,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF646464)),
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(
-                      height: 8.sp,
-                    ),
-                    AppTouchable(
-                      width: 40.0.sp,
-                      height: 40.0.sp,
-                      onPressed: () => controller
-                          .onDeleted(controller.selectedBloodSugar.value.key!),
-                      child: AppImageWidget.asset(
-                        path: AppImage.ic_del,
-                      ),
-                    ),
+                    GestureDetector(
+                        onTap:  () => controller
+                            .onDeleted(controller.selectedBloodSugar.value.key!),
+
+                        child: const Icon(
+                          CupertinoIcons.delete_solid,
+                          color: Color(0xFFFF7070),
+                        )),
                   ],
                 ),
               )

@@ -2,6 +2,7 @@ import 'package:bloodpressure/common/util/translation/app_translation.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/container_widget.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -21,21 +22,27 @@ class SystolicDiastolicWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ContainerWidget(
-      padding: EdgeInsets.symmetric(
-          vertical: 10.sp, horizontal: 20.sp),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _ItemWidget(
-              title: TranslationConstants.systolic.tr,
-              min: systolicMin,
-              max: systolicMax),
-          _ItemWidget(
-              title: TranslationConstants.diastolic.tr,
-              min: diastolicMin,
-              max: diastolicMax),
-        ],
+    return ButtonIos3D(
+      innerColor: const Color(0xFF89C7FF).withOpacity(0.5),
+      radius: 16,
+      offsetInner: const Offset(0, 0),
+
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            vertical: 10.sp, horizontal: 20.sp),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _ItemWidget(
+                title: TranslationConstants.systolic.tr,
+                min: systolicMin,
+                max: systolicMax),
+            _ItemWidget(
+                title: TranslationConstants.diastolic.tr,
+                min: diastolicMin,
+                max: diastolicMax),
+          ],
+        ),
       ),
     );
   }
@@ -61,8 +68,8 @@ class _ItemWidget extends StatelessWidget {
         FittedBox(
           child: Text(
             title,
-            style: textStyle18500()
-                .copyWith(color: AppColor.black),
+            style: textStyle18400()
+                .copyWith(color: const Color(0xFF646464)),
           ),
         ),
         SizedBox(
@@ -78,13 +85,13 @@ class _ItemWidget extends StatelessWidget {
                   child: Text(
                     TranslationConstants.min.tr,
                     style: textStyle14400()
-                        .copyWith(color: AppColor.black),
+                        .copyWith(color: const Color(0xFF646464)),
                   ),
                 ),
                 Text(
                   '$min',
                   style: textStyle24700()
-                      .copyWith(color: AppColor.black),
+                      .copyWith(color:const Color(0xFF646464)),
                 )
               ],
             ),
@@ -99,13 +106,13 @@ class _ItemWidget extends StatelessWidget {
                   child: Text(
                     TranslationConstants.max.tr,
                     style: textStyle14400()
-                        .copyWith(color: AppColor.black),
+                        .copyWith(color: const Color(0xFF646464)),
                   ),
                 ),
                 Text(
                   '$max',
                   style: textStyle24700()
-                      .copyWith(color: AppColor.black),
+                      .copyWith(color: const Color(0xFF646464)),
                 )
               ],
             ),

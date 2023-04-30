@@ -119,6 +119,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
                 }),
           ),
           Container(
+
             margin: EdgeInsets.symmetric(horizontal: 16.0.sp),
             child: ButtonIos3D.onlyInner(
               innerColor: const Color(0xFF89C7FF).withOpacity(0.5),

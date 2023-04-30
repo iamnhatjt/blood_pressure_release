@@ -30,11 +30,11 @@ class BloodPressureInfoWidget extends StatelessWidget {
               children: [
                 Text(
                   type.name,
-                  style: textStyle20600().copyWith(color: AppColor.white),
+                  style: textStyle20600().copyWith(color: type.colorText),
                 ),
                 Text(
                   type.messageRange,
-                  style: textStyle16400().copyWith(color: AppColor.white),
+                  style: textStyle16400().copyWith(color: type.colorText),
                 )
               ],
             ),

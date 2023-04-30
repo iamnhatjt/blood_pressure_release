@@ -15,7 +15,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../../domain/model/user_model.dart';
 import '../../../../controller/app_base_controller.dart';
+import '../../../../controller/app_controller.dart';
+import '../../../../widget/app_dialog.dart';
+import '../../../../widget/app_dialog_age_widget.dart';
+import '../../../../widget/app_dialog_gender_widget.dart';
+import '../blood_sugar_controller.dart';
 
 class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddDateTimeMixin, SelectStateMixin {
   final BloodSugarUseCase useCase;
@@ -25,6 +31,12 @@ class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddD
   RxString rxInfoCode = BloodSugarInformationCode.normalCode.obs;
   Rx<String?> rxInfoContent = bloodSugarInformationMgMap[BloodSugarInformationCode.lowCode].obs;
   Rx<TextEditingController> textEditController = TextEditingController(text: '80.0').obs;
+
+  RxMap gender = AppConstant.listGender
+      .firstWhere((element) => element['id'] == Get.find<AppController>().currentUser.value.genderId,
+      orElse: () => AppConstant.listGender[0])
+      .obs;
+  RxInt age = (Get.find<AppController>().currentUser.value.age ?? 30).obs;
 
   AddBloodSugarController(this.useCase);
 
@@ -151,4 +163,64 @@ class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddD
       callback();
     }
   }
+
+
+  void onPressedAge() {
+    Get.back();
+
+    age.value = age.value < 2
+        ? 2
+        : age.value > 110
+        ? 110
+        : age.value;
+    showAppDialog(
+      context,
+      TranslationConstants.choseYourAge.tr,
+      '',
+      hideGroupButton: true,
+      widgetBody: AppDialogAgeWidget(
+        initialAge: age.value,
+        onPressCancel:(){
+          Get.back();
+          Get.find<BloodSugarController>().onAddData();
+        },
+        onPressSave: (value) {
+          Get.back();
+          Get.find<BloodSugarController>().onAddData();
+
+          _appController.updateUser(UserModel(age: value, genderId: _appController.currentUser.value.genderId ?? '0'));
+          age.value = value;
+        },
+      ),
+    );
+  }
+
+  final _appController = Get.find<AppController>();
+  void onPressGender() {
+    Get.back();
+    showAppDialog(
+      context,
+      TranslationConstants.choseYourAge.tr,
+      '',
+      hideGroupButton: true,
+      widgetBody: AppDialogGenderWidget(
+        initialGender: gender,
+        onPressCancel: (){
+          Get.back();
+          Get.find<BloodSugarController>().onAddData();
+        },
+        onPressSave: (value) {
+          Get.back();
+          Get.find<BloodSugarController>().onAddData();
+          if (value == gender.value) {
+            return;
+          }
+          _appController
+              .updateUser(UserModel(age: _appController.currentUser.value.age ?? 30, genderId: value['id'] ?? '0'));
+          gender.value = value;
+        },
+      ),
+    );
+  }
+
 }

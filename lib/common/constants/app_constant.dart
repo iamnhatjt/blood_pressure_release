@@ -1,3 +1,4 @@
+
 import 'dart:ui';
 
 import 'package:get/get.dart';
@@ -30,6 +31,20 @@ class BloodSugarStateCode {
   static const String beforeWorkoutCode = "BEFORE_WORKOUT";
   static const String afterWorkoutCode = "AFTER_WORKOUT";
 }
+
+final Map<String, Color> bloodSugarInfoColorMap = {
+  BloodSugarInformationCode.lowCode:  Color(0xFFC7E0FF),
+  BloodSugarInformationCode.normalCode:  Color(0xFFE1FFC2),
+  BloodSugarInformationCode.preDiabetesCode:  Color(0xFFFFF4CF),
+  BloodSugarInformationCode.diabetesCode:  Color(0xFFFFD3D3),
+};
+
+final Map<String, Color> bloodSugarInfoColorTextMap = {
+  BloodSugarInformationCode.lowCode: const Color(0xFF5298EB),
+  BloodSugarInformationCode.normalCode: const Color(0xFF0B8C10),
+  BloodSugarInformationCode.preDiabetesCode: const Color(0xFFE4A604),
+  BloodSugarInformationCode.diabetesCode: const Color(0xFFFF0000),
+};
 
 final Map<String, String> bloodSugarStateDisplayMap = {
   BloodSugarStateCode.defaultCode: TranslationConstants.bloodSugarDefaultState.tr,
@@ -81,12 +96,7 @@ final Map<String, String> bloodSugarInformationMgMap = {
   BloodSugarInformationCode.diabetesCode: ">126",
 };
 
-final Map<String, Color> bloodSugarInfoColorMap = {
-  BloodSugarInformationCode.lowCode: AppColor.blue98EB,
-  BloodSugarInformationCode.normalCode: AppColor.green,
-  BloodSugarInformationCode.preDiabetesCode: AppColor.gold,
-  BloodSugarInformationCode.diabetesCode: AppColor.lightRed,
-};
+
 
 final Map<String, String> bloodSugarInfoDisplayMap = {
   BloodSugarInformationCode.lowCode: TranslationConstants.bloodSugarInforLow.tr,
