@@ -38,7 +38,7 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
     controller.context = context;
     return AppContainer(
 
-      isShowBanner: false,
+      isShowBanner: true,
       child: Column(
         children: [
           //header blood_sugaer
@@ -79,9 +79,9 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
 
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(bottom:  Radius.circular(16)),
-                color:  Color(0xFFF4FAFF),
+              decoration:  BoxDecoration(
+                borderRadius: const BorderRadius.vertical(bottom:  Radius.circular(16)),
+                color:  ! controller.rxIsEmptyList.value? Color(0xFFF4FAFF) : Colors.transparent,
 
               ),
               margin: EdgeInsets.symmetric(horizontal: 8.0.sp),

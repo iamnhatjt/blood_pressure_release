@@ -47,7 +47,7 @@ class EmptyWidget extends StatelessWidget {
             ],
           ),
         ),
-        BloodNativeAdsWidget(isPremium: isPremium,),
+        // BloodNativeAdsWidget(isPremium: isPremium,),
       ],
     );
   }

@@ -34,7 +34,7 @@ class BloodSugarDataWidget
             SizedBox(
               height: 12.sp,
             ),
-            ContainerWidget(
+            Container(
               height: 0.63 * Get.width,
               width: double.maxFinite,
               padding:

@@ -6,7 +6,7 @@
       "Glucose is an important part of our daily function. Our body uses it for energy but requires a hormone called insulin, which is produced by the pancreas. When someone has diabetes, the insulin produced does not work correctly, which leaves more glucose in the bloodstream.",
       "Diabetes or diabetes mellitus is a severe and complex condition. People with diabetes have to live with it for the rest of their lives since there is currently no cure."
     ],
-    "icon": "assets/image/svg/ic_blood_sugar_2.svg"
+    "icon": "assets/image/png/ic_blood_pressure_6.png"
   },
   {
     "title": "What is blood pressure?",
@@ -24,7 +24,7 @@
       "The normal blood sugar level for adults (without diabetes) who have not eaten for at least 8 hours (fasting) is less than 100 mg/dL. And the level for adults without diabetes two hours after eating is 90 to 110 mg/dL.",
       "Healthy blood sugar level for children under 6 years of age should be in the range of 80 to 200 mg/dL per day. The average blood sugar level of adolescents should be between 70 and 150 mg/dL during the day."
     ],
-    "icon": "assets/image/svg/ic_blood_sugar_3.svg"
+    "icon": "assets/image/png/ic_other_organs.png"
 
   },
   {
@@ -80,7 +80,7 @@
       "No individual has the same symptoms. What you experience won't exactly match those of another person. If you have any of the following symptoms, you should see a doctor to test your blood sugar.",
       "Feel very thirsty. Feel very hungry. Feel very tired· Urinate a lot, especially at night. Lose weight without trying. Have blurry vision Have cuts and wounds that heal slowly. Have numb or tingling hands or feet. Have more infections than usual. Have nausea, vomiting, or stomach pains (type 1 diabetes)"
     ],
-    "icon": "assets/image/png/ic_blood_question.png"
+    "icon": "assets/image/png/ic_blood_pressure_3.png"
   },
   {
     "title": "How Many Types of Diabetes are There?",
@@ -90,7 +90,7 @@
       "Type2 diabetes is more common in adults and accounts for around 90% of all diabetes cases. But with the proper treatment and care, people can do well with type 2 diabetes and reduce their risk of developing it.",
       "Gestational diabetes can develop during pregnancy, often seen in pre-diabetes and a family history of diabetes. Gestational diabetes mellitus usually disappears after pregnancy, but both affected women and their children are at increased risk of developing type 2 diabetes later in life."
     ],
-    "icon": "assets/image/svg/ic_blood_sugar_3.svg"
+    "icon": "assets/image/png/ic_heart_rate_6.png"
   },
   {
     "title": "How is blood pressure measured?",

@@ -29,7 +29,7 @@ class AppController extends SuperController {
   RxString userLocation = "US".obs;
 
   bool avoidShowOpenApp = false;
-  RxBool isPremiumFull = true.obs;
+  RxBool isPremiumFull = false.obs;
   StreamSubscription<dynamic>? _subscriptionIAP;
   RxList<ProductDetails> listProductDetailsSub = RxList();
   final List<ProductDetails> _listProductDetails = [];

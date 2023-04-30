@@ -1,6 +1,5 @@
 import 'package:bloodpressure/domain/model/bar_chart_data_model.dart';
 import 'package:bloodpressure/presentation/journey/home/widget/home_bar_chart_widget/chart_title_widget/chart_left_title_widget.dart';
-import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,7 +60,7 @@ class HomeBarChart extends StatelessWidget {
                 show: true,
                 drawVerticalLine: false,
                 getDrawingHorizontalLine: (value) => FlLine(
-                  color: AppColor.gray2,
+                  color: const Color(0xFF40A4FF),
                   strokeWidth: 1.sp,
                 ),
                 horizontalInterval: horizontalInterval,
@@ -92,7 +91,9 @@ class HomeBarChart extends StatelessWidget {
             reservedSize: 30.sp,
             getTitlesWidget: (value, meta) =>
                 ChartBottomTitleWidget(
-              minDate: minDate,
+                  selected: currentSelected,
+
+                  minDate: minDate,
               maxDate: maxDate,
               listChartData: listChartData,
               value: value,
@@ -168,11 +169,7 @@ class HomeBarChart extends StatelessWidget {
       chartRodDataList.add(BarChartRodData(
         toY: data.toY,
         fromY: data.fromY,
-        color: currentSelected == key &&
-                groupIndexSelected == i
-            ? AppColor.yellow
-            : AppColor.green,
-      ));
+        color:const Color(0xFF40A4FF)));
     }
     return chartRodDataList;
   }

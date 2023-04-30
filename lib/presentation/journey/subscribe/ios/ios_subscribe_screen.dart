@@ -1,122 +1,292 @@
-import 'package:bloodpressure/common/config/app_config.dart';
-import 'package:bloodpressure/common/constants/app_image.dart';
-import 'package:bloodpressure/common/constants/enums.dart';
 import 'package:bloodpressure/common/extensions/string_extension.dart';
-import 'package:bloodpressure/common/util/app_util.dart';
-import 'package:bloodpressure/common/util/translation/app_translation.dart';
-import 'package:bloodpressure/presentation/controller/app_controller.dart';
-import 'package:bloodpressure/presentation/journey/subscribe/ios/ios_subscribe_controller.dart';
-import 'package:bloodpressure/presentation/journey/subscribe/widgets/content_widget.dart';
-import 'package:bloodpressure/presentation/journey/subscribe/widgets/subscribe_button.dart';
-import 'package:bloodpressure/presentation/journey/subscribe/widgets/subscribe_screen.dart';
-import 'package:bloodpressure/presentation/theme/app_color.dart';
-import 'package:bloodpressure/presentation/theme/theme_text.dart';
-import 'package:bloodpressure/presentation/widget/app_image_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
+import '../../../../common/config/app_config.dart';
+import '../../../../common/constants/app_image.dart';
+import '../../../../common/constants/enums.dart';
+import '../../../../common/util/app_util.dart';
 import '../../../../common/util/disable_glow_behavior.dart';
+import '../../../../common/util/translation/app_translation.dart';
+import '../../../controller/app_controller.dart';
+import '../../../theme/app_color.dart';
+import '../../../theme/theme_text.dart';
+import '../../../widget/app_image_widget.dart';
+import '../../../widget/ios_cofig_widget/Button_ios_3d.dart';
+import '../../main/widgets/subscribe_button.dart';
+import '../widgets/content_widget.dart';
+import '../widgets/subscribe_screen.dart';
+import 'ios_subscribe_controller.dart';
 
 class IosSubscribeScreen extends GetView<IosSubscribeController> {
   const IosSubscribeScreen({super.key});
 
-  Widget _selectedSubscribeButton({required String title, String? content, bool? isSelected, Function()? onSelected}) {
-    return SubscribeButton(
-        height: 52.sp,
-        onPressed: onSelected,
-        child: SizedBox(
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(title, style: ThemeText.headline5.copyWith(color: AppColor.white, fontWeight: FontWeight.w500)),
-                  !isNullEmpty(content)
-                      ? Text(content!, style: ThemeText.caption.copyWith(color: AppColor.white, fontWeight: FontWeight.w500))
-                      : const SizedBox(),
-                ],
-              ),
-              AppImageWidget.asset(
-                path: isSelected == true ? AppImage.ic_select : AppImage.ic_unselect,
-                height: 20.sp,
-                width: 20.sp,
-              )
-            ],
+  Widget ButtonHandleBuyingYear(
+      {required isSelected,
+      required Null Function() onSlect,
+      required String priceType}) {
+    Color color = isSelected ? Colors.white : const Color(0xFF6D6D6D);
+    Color dropShawDow =
+        isSelected ? const Color(0xFF43BA29) : const Color(0xFFD9D9D9);
+    return GestureDetector(
+      onTap: onSlect,
+      child: Stack(
+        children: [
+          Container(
+            height: 136.0.sp,
+            width: 128.0.sp,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: dropShawDow,
+                    blurRadius: 10,
+                    offset: Offset(0, 0),
+                    spreadRadius: 2),
+                BoxShadow(color: Color(0xFFD9D9D9)),
+                BoxShadow(
+                    color: Color(0xFFFFFFFF),
+                    blurRadius: 10,
+                    spreadRadius: -0.1,
+                    offset: Offset(0, -4)),
+              ],
+              gradient: isSelected
+                  ? const LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [Color(0xFF68DF55), Color(0xFF31A714)])
+                  : null,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                Spacer(flex: 1),
+                Text(
+                  'Yearly',
+                  style: TextStyle(
+                      fontSize: 24.0.sp,
+                      fontWeight: FontWeight.w600,
+                      color: color),
+                ),
+                Spacer(flex: 1),
+                Text(
+                  priceType,
+                  style: TextStyle(
+                      fontSize: 28.0.sp,
+                      fontWeight: FontWeight.w600,
+                      color: color),
+                ),
+                SizedBox(height: 8.0.sp),
+                Text(
+                  chooseContentByLanguage('per week', 'một tuần'),
+                  style: TextStyle(
+                    fontSize: 14.0.sp,
+                    fontWeight: FontWeight.w400,
+                    color: color,
+                  ),
+                ),
+                Spacer(flex: 1),
+              ],
+            ),
           ),
-        ));
+          Align(
+            alignment: Alignment.centerRight,
+            child: Transform.translate(
+              offset: Offset(20.0.sp, -12.0.sp),
+              child: Container(
+                padding:
+                    EdgeInsets.symmetric(vertical: 6.0.sp, horizontal: 10.0.sp),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFB904),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(chooseContentByLanguage('BEST OFFER', 'TỐT NHẤT'),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12.0.sp,
+                      color: Colors.white,
+                    )),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget ButtonHandleTypeBuy(
+      {required title,
+        required String priceType,
+        required bool isSelected,
+        required Null Function() onSelected,
+        String? Subtitle}) {
+    String text = title;
+    String price = priceType;
+    Color color = isSelected ? Colors.white : const Color(0xFF6D6D6D);
+    Color dropShawDow =
+    isSelected ? const Color(0xFF43BA29) : const Color(0xFFD9D9D9);
+    return GestureDetector(
+      onTap: onSelected,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 12.0.sp),
+        height: 110.0.sp,
+        width: 100.0.sp,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                color: dropShawDow,
+                blurRadius: 4,
+                offset: Offset(0, 0),
+                spreadRadius: 2),
+            BoxShadow(color: Color(0xFFD9D9D9)),
+            const BoxShadow(
+                color: Color(0xFFFFFFFF),
+                blurRadius: 10,
+                spreadRadius: -0.1,
+                offset: Offset(0, -4)),
+          ],
+          gradient: isSelected
+              ? const LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xFF68DF55), Color(0xFF31A714)])
+              : null,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: [
+            Spacer(flex: 1),
+            Text(
+              text,
+              style: TextStyle(
+                  fontSize: 20.0.sp, fontWeight: FontWeight.w600, color: color),
+            ),
+            Spacer(flex: 1),
+            Text(
+              price,
+              style: TextStyle(
+                  fontSize: 20.0.sp, fontWeight: FontWeight.w600, color: color),
+            ),
+            Spacer(flex: 1),
+
+            Text(
+              Subtitle ?? '',
+              style: TextStyle(
+                fontSize: 12.0.sp,
+                fontWeight: FontWeight.w400,
+                color: color,
+              ),
+            ),
+            Spacer(flex: 1),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget GroupButtonHandleTypeBuy() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Obx(
+            () => ButtonHandleTypeBuy(
+              title: 'Weekly',
+              Subtitle: chooseContentByLanguage('per week', 'một tuần'),
+              priceType:
+                  " ${controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price}",
+              isSelected: controller.rxSelectedIdentifier.value ==
+                  AppConfig.premiumIdentifierWeekly,
+              onSelected: () {
+                controller
+                    .onSelectedIdentifier(AppConfig.premiumIdentifierWeekly);
+              },
+            ),
+          ),
+          Obx(
+            () => ButtonHandleBuyingYear(
+                priceType: controller.productDetailsYear.price == ''
+                    ? '\$0.62'
+                    : (controller.productDetailsYear.price.toDouble / 48)
+                        .toStringAsFixed(2)
+                        .toString(),
+                isSelected: controller.rxSelectedIdentifier.value ==
+                    AppConfig.premiumIdentifierYearly,
+                onSlect: () {
+                  controller
+                      .onSelectedIdentifier(AppConfig.premiumIdentifierYearly);
+                }),
+          ),
+          Obx(
+            () => ButtonHandleTypeBuy(
+              Subtitle: chooseContentByLanguage('per week', 'một tuần'),
+              title: 'Monthly',
+              priceType: controller.productDetailsMonth.price == ''
+                  ? '\$2.49'
+                  : (controller.productDetailsMonth.price.toDouble / 4)
+                      .toStringAsFixed(2)
+                      .toString(),
+              isSelected: controller.rxSelectedIdentifier.value ==
+                  AppConfig.premiumIdentifierMonth,
+              onSelected: () {
+                controller
+                    .onSelectedIdentifier(AppConfig.premiumIdentifierMonth);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _groupButtonWidget() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: EdgeInsets.only(left: 48.sp, right: 28.sp),
-          child: Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 12.sp, right: 20.sp),
-                child: Obx(
-                  () => _selectedSubscribeButton(
-                      isSelected: controller.rxSelectedIdentifier.value == AppConfig.premiumIdentifierYearly,
-                      onSelected: () {
-                        controller.onSelectedIdentifier(AppConfig.premiumIdentifierYearly);
-                      },
-                      title:
-                          "   ${controller.productDetailsYear.price == '' ? '\$29.99' : controller.productDetailsYear.price} ${TranslationConstants.perYear.tr}",
-                      // content:
-                      //     "     ${TranslationConstants.only.tr} ${getPriceOfWeek(controller.productDetailsYear.price == '' ? '29.99' : controller.productDetailsYear.price)} ${TranslationConstants.perWeek.tr}"
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  padding: EdgeInsets.all(4.sp),
-                  decoration: BoxDecoration(
-                      color: AppColor.white,
-                      borderRadius: BorderRadius.circular(3.sp),
-                      boxShadow: const [BoxShadow(color: AppColor.green, blurRadius: 10)]),
-                  child: Text(
-                    TranslationConstants.bestOffer.tr,
-                    style: ThemeText.caption.copyWith(fontWeight: FontWeight.w500, color: AppColor.green),
-                  ),
-                ),
-              )
-            ],
-          ),
+        //test button
+
+        GroupButtonHandleTypeBuy(),
+        SizedBox(
+          height: 12.0.sp,
+        ),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppImageWidget.asset(
+              path: AppImage.iosProtectImage,
+              height: 28,
+            ),
+            SizedBox(
+              width: 12.0.sp,
+            ),
+            Text(TranslationConstants.subscribeAutoRenewable.tr,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF646464),
+                )),
+          ],
         ),
         SizedBox(
-          height: 12.sp,
+          height: 12.0.sp,
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 48.sp),
-          child: Obx(
-            () => _selectedSubscribeButton(
-                isSelected: controller.rxSelectedIdentifier.value == AppConfig.premiumIdentifierWeekly,
-                onSelected: () {
-                  controller.onSelectedIdentifier(AppConfig.premiumIdentifierWeekly);
-                },
-                title:
-                    "   ${controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price} ${TranslationConstants.perWeek.tr}"),
-          ),
-        ),
-        SizedBox(
-          height: 12.sp,
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 48.sp),
-          child: Obx(
-            () => SubscribeButton(
-              onPressed: Get.find<AppController>().rxPurchaseStatus.value == PurchaseStatus.pending
+        //continue button
+
+        Obx(
+          () => Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0.sp),
+            child: SubscribeButton(
+              onPressed: Get.find<AppController>().rxPurchaseStatus.value ==
+                      PurchaseStatus.pending
                   ? null
                   : controller.onSubscribed,
-              child: Get.find<AppController>().rxPurchaseStatus.value == PurchaseStatus.pending
+              child: Get.find<AppController>().rxPurchaseStatus.value ==
+                      PurchaseStatus.pending
                   ? SizedBox(
                       height: 32.sp,
                       width: 32.sp,
@@ -125,23 +295,114 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                         strokeWidth: 2.sp,
                       ),
                     )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  : Stack(
                       children: [
-                        Text(
-                          TranslationConstants.continues.tr,
-                          style: ThemeText.headline5
-                              .copyWith(fontSize: 28.sp, fontWeight: FontWeight.w500, color: AppColor.white),
-                        ),
-                        Text(
-                          TranslationConstants.freeTrial.tr,
-                          style: ThemeText.caption.copyWith(color: AppColor.white),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 4.0.sp),
+                          child: Obx(() {
+                            String text_price_function() {
+                              String textPrice =
+                                  controller.productDetailsYear.price == ''
+                                      ? '\$29.99/year'
+                                      : controller.productDetailsYear.price;
+
+                              switch (controller.rxSelectedIdentifier.value) {
+                                case 'monthly':
+                                  return controller.productDetailsMonth.price ==
+                                          ''
+                                      ? '\$9.99/month'
+                                      : '${controller.productDetailsMonth.price}/month';
+                                case 'weekly':
+                                  return controller.productDetailsWeek.price ==
+                                          ''
+                                      ? '\$4.99/week'
+                                      : '${controller.productDetailsWeek.price}/week';
+                                case 'yearly':
+                                  return controller.productDetailsYear.price ==
+                                          ''
+                                      ? '\$29.99/year'
+                                      : '${controller.productDetailsYear.price}/year';
+                              }
+                              return textPrice;
+                            }
+
+                            return Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    TranslationConstants.continues.tr,
+                                    style: ThemeText.headline5.copyWith(
+                                        fontSize: 28.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColor.white),
+                                  ),
+                                  Text(
+                                    '${TranslationConstants.freeTrial.tr} ${chooseContentByLanguage(', then ', 'Sau Đó ')} ${text_price_function()}',
+                                    style: ThemeText.caption
+                                        .copyWith(color: AppColor.white),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
                         ),
                       ],
                     ),
             ),
           ),
+        )
+      ],
+    );
+  }
+
+  Widget _imuableElement() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppImageWidget.asset(
+          path: AppImage.iosPremiumImage,
+          height: 160.sp,
         ),
+        SizedBox(height: 20.sp),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 32.sp, vertical: 12.0.sp)
+              .copyWith(right: 20.0.sp),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ContentWidget(text: TranslationConstants.removeAds.tr),
+              ContentWidget(
+                  text: chooseContentByLanguage(
+                      'Check your inbody with BMI Calculator',
+                      'Kiểm tra cơ thể của bạn với Máy tính BMI')),
+              ContentWidget(
+                  text: chooseContentByLanguage('Access to Blood pressure log',
+                      'Truy cập Nhật ký huyết áp')),
+              ContentWidget(
+                  text: chooseContentByLanguage('Unlimited Heart Rate Measure',
+                      'Đo nhịp tim không giới hạn')),
+              ContentWidget(
+                  text: chooseContentByLanguage(
+                      'Track your Blood Sugar & Blood Pressure level',
+                      'Theo dõi lượng đường trong máu và huyết áp của bạn')),
+            ],
+          ),
+        ),
+        SizedBox(height: 40.sp),
+
+      ],
+    );
+  }
+
+  Widget _groupButtonHandleBuy() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(height: 8.sp),
+        _groupButtonWidget(),
       ],
     );
   }
@@ -151,7 +412,9 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
     return Obx(
       () => SubscribeScreen(
           padding: EdgeInsets.zero,
-          onRestored: controller.rxLoadedType.value == LoadedType.start ? null : controller.onRestored,
+          onRestored: controller.rxLoadedType.value == LoadedType.start
+              ? null
+              : controller.onRestored,
           onPressBack: controller.onPressBack,
           child: ScrollConfiguration(
             behavior: DisableGlowBehavior(),
@@ -159,61 +422,23 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(height: 24.sp),
-                  AppImageWidget.asset(
-                    path: AppImage.subscribeImg,
-                    height: 153.sp,
-                  ),
-                  SizedBox(height: 12.sp),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 48.sp),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ContentWidget(text: TranslationConstants.subscribeContentIos1.tr),
-                        ContentWidget(text: TranslationConstants.subscribeContentIos2.tr),
-                        ContentWidget(text: TranslationConstants.subscribeContentIos3.tr),
-                        ContentWidget(text: TranslationConstants.subscribeContentIos4.tr),
-                        ContentWidget(text: TranslationConstants.subscribeContentIos5.tr),
-                        ContentWidget(text: TranslationConstants.subscribeContentIos6.tr),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(height: 8.sp),
-                      Text(TranslationConstants.subscribeAutoRenewable.tr, style: ThemeText.bodyText1),
-                      SizedBox(height: 8.sp),
-                      _groupButtonWidget(),
-                      SizedBox(height: 16.sp),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0.sp),
-                        child: Text(
-                          TranslationConstants.descriptionSub.trParams({
-                            "priceOfWeek":
-                                controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price,
-                            "priceOfYear":
-                                controller.productDetailsYear.price == '' ? '\$29.99' : controller.productDetailsWeek.price,
-                          }),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12.0.sp,
-                            color: AppColor.black,
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 16.sp),
-                    ],
-                  ),
-                  const SizedBox()
+                  _imuableElement(),
+                  _groupButtonHandleBuy(),
                 ],
               ),
             ),
           )),
     );
+
+    // return AppContainer(
+    //   child: Column(
+    //     children: [
+    //       AppHeader(
+    //         title: "fjfjdijf",
+    //       ),
+    //     ],
+    //   )
+    // );
   }
 
   String getPriceOfWeek(String price) {

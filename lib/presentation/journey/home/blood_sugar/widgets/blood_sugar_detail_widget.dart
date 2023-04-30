@@ -116,7 +116,7 @@ class BloodSugarDetailWidget extends GetWidget<BloodSugarController> {
                     ),
                     GestureDetector(
                         onTap:  () => controller
-                            .onDeleted(controller.selectedBloodSugar.value.key!),
+                            .onPressDeleteData(controller.selectedBloodSugar.value.key!),
 
                         child: const Icon(
                           CupertinoIcons.delete_solid,

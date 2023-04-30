@@ -82,10 +82,10 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
           () {
             final isPremium = Get.find<AppController>().isPremiumFull.value;
             return isPremium
-                ? const SizedBox.shrink()
-                : NativeAdsWidget(
-                    factoryId: NativeFactoryId.appNativeAdFactorySmall,
-                    isPremium: isPremium);
+                ? const SizedBox.shrink():  SizedBox.shrink();
+                // : NativeAdsWidget(
+                //     factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                //     isPremium: isPremium);
           },
         ),
       ],
@@ -297,7 +297,7 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
   Widget build(BuildContext context) {
     controller.context = context;
     return AppContainer(
-      isShowBanner: false,
+      isShowBanner: true,
       child: Container(
         color: Colors.white,
         // margin: EdgeInsets.symmetric(horizontal: 8.0.sp),

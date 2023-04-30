@@ -1,4 +1,3 @@
-import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,8 +6,9 @@ import 'package:intl/intl.dart';
 
 import '../../../../../common/util/app_util.dart';
 import '../../../../../common/util/disable_glow_behavior.dart';
+import '../../../../theme/app_color.dart';
 
-class HomeLineChartWidget extends StatelessWidget {
+class HomeLineChartWidget extends StatefulWidget {
   final List<Map>? listChartData;
   final DateTime? minDate;
   final DateTime? maxDate;
@@ -16,19 +16,16 @@ class HomeLineChartWidget extends StatelessWidget {
   final int spotIndex;
   final double maxY;
   final double minY;
-  final Widget Function(double value, TitleMeta meta)?
-      buildLeftTitle;
+  final Widget Function(double value, TitleMeta meta)? buildLeftTitle;
   final FlDotPainter Function(
-    FlSpot spotValue,
-    double doubleValue,
-    LineChartBarData lineChartBarDataValue,
-    int intValue,
-  )? buildDot;
+      FlSpot spotValue,
+      double doubleValue,
+      LineChartBarData lineChartBarDataValue,
+      int intValue,
+      )? buildDot;
   final double? horizontalInterval;
-  final Function(int x, int spotIndex, DateTime dateTime)?
-      onPressDot;
-  final List<LineTooltipItem?> Function(List<LineBarSpot>)?
-      getTooltipItems;
+  final Function(int x, int spotIndex, DateTime dateTime)? onPressDot;
+  final List<LineTooltipItem?> Function(List<LineBarSpot>)? getTooltipItems;
 
   const HomeLineChartWidget({
     Key? key,
@@ -46,39 +43,53 @@ class HomeLineChartWidget extends StatelessWidget {
     this.getTooltipItems,
   }) : super(key: key);
 
+  @override
+  State<HomeLineChartWidget> createState() => _HomeLineChartWidgetState();
+}
+
+class _HomeLineChartWidgetState extends State<HomeLineChartWidget> {
+  String _datePicker = '';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(microseconds: 200), () {
+      setState(() {
+        _datePicker = DateFormat('dd/MM')
+            .format(widget.listChartData?.last['date'] ?? DateTime.now());
+      });
+    });
+  }
+
   LineChartBarData get _generateLineChartBarData {
     List<FlSpot> listFlSpot = [];
-    for (final item in listChartData!) {
+    for (final item in widget.listChartData!) {
       listFlSpot.add(FlSpot(
-          (minDate!
-                      .difference(item['date']!)
-                      .inDays
-                      .toDouble())
-                  .abs() +
+          (widget.minDate!.difference(item['date']!).inDays.toDouble()).abs() +
               1,
           item['value'].toDouble()));
     }
     listFlSpot.sort((a, b) => a.x.compareTo(b.x));
     return LineChartBarData(
       isCurved: true,
-      color:const Color(0xFF92B6CA),
+      color: Colors.transparent,
       barWidth: 1,
       isStrokeCapRound: true,
       dotData: FlDotData(
-          show: true,
-          getDotPainter: buildDot ?? _getDotPainter),
+          show: true, getDotPainter: widget.buildDot ?? _getDotPainter),
       belowBarData: BarAreaData(show: false),
       spots: listFlSpot,
     );
   }
 
   FlDotPainter _getDotPainter(
-    FlSpot spotValue,
-    double doubleValue,
-    LineChartBarData lineChartBarDataValue,
-    int intValue,
-  ) {
-    Color color = AppColor.primaryColor;
+      FlSpot spotValue,
+      double doubleValue,
+      LineChartBarData lineChartBarDataValue,
+      int intValue,
+      ) {
+    Color color = AppColor.black;
     if (spotValue.y < 60) {
       color = AppColor.violet;
     } else if (spotValue.y > 100) {
@@ -86,51 +97,36 @@ class HomeLineChartWidget extends StatelessWidget {
     } else {
       color = AppColor.green;
     }
-    color = const Color(0xFF40A4FF);
     return FlDotCirclePainter(
       radius: 7.0.sp,
-      color: (selectedX ?? 0) == 0 &&
-              spotValue.x ==
-                  lineChartBarDataValue.spots.last.x
-          ? color
-          : selectedX == spotValue.x
-              ? color
-              : color,
-      strokeColor: Colors.transparent,
-      strokeWidth: 1,
+      color: (widget.selectedX ?? 0) == 0 &&
+          spotValue.x == lineChartBarDataValue.spots.last.x
+          ? const Color(0xFF40A4FF)
+          : widget.selectedX == spotValue.x
+          ? const Color(0xFF40A4FF)
+          : const Color(0xFF40A4FF),
+      // strokeColor: Colors.transparent,
+      // strokeWidth: 1,
     );
   }
 
   Widget _bottomTitleWidgets(double value, TitleMeta meta) {
     TextStyle style = TextStyle(
       color: const Color(0xFF6F6F6F),
-
       fontWeight: FontWeight.w500,
       fontSize: 12.0.sp,
     );
-
-    TextStyle styleHover = TextStyle(
-      color: Colors.white,
-
-      fontWeight: FontWeight.w500,
-      fontSize: 12.0.sp,
-    );
-
-
-    int checkNumber = selectedX == 0 ? 1 : selectedX;
-    print('selectx $selectedX, value $value, length: ${listChartData!.length}');
+    String _dateTime = '';
 
     Widget text = const SizedBox.shrink();
     DateTime dateTime = DateTime(
-        minDate!.year, minDate!.month, minDate!.day);
-    while (!dateTime.isAfter(maxDate!)) {
-      if (dateTime.difference(minDate!).inDays + 1 ==
-          value.toInt()) {
-        for (final item in listChartData!) {
+        widget.minDate!.year, widget.minDate!.month, widget.minDate!.day);
+    while (!dateTime.isAfter(widget.maxDate!)) {
+      if (dateTime.difference(widget.minDate!).inDays + 1 == value.toInt()) {
+        for (final item in widget.listChartData!) {
           if (dateTime.isAtSameMomentAs(item['date'])) {
-            text = Text(
-                DateFormat('dd - MM').format(dateTime),
-                style:  checkNumber == value ? styleHover:  style);
+            _dateTime = DateFormat('dd/MM').format(dateTime);
+            text = Text(DateFormat('dd/MM').format(dateTime), style: style);
             break;
           }
         }
@@ -141,14 +137,34 @@ class HomeLineChartWidget extends StatelessWidget {
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      space: 4.0.sp,
-      child: Container(
-          padding: checkNumber == value ? EdgeInsets.symmetric(vertical: 4.0.sp, horizontal: 8.0.sp) : EdgeInsets.symmetric(vertical: 4.0.sp),
-          decoration: BoxDecoration(
-            color: checkNumber == value ?const Color(0xFF40A4FF) : const Color(0xFFFFFFFF),
-            borderRadius: BorderRadius.circular(6)
+      // space: 10.0.sp,
+      child: _datePicker == _dateTime && _dateTime != ''
+          ? Container(
+        padding:
+        EdgeInsets.symmetric(vertical: 3.0.sp, horizontal: 6.0.sp),
+        decoration: BoxDecoration(
+          color: const Color(0xFF40A4FF),
+          borderRadius: BorderRadius.circular(6.0.sp),
+        ),
+        child: Text(
+          _dateTime.replaceAll('/', ' - '),
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 12,
+            color: Colors.white,
           ),
-          child: text),
+        ),
+      )
+          : Padding(
+        padding:
+        EdgeInsets.symmetric(vertical: 3.0.sp, horizontal: 6.0.sp),
+        child: Text(_dateTime.replaceAll('/', ' - '),
+            style: TextStyle(
+              fontSize: 12.0.sp,
+              fontWeight: FontWeight.w500,
+              color: const Color(0xFF6F6F6F),
+            )),
+      ),
     );
   }
 
@@ -160,103 +176,98 @@ class HomeLineChartWidget extends StatelessWidget {
     );
     String text;
     switch (value.toInt()) {
+      case 40:
+        text = '40';
+        break;
       case 50:
         text = '50';
         break;
+      case 60:
+        text = '60';
+        break;
+      case 70:
+        text = '70';
+        break;
+      case 80:
+        text = '80';
+        break;
+      case 90:
+        text = '90';
+        break;
       case 100:
         text = '100';
-        break;
-      case 150:
-        text = '150';
-        break;
-      case 200:
-        text = '200';
-        break;
-      case 250:
-        text = '250';
         break;
       default:
         return const SizedBox.shrink();
     }
 
-    return Container(
-
-      padding:  EdgeInsets.symmetric(vertical: 5.0.sp, horizontal: 8.0.sp),
-      child: Text(text,
-          style: style, textAlign: TextAlign.center),
-    );
+    return Text(text, style: style, textAlign: TextAlign.center);
   }
 
   SideTitles _leftTitles() => SideTitles(
-        getTitlesWidget:
-            buildLeftTitle ?? _leftTitleWidgets,
-        showTitles: true,
-        interval: 1,
-        reservedSize: 40.0.sp,
-      );
+    getTitlesWidget: widget.buildLeftTitle ?? _leftTitleWidgets,
+    showTitles: true,
+    interval: 1,
+    reservedSize: 40.0.sp,
+  );
 
   SideTitles get _bottomTitles => SideTitles(
-        showTitles: true,
-        reservedSize: 32,
-        interval: 1,
-        getTitlesWidget: _bottomTitleWidgets,
-      );
+    showTitles: true,
+    reservedSize: 32,
+    interval: 1,
+    getTitlesWidget: _bottomTitleWidgets,
+  );
 
   LineTouchData get _lineTouchData1 => LineTouchData(
       enabled: false,
       handleBuiltInTouches: false,
       touchTooltipData: LineTouchTooltipData(
-        tooltipBgColor: Colors.black,
+        tooltipBgColor: Colors.transparent,
         tooltipRoundedRadius: 8,
-        getTooltipItems:
-            getTooltipItems ?? _getTooltipItems,
+        getTooltipItems: widget.getTooltipItems ?? _getTooltipItems,
       ),
       touchCallback: (flTouchEvent, touchResponse) {
-        if ((touchResponse?.lineBarSpots ?? [])
-            .isNotEmpty) {
+        if ((touchResponse?.lineBarSpots ?? []).isNotEmpty) {
           final value = touchResponse?.lineBarSpots![0].x;
-          final spotIndex =
-              touchResponse?.lineBarSpots!.first.spotIndex;
-          DateTime dateTime = minDate!.add(
-              Duration(days: (value ?? 1).toInt() - 1));
-          if (onPressDot != null) {
-            onPressDot!(
-                value!.toInt(), spotIndex!, dateTime);
+          final spotIndex = touchResponse?.lineBarSpots!.first.spotIndex;
+          DateTime dateTime =
+          widget.minDate!.add(Duration(days: (value ?? 1).toInt() - 1));
+          if (widget.onPressDot != null) {
+            widget.onPressDot!(value!.toInt(), spotIndex!, dateTime);
+            setState(() {
+              _datePicker = DateFormat('dd/MM').format(dateTime);
+            });
           }
         }
       },
       getTouchedSpotIndicator:
           (LineChartBarData barData, List<int> indicators) {
         return indicators.map((int index) {
-          var lineColor = barData.gradient?.colors.first ??
-              barData.color;
+          var lineColor = barData.gradient?.colors.first ?? barData.color;
           if (barData.dotData.show) {
             lineColor = Colors.transparent;
           }
           const lineStrokeWidth = 4.0;
-          final flLine = FlLine(
-              color: lineColor,
-              strokeWidth: lineStrokeWidth);
+          final flLine = FlLine(color: lineColor, strokeWidth: lineStrokeWidth);
           final dotData = FlDotData(
-              getDotPainter: (spot, percent, bar, index) =>
-                  FlDotCirclePainter(
-                    radius: 7.0.sp,
-                    color: Colors.transparent,
-                    strokeColor: Colors.transparent,
-                  ));
+              getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+                radius: 7.0.sp,
+                color: const Color(0xFF40A4FF),
+                strokeColor: const Color(0xFF40A4FF),
+              ));
 
           return TouchedSpotIndicatorData(flLine, dotData);
         }).toList();
       });
-  List<LineTooltipItem?> _getTooltipItems(
-      List<LineBarSpot> lineBarSpots) {
+
+  List<LineTooltipItem?> _getTooltipItems(List<LineBarSpot> lineBarSpots) {
     log('lineBarsSpot length: ${lineBarSpots.length}');
     return lineBarSpots.map((lineBarSpot) {
       log('lineBarSpot ${lineBarSpot.spotIndex}');
       return LineTooltipItem(
         lineBarSpot.y.toString(),
         const TextStyle(
-          color: Colors.white,
+          color: Colors.transparent,
           fontWeight: FontWeight.bold,
         ),
       );
@@ -264,60 +275,56 @@ class HomeLineChartWidget extends StatelessWidget {
   }
 
   FlGridData get _gridData => FlGridData(
-
-
-        drawHorizontalLine: true,
-        drawVerticalLine: false,
-        horizontalInterval: horizontalInterval ?? 5,
-        getDrawingHorizontalLine: (value) => FlLine(
-          color:const Color(0xFFCDD6E9),
-          strokeWidth: 1.sp,
-        ),
-      );
+    drawHorizontalLine: true,
+    drawVerticalLine: false,
+    horizontalInterval: widget.horizontalInterval ?? 5,
+    getDrawingHorizontalLine: (value) => FlLine(
+      color: const Color(0xFFCDD6E9),
+      strokeWidth: 1.sp,
+    ),
+  );
 
   FlTitlesData get _titlesData1 => FlTitlesData(
-        bottomTitles: AxisTitles(
-          sideTitles: _bottomTitles,
-        ),
-        rightTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: _leftTitles(),
-        ),
-      );
+    bottomTitles: AxisTitles(
+      sideTitles: _bottomTitles,
+    ),
+    rightTitles: AxisTitles(
+      sideTitles: SideTitles(showTitles: false),
+    ),
+    topTitles: AxisTitles(
+      sideTitles: SideTitles(showTitles: false),
+    ),
+    leftTitles: AxisTitles(
+      sideTitles: _leftTitles(),
+    ),
+  );
 
   FlBorderData get _borderData => FlBorderData(
-        show: true,
-        border: const Border(
-          bottom: BorderSide(color: Colors.transparent),
-          left: BorderSide(color: Colors.transparent),
-          right: BorderSide(color: Colors.transparent),
-          top: BorderSide(color: Colors.transparent),
-        ),
-      );
+    show: true,
+    border: const Border(
+      bottom: BorderSide(color: Colors.transparent),
+      left: BorderSide(color: Colors.transparent),
+      right: BorderSide(color: Colors.transparent),
+      top: BorderSide(color: Colors.transparent),
+    ),
+  );
 
-  List<LineChartBarData> get _lineBarsData1 =>
-      [_generateLineChartBarData];
+  List<LineChartBarData> get _lineBarsData1 => [_generateLineChartBarData];
 
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
       behavior: DisableGlowBehavior(),
       child: SingleChildScrollView(
-        padding: EdgeInsets.only(top: 12.0.sp),
+
+        padding: EdgeInsets.only(top: 6.0.sp),
         scrollDirection: Axis.horizontal,
         child: Container(
-          width:
-
-              (maxDate!.difference(minDate!).inDays + 2) *
-                  40.0.sp,
-          constraints:
-              BoxConstraints(minWidth: Get.width / 7 * 6),
+          width: (widget.maxDate!.difference(widget.minDate!).inDays + 2) *
+              40.0.sp,
+          constraints: BoxConstraints(minWidth: Get.width / 7 * 6),
           child: LineChart(
+
             LineChartData(
 
               backgroundColor: Colors.transparent,
@@ -328,24 +335,20 @@ class HomeLineChartWidget extends StatelessWidget {
               lineBarsData: _lineBarsData1,
               showingTooltipIndicators: [
                 ShowingTooltipIndicators([
-                  LineBarSpot(
-                      _generateLineChartBarData,
-                      0,
-                      _generateLineChartBarData
-                          .spots[spotIndex])
+                  LineBarSpot(_generateLineChartBarData, 0,
+                      _generateLineChartBarData.spots[widget.spotIndex])
                 ])
               ],
               minX: 0,
-              maxX:
-                  maxDate!.difference(minDate!).inDays + 2,
-              maxY: maxY,
-              minY: minY,
+              maxX: widget.maxDate!.difference(widget.minDate!).inDays + 2,
+              maxY: widget.maxY,
+              minY: widget.minY,
             ),
-            swapAnimationDuration:
-                const Duration(milliseconds: 200),
+            swapAnimationDuration: const Duration(milliseconds: 200),
           ),
         ),
       ),
     );
   }
 }
+

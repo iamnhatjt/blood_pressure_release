@@ -151,7 +151,22 @@ class BloodPressureController extends GetxController with DateTimeMixin, AlarmDi
     }
   }
 
-  void onPressDeleteData() {
+  onPressDeleteData() {
+    showAppDialog(
+      context,
+      TranslationConstants.deleteData.tr,
+      TranslationConstants.deleteDataConfirm.tr,
+      firstButtonText: TranslationConstants.delete.tr,
+      firstButtonCallback: () {
+        Get.back();
+        deleteData();
+      },
+      secondButtonText: TranslationConstants.cancel.tr,
+      secondButtonCallback: Get.back,
+    );
+  }
+
+  void deleteData() {
     _bloodPressureUseCase.deleteBloodPressure(bloodPressSelected.value.key!);
     showTopSnackBar(context, message: TranslationConstants.deleteDataSuccess.tr, type: SnackBarType.done);
     filterBloodPressure();

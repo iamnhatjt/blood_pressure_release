@@ -1,10 +1,13 @@
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
+import 'package:bloodpressure/presentation/journey/alarm/widgets/alarm_add_button.dart';
 import 'package:bloodpressure/presentation/journey/home/food_scanner/food_scanner_controller.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
 import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/app_container.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
 import 'package:bloodpressure/presentation/widget/app_touchable.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/widget_buton_handle_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -116,24 +119,40 @@ class FoodScannerScreen extends GetView<FoodScannerController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: controller.listDataMapTypeTab.map(
               (type) {
-                return AppTouchable(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 12.0.sp, vertical: 8.0.sp),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0.sp),
-                    color: controller.selectedDataMapTypeTab == type
-                        ? AppColor.black.withOpacity(0.4)
-                        : AppColor.white,
-                  ),
-                  onPressed: () {
-                    return controller.selectedDataMapTypeTab.value = type;
-                  },
-                  child: Text(
-                    type["name"],
-                    style: textStyle16400().copyWith(
-                      color: controller.selectedDataMapTypeTab == type
-                          ? AppColor.white
-                          : AppColor.black,
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 40.0.sp),
+                  child: ButtonIos3D(
+                    height: 40.0.sp,
+                    width: 80.0.sp,
+                    innerColor: controller.selectedDataMapTypeTab == type
+                        ? const Color(0xFF000000)
+                        .withOpacity(0.15)
+                        : Color(0xFF000000).withOpacity(0.15),
+                    dropColor: controller.selectedDataMapTypeTab == type
+                        ? Colors.transparent
+                        : Colors.black.withOpacity(0.25),
+                    offsetInner: controller.selectedDataMapTypeTab == type
+                        ? Offset(0, -4)
+                        : Offset(0, -2),
+                    offsetDrop: Offset(0, 1),
+                    radius: 10,
+                    backgroundColor:controller.selectedDataMapTypeTab == type
+                        ? const Color(0xFF5298EB)
+                        : Colors.white,
+
+
+                    onPress: () {
+                      return controller.selectedDataMapTypeTab.value = type;
+                    },
+                    child: Center(
+                      child: Text(
+                        type["name"],
+                        style: textStyle16400().copyWith(
+                          color: controller.selectedDataMapTypeTab == type
+                              ? AppColor.white
+                              : AppColor.black,
+                        ),
+                      ),
                     ),
                   ),
                 );

@@ -7,6 +7,7 @@ import 'package:bloodpressure/presentation/widget/app_container.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
 import 'package:bloodpressure/presentation/widget/app_image_widget.dart';
 import 'package:bloodpressure/presentation/widget/app_touchable.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,19 +32,9 @@ class InsightDetails extends StatelessWidget {
         child: Column(
       children: [
         AppHeader(
-          leftWidget: AppTouchable.common(
-            onPressed: () => Get.back(),
-            decoration: const BoxDecoration(boxShadow: null),
-            // child: const Icon(
-            //   Icons.arrow_back_ios_rounded,
-            //   color: AppColor.black,
-            //   // size: 40.0.sp,
-            // ),
-            child: const BackButton(
-              color: AppColor.black,
-            ),
-          ),
+          leftWidget: const IosLeftHeaderWidget(),
           title: title,
+          titleStyle: IosTextStyle.StyleHeaderApp,
         ),
         Expanded(
           child: ScrollConfiguration(

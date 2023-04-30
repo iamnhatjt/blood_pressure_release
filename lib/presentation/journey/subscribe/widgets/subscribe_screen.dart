@@ -1,18 +1,20 @@
+
 import 'dart:async';
 
-import 'package:bloodpressure/common/constants/app_constant.dart';
-import 'package:bloodpressure/common/util/app_util.dart';
-import 'package:bloodpressure/common/util/translation/app_translation.dart';
-import 'package:bloodpressure/presentation/theme/app_color.dart';
-import 'package:bloodpressure/presentation/theme/theme_text.dart';
-import 'package:bloodpressure/presentation/widget/app_container.dart';
-import 'package:bloodpressure/presentation/widget/app_header.dart';
-import 'package:bloodpressure/presentation/widget/app_loading.dart';
-import 'package:bloodpressure/presentation/widget/app_touchable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../../common/constants/app_constant.dart';
+import '../../../../common/util/app_util.dart';
+import '../../../../common/util/translation/app_translation.dart';
+import '../../../theme/app_color.dart';
+import '../../../widget/app_container.dart';
+import '../../../widget/app_header.dart';
+import '../../../widget/app_loading.dart';
+import '../../../widget/app_touchable.dart';
+
 
 class SubscribeScreen extends StatefulWidget {
   final Widget child;
@@ -64,55 +66,77 @@ class SubscribeScreenState extends State<SubscribeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppHeader(
-                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+                // padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 leftWidget: showButtonClose
                     ? AppTouchable(
-                        onPressed: widget.onPressBack ?? Get.back,
-                        width: 40.sp,
-                        height: 40.sp,
-                        child: const Icon(
-                          Icons.close_rounded,
-                          // size: 18.sp,
-                          color: AppColor.black,
-                        ),
-                      )
-                    : SizedBox(
-                        width: 40.sp,
-                        height: 40.sp,
-                      ),
-                rightWidget: AppTouchable(
-                  onPressed: widget.onRestored,
+                  onPressed: Get.back,
+                  width: 40.sp,
                   height: 40.sp,
-                  padding: EdgeInsets.symmetric(horizontal: 22.sp),
-                  child: Text("Restore",
-                      style: ThemeText.caption.copyWith(
-                        color: !isNullEmpty(widget.onRestored) ? AppColor.black : AppColor.gray2,
-                      )),
+                  child: const Icon(
+                    Icons.close_rounded,
+                    // size: 18.sp,
+                    color: AppColor.black,
+                  ),
+                )
+                    : SizedBox(
+                  width: 40.sp,
+                  height: 40.sp,
                 ),
+                middleWidget:  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      TranslationConstants.subscribeTitle.tr,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                    Container(
+                      margin: EdgeInsets.only(left: 4.0.sp),
+                      padding: EdgeInsets.symmetric(vertical: 4.0.sp, horizontal: 8.0.sp),
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFB904),
+                        borderRadius: BorderRadius.circular(5),
+
+                      ),
+                      child: const  Text('PRO', style:  TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                      )),
+                    )
+                  ],
+                ),
+
+                // rightWidget: AppTouchable(
+                //   onPressed: widget.onRestored,
+                //   height: 40.sp,
+                //   padding: EdgeInsets.symmetric(horizontal: 22.sp),
+                //   child: Text("Restore",
+                //       style: ThemeText.caption.copyWith(
+                //         color: !isNullEmpty(widget.onRestored) ? AppColor.black : AppColor.gray2,
+                //       )),
+                // ),
               ),
               Expanded(
                   child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 48.sp),
-                    child: Text(
-                      TranslationConstants.subscribeTitle.tr,
-                      style: ThemeText.headline6.copyWith(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(height: 8.sp),
-                  Expanded(
-                      child:
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+
+                      SizedBox(height: 20.0.sp),
+                      Expanded(
+                          child:
                           Padding(padding: widget.padding ?? EdgeInsets.symmetric(horizontal: 48.sp), child: widget.child)),
-                  SizedBox(height: 4.sp),
-                ],
-              )),
+                    ],
+                  )),
+
               Padding(
                 padding:
-                    EdgeInsets.symmetric(horizontal: 48.sp).copyWith(bottom: MediaQuery.of(context).padding.bottom + 8.sp),
+                EdgeInsets.symmetric(horizontal: 48.sp).copyWith(bottom: MediaQuery.of(context).padding.bottom + 8.sp),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -123,7 +147,12 @@ class SubscribeScreenState extends State<SubscribeScreen> {
                         padding: EdgeInsets.all(4.sp),
                         child: Text(
                           TranslationConstants.privacyPolicy.tr,
-                          style: ThemeText.caption.copyWith(decoration: TextDecoration.underline),
+                          style:const TextStyle(
+                              color: Color(0xFF646464),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              decoration: TextDecoration.underline
+                          ),
                         )),
                     AppTouchable(
                         onPressed: () {
@@ -132,7 +161,24 @@ class SubscribeScreenState extends State<SubscribeScreen> {
                         padding: EdgeInsets.all(4.sp),
                         child: Text(
                           TranslationConstants.termService.tr,
-                          style: ThemeText.caption.copyWith(decoration: TextDecoration.underline),
+                          style:const TextStyle(
+                              color: Color(0xFF646464),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              decoration: TextDecoration.underline
+                          ),
+                        )),
+                    AppTouchable(
+                        onPressed: widget.onRestored,
+                        padding: EdgeInsets.all(4.sp),
+                        child: Text(
+                          TranslationConstants.restore.tr,
+                          style:const TextStyle(
+                              color: Color(0xFF646464),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              decoration: TextDecoration.underline
+                          ),
                         )),
                   ],
                 ),

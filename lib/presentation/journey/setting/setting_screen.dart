@@ -70,44 +70,54 @@ class SettingScreen extends GetView<SettingController> {
   }
 
   Widget _buildItemSetting(Function() onPressed, String imagePath, String text, {bool isLanguage = false}) {
-    return AppTouchable.commonRadius87(
-
-      onPressed: onPressed,
-      width: Get.width,
-      height: 48.0.sp,
-      padding: EdgeInsets.symmetric(horizontal: 8.0.sp),
+    return Container(
       margin: EdgeInsets.only(bottom: 16.0.sp, left: 20.0.sp, right: 20.0.sp),
-      child: Row(
+      child: Stack(
         children: [
-          imagePath.isEmpty
-              ? const SizedBox.shrink()
-              : Padding(
-                  padding: EdgeInsets.only(right: 8.0.sp),
-                  child: AppImageWidget.asset(
-                    path: imagePath,
-                    width: 40.0.sp,
-                    fit: BoxFit.contain,
+          ButtonIos3D(
+
+            onPress: onPressed,
+            width: Get.width,
+            height: 48.0.sp,
+            radius: 10,
+            child: Row(
+              children: [
+                imagePath.isEmpty
+                    ? const SizedBox.shrink()
+                    : SizedBox(
+
+                        width: 72.0.sp,
+                      ),
+                Expanded(
+                  child: Text(
+                    text,
+                    style: textStyle18400(),
                   ),
                 ),
-          Expanded(
-            child: Text(
-              text,
-              style: textStyle18400(),
+                isLanguage
+                    ? Obx(() {
+                        return Row(
+                          children: [
+                            Text(
+                              controller.currentLanguageCode.value == "vi" ? "Vie" : "Eng",
+                              style: textStyle18400(),
+                            ),
+                            SizedBox(width: 12.sp),
+                          ],
+                        );
+                      })
+                    : const SizedBox.shrink(),
+              ],
             ),
           ),
-          isLanguage
-              ? Obx(() {
-                  return Row(
-                    children: [
-                      Text(
-                        controller.currentLanguageCode.value == "vi" ? "Vie" : "Eng",
-                        style: textStyle18400(),
-                      ),
-                      SizedBox(width: 12.sp),
-                    ],
-                  );
-                })
-              : const SizedBox.shrink(),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 4.0.sp,horizontal: 16.0.sp),
+            child:  AppImageWidget.asset(
+      path: imagePath,
+      width: 40.0.sp,
+      fit: BoxFit.contain,
+      ),
+          )
         ],
       ),
     );

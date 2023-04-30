@@ -69,6 +69,22 @@ class BloodSugarController extends AppBaseController
     _onRefreshData();
   }
 
+
+  void onPressDeleteData(String key) {
+    showAppDialog(
+      context,
+      TranslationConstants.deleteData.tr,
+      TranslationConstants.deleteDataConfirm.tr,
+      firstButtonText: TranslationConstants.delete.tr,
+      firstButtonCallback: () {
+        Get.back();
+        onDeleted( key);
+      },
+      secondButtonText: TranslationConstants.cancel.tr,
+      secondButtonCallback: Get.back,
+    );
+  }
+
   void onDeleted(String key) async {
     await useCase.deleteBloodSugar(key);
     showTopSnackBar(context,

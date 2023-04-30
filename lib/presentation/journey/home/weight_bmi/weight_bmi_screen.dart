@@ -31,7 +31,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
     controller.context = context;
     final appController = Get.find<AppController>();
     return AppContainer(
-      isShowBanner: false,
+      isShowBanner: true,
       child: Column(
         children: [
           AppHeader(
@@ -214,7 +214,7 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                                         .toInt(),
                                     bmiType: controller.currentBMI.value.type,
                                     onEdit: controller.onEditBMI,
-                                    onDelete: controller.onDeleteBMI),
+                                    onDelete: controller.onPressDeleteData),
                               ),
                               SizedBox(
                                 height: 16.sp,

@@ -29,7 +29,7 @@ class BloodPressureScreen extends GetView<BloodPressureController> {
     controller.context = context;
     final double paddingBottom = MediaQuery.of(context).padding.bottom;
     return AppContainer(
-      isShowBanner: false,
+      isShowBanner: true,
       child: Column(
         children: [
           AppHeader(

@@ -17,32 +17,33 @@ class LineChartTitleWidget extends StatelessWidget {
   final double maxY;
   final double minY;
   final Widget Function(double value, TitleMeta meta)?
-      buildLeftTitle;
+  buildLeftTitle;
   final double? horizontalInterval;
   final Function(int x, int spotIndex, DateTime dateTime)?
-      onPressDot;
+  onPressDot;
   final List<LineTooltipItem?> Function(List<LineBarSpot>)?
-      getTooltipItems;
+  getTooltipItems;
 
   const LineChartTitleWidget(
       {Key? key,
-      required this.title,
-      required this.minDate,
-      required this.maxDate,
-      required this.listChartData,
-      this.buildLeftTitle,
-      required this.selectedX,
-      required this.maxY,
-      required this.minY,
-      this.horizontalInterval,
-      this.onPressDot,
-      required this.spotIndex,
-      this.getTooltipItems})
+        required this.title,
+        required this.minDate,
+        required this.maxDate,
+        required this.listChartData,
+        this.buildLeftTitle,
+        required this.selectedX,
+        required this.maxY,
+        required this.minY,
+        this.horizontalInterval,
+        this.onPressDot,
+        required this.spotIndex,
+        this.getTooltipItems})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ContainerWidget(
+    return Container(
+
       width: double.maxFinite,
       height: 0.63 * Get.width,
       child: Column(
@@ -64,21 +65,14 @@ class LineChartTitleWidget extends StatelessWidget {
               onPressDot: onPressDot,
               getTooltipItems: getTooltipItems,
               buildDot: (
-                FlSpot spotValue,
-                double doubleValue,
-                LineChartBarData lineChartBarDataValue,
-                int intValue,
-              ) {
+                  FlSpot spotValue,
+                  double doubleValue,
+                  LineChartBarData lineChartBarDataValue,
+                  int intValue,
+                  ) {
                 return FlDotCirclePainter(
                   radius: 7.0.sp,
-                  color: (selectedX ?? 0) == 0 &&
-                          spotValue.x ==
-                              lineChartBarDataValue
-                                  .spots.last.x
-                      ? AppColor.gold
-                      : selectedX == spotValue.x
-                          ? AppColor.gold
-                          : AppColor.green,
+                  color: const Color(0xFF40A4FF),
                   strokeColor: Colors.transparent,
                   strokeWidth: 1,
                 );

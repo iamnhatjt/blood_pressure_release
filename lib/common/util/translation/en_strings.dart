@@ -204,7 +204,7 @@ const enStrings = {
   /**
    * Subscribe
    */
-  "subscribeTitle": "Unlock your premium\nHeart rate monitor",
+  "subscribeTitle": "Health Tracker",
   "descriptionSub":
       "This subscription automatically renews after 3-days trial period for @priceOfWeek/week and @priceOfYear/year, you can cancel it anytime. Payment will be charged to your Google Play account at the confirmation of purchase. Subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. You can manage and cancel your subscriptions by going to your account settings on the GooglePlay after purchase. Any unused part or time-span of a free trial period will be forfeited, as soon as you purchase a subscriptions.",
   "descriptionSub1":

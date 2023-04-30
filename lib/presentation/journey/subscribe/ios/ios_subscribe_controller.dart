@@ -15,6 +15,9 @@ class IosSubscribeController extends AppBaseController {
   ProductDetails productDetailsYear =
       ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0);
 
+  ProductDetails productDetailsMonth =
+  ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0);
+
   @override
   void onInit() {
     super.onInit();
@@ -23,6 +26,9 @@ class IosSubscribeController extends AppBaseController {
         (element) => element.id == 'weekly',
         orElse: () => ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0));
 
+    productDetailsMonth = Get.find<AppController>().listProductDetailsSub.firstWhere(
+            (element) => element.id == 'monthly',
+        orElse: () => ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0));
     productDetailsYear = Get.find<AppController>().listProductDetailsSub.firstWhere(
         (element) => element.id == 'yearly',
         orElse: () => ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0));

@@ -42,9 +42,10 @@ class MeasureScreen extends GetView<MeasureController> {
                   if (Get.find<AppController>().isPremiumFull.value) {
                     return const SizedBox.shrink();
                   }
-                  return NativeAdsWidget(
-                      factoryId: NativeFactoryId.appNativeAdFactorySmall,
-                      isPremium: Get.find<AppController>().isPremiumFull.value);
+                  return SizedBox.shrink();
+                  // return NativeAdsWidget(
+                  //     factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                  //     isPremium: Get.find<AppController>().isPremiumFull.value);
                 },
               ),
               Expanded(
@@ -62,9 +63,10 @@ class MeasureScreen extends GetView<MeasureController> {
                   if (Get.find<AppController>().isPremiumFull.value) {
                     return const SizedBox.shrink();
                   }
-                  return NativeAdsWidget(
-                      factoryId: NativeFactoryId.appNativeAdFactorySmall,
-                      isPremium: Get.find<AppController>().isPremiumFull.value);
+                  return  const SizedBox.shrink();
+                  // return NativeAdsWidget(
+                  //     factoryId: NativeFactoryId.appNativeAdFactorySmall,
+                  //     isPremium: Get.find<AppController>().isPremiumFull.value);
                 },
               ),
             ],

@@ -4,8 +4,10 @@ import 'package:bloodpressure/presentation/controller/app_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
 import 'package:bloodpressure/presentation/journey/alarm/widgets/alarm_tile.dart';
 import 'package:bloodpressure/presentation/journey/main/widgets/subscribe_button.dart';
+import 'package:bloodpressure/presentation/theme/theme_text.dart';
 import 'package:bloodpressure/presentation/widget/app_container.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,25 +22,23 @@ class AlarmScreen extends GetView<AlarmController> {
       isShowBanner: false,
       child: Column(
         children: [
-          Obx(
-            () => AppHeader(
-              title: TranslationConstants.alarm.tr,
-              leftWidget: SizedBox(width: 40.0.sp),
-              rightWidget: SubscribeButton(
-                  isPremiumFull: Get.find<AppController>().isPremiumFull.value),
-              titleStyle: const TextStyle(fontWeight: FontWeight.w500),
-            ),
+          AppHeader(
+
+            title: TranslationConstants.alarm.tr,
+            leftWidget: const IosLeftHeaderWidget(),
+            rightWidget: const IosRightHeaderWidget(),
+            titleStyle: IosTextStyle.StyleHeaderApp,
           ),
-          Obx(
-            () => NativeAdsWidget(
-              factoryId: NativeFactoryId.appNativeAdFactorySmall,
-              isPremium: Get.find<AppController>().isPremiumFull.value,
-              height: 120.0.sp,
-            ),
-          ),
+          // Obx(
+          //   () => NativeAdsWidget(
+          //     factoryId: NativeFactoryId.appNativeAdFactorySmall,
+          //     isPremium: Get.find<AppController>().isPremiumFull.value,
+          //     height: 120.0.sp,
+          //   ),
+          // ),
           Expanded(
             child: Obx(
-              () {
+                  () {
                 if (controller.alarmList.isEmpty) {
                   return Padding(
                     padding: EdgeInsets.all(48.0.sp),

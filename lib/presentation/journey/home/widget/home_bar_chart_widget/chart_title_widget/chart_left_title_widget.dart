@@ -36,11 +36,14 @@ class ChartLeftTitleWidget extends StatelessWidget {
     }
 
     return FittedBox(
-      child: Text(text,
-          style: textStyle12400().copyWith(
-            color: AppColor.black,
-          ),
-          textAlign: TextAlign.center),
+      child: Padding(
+        padding: const EdgeInsets.symmetric( vertical: 8.0),
+        child: Text(text,
+            style: textStyle12400().copyWith(
+              color: const Color(0xFF6F6F6F),
+            ),
+            textAlign: TextAlign.center),
+      ),
     );
   }
 }

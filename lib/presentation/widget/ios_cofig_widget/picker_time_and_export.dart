@@ -1,9 +1,11 @@
 import 'package:bloodpressure/common/util/translation/app_translation.dart';
+import 'package:bloodpressure/presentation/journey/subscribe/ios/ios_subscribe_screen.dart';
 import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../controller/app_controller.dart';
 import '../../journey/home/blood_sugar/widgets/filter_state_widget.dart';
 
 
@@ -119,7 +121,10 @@ class PickTimeAndExportSugar extends StatelessWidget {
                 dropColor: const Color(0xFF40A4FF).withOpacity(0.25),
                 offsetInner: Offset(0,-2),
                 offsetDrop: Offset(0,1),
-                onPress: exportClick,
+                onPress: (){
+                  Get.find<AppController>().isPremiumFull.value ? Get.to(IosSubscribeScreen()) :
+                      exportClick();
+                },
                 radius: 10,
                 child: Padding(
                   padding:

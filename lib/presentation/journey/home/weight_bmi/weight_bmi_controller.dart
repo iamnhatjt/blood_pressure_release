@@ -216,6 +216,22 @@ class WeightBMIController extends GetxController with DateTimeMixin, AlarmDialog
     }
   }
 
+  onPressDeleteData() {
+    showAppDialog(
+      context,
+      TranslationConstants.deleteData.tr,
+      TranslationConstants.deleteDataConfirm.tr,
+      firstButtonText: TranslationConstants.delete.tr,
+      firstButtonCallback: () {
+        Get.back();
+
+        onDeleteBMI();
+      },
+      secondButtonText: TranslationConstants.cancel.tr,
+      secondButtonCallback: Get.back,
+    );
+  }
+
   void onEditBMI() async {
     final result = await showAppDialog(context, "", "",
         builder: (ctx) => AddWeightBMIDialog(

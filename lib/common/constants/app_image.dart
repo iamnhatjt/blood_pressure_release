@@ -84,6 +84,8 @@ class AppImage {
   static const String  iosNotIcSelect  = '${_internalImagePathPng}ios_ic_not_select.png';
   static const String  iosDownAge  = '${_internalImagePathPng}ios_down_age.png';
   static const String  iosUpAge  = '${_internalImagePathPng}ios_up_age.png';
+  static const String  iosProtectImage  = '${_internalImagePathPng}protect_image.png';
+  static const String  iosPremiumImage  = '${_internalImagePathPng}premium_image.png';
 
 
   ///lottie
@@ -96,4 +98,5 @@ class AppImage {
   static const String iosWeightBMI = '${_internalImagePathLottie}ios_weight_bmi.json';
   static const String iosBloodPressure = '${_internalImagePathLottie}ios_blood_pressure.json';
   static const String iosPremium = '${_internalImagePathLottie}ios_premium.json';
+  static const String iosRight = '${_internalImagePathLottie}arrow_right.json';
 }

@@ -109,118 +109,121 @@ class HomeScreen extends GetView<HomeController> {
       );
     }
 
-    return Container(
-      height: Get.height,
-      width: Get.width,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage(AppImage.iosBackgroundHomePage),
-        fit: BoxFit.cover,
-      )),
-      child: AppContainer(
-        backgroundColor: Colors.transparent,
-        isShowBanner: false,
-        child: Column(children: [
-          AppHeader(
-            title: 'Blood & Health',
-            leftWidget: const IosLeftHeaderWidget(isHome: true),
-            titleStyle:
-                const TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
-            rightWidget: const IosRightHeaderWidget(),
-            padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-          ),
-          Expanded(
-            child: ScrollConfiguration(
-              behavior: DisableGlowBehavior(),
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                    horizontal: 28.0.sp, vertical: 12.0.sp),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: controller.onPressHeartBeat,
-                      child: Container(
-                        margin: EdgeInsets.only(top: 12.0.sp, bottom: 28.0.sp),
-                        height: 148.0.sp,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: const LinearGradient(
-                            colors: AppColorIOS.gradientHeartRate,
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
+    return AppContainer(
+      isShowBanner: true,
+      child: Container(
+        height: Get.height,
+        width: Get.width,
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage(AppImage.iosBackgroundHomePage),
+          fit: BoxFit.cover,
+        )),
+        child: AppContainer(
+          backgroundColor: Colors.transparent,
+          isShowBanner: false,
+          child: Column(children: [
+            AppHeader(
+              title: 'Blood & Health',
+              leftWidget: const IosLeftHeaderWidget(isHome: true),
+              titleStyle:
+                  const TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+              rightWidget: const IosRightHeaderWidget(),
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            ),
+            Expanded(
+              child: ScrollConfiguration(
+                behavior: DisableGlowBehavior(),
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 28.0.sp, vertical: 12.0.sp),
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: controller.onPressHeartBeat,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 12.0.sp, bottom: 28.0.sp),
+                          height: 148.0.sp,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: const LinearGradient(
+                              colors: AppColorIOS.gradientHeartRate,
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AppImageWidget.asset(
+                                path: AppImage.iosHeartBeat,
+                                height: 80.0.sp,
+                              ),
+                              SizedBox(
+                                height: 12.0.sp,
+                              ),
+                              Text(
+                                TranslationConstants.heartRate.tr,
+                                style: IosTextStyle.f18w700w,
+                              )
+                            ],
                           ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            AppImageWidget.asset(
-                              path: AppImage.iosHeartBeat,
-                              height: 80.0.sp,
-                            ),
-                            SizedBox(
-                              height: 12.0.sp,
-                            ),
-                            Text(
-                              TranslationConstants.heartRate.tr,
-                              style: IosTextStyle.f18w700w,
-                            )
-                          ],
-                        ),
                       ),
-                    ),
 
-                    eachItemHomePage(
-                        text: TranslationConstants.weightAndBMI.tr,
-                        listColor: AppColorIOS.gradientWeightBMI,
-                        onPress: controller.onPressWeightAndBMI,
-                        pathIcon: AppImage.iosWeightBMI),
+                      eachItemHomePage(
+                          text: TranslationConstants.weightAndBMI.tr,
+                          listColor: AppColorIOS.gradientWeightBMI,
+                          onPress: controller.onPressWeightAndBMI,
+                          pathIcon: AppImage.iosWeightBMI),
 
-                    eachItemHomePage(
-                        text: TranslationConstants.bloodSugar.tr,
-                        listColor: AppColorIOS.gradientBloodSugar,
-                        onPress: controller.onPressBloodSugar,
-                        pathIcon: AppImage.iosBloodSugar),
+                      eachItemHomePage(
+                          text: TranslationConstants.bloodSugar.tr,
+                          listColor: AppColorIOS.gradientBloodSugar,
+                          onPress: controller.onPressBloodSugar,
+                          pathIcon: AppImage.iosBloodSugar),
 
-                    eachItemHomePage(
-                        text: TranslationConstants.bloodPressure.tr,
-                        listColor: AppColorIOS.gradientBloodPressure,
-                        onPress: controller.onPressBloodPressure,
-                        pathIcon: AppImage.iosBloodPressure),
+                      eachItemHomePage(
+                          text: TranslationConstants.bloodPressure.tr,
+                          listColor: AppColorIOS.gradientBloodPressure,
+                          onPress: controller.onPressBloodPressure,
+                          pathIcon: AppImage.iosBloodPressure),
 
-                    SizedBox(
-                      height: 30.0.sp,
-                    ),
+                      SizedBox(
+                        height: 30.0.sp,
+                      ),
 
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RowItemHomePage(
-                            onPress: controller.onPressFoodScanner,
-                            pathIcon: AppImage.iosQR,
-                            text: TranslationConstants.foodScanner.tr),
-                        RowItemHomePage(
-                            onPress: () {
-                              Get.toNamed(AppRoute.insight);
-                            },
-                            pathIcon: AppImage.iosInsight,
-                            text: TranslationConstants.insights.tr),
-                        RowItemHomePage(
-                            onPress: () {
-                              Get.to(const AlarmScreen());
-                            },
-                            pathIcon: AppImage.iosAlarm,
-                            text: TranslationConstants.alarm.tr)
-                      ],
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          RowItemHomePage(
+                              onPress: controller.onPressFoodScanner,
+                              pathIcon: AppImage.iosQR,
+                              text: TranslationConstants.foodScanner.tr),
+                          RowItemHomePage(
+                              onPress: () {
+                                Get.toNamed(AppRoute.insight);
+                              },
+                              pathIcon: AppImage.iosInsight,
+                              text: TranslationConstants.insights.tr),
+                          RowItemHomePage(
+                              onPress: () {
+                                Get.to(const AlarmScreen());
+                              },
+                              pathIcon: AppImage.iosAlarm,
+                              text: TranslationConstants.alarm.tr)
+                        ],
+                      ),
 
 
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-        ]),
+            )
+          ]),
+        ),
       ),
     );
   }
