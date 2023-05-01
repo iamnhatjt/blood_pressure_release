@@ -73,33 +73,33 @@ class BloodPressureScreen extends GetView<BloodPressureController> {
                     ),
                   ), exportClick: controller.onExportData)
                   ,
-                  Expanded(
-                    child: Container(
+                 Obx(()=>  Expanded(
+                   child: Container(
 
-                      padding: EdgeInsets.symmetric(horizontal: 20.0.sp),
-                      decoration: BoxDecoration(
-                        color: controller.bloodPressures.isNotEmpty? const Color(0xFFF4FAFF): Colors.transparent,
-                        borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(10.0.sp),
-                          bottomLeft: Radius.circular(10.0.sp),
-                        ),
-                      ),
-                      child: Obx(() => controller.bloodPressures.isNotEmpty
-                          ? SingleChildScrollView(
-                              physics:
-                                  Get.find<AppController>().isPremiumFull.value
-                                      ? const NeverScrollableScrollPhysics()
-                                      : null,
-                              child: const BloodPressureDataWidget())
-                          : EmptyWidget(
-                              imagePath: AppImage.iosBloodPressure,
-                              imageWidth: 168.sp,
-                              isPremium:
-                                  Get.find<AppController>().isPremiumFull.value,
-                              message: TranslationConstants
-                                  .addYourRecordToSeeStatistics.tr)),
-                    ),
-                  ),
+                     padding: EdgeInsets.symmetric(horizontal: 20.0.sp),
+                     decoration: BoxDecoration(
+                       color: controller.bloodPressures.isNotEmpty? const Color(0xFFF4FAFF): Colors.transparent,
+                       borderRadius: BorderRadius.only(
+                         bottomRight: Radius.circular(10.0.sp),
+                         bottomLeft: Radius.circular(10.0.sp),
+                       ),
+                     ),
+                     child: Obx(() => controller.bloodPressures.isNotEmpty
+                         ? SingleChildScrollView(
+                         physics:
+                         Get.find<AppController>().isPremiumFull.value
+                             ? const NeverScrollableScrollPhysics()
+                             : null,
+                         child: const BloodPressureDataWidget())
+                         : EmptyWidget(
+                         imagePath: AppImage.iosBloodPressure,
+                         imageWidth: 168.sp,
+                         isPremium:
+                         Get.find<AppController>().isPremiumFull.value,
+                         message: TranslationConstants
+                             .addYourRecordToSeeStatistics.tr)),
+                   ),
+                 ),),
                   SizedBox(
                     height: 68.0.sp,
                   ),

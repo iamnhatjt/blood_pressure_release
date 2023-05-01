@@ -33,6 +33,19 @@ Future showStateDialog(BuildContext context, Function(String) onSelected, RxStri
 class BloodSugarScreen extends GetView<BloodSugarController> {
   const BloodSugarScreen({super.key});
 
+
+  Widget headerBloodSugar(){
+    return Obx(
+          () => BloodHeaderWidget(
+        title: TranslationConstants.bloodSugar.tr,
+        background: AppColor.deepViolet,
+        onExported: controller.onExportData,
+        extendWidget: const SizedBox.shrink(),
+        isLoading: controller.exportLoaded.value == LoadedType.start,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     controller.context = context;
@@ -42,15 +55,7 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
       child: Column(
         children: [
           //header blood_sugaer
-          Obx(
-            () => BloodHeaderWidget(
-              title: TranslationConstants.bloodSugar.tr,
-              background: AppColor.deepViolet,
-              onExported: controller.onExportData,
-              extendWidget: const SizedBox.shrink(),
-              isLoading: controller.exportLoaded.value == LoadedType.start,
-            ),
-          ),
+          headerBloodSugar(),
           Obx(() {
             final appController = Get.find<AppController>();
 
@@ -77,16 +82,16 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
           }),
 
 
-          Expanded(
+          Obx(()=> Expanded(
             child: Container(
               decoration:  BoxDecoration(
                 borderRadius: const BorderRadius.vertical(bottom:  Radius.circular(16)),
-                color:  ! controller.rxIsEmptyList.value? Color(0xFFF4FAFF) : Colors.transparent,
+                color:  !controller.rxIsEmptyList.value? Color(0xFFF4FAFF) : Colors.transparent,
 
               ),
               margin: EdgeInsets.symmetric(horizontal: 8.0.sp),
               child: Obx(
-                () {
+                    () {
                   if (controller.rxIsEmptyList.value == false) {
                     return BloodSugarDataWidget();
                   }
@@ -102,7 +107,7 @@ class BloodSugarScreen extends GetView<BloodSugarController> {
                 },
               ),
             ),
-          ),
+          ),),
           SizedBox(height: 32.0.sp,),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 17.sp),

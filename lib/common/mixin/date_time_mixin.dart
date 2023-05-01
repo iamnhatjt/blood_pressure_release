@@ -6,7 +6,7 @@ import '../../presentation/controller/app_controller.dart';
 import '../../presentation/theme/app_color.dart';
 
 mixin DateTimeMixin {
-  Rx<DateTime> filterStartDate = DateTime.now().update(day: 1).obs;
+  Rx<DateTime> filterStartDate = DateTime.now().subtract(const Duration(days: 7)).obs;
   Rx<DateTime> filterEndDate =
       DateTime.now().update(hour: 23, minute: 59, second: 59).obs;
 
