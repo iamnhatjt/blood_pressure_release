@@ -55,7 +55,6 @@ class AddBloodPressureController extends GetxController with DateTimeMixin {
 
 
   void onPressedAge() {
-    Get.back();
     age.value = age.value < 2
         ? 2
         : age.value > 110
@@ -70,11 +69,9 @@ class AddBloodPressureController extends GetxController with DateTimeMixin {
         initialAge: age.value,
         onPressCancel:(){
           Get.back();
-          Get.find<BloodPressureController>().onAddData();
         },
         onPressSave: (value) {
           Get.back();
-          Get.find<BloodPressureController>().onAddData();
 
           _appController.updateUser(UserModel(age: value, genderId: _appController.currentUser.value.genderId ?? '0'));
           age.value = value;
@@ -84,7 +81,6 @@ class AddBloodPressureController extends GetxController with DateTimeMixin {
   }
 
   void onPressGender() {
-    Get.back();
     showAppDialog(
       context,
       TranslationConstants.choseYourAge.tr,
@@ -94,12 +90,10 @@ class AddBloodPressureController extends GetxController with DateTimeMixin {
         initialGender: gender,
         onPressCancel: (){
           Get.back();
-          Get.find<BloodPressureController>().onAddData();
 
         },
         onPressSave: (value) {
           Get.back();
-          Get.find<BloodPressureController>().onAddData();
 
           if (value == gender.value) {
             return;

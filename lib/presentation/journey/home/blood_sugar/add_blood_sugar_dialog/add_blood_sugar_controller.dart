@@ -166,7 +166,6 @@ class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddD
 
 
   void onPressedAge() {
-    Get.back();
 
     age.value = age.value < 2
         ? 2
@@ -182,11 +181,9 @@ class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddD
         initialAge: age.value,
         onPressCancel:(){
           Get.back();
-          Get.find<BloodSugarController>().onAddData();
         },
         onPressSave: (value) {
           Get.back();
-          Get.find<BloodSugarController>().onAddData();
 
           _appController.updateUser(UserModel(age: value, genderId: _appController.currentUser.value.genderId ?? '0'));
           age.value = value;
@@ -197,7 +194,6 @@ class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddD
 
   final _appController = Get.find<AppController>();
   void onPressGender() {
-    Get.back();
     showAppDialog(
       context,
       TranslationConstants.choseYourAge.tr,
@@ -207,11 +203,9 @@ class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddD
         initialGender: gender,
         onPressCancel: (){
           Get.back();
-          Get.find<BloodSugarController>().onAddData();
         },
         onPressSave: (value) {
           Get.back();
-          Get.find<BloodSugarController>().onAddData();
           if (value == gender.value) {
             return;
           }
