@@ -145,7 +145,6 @@ class AppDialog extends StatelessWidget {
           width: Get.width,
           onPress: (){
             firstButtonCallback ?? Get.back();
-            Get.find<HeartBeatController>().onPressAddData();
           },
           // text: firstButtonText,
           // bac: AppColor.primaryColor,

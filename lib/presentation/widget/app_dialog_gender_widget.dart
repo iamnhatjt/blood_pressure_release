@@ -97,7 +97,6 @@ class _AppDialogGenderWidgetState extends State<AppDialogGenderWidget> {
                 width: Get.width,
                 onPress: () {
                   widget.onPressCancel!();
-                  Get.find<HeartBeatController>().onPressAddData();
                 },
                 backgroundColor: const Color(0xFFFF6464),
                 dropRadius: 10,
@@ -122,7 +121,6 @@ class _AppDialogGenderWidgetState extends State<AppDialogGenderWidget> {
                 width: Get.width,
                 onPress: () {
                   widget.onPressSave!(_value);
-                  Get.find<HeartBeatController>().onPressAddData();
                 },
                 backgroundColor: const Color(0xFF5298EB),
                 dropRadius: 10,

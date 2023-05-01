@@ -7,6 +7,7 @@ import 'package:bloodpressure/presentation/widget/app_container.dart';
 import 'package:bloodpressure/presentation/widget/app_header.dart';
 import 'package:bloodpressure/presentation/widget/app_touchable.dart';
 import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
+import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:bloodpressure/presentation/widget/ios_cofig_widget/widget_buton_handle_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,15 +26,10 @@ class FoodScannerScreen extends GetView<FoodScannerController> {
         children: [
           AppHeader(
             title: TranslationConstants.scanFood.tr,
-            leftWidget: AppTouchable.common(
-              onPressed: () => Get.back(),
-              decoration: const BoxDecoration(boxShadow: null),
-              child: const Icon(
-                Icons.arrow_back_rounded,
-                color: AppColor.black,
-              ),
-            ),
+            leftWidget: const IosLeftHeaderWidget(),
+            titleStyle: IosTextStyle.StyleHeaderApp,
             rightWidget: Obx(
+
               () => AppTouchable.common(
                 onPressed: controller.toggleFlash,
                 decoration: const BoxDecoration(boxShadow: null),
@@ -48,6 +44,7 @@ class FoodScannerScreen extends GetView<FoodScannerController> {
               ),
             ),
           ),
+
           Expanded(child: Obx(() {
             if (controller.isLoadingQrCamera.value) {
               return const Center(

@@ -12,6 +12,7 @@ import '../../../presentation/journey/insight/insight_controller.dart';
 import '../../../presentation/journey/main/main_controller.dart';
 import '../../../presentation/journey/setting/setting_controller.dart';
 import '../app_di.dart';
+import 'heart_beat_binding.dart';
 
 class AppBinding extends Bindings {
   @override
@@ -21,6 +22,8 @@ class AppBinding extends Bindings {
     Get.put(MainController());
     Get.put(HomeController());
     Get.put(WeightBMIBinding());
+    Get.put(HeartBeatBinding());
+    Get.put(MeasureBinding());
 
     Get.put(InsightController());
     Get.put(AlarmController(alarmUseCase: getIt.get<AlarmUseCase>()));

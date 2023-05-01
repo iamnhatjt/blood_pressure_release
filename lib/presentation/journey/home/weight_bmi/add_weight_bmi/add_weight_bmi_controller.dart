@@ -138,7 +138,6 @@ class AddWeightBMIController extends GetxController with AddDateTimeMixin, DateT
   }
 
   void onPressGender() {
-    Get.back();
 
     showAppDialog(
       context,

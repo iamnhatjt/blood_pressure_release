@@ -133,7 +133,6 @@ class _AppDialogAgeWidgetState extends State<AppDialogAgeWidget> {
               child: ButtonIos3D(
                 onPress: () {
                   widget.onPressCancel!();
-                  Get.find<HeartBeatController>().onPressAddData();
                 },
                 height: 60.0.sp,
                 width: Get.width,
@@ -158,9 +157,9 @@ class _AppDialogAgeWidgetState extends State<AppDialogAgeWidget> {
             Expanded(
               child: ButtonIos3D(
                 onPress: () {
-                  print('on save');
+                  print('on save $_value');
                   widget.onPressSave!(_value);
-                  Get.find<HeartBeatController>().onPressAddData();
+
                 },
                 height: 60.0.sp,
                 width: Get.width,

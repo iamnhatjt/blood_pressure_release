@@ -187,7 +187,6 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
   }
 
   _onPressHint() {
-    Get.back();
     showAppDialog(
       context,
       TranslationConstants.heartRate.tr,
@@ -609,7 +608,6 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
           children: [
             AppTouchable(
               onPressed: () {
-                Get.back();
                 _onPressAge();
               },
               padding:
@@ -629,7 +627,6 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
             SizedBox(width: 12.0.sp),
             AppTouchable(
               onPressed: () {
-                Get.back();
                 _onPressGender();
               },
               padding:
