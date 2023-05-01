@@ -1,3 +1,4 @@
+import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/common/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -118,15 +119,15 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
 
   Widget ButtonHandleTypeBuy(
       {required title,
-        required String priceType,
-        required bool isSelected,
-        required Null Function() onSelected,
-        String? Subtitle}) {
+      required String priceType,
+      required bool isSelected,
+      required Null Function() onSelected,
+      String? Subtitle}) {
     String text = title;
     String price = priceType;
     Color color = isSelected ? Colors.white : const Color(0xFF6D6D6D);
     Color dropShawDow =
-    isSelected ? const Color(0xFF43BA29) : const Color(0xFFD9D9D9);
+        isSelected ? const Color(0xFF43BA29) : const Color(0xFFD9D9D9);
     return GestureDetector(
       onTap: onSelected,
       child: Container(
@@ -149,9 +150,9 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
           ],
           gradient: isSelected
               ? const LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xFF68DF55), Color(0xFF31A714)])
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Color(0xFF68DF55), Color(0xFF31A714)])
               : null,
           borderRadius: BorderRadius.circular(10),
         ),
@@ -170,7 +171,6 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                   fontSize: 20.0.sp, fontWeight: FontWeight.w600, color: color),
             ),
             Spacer(flex: 1),
-
             Text(
               Subtitle ?? '',
               style: TextStyle(
@@ -187,6 +187,26 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
   }
 
   Widget GroupButtonHandleTypeBuy() {
+    String convertMoney(String money, numberOfWeek) {
+      if (money[0] == '₫') {
+        num moneyValue = num.parse(money.replaceAll(',', '').substring(1));
+        num dividedMoney = moneyValue / numberOfWeek;
+        return '₫' +
+            dividedMoney.toStringAsFixed(0).replaceAllMapped(
+                  RegExp(r'\d{1,3}(?=(\d{3})+(?!\d))'),
+                  (match) => '${match.group(0)},',
+                );
+      } else {
+        num moneyValue = num.parse(money.replaceAll(',', '').substring(1));
+        num dividedMoney = moneyValue / numberOfWeek;
+        return money[0] +
+            dividedMoney.toStringAsFixed(0).replaceAllMapped(
+                  RegExp(r'\d{1,3}(?=(\d{3})+(?!\d))'),
+                  (match) => '${match.group(0)},',
+                );
+      }
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
       child: Row(
@@ -211,9 +231,8 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
             () => ButtonHandleBuyingYear(
                 priceType: controller.productDetailsYear.price == ''
                     ? '\$0.62'
-                    : (controller.productDetailsYear.price.toDouble / 48)
-                        .toStringAsFixed(2)
-                        .toString(),
+                    : convertMoney(
+                        controller.productDetailsYear.price.toString(), 48),
                 isSelected: controller.rxSelectedIdentifier.value ==
                     AppConfig.premiumIdentifierYearly,
                 onSlect: () {
@@ -221,23 +240,23 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                       .onSelectedIdentifier(AppConfig.premiumIdentifierYearly);
                 }),
           ),
-          Obx(
-            () => ButtonHandleTypeBuy(
+          Obx(() {
+            print('${controller.productDetailsMonth.price} ');
+            return ButtonHandleTypeBuy(
               Subtitle: chooseContentByLanguage('per week', 'một tuần'),
               title: 'Monthly',
               priceType: controller.productDetailsMonth.price == ''
                   ? '\$2.49'
-                  : (controller.productDetailsMonth.price.toDouble / 4)
-                      .toStringAsFixed(2)
-                      .toString(),
+                  : convertMoney(
+                      controller.productDetailsMonth.price.toString(), 4),
               isSelected: controller.rxSelectedIdentifier.value ==
                   AppConfig.premiumIdentifierMonth,
               onSelected: () {
                 controller
                     .onSelectedIdentifier(AppConfig.premiumIdentifierMonth);
               },
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );
@@ -280,77 +299,87 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
         Obx(
           () => Container(
             margin: EdgeInsets.symmetric(horizontal: 20.0.sp),
-            child: SubscribeButton(
-              onPressed: Get.find<AppController>().rxPurchaseStatus.value ==
-                      PurchaseStatus.pending
-                  ? null
-                  : controller.onSubscribed,
-              child: Get.find<AppController>().rxPurchaseStatus.value ==
-                      PurchaseStatus.pending
-                  ? SizedBox(
-                      height: 32.sp,
-                      width: 32.sp,
-                      child: CircularProgressIndicator(
-                        color: AppColor.white,
-                        strokeWidth: 2.sp,
-                      ),
-                    )
-                  : Stack(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 4.0.sp),
-                          child: Obx(() {
-                            String text_price_function() {
-                              String textPrice =
-                                  controller.productDetailsYear.price == ''
-                                      ? '\$29.99/year'
-                                      : controller.productDetailsYear.price;
+            child: Stack(
+              children: [
+                SubscribeButton(
+                  onPressed: Get.find<AppController>().rxPurchaseStatus.value ==
+                          PurchaseStatus.pending
+                      ? null
+                      : controller.onSubscribed,
+                  child: Get.find<AppController>().rxPurchaseStatus.value ==
+                          PurchaseStatus.pending
+                      ? SizedBox(
+                          height: 32.sp,
+                          width: 32.sp,
+                          child: CircularProgressIndicator(
+                            color: AppColor.white,
+                            strokeWidth: 2.sp,
+                          ),
+                        )
+                      : Stack(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 4.0.sp),
+                              child: Obx(() {
+                                String text_price_function() {
+                                  String textPrice =
+                                      controller.productDetailsYear.price == ''
+                                          ? '\$29.99/year'
+                                          : controller.productDetailsYear.price;
 
-                              switch (controller.rxSelectedIdentifier.value) {
-                                case 'monthly':
-                                  return controller.productDetailsMonth.price ==
-                                          ''
-                                      ? '\$9.99/month'
-                                      : '${controller.productDetailsMonth.price}/month';
-                                case 'weekly':
-                                  return controller.productDetailsWeek.price ==
-                                          ''
-                                      ? '\$4.99/week'
-                                      : '${controller.productDetailsWeek.price}/week';
-                                case 'yearly':
-                                  return controller.productDetailsYear.price ==
-                                          ''
-                                      ? '\$29.99/year'
-                                      : '${controller.productDetailsYear.price}/year';
-                              }
-                              return textPrice;
-                            }
+                                  switch (controller.rxSelectedIdentifier.value) {
+                                    case 'monthly':
+                                      return controller.productDetailsMonth.price ==
+                                              ''
+                                          ? '\$9.99/month'
+                                          : '${controller.productDetailsMonth.price}/month';
+                                    case 'weekly':
+                                      return controller.productDetailsWeek.price ==
+                                              ''
+                                          ? '\$4.99/week'
+                                          : '${controller.productDetailsWeek.price}/week';
+                                    case 'yearly':
+                                      return controller.productDetailsYear.price ==
+                                              ''
+                                          ? '\$29.99/year'
+                                          : '${controller.productDetailsYear.price}/year';
+                                  }
+                                  return textPrice;
+                                }
 
-                            return Align(
-                              alignment: Alignment.center,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    TranslationConstants.continues.tr,
-                                    style: ThemeText.headline5.copyWith(
-                                        fontSize: 28.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColor.white),
+                                return Align(
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        TranslationConstants.continues.tr,
+                                        style: ThemeText.headline5.copyWith(
+                                            fontSize: 28.sp,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColor.white),
+                                      ),
+                                      Text(
+                                        '${TranslationConstants.freeTrial.tr} ${chooseContentByLanguage(', then ', 'Sau Đó ')} ${text_price_function()}',
+                                        style: ThemeText.caption
+                                            .copyWith(color: AppColor.white),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    '${TranslationConstants.freeTrial.tr} ${chooseContentByLanguage(', then ', 'Sau Đó ')} ${text_price_function()}',
-                                    style: ThemeText.caption
-                                        .copyWith(color: AppColor.white),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }),
+                                );
+                              }),
+                            ),
+
+                          ],
                         ),
-                      ],
-                    ),
+                ),
+                Container(
+                  height: 60.0.sp,
+                  alignment: Alignment.centerRight,
+                  child: AppImageWidget.asset(path: AppImage.iosRight),
+                )
+              ],
             ),
           ),
         )
@@ -392,7 +421,6 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
           ),
         ),
         SizedBox(height: 40.sp),
-
       ],
     );
   }
