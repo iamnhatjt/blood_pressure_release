@@ -263,8 +263,6 @@ class SettingScreen extends GetView<SettingController> {
                       );
                     }),
                     _buildItemSetting(controller.onPressTerm, AppImage.ic_term, TranslationConstants.termOfCondition.tr),
-                    _buildItemSetting(controller.onPressLanguage, AppImage.ic_language, TranslationConstants.language.tr,
-                        isLanguage: true),
                     _buildItemSetting(controller.onPressContact, AppImage.ic_contact, TranslationConstants.contactUs.tr),
                     _buildItemSetting(controller.onPressRestore, AppImage.ic_restore, TranslationConstants.restore.tr),
                     Padding(

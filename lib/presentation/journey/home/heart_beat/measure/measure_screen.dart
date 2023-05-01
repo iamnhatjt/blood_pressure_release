@@ -1,8 +1,13 @@
 import 'dart:io';
 
 import 'package:bloodpressure/common/ads/add_native_ad_manager.dart';
+import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/presentation/controller/app_controller.dart';
+import 'package:bloodpressure/presentation/journey/alarm/alarm_controller.dart';
+import 'package:bloodpressure/presentation/journey/home/heart_beat/heart_beat_controller.dart';
 import 'package:bloodpressure/presentation/journey/home/heart_beat/measure/measure_controller.dart';
+import 'package:bloodpressure/presentation/journey/home/home_binding.dart';
+import 'package:bloodpressure/presentation/journey/home/home_controller.dart';
 import 'package:bloodpressure/presentation/widget/ios_cofig_widget/Button_ios_3d.dart';
 import 'package:bloodpressure/presentation/widget/ios_cofig_widget/app_header_component_widget.dart';
 import 'package:bloodpressure/presentation/widget/native_ads_widget.dart';
@@ -353,7 +358,14 @@ class MeasureScreen extends GetView<MeasureController> {
         AppHeader(
           titleStyle: IosTextStyle.StyleHeaderApp,
           title: TranslationConstants.heartRate.tr,
-          leftWidget: const IosLeftHeaderWidget(),
+          leftWidget: GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoute.heartBeatScreen);
+              },
+              child: AppImageWidget.asset(
+                path: AppImage.iosBack,
+                height: 40.0.sp,
+              )),
         ),
         Expanded(
           child: Obx(() {

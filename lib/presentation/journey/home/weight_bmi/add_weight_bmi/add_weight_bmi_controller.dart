@@ -208,9 +208,9 @@ class AddWeightBMIController extends GetxController with AddDateTimeMixin, DateT
   Future<void> addBMI() async {
     analytics.logEvent(name: AppLogEvent.addDataWeightBMI);
     debugPrint("Logged ${AppLogEvent.addDataWeightBMI} at ${DateTime.now()}");
-
     if(_appController.isPremiumFull.value) {
       _onAddBMI();
+
     } else {
       if(_appController.userLocation.compareTo("Other") != 0) {
         final prefs = await SharedPreferences.getInstance();

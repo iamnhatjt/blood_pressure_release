@@ -150,7 +150,6 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                           child: Column(
                             children: [
                               SizedBox(height: 24.0.sp),
-
                               controller.isWeight.value
                                   ? LineChartTitleWidget(
                                       title:
@@ -195,7 +194,6 @@ class WeightBMIScreen extends GetView<WeightBMIController> {
                                       spotIndex: controller.spotIndex.value,
                                     ),
                               SizedBox(height: 24.0.sp),
-
                               Obx(
                                 () => BMIDetailWidget(
                                     date: DateFormat(

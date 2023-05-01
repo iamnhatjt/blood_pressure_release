@@ -167,6 +167,7 @@ class WeightBMIController extends GetxController with DateTimeMixin, AlarmDialog
     analytics.logEvent(name: AppLogEvent.addDataButtonWeightBMI);
     debugPrint("Logged ${AppLogEvent.addDataButtonWeightBMI} at ${DateTime.now()}");
 
+
     _addData();
     appController.setAllowBloodSugarFirstTime(false);
   }
@@ -174,6 +175,7 @@ class WeightBMIController extends GetxController with DateTimeMixin, AlarmDialog
   void _addData() async {
     final result = await showAppDialog(context, "", "", builder: (ctx) => const AddWeightBMIDialog());
     if (result ?? false) {
+
       filterWeightBMI();
     }
   }

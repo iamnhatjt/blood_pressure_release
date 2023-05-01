@@ -302,7 +302,12 @@ class AddWeightBMIDialog extends GetView<AddWeightBMIController> {
             onSelectTime: controller.onSelectBMITime,
             secondButtonOnPressed: () => Get.back(),
             firstButtonOnPressed:
-            bmiModel != null ? controller.onSave : controller.addBMI,
+            (){
+              bmiModel != null ? controller.onSave() : controller.addBMI();
+              print(bmiModel);
+              // controller.onSave();
+              // controller.addBMI();
+            },
             coverScreenWidget: Obx(() => controller.isLoading.value
                 ? const AppLoading()
                 : const SizedBox()),

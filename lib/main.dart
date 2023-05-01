@@ -1,6 +1,7 @@
 import 'package:applovin_max/applovin_max.dart';
 import 'package:bloodpressure/common/config/hive_config/hive_config.dart';
 import 'package:bloodpressure/common/injector/app_di.dart';
+import 'package:bloodpressure/common/injector/binding/main_binding.dart';
 import 'package:bloodpressure/common/util/app_notification_local.dart';
 import 'package:bloodpressure/common/util/share_preference_utils.dart';
 import 'package:bloodpressure/presentation/theme/app_color.dart';
@@ -66,7 +67,7 @@ void mainDelegate() async {
       builder: (context, widget) => GetMaterialApp(
         debugShowCheckedModeBanner: false,
         initialBinding: AppBinding(),
-        initialRoute: AppRoute.mainScreen,
+        initialRoute: AppRoute.splashScreen,
         defaultTransition: Transition.fade,
         getPages: AppPage.pages,
         localizationsDelegates: const [

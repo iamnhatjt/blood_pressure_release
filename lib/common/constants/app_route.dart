@@ -12,5 +12,6 @@ class AppRoute {
   static const String iosSub = '/iosSub';
   static const String insight = '/insight';
   static const String homeScreen = '/home';
+  static const String intro = '/intro';
 
 }

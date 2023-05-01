@@ -41,11 +41,13 @@ class SplashController extends GetxController {
     await appController.getUser();
     await Get.find<AppController>().getIAPProductDetails();
     await _toNextScreen();
+    prefs.setBool("is_first_open_app", false);
   }
 
   _toNextScreen() {
+    print('run splash');
     if (isFirstOpenApp) {
-      Get.offAndToNamed(AppRoute.selectLocation);
+      Get.offAndToNamed(AppRoute.intro);
     } else {
       Get.offAndToNamed(AppRoute.mainScreen);
     }

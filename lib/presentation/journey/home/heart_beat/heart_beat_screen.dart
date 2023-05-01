@@ -306,9 +306,15 @@ class HeartBeatScreen extends GetView<HeartBeatController> {
             backgroundColor: Colors.white,
             title: TranslationConstants.heartRate.tr,
 
-            leftWidget: const IosLeftHeaderWidget(
-              isHome: false,
-            ),
+            leftWidget:  GestureDetector(
+                onTap: () {
+                  Get.toNamed(AppRoute.mainScreen);
+                },
+                child: AppImageWidget.asset(
+                  path: AppImage.iosBack,
+                  height: 40.0.sp,
+                )),
+
             // additionSpaceButtonLeft: 40.0.sp,
             rightWidget: const IosRightHeaderWidget(),
             titleStyle: IosTextStyle.StyleHeaderApp,

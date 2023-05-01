@@ -68,6 +68,7 @@ class AppImage {
   static const String iosBack = '${_internalImagePathPng}ios_back.png';
   static const String iosBackgroundHomePage = '${_internalImagePathPng}ios_background_homepage.png';
   static const String iosAlarm = '${_internalImagePathPng}ios_alarm.png';
+  static const String iosAlarmHome = '${_internalImagePathPng}home_alarm.png';
   static const String iosQR = '${_internalImagePathPng}ios_qr.png';
   static const String iosInsight = '${_internalImagePathPng}ios_insight.png';
   static const String iosHeartNoChart = '${_internalImagePathPng}Ios_heart_no_chart.png';
@@ -86,6 +87,15 @@ class AppImage {
   static const String  iosUpAge  = '${_internalImagePathPng}ios_up_age.png';
   static const String  iosProtectImage  = '${_internalImagePathPng}protect_image.png';
   static const String  iosPremiumImage  = '${_internalImagePathPng}premium_image.png';
+  static const String  iosIntro1  = '${_internalImagePathPng}intro_1.png';
+  static const String  iosIntro2  = '${_internalImagePathPng}intro_2.png';
+  static const String  iosIntro3  = '${_internalImagePathPng}intro_3.png';
+  static const String  iosIntro4  = '${_internalImagePathPng}intro_4.png';
+  static const String  eatIntro1  = '${_internalImagePathPng}eat_intro_1.png';
+  static const String  eatIntro2  = '${_internalImagePathPng}eat_intro_2.png';
+  static const String  eatIntro3  = '${_internalImagePathPng}eat_intro_3.png';
+  static const String  dotIntro  = '${_internalImagePathPng}dot_intro.png';
+  static const String  dotIntroSelect  = '${_internalImagePathPng}dot_intro_select.png';
 
 
   ///lottie

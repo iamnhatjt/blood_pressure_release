@@ -129,7 +129,7 @@ class HeartBeatController extends GetxController with AlarmDialogMixin {
         final prefs = await SharedPreferences.getInstance();
         int cntPressMeasureNow = prefs.getInt("cnt_press_measure_now") ?? 0;
 
-        if (cntPressMeasureNow < 2) {
+        if (cntPressMeasureNow <3) {
           Get.toNamed(AppRoute.measureScreen);
           prefs.setInt("cnt_press_measure_now", cntPressMeasureNow + 1);
         } else {
@@ -139,6 +139,8 @@ class HeartBeatController extends GetxController with AlarmDialogMixin {
         Get.toNamed(AppRoute.measureScreen);
       }
     }
+
+
 
     // if (appController.isPremiumFull.value) {
     //   Get.toNamed(AppRoute.measureScreen);

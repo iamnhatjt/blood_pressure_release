@@ -14,6 +14,7 @@ import 'package:get/get.dart';
 import '../common/constants/app_route.dart';
 import '../common/injector/binding/blood_pressure_binding.dart';
 import '../common/injector/binding/heart_beat_binding.dart';
+import '../common/injector/binding/intro_binding.dart';
 import '../common/injector/binding/main_binding.dart';
 import '../common/injector/binding/select_location_binding.dart';
 import '../common/injector/binding/splash_binding.dart';
@@ -22,6 +23,7 @@ import 'journey/home/blood_sugar/blood_sugar_screen.dart';
 import 'journey/home/heart_beat/heart_beat_screen.dart';
 import 'journey/home/heart_beat/measure/measure_screen.dart';
 import 'journey/home/home_binding.dart';
+import 'journey/intro/intro_screen.dart';
 import 'journey/main/main_screen.dart';
 import 'journey/select_location/select_location_screen.dart';
 import 'journey/splash/splash_screen.dart';
@@ -60,6 +62,10 @@ class AppPage {
       name: AppRoute.insight,
       page: () => const HomeScreen(),
       binding: HomeBinding(),
+    ), GetPage(
+      name: AppRoute.intro,
+      page: () =>  IntroScreen(),
+      binding: IntroBinding(),
     ),
   ];
 }

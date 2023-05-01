@@ -211,7 +211,7 @@ class HomeScreen extends GetView<HomeController> {
                               onPress: () {
                                 Get.to(const AlarmScreen());
                               },
-                              pathIcon: AppImage.iosAlarm,
+                              pathIcon: AppImage.iosAlarmHome,
                               text: TranslationConstants.alarm.tr)
                         ],
                       ),
