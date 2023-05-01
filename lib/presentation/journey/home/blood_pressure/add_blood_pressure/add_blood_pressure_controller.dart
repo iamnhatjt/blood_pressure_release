@@ -62,7 +62,7 @@ class AddBloodPressureController extends GetxController with DateTimeMixin {
         : age.value;
     showAppDialog(
       context,
-      TranslationConstants.choseYourAge.tr,
+      'Choose Your Age',
       '',
       hideGroupButton: true,
       widgetBody: AppDialogAgeWidget(
@@ -83,7 +83,7 @@ class AddBloodPressureController extends GetxController with DateTimeMixin {
   void onPressGender() {
     showAppDialog(
       context,
-      TranslationConstants.choseYourAge.tr,
+      'Choose Your Gender',
       '',
       hideGroupButton: true,
       widgetBody: AppDialogGenderWidget(

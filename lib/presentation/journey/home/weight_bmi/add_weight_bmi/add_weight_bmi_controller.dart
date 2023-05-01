@@ -122,7 +122,7 @@ class AddWeightBMIController extends GetxController with AddDateTimeMixin, DateT
             : age.value;
     showAppDialog(
       context,
-      TranslationConstants.choseYourAge.tr,
+      'Choose Your Age',
       '',
       hideGroupButton: true,
       widgetBody: AppDialogAgeWidget(
@@ -141,7 +141,7 @@ class AddWeightBMIController extends GetxController with AddDateTimeMixin, DateT
 
     showAppDialog(
       context,
-      TranslationConstants.choseYourAge.tr,
+      'Choose Your Gender',
       '',
       hideGroupButton: true,
       widgetBody: AppDialogGenderWidget(

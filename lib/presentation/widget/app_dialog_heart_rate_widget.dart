@@ -681,8 +681,11 @@ class _AppDialogHeartRateWidgetState extends State<AppDialogHeartRateWidget> {
             SizedBox(width: 8.0.sp),
             Expanded(
               child: ButtonIos3D(
-                onPress: () => widget.onPressAdd!(
-                    _dateTime ?? DateTime.now(), _value ?? 0),
+                onPress: () {
+                  print('value $_value');
+                  widget.onPressAdd!(
+                      _dateTime ?? DateTime.now(), _value ?? 0);
+                },
                 height: 60.0.sp,
                 width: Get.width,
                 // text: firstButtonText,

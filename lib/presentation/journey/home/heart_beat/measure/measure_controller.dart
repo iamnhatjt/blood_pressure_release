@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../../../common/constants/app_route.dart';
 import '../../../../../common/util/app_permission.dart';
 import '../../../../../common/util/app_util.dart';
 import '../../../../../common/util/translation/app_translation.dart';
@@ -61,6 +62,11 @@ class MeasureController extends GetxController {
               _recentBPM = 0;
             },
             onPressAdd: (dateTime, value) {
+
+              if(!Get.isRegistered<HeartBeatController>()){
+                Get.put(HeartBeatController());
+              }
+
               if (Get.isRegistered<HeartBeatController>()) {
                 Get.find<HeartBeatController>().addHeartRateData(HeartRateModel(
                   timeStamp: dateTime.millisecondsSinceEpoch,
@@ -69,9 +75,11 @@ class MeasureController extends GetxController {
                   genderId: _appController.currentUser.value.genderId ?? '0',
                 ));
               }
-              Get.back();
+              print(' run it ----------------- heheheh --------- ${Get.isRegistered<HeartBeatController>()}');
+
+              Get.offAndToNamed(AppRoute.heartBeatScreen);
               showToast(TranslationConstants.addSuccess.tr);
-              _recentBPM = 0;
+              // _recentBPM = 0;
             },
           ),
         );

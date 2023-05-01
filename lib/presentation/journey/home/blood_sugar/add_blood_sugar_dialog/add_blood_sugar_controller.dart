@@ -174,7 +174,7 @@ class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddD
         : age.value;
     showAppDialog(
       context,
-      TranslationConstants.choseYourAge.tr,
+      'Choose Your Age',
       '',
       hideGroupButton: true,
       widgetBody: AppDialogAgeWidget(
@@ -196,7 +196,7 @@ class AddBloodSugarController extends AppBaseController with DateTimeMixin, AddD
   void onPressGender() {
     showAppDialog(
       context,
-      TranslationConstants.choseYourAge.tr,
+      'Choose Your Gender',
       '',
       hideGroupButton: true,
       widgetBody: AppDialogGenderWidget(
