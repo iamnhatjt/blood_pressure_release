@@ -72,6 +72,20 @@ android {
 //        }
 //    }
 
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['bloodpressure']
+            keyPassword keystoreProperties['123456']
+            storeFile keystoreProperties['key_bloodpressure.jks'] ? file(keystoreProperties['key_bloodpressure.jks']) : null
+            storePassword keystoreProperties['123456']
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
     flavorDimensions "default"
     productFlavors {
         Dev {
@@ -84,7 +98,7 @@ android {
             applicationId "com.hiennguyen.bloodpressure"
             resValue "string", "app_name", "Blood Pressure"
 //            resValue "string", "ads_id", "ca-app-pub-3940256099942544~3347511713"
-            resValue "string", "ads_id", "ca-app-pub-5294836995166944~8530128141"
+            resValue "string", "ads_id", "ca-app-pub-5294836995166944~9363896619"
             signingConfig signingConfigs.release
         }
     }

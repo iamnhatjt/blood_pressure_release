@@ -82,7 +82,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                 ),
                 SizedBox(height: 8.0.sp),
                 Text(
-                  chooseContentByLanguage('per week', 'một tuần'),
+                  chooseContentByLanguage('per year', 'một năm'),
                   style: TextStyle(
                     fontSize: 14.0.sp,
                     fontWeight: FontWeight.w400,
@@ -192,25 +192,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
   }
 
   Widget GroupButtonHandleTypeBuy() {
-    String convertMoney(String money, numberOfWeek) {
-      if (money[0] == '₫') {
-        num moneyValue = num.parse(money.replaceAll(',', '').substring(1));
-        num dividedMoney = moneyValue / numberOfWeek;
-        return '₫' +
-            dividedMoney.toStringAsFixed(0).replaceAllMapped(
-                  RegExp(r'\d{1,3}(?=(\d{3})+(?!\d))'),
-                  (match) => '${match.group(0)},',
-                );
-      } else {
-        num moneyValue = num.parse(money.replaceAll(',', '').substring(1));
-        num dividedMoney = moneyValue / numberOfWeek;
-        return money[0] +
-            dividedMoney.toStringAsFixed(0).replaceAllMapped(
-                  RegExp(r'\d{1,3}(?=(\d{3})+(?!\d))'),
-                  (match) => '${match.group(0)},',
-                );
-      }
-    }
+
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 12.0.sp),
@@ -227,7 +209,7 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                 title: 'Weekly',
                 Subtitle: chooseContentByLanguage('per week', 'một tuần'),
                 priceType:
-                " ${controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price}",
+                " ${controller.productDetailsWeek.price == '' ? '\$9.99' : controller.productDetailsWeek.price}",
                 isSelected: controller.rxSelectedIdentifier.value ==
                     AppConfig.premiumIdentifierWeekly,
                 onSelected: () {
@@ -238,12 +220,11 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
             ),
             Obx(
                   () => ButtonHandleBuyingYear(
+                      isSelected: controller.rxSelectedIdentifier.value ==
+                          AppConfig.premiumIdentifierYearly,
                   priceType: controller.productDetailsYear.price == ''
-                      ? '\$0.62'
-                      : convertMoney(
-                      controller.productDetailsYear.price.toString(), 48),
-                  isSelected: controller.rxSelectedIdentifier.value ==
-                      AppConfig.premiumIdentifierYearly,
+                      ? '\$29.99'
+                      : controller.productDetailsYear.price,
                   onSlect: () {
                     controller
                         .onSelectedIdentifier(AppConfig.premiumIdentifierYearly);
@@ -252,12 +233,11 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
             Obx(() {
               print('${controller.productDetailsMonth.price} ');
               return ButtonHandleTypeBuy(
-                Subtitle: chooseContentByLanguage('per week', 'một tuần'),
+                Subtitle: chooseContentByLanguage('per month', 'một Tháng'),
                 title: 'Monthly',
                 priceType: controller.productDetailsMonth.price == ''
                     ? '\$2.49'
-                    : convertMoney(
-                    controller.productDetailsMonth.price.toString(), 4),
+                    : controller.productDetailsMonth.price,
                 isSelected: controller.rxSelectedIdentifier.value ==
                     AppConfig.premiumIdentifierMonth,
                 onSelected: () {
@@ -330,55 +310,27 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                           children: [
                             Container(
                               padding: EdgeInsets.symmetric(vertical: 4.0.sp),
-                              child: Obx(() {
-                                String text_price_function() {
-                                  String textPrice =
-                                      controller.productDetailsYear.price == ''
-                                          ? '\$29.99/year'
-                                          : controller.productDetailsYear.price;
-
-                                  switch (controller.rxSelectedIdentifier.value) {
-                                    case 'monthly':
-                                      return controller.productDetailsMonth.price ==
-                                              ''
-                                          ? '\$9.99/month'
-                                          : '${controller.productDetailsMonth.price}/month';
-                                    case 'weekly':
-                                      return controller.productDetailsWeek.price ==
-                                              ''
-                                          ? '\$4.99/week'
-                                          : '${controller.productDetailsWeek.price}/week';
-                                    case 'yearly':
-                                      return controller.productDetailsYear.price ==
-                                              ''
-                                          ? '\$29.99/year'
-                                          : '${controller.productDetailsYear.price}/year';
-                                  }
-                                  return textPrice;
-                                }
-
-                                return Align(
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        TranslationConstants.continues.tr,
-                                        style: ThemeText.headline5.copyWith(
-                                            fontSize: 28.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: AppColor.white),
-                                      ),
-                                      Text(
-                                        '${TranslationConstants.freeTrial.tr} ${chooseContentByLanguage(', then ', 'Sau Đó ')} ${text_price_function()}',
-                                        style: ThemeText.caption
-                                            .copyWith(color: AppColor.white),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Column(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      TranslationConstants.continues.tr,
+                                      style: ThemeText.headline5.copyWith(
+                                          fontSize: 28.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColor.white),
+                                    ),
+                                    Text(
+                                      '${TranslationConstants.freeTrial.tr}',
+                                      style: ThemeText.caption
+                                          .copyWith(color: AppColor.white),
+                                    ),
+                                  ],
+                                ),
+                              )
                             ),
 
                           ],

@@ -299,7 +299,7 @@ class AppController extends SuperController {
               isPremiumFull.value = true;
               break;
 
-            case 'com.hiennguyen.bloodpressure.fullpack':
+            case 'com.hiennguyen.bloodpressure':
               isPremiumFull.value = true;
               break;
           }
