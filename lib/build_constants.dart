@@ -80,20 +80,20 @@ class _Config {
   /// prod
   static Map<String, dynamic> prodConstants = {
     apiBase: "http://8.9.31.66:8000",
-    idInterstitialAdAndroidKey: "73e4e622eac6bc32",
-    idInterstitialAdIosKey: "514a3ff4071ab64d",
-    idBannerAdAndroidKey: "b7ddad78a4411530",
-    idBannerAdIosKey: "1ce815b1a8955d76",
+    idInterstitialAdAndroidKey: "a87926772e19a553",
+    idInterstitialAdIosKey: "a87926772e19a553",
+    idBannerAdAndroidKey: "55020d742c91b894",
+    idBannerAdIosKey: "55020d742c91b894",
     iDOpenAppAdAndroidKey:
-        "ca-app-pub-5294836995166944/9796755547",
+        "ca-app-pub-5294836995166944/8879297997",
     iDOpenAppAdIosKey:
-        "ca-app-pub-5294836995166944/3279696071",
+        "ca-app-pub-5294836995166944/8879297997",
     idRewardAppAdAndroidKey: "9697f5c8a35a5d0e",
     idRewardAppAdIosKey: "82c4cade92b69576",
     idNativeAppAdAndroidKey:
-        "ca-app-pub-5294836995166944/7170592201",
+        "ca-app-pub-5294836995166944/7099312466",
     idNativeAppAdIosKey:
-        "ca-app-pub-5294836995166944/454442886",
+        "ca-app-pub-5294836995166944/7099312466",
     appLovinTokenKey:
         "bHNo9I54UFEXQysIBS4ouIwd-5ztx_Cmc5NFCgT5CnTRzABi5RemvpybCuW1ViIlFBGoFpXdR42dm6qA3g8tCz",
   };

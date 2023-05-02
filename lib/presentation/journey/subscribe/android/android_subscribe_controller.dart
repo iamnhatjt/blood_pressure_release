@@ -24,7 +24,7 @@ class AndroidSubscribeController extends AppBaseController {
     super.onInit();
 
     productDetailsFullPack = Get.find<AppController>().listProductDetailsSub.firstWhere(
-        (element) => element.id == 'com.vietapps.bloodpressure.fullpack',
+        (element) => element.id == 'com.hiennguyen.bloodpressure.fullpack',
         orElse: () => ProductDetails(title: '', id: '', currencyCode: '', description: '', price: '', rawPrice: 0.0));
   }
 }

@@ -1,4 +1,4 @@
-package com.vietapps.bloodpressure;
+package com.hiennguyen.bloodpressure;
 
 import androidx.annotation.NonNull;
 

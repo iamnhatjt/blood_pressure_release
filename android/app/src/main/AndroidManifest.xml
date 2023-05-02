@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vietapps.bloodpressure">
+    package="com.hiennguyen.bloodpressure">
 
     <queries>
         <intent>

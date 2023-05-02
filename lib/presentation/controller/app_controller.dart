@@ -213,15 +213,15 @@ class AppController extends SuperController {
   //         // final prefs = await SharedPreferences.getInstance();
   //         // prefs.setBool('isBought', true);
   //         switch (purchaseDetails.productID) {
-  //           case 'com.vietapps.bloodpressure.weekly':
+  //           case 'com.hiennguyen.bloodpressure.weekly':
   //             isPremiumFull.value = true;
   //             break;
   //
-  //           case 'com.vietapps.bloodpressure.yearly':
+  //           case 'com.hiennguyen.bloodpressure.yearly':
   //             isPremiumFull.value = true;
   //             break;
   //
-  //           case 'com.vietapps.bloodpressure.fullpack':
+  //           case 'com.hiennguyen.bloodpressure.fullpack':
   //             isPremiumFull.value = true;
   //             break;
   //         }
@@ -240,9 +240,9 @@ class AppController extends SuperController {
   //     Get.snackbar('Error', 'Can not connect store', colorText: AppColor.white);
   //   } else {
   //     const Set<String> kIdsSub = <String>{
-  //       'com.vietapps.bloodpressure.fullpack',
-  //       'com.vietapps.bloodpressure.weekly',
-  //       'com.vietapps.bloodpressure.yearly',
+  //       'com.hiennguyen.bloodpressure.fullpack',
+  //       'com.hiennguyen.bloodpressure.weekly',
+  //       'com.hiennguyen.bloodpressure.yearly',
   //     };
   //     final ProductDetailsResponse responseSub = await InAppPurchase.instance.queryProductDetails(kIdsSub);
   //     listProductDetailsSub.value = responseSub.productDetails;
@@ -299,7 +299,7 @@ class AppController extends SuperController {
               isPremiumFull.value = true;
               break;
 
-            case 'com.vietapps.bloodpressure.fullpack':
+            case 'com.hiennguyen.bloodpressure.fullpack':
               isPremiumFull.value = true;
               break;
           }
@@ -318,7 +318,7 @@ class AppController extends SuperController {
       showToast('Can not connect store');
     } else {
       const Set<String> kIds = <String>{
-        'com.vietapps.bloodpressure.fullpack',
+        'com.hiennguyen.bloodpressure',
         'weekly',
         'yearly',
         'monthly',

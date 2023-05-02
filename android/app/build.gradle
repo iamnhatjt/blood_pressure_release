@@ -43,7 +43,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.vietapps.bloodpressure"
+        applicationId "com.hiennguyen.bloodpressure"
         minSdkVersion 22
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
@@ -75,13 +75,13 @@ android {
     flavorDimensions "default"
     productFlavors {
         Dev {
-            applicationId "com.vietapps.bloodpressure"
+            applicationId "com.hiennguyen.bloodpressure"
             resValue "string", "app_name", "Blood Pressure-DEV"
             resValue "string", "ads_id", "ca-app-pub-3940256099942544~3347511713"
             signingConfig signingConfigs.dev
         }
         Prod {
-            applicationId "com.vietapps.bloodpressure"
+            applicationId "com.hiennguyen.bloodpressure"
             resValue "string", "app_name", "Blood Pressure"
 //            resValue "string", "ads_id", "ca-app-pub-3940256099942544~3347511713"
             resValue "string", "ads_id", "ca-app-pub-5294836995166944~8530128141"
