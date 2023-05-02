@@ -1,7 +1,7 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,7 +14,6 @@ import '../../../widget/app_container.dart';
 import '../../../widget/app_header.dart';
 import '../../../widget/app_loading.dart';
 import '../../../widget/app_touchable.dart';
-
 
 class SubscribeScreen extends StatefulWidget {
   final Widget child;
@@ -69,20 +68,20 @@ class SubscribeScreenState extends State<SubscribeScreen> {
                 // padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 leftWidget: showButtonClose
                     ? AppTouchable(
-                  onPressed: Get.back,
-                  width: 40.sp,
-                  height: 40.sp,
-                  child: const Icon(
-                    Icons.close_rounded,
-                    // size: 18.sp,
-                    color: AppColor.black,
-                  ),
-                )
+                        onPressed: Get.back,
+                        width: 40.sp,
+                        height: 40.sp,
+                        child: const Icon(
+                          Icons.close_rounded,
+                          // size: 18.sp,
+                          color: AppColor.black,
+                        ),
+                      )
                     : SizedBox(
-                  width: 40.sp,
-                  height: 40.sp,
-                ),
-                middleWidget:  Row(
+                        width: 40.sp,
+                        height: 40.sp,
+                      ),
+                middleWidget: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -93,20 +92,27 @@ class SubscribeScreenState extends State<SubscribeScreen> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-
                     Container(
                       margin: EdgeInsets.only(left: 4.0.sp),
-                      padding: EdgeInsets.symmetric(vertical: 4.0.sp, horizontal: 8.0.sp),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 4.0.sp, horizontal: 8.0.sp),
                       decoration: BoxDecoration(
                         color: Color(0xFFFFB904),
                         borderRadius: BorderRadius.circular(5),
-
                       ),
-                      child: const  Text('PRO', style:  TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                      )),
+                      child: const Text('PRO',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                              ))
+                          .animate(
+
+                              onPlay: (controller) =>
+                                  controller.repeat(reverse: false),
+                              delay: 2000.ms, )
+
+                          .shake(delay: 400.ms, duration: 500.ms,hz: 1),
                     )
                   ],
                 ),
@@ -123,20 +129,20 @@ class SubscribeScreenState extends State<SubscribeScreen> {
               ),
               Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      SizedBox(height: 20.0.sp),
-                      Expanded(
-                          child:
-                          Padding(padding: widget.padding ?? EdgeInsets.symmetric(horizontal: 48.sp), child: widget.child)),
-                    ],
-                  )),
-
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(height: 20.0.sp),
+                  Expanded(
+                      child: Padding(
+                          padding: widget.padding ??
+                              EdgeInsets.symmetric(horizontal: 48.sp),
+                          child: widget.child)),
+                ],
+              )),
               Padding(
-                padding:
-                EdgeInsets.symmetric(horizontal: 48.sp).copyWith(bottom: MediaQuery.of(context).padding.bottom + 8.sp),
+                padding: EdgeInsets.symmetric(horizontal: 48.sp).copyWith(
+                    bottom: MediaQuery.of(context).padding.bottom + 8.sp),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -147,12 +153,11 @@ class SubscribeScreenState extends State<SubscribeScreen> {
                         padding: EdgeInsets.all(4.sp),
                         child: Text(
                           TranslationConstants.privacyPolicy.tr,
-                          style:const TextStyle(
+                          style: const TextStyle(
                               color: Color(0xFF646464),
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
-                              decoration: TextDecoration.underline
-                          ),
+                              decoration: TextDecoration.underline),
                         )),
                     AppTouchable(
                         onPressed: () {
@@ -161,24 +166,22 @@ class SubscribeScreenState extends State<SubscribeScreen> {
                         padding: EdgeInsets.all(4.sp),
                         child: Text(
                           TranslationConstants.termService.tr,
-                          style:const TextStyle(
+                          style: const TextStyle(
                               color: Color(0xFF646464),
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
-                              decoration: TextDecoration.underline
-                          ),
+                              decoration: TextDecoration.underline),
                         )),
                     AppTouchable(
                         onPressed: widget.onRestored,
                         padding: EdgeInsets.all(4.sp),
                         child: Text(
                           TranslationConstants.restore.tr,
-                          style:const TextStyle(
+                          style: const TextStyle(
                               color: Color(0xFF646464),
                               fontWeight: FontWeight.w400,
                               fontSize: 12,
-                              decoration: TextDecoration.underline
-                          ),
+                              decoration: TextDecoration.underline),
                         )),
                   ],
                 ),
@@ -193,6 +196,8 @@ class SubscribeScreenState extends State<SubscribeScreen> {
 
   _openLink(String url) async {
     Uri uri = Uri.parse(url);
-    await canLaunchUrl(uri) ? await launchUrl(uri) : throw 'Could not launch $url';
+    await canLaunchUrl(uri)
+        ? await launchUrl(uri)
+        : throw 'Could not launch $url';
   }
 }

@@ -2,6 +2,7 @@ import 'package:bloodpressure/common/constants/app_route.dart';
 import 'package:bloodpressure/common/extensions/string_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
@@ -111,6 +112,10 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                     )),
               ),
             ),
+          ).animate(onPlay: (controller)=>controller.repeat(reverse: true, period: 3000.ms)).slide(
+            begin: Offset(0, -0.3),
+            end: Offset(0, 0.3),
+            duration: 300.ms
           ),
         ],
       ),
@@ -212,52 +217,57 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Obx(
-            () => ButtonHandleTypeBuy(
-              title: 'Weekly',
-              Subtitle: chooseContentByLanguage('per week', 'một tuần'),
-              priceType:
-                  " ${controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price}",
-              isSelected: controller.rxSelectedIdentifier.value ==
-                  AppConfig.premiumIdentifierWeekly,
-              onSelected: () {
-                controller
-                    .onSelectedIdentifier(AppConfig.premiumIdentifierWeekly);
-              },
-            ),
-          ),
-          Obx(
-            () => ButtonHandleBuyingYear(
-                priceType: controller.productDetailsYear.price == ''
-                    ? '\$0.62'
-                    : convertMoney(
-                        controller.productDetailsYear.price.toString(), 48),
+
+        children: AnimateList(
+          interval: 300.ms,
+          effects: [MoveEffect(begin: Offset(0, -4)), FadeEffect(duration: 300.ms)],
+          children: [
+            Obx(
+                  () => ButtonHandleTypeBuy(
+                title: 'Weekly',
+                Subtitle: chooseContentByLanguage('per week', 'một tuần'),
+                priceType:
+                " ${controller.productDetailsWeek.price == '' ? '\$4.99' : controller.productDetailsWeek.price}",
                 isSelected: controller.rxSelectedIdentifier.value ==
-                    AppConfig.premiumIdentifierYearly,
-                onSlect: () {
+                    AppConfig.premiumIdentifierWeekly,
+                onSelected: () {
                   controller
-                      .onSelectedIdentifier(AppConfig.premiumIdentifierYearly);
-                }),
-          ),
-          Obx(() {
-            print('${controller.productDetailsMonth.price} ');
-            return ButtonHandleTypeBuy(
-              Subtitle: chooseContentByLanguage('per week', 'một tuần'),
-              title: 'Monthly',
-              priceType: controller.productDetailsMonth.price == ''
-                  ? '\$2.49'
-                  : convertMoney(
-                      controller.productDetailsMonth.price.toString(), 4),
-              isSelected: controller.rxSelectedIdentifier.value ==
-                  AppConfig.premiumIdentifierMonth,
-              onSelected: () {
-                controller
-                    .onSelectedIdentifier(AppConfig.premiumIdentifierMonth);
-              },
-            );
-          }),
-        ],
+                      .onSelectedIdentifier(AppConfig.premiumIdentifierWeekly);
+                },
+              ),
+            ),
+            Obx(
+                  () => ButtonHandleBuyingYear(
+                  priceType: controller.productDetailsYear.price == ''
+                      ? '\$0.62'
+                      : convertMoney(
+                      controller.productDetailsYear.price.toString(), 48),
+                  isSelected: controller.rxSelectedIdentifier.value ==
+                      AppConfig.premiumIdentifierYearly,
+                  onSlect: () {
+                    controller
+                        .onSelectedIdentifier(AppConfig.premiumIdentifierYearly);
+                  }),
+            ),
+            Obx(() {
+              print('${controller.productDetailsMonth.price} ');
+              return ButtonHandleTypeBuy(
+                Subtitle: chooseContentByLanguage('per week', 'một tuần'),
+                title: 'Monthly',
+                priceType: controller.productDetailsMonth.price == ''
+                    ? '\$2.49'
+                    : convertMoney(
+                    controller.productDetailsMonth.price.toString(), 4),
+                isSelected: controller.rxSelectedIdentifier.value ==
+                    AppConfig.premiumIdentifierMonth,
+                onSelected: () {
+                  controller
+                      .onSelectedIdentifier(AppConfig.premiumIdentifierMonth);
+                },
+              );
+            }),
+          ]
+        ),
       ),
     );
   }
@@ -381,7 +391,8 @@ class IosSubscribeScreen extends GetView<IosSubscribeController> {
                 )
               ],
             ),
-          ),
+          ).animate(onPlay: (controller)=> controller.repeat(reverse: true, period: 1000.ms,))
+          .scale(begin: Offset(0.9, 0.9), delay: 2000.ms, duration: 500.ms ),
         )
       ],
     );

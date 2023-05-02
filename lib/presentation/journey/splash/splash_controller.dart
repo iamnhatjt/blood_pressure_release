@@ -49,7 +49,7 @@ class SplashController extends GetxController {
     if (isFirstOpenApp) {
       Get.offAndToNamed(AppRoute.intro);
     } else {
-      Get.offAndToNamed(AppRoute.intro);
+      Get.offAndToNamed(AppRoute.mainScreen);
     }
   }
 }
